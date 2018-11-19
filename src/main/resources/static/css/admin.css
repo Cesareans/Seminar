@@ -1,0 +1,30 @@
+html{
+    font-size: 15px;
+    font-weight: 400;
+}
+.login-page{
+    background:url(/imgs/admin/loginBGI.jpg) no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+}
+.card-login .card-title{
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+.card-login .card-body {
+    padding: 0 20px 0 20px;
+}.card-login .form {
+     min-height: 300px;
+ }
+ .card-login .form{
+     font-size: 16px;
+ }
+.footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    line-height: 41px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+}
