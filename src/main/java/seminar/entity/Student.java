@@ -3,10 +3,10 @@ package seminar.entity;
 /**
  * @author Cesare
  */
-public class Teacher {
+public class Student {
     private String id;
     private String name;
-    private String badgeNum;
+    private String stuNum;
     private String password;
     private String email;
     private boolean activated;
@@ -27,12 +27,12 @@ public class Teacher {
         this.name = name;
     }
 
-    public String getBadgeNum() {
-        return badgeNum;
+    public String getStuNum() {
+        return stuNum;
     }
 
-    public void setBadgeNum(String badgeNum) {
-        this.badgeNum = badgeNum;
+    public void setStuNum(String stuNum) {
+        this.stuNum = stuNum;
     }
 
     public String getPassword() {

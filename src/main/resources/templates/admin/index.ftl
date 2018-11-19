@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="/imgs/favicon.png">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/seminar/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 

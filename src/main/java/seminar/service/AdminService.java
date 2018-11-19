@@ -19,7 +19,7 @@ public class AdminService {
         this.mapper = mapper;
     }
 
-    public boolean adminVerify(Admin admin){
+    public boolean adminLogin(Admin admin){
         List<Admin> foundAdmin = mapper.selectAdminByName(admin.getName());
         return foundAdmin.size() != 0 && foundAdmin.get(0).getPassword().equals(admin.getPassword());
     }

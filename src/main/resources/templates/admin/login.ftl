@@ -7,15 +7,9 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/imgs/apple-icon.png">
     <link rel="icon" type="image/png" href="/imgs/favicon.png">
     <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/seminar/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
-    <script>
-        $(function () {
-            $("#login").click(function () {
-                $("#adminName").popover("show");
-            })
-        })
-    </script>
+    <script src="/js/seminar/adminLogin.js"></script>
     <title>管理员登录</title>
 </head>
 <body class="login-page">
@@ -31,18 +25,19 @@
                         <p class="description text-center">管理员登录</p>
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
-                                <label for="adminName" class="bmd-label-floating">请输入你的管理员名</label>
-                                <input name="adminName" id="adminName" type="text" autocomplete="off"
-                                       class="form-control" data-toggle="popover" data-content="Hello" data-trigger="manual">
+                                <label for="name" class="bmd-label-floating">请输入你的管理员名</label>
+                                <input id="name" type="text" autocomplete="off" class="form-control"
+                                       data-toggle="popover" data-trigger="manual">
                             </div>
                             <div class="form-group bmd-form-group">
                                 <label for="password" class="bmd-label-floating">请输入你的密码</label>
-                                <input name="password" id="password" type="password" autocomplete="off"
-                                       class="form-control" data-toggle="popover" data-content="Hello" data-trigger="manual">
+                                <input id="password" type="password" autocomplete="off" class="form-control"
+                                       data-toggle="popover" data-trigger="manual">
                             </div>
                         </div>
                         <div class="footer text-center">
-                            <a id="login" class="btn btn-primary btn-link btn-wd btn-lg">
+                            <a id="login" class="btn btn-primary btn-link btn-wd btn-lg" data-toggle="popover"
+                               data-trigger="manual" data-placement="bottom">
                                 登录
                             </a>
                         </div>

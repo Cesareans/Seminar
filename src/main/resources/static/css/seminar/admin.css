@@ -19,6 +19,10 @@ html{
  .card-login .form{
      font-size: 16px;
  }
+ .popover-body{
+     padding: 10px 15px;
+ }
+
 .footer{
     width: 100%;
     position: fixed;
