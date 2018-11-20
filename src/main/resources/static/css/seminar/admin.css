@@ -2,6 +2,7 @@ html{
     font-size: 15px;
     font-weight: 400;
 }
+/*login page*/
 .login-page{
     background:url(/imgs/admin/loginBGI.jpg) no-repeat center;
     background-size: cover;
@@ -23,12 +24,108 @@ html{
      padding: 10px 15px;
  }
 
-.footer{
+.card-login .footer{
+    position: absolute;
     width: 100%;
-    position: fixed;
+    background: transparent;
     bottom: 0;
-    line-height: 41px;
     color: #fff;
+    z-index: 1;
+}
+/*index page*/
+.index-page {
+    overflow: hidden;
+}
+.index-page .page-body{
+    display: flex;
+}
+.navbar{
+    padding: 5px 20px;
+    margin-bottom: 0;
+}
+.nav-item{
+    cursor: pointer;
+}
+.navbar.sidebar{
+    padding: 10px 0;
+    width: 221px;
+    height: calc(100% - 60px);
+    align-items: flex-start;
+    background-color: #EEEEEE !important;
+}
+.sidebar .nav-pills{
+    width: 100%;
+    padding: 0;
+}
+.sidebar .nav-pills .nav-item{
+    width: 100%;
+}
+.sidebar .nav-pills .nav-item .nav-link{
+    font-size: 14px;
+}
+.sidebar .nav-pills .nav-item .nav-link.active{
+    background-color: #212121;
+    border-radius: 0;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(33, 33, 33, 0.46);
+}
+.sidebar .nav-pills .nav-item+.nav-item{
+     margin-top: 0;
+ }
+
+.index-page .page-content{
+    width: calc(100% - 221px);
+    height: calc(100% - 60px);
+    background-color: #ffffff;
+}
+.index-page .page-content iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+.index-page .page-content .tab{
+    display: none;
+}
+.index-page .page-content .tab.on-show{
+    display: block;
+}
+
+/*iframe*/
+.iframe-page{
+    padding: 20px 20px;
+}
+.iframe-page .navbar-transparent{
+    padding: 0;
+}
+.iframe-page .dropdown .dropdown-toggle{
+    font-size: 15px !important;
+}
+.iframe-page .dropdown .dropdown-item:hover{
+    color: #FFFFFF;
+}
+.iframe-page .navbar .nav-item .btn {
+    padding: 12px 12px;
+    margin-right: 12px;
+}
+.iframe-page .form-inline .material-icons{
+    color: #333;
+    font-size: 27px
+}
+.iframe-page .page-body{
+    display: flex;
+}
+.iframe-page .table thead{
+    background-color: #f2f2f2;
+}
+.iframe-page .table th{
     text-align: center;
-    font-size: 16px;
+    border: 0;
+}
+.iframe-page .table tr{
+     text-align: center;
+     border: 0;
+ }
+.iframe-page .table td{
+    text-align: center;
+    border: 0;
 }

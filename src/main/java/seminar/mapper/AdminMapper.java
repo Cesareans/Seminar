@@ -15,11 +15,27 @@ import java.util.List;
 @Mapper
 public interface AdminMapper {
     /**
+     * Insert a Admin entity
+     *
+     * @param admin the Admin entity that will be inserted
+     */
+    @Insert("insert into Admin(name, password) values(#{name}, #{password})")
+    void insertAdmin(Admin admin);
+
+    /**
+     * Update a Admin entity's information
+     *
+     * @param admin the Admin entity that will be updated via the id
+     */
+    @Update("update Admin set name=#{name}, password=#{password} where id=#{id}")
+    void updateAdmin(Admin admin);
+
+    /**
      * Select allAdmin entities
      *
      * @return List<Admin> the selected Admin entities list
      */
-    @Select("select * from Admin")
+    @Select("select name, password from Admin")
     List<Admin> selectAllAdmin();
 
     /**
@@ -28,7 +44,7 @@ public interface AdminMapper {
      * @param name the select gist
      * @return List<Admin> the selected Admin entity as list
      */
-    @Select("select * from Admin where name=#{name}")
+    @Select("select name, password from Admin where name=#{name}")
     List<Admin> selectAdminByName(String name);
 
     /**
@@ -37,6 +53,23 @@ public interface AdminMapper {
      * @param id the select gist
      * @return List<Admin> the selected Admin entity as list
      */
-    @Select("select * from Admin where id=#{id}")
+    @Select("select name, password from Admin where id=#{id}")
     List<Admin> selectAdminById(String id);
+
+    /**
+     * Delete a Admin entity via name
+     *
+     * @param name the select gist
+     */
+    @Delete("delete * from Admin where name=#{name}")
+    void deleteAdminByName(String name);
+
+    /**
+     * Delete a Admin entity via id
+     *
+     * @param id the select gist
+     */
+    @Delete("delete * from Admin where id=#{id}")
+    void deleteAdminById(String id);
+
 }

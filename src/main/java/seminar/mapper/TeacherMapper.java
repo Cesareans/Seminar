@@ -19,7 +19,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be inserted
      */
-    @Insert("insert into Teacher(name, password, is_activated, email, badge_num) values(#{name}, #{password}, #{activated}, #{email}, #{badgeNum})")
+    @Insert("insert into Teacher(name, badge_num, email, is_activated, password) values(#{name}, #{badgeNum}, #{email}, #{activated}, #{password})")
     void insertTeacher(Teacher teacher);
 
     /**
@@ -27,7 +27,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be updated via the id
      */
-    @Update("update Teacher set name=#{name}, password=#{password}, is_activated=#{activated}, email=#{email}, badge_num=#{badgeNum} where id=#{id}")
+    @Update("update Teacher set name=#{name}, badge_num=#{badgeNum}, email=#{email}, is_activated=#{activated}, password=#{password} where id=#{id}")
     void updateTeacher(Teacher teacher);
 
     /**
@@ -35,8 +35,17 @@ public interface TeacherMapper {
      *
      * @return List<Teacher> the selected Teacher entities list
      */
-    @Select("select * from Teacher")
+    @Select("select name, badge_num as badgeNum, email, is_activated as activated, password from Teacher")
     List<Teacher> selectAllTeacher();
+
+    /**
+     * Select a Teacher entity via name
+     *
+     * @param name the select gist
+     * @return List<Teacher> the selected Teacher entity as list
+     */
+    @Select("select name, badge_num as badgeNum, email, is_activated as activated, password from Teacher where name=#{name}")
+    List<Teacher> selectTeacherByName(String name);
 
     /**
      * Select a Teacher entity via badgeNum
@@ -44,7 +53,7 @@ public interface TeacherMapper {
      * @param badgeNum the select gist
      * @return List<Teacher> the selected Teacher entity as list
      */
-    @Select("select * from Teacher where badgeNum=#{badgeNum}")
+    @Select("select name, badge_num as badgeNum, email, is_activated as activated, password from Teacher where badgeNum=#{badgeNum}")
     List<Teacher> selectTeacherByBadgeNum(String badgeNum);
 
     /**
@@ -53,8 +62,16 @@ public interface TeacherMapper {
      * @param id the select gist
      * @return List<Teacher> the selected Teacher entity as list
      */
-    @Select("select * from Teacher where id=#{id}")
+    @Select("select name, badge_num as badgeNum, email, is_activated as activated, password from Teacher where id=#{id}")
     List<Teacher> selectTeacherById(String id);
+
+    /**
+     * Delete a Teacher entity via name
+     *
+     * @param name the select gist
+     */
+    @Delete("delete * from Teacher where name=#{name}")
+    void deleteTeacherByName(String name);
 
     /**
      * Delete a Teacher entity via badgeNum

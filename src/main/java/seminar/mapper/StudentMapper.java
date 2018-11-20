@@ -35,7 +35,7 @@ public interface StudentMapper {
      *
      * @return List<Student> the selected Student entities list
      */
-    @Select("select * from Student")
+    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student")
     List<Student> selectAllStudent();
 
     /**
@@ -44,7 +44,7 @@ public interface StudentMapper {
      * @param name the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select * from Student where name=#{name}")
+    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where name=#{name}")
     List<Student> selectStudentByName(String name);
 
     /**
@@ -53,7 +53,7 @@ public interface StudentMapper {
      * @param stuNum the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select * from Student where stuNum=#{stuNum}")
+    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where stuNum=#{stuNum}")
     List<Student> selectStudentByStuNum(String stuNum);
 
     /**
@@ -62,7 +62,7 @@ public interface StudentMapper {
      * @param id the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select * from Student where id=#{id}")
+    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where id=#{id}")
     List<Student> selectStudentById(String id);
 
     /**

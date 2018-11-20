@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/seminar/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/seminar/adminLogin.js"></script>
-    <title>管理员登录</title>
+    <title>登录</title>
 </head>
 <body class="login-page">
 <div class="page-header header-filter">

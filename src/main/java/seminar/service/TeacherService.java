@@ -1,9 +1,11 @@
 package seminar.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.entity.Teacher;
 import seminar.mapper.TeacherMapper;
+import util.log.DebugLogger;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class TeacherService {
         teacherMapper.updateTeacher(teacher);
     }
 
-    public List<Teacher> getAll(){
+    public List<Teacher> getAll() {
         return teacherMapper.selectAllTeacher();
     }
 
