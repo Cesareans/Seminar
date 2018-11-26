@@ -4,6 +4,7 @@ package seminar.entity;
  * @author Cesare
  */
 public class Admin {
+    public static final String DEFAULT_PASSWORD = "123456";
     private String id;
     private String name;
     private String password;

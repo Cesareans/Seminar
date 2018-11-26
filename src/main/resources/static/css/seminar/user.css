@@ -1,0 +1,50 @@
+html {
+    font-size: 15px;
+    font-weight: 400;
+}
+/*login page*/
+.login-page {
+    overflow: hidden;
+    background: url(/imgs/indexBGI.jpg) no-repeat center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-login .card-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.card-login .card-body {
+    padding: 0 20px 0 20px;
+}
+
+.card-login .form {
+    min-height: 350px;
+}
+
+.card-login .form {
+    font-size: 16px;
+}
+
+.card-login .footer {
+    position: absolute;
+    width: 100%;
+    background: transparent;
+    padding: 10px 20px;
+    bottom: 0;
+    color: #fff;
+    z-index: 1;
+}
+
+.card-login .footer button{
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.card-login .footer a{
+    padding: 0;
+    color: #000000;
+}

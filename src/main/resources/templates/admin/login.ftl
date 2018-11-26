@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/css/seminar/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/seminar/adminLogin.js"></script>
+    <script src="/js/seminar/util.js"></script>
+    <script src="/js/seminar/admin/login.js"></script>
     <title>登录</title>
 </head>
 <body class="login-page">
@@ -18,7 +19,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-6 ml-auto mr-auto">
                 <div class="card card-login">
-                    <form class="form">
+                    <form class="form" id="loginForm">
                         <div class="card-header card-header-primary text-center">
                             <h4 class="card-title">翻转课堂管理平台</h4>
                         </div>
@@ -26,13 +27,13 @@
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
                                 <label for="name" class="bmd-label-floating">请输入你的管理员名</label>
-                                <input id="name" type="text" autocomplete="off" class="form-control"
-                                       data-toggle="popover" data-trigger="manual">
+                                <input id="name" type="text" autocomplete="off" class="form-control empty-verify"
+                                       data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入管理员名">
                             </div>
                             <div class="form-group bmd-form-group">
                                 <label for="password" class="bmd-label-floating">请输入你的密码</label>
-                                <input id="password" type="password" autocomplete="off" class="form-control"
-                                       data-toggle="popover" data-trigger="manual">
+                                <input id="password" type="password" autocomplete="off" class="form-control empty-verify"
+                                       data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入密码">
                             </div>
                         </div>
                         <div class="footer text-center">

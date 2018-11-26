@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/css/seminar/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/seminar/adminIndex.js"></script>
-    <title>登录</title>
+    <script src="/js/seminar/admin/index.js"></script>
+    <title>主页</title>
 </head>
 <body class="index-page">
 <nav class="navbar navbar-inverse navbar-expand-lg bg-dark">
@@ -34,12 +34,12 @@
     <nav class="navbar sidebar navbar-inverse">
         <ul class="nav nav-pills nav-pills-rose flex-column">
             <li class="nav-item">
-                <a class="nav-link active iref" data-toggle="tab" data-href="/admin/teacher">
+                <a class="nav-link active iref" data-toggle="tab" data-href="/admin/teacherManage">
                     教师管理
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link iref" data-toggle="tab" data-href="/admin/student">
+                <a class="nav-link iref" data-toggle="tab" data-href="/admin/studentManage">
                     学生管理
                 </a>
             </li>
@@ -47,6 +47,7 @@
     </nav>
     <div class="page-content" id = "page-content">
     </div>
+
 </div>
 
 <!--   Core JS Files   -->

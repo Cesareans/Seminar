@@ -3447,7 +3447,7 @@ function adoptValue( value, resolve, reject, noValue ) {
 		}
 
 	// For Promises/A+, convert exceptions into rejections
-	// Since jQuery.when doesn't unwrap thenables, we can skip the extra checks appearing in
+	// Since jQuery.when doesn't unwrap thenables, we can skip the extra singleChecks appearing in
 	// Deferred#then to conditionally suppress rejection.
 	} catch ( value ) {
 
@@ -5505,7 +5505,7 @@ jQuery.each( {
 	}
 }, jQuery.event.addProp );
 
-// Create mouseenter/leave events using mouseover/out and event-time checks
+// Create mouseenter/leave events using mouseover/out and event-time singleChecks
 // so that event delegation works in jQuery.
 // Do the same for pointerenter/pointerleave and pointerover/pointerout
 //
@@ -6101,7 +6101,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		documentElement.removeChild( container );
 
 		// Nullify the div so it wouldn't be stored in the memory and
-		// it will also be a sign that checks already performed
+		// it will also be a sign that singleChecks already performed
 		div = null;
 	}
 

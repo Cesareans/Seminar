@@ -35,7 +35,7 @@ public interface AdminMapper {
      *
      * @return List<Admin> the selected Admin entities list
      */
-    @Select("select name, password from Admin")
+    @Select("select name, id, password from Admin")
     List<Admin> selectAllAdmin();
 
     /**
@@ -44,7 +44,7 @@ public interface AdminMapper {
      * @param name the select gist
      * @return List<Admin> the selected Admin entity as list
      */
-    @Select("select name, password from Admin where name=#{name}")
+    @Select("select name, id, password from Admin where name=#{name}")
     List<Admin> selectAdminByName(String name);
 
     /**
@@ -53,7 +53,7 @@ public interface AdminMapper {
      * @param id the select gist
      * @return List<Admin> the selected Admin entity as list
      */
-    @Select("select name, password from Admin where id=#{id}")
+    @Select("select name, id, password from Admin where id=#{id}")
     List<Admin> selectAdminById(String id);
 
     /**
@@ -61,7 +61,7 @@ public interface AdminMapper {
      *
      * @param name the select gist
      */
-    @Delete("delete * from Admin where name=#{name}")
+    @Delete("delete from Admin where name=#{name}")
     void deleteAdminByName(String name);
 
     /**
@@ -69,7 +69,7 @@ public interface AdminMapper {
      *
      * @param id the select gist
      */
-    @Delete("delete * from Admin where id=#{id}")
+    @Delete("delete from Admin where id=#{id}")
     void deleteAdminById(String id);
 
 }

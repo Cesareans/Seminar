@@ -19,7 +19,7 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be inserted
      */
-    @Insert("insert into Student(name, stu_num, password, email, is_activated) values(#{name}, #{stuNum}, #{password}, #{email}, #{activated})")
+    @Insert("insert into Student(name, stu_num, password, is_activated, email) values(#{name}, #{stuNum}, #{password}, #{activated}, #{email})")
     void insertStudent(Student student);
 
     /**
@@ -27,7 +27,7 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be updated via the id
      */
-    @Update("update Student set name=#{name}, stu_num=#{stuNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
+    @Update("update Student set name=#{name}, stu_num=#{stuNum}, password=#{password}, is_activated=#{activated}, email=#{email} where id=#{id}")
     void updateStudent(Student student);
 
     /**
@@ -35,7 +35,7 @@ public interface StudentMapper {
      *
      * @return List<Student> the selected Student entities list
      */
-    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student")
+    @Select("select name, id, stu_num as stuNum, password, is_activated as activated, email from Student")
     List<Student> selectAllStudent();
 
     /**
@@ -44,7 +44,7 @@ public interface StudentMapper {
      * @param name the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where name=#{name}")
+    @Select("select name, id, stu_num as stuNum, password, is_activated as activated, email from Student where name=#{name}")
     List<Student> selectStudentByName(String name);
 
     /**
@@ -53,7 +53,7 @@ public interface StudentMapper {
      * @param stuNum the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where stuNum=#{stuNum}")
+    @Select("select name, id, stu_num as stuNum, password, is_activated as activated, email from Student where stu_num=#{stuNum}")
     List<Student> selectStudentByStuNum(String stuNum);
 
     /**
@@ -62,7 +62,7 @@ public interface StudentMapper {
      * @param id the select gist
      * @return List<Student> the selected Student entity as list
      */
-    @Select("select name, stu_num as stuNum, password, email, is_activated as activated from Student where id=#{id}")
+    @Select("select name, id, stu_num as stuNum, password, is_activated as activated, email from Student where id=#{id}")
     List<Student> selectStudentById(String id);
 
     /**
@@ -70,7 +70,7 @@ public interface StudentMapper {
      *
      * @param name the select gist
      */
-    @Delete("delete * from Student where name=#{name}")
+    @Delete("delete from Student where name=#{name}")
     void deleteStudentByName(String name);
 
     /**
@@ -78,7 +78,7 @@ public interface StudentMapper {
      *
      * @param stuNum the select gist
      */
-    @Delete("delete * from Student where stuNum=#{stuNum}")
+    @Delete("delete from Student where stu_num=#{stuNum}")
     void deleteStudentByStuNum(String stuNum);
 
     /**
@@ -86,7 +86,7 @@ public interface StudentMapper {
      *
      * @param id the select gist
      */
-    @Delete("delete * from Student where id=#{id}")
+    @Delete("delete from Student where id=#{id}")
     void deleteStudentById(String id);
 
 }
