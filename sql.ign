@@ -1,0 +1,90 @@
+drop  table if exists Teacher;
+drop  table if exists Admin;
+drop table if exists Student;
+create table if not exists Admin(
+  id int auto_increment primary key ,
+  name varchar(20) not null ,
+  password varchar(20) not null
+);
+create table if not exists Teacher (
+  id int auto_increment primary key ,
+  name varchar(16) not null ,
+  badge_num varchar(15) not null ,
+  password varchar(16) not null ,
+  email varchar(30) not null,
+  is_activated bool
+);
+create table if not exists Student(
+  id int auto_increment primary key ,
+  name varchar(16) not null ,
+  stu_num varchar(15) not null ,
+  password varchar(16) not null ,
+  email varchar(30) not null,
+  is_activated bool
+);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123451','234567', 'cesare','fsa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123452','234567', 'east','sfa@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123453','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123454','234567', 'cesare','fsa@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123455','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123456','234567', 'cesare','fsa@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123457','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123458','234567', '邱明','1357959025@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123459','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123460','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123461','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123462','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123463','234567', '邱明','1357959025@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123464','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123465','234567', '邱明','1357959025@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123466','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123467','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123468','234567', '邱明','1357959025@qq.com',true);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123469','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123470','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123471','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123472','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123473','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123474','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123475','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123476','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123477','234567', 'east','sfa@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123478','234567', '邱明','1357959025@qq.com',false);
+insert into Teacher(badge_num,password,name,email,is_activated) values ('123479','234567', '邱明','1357959025@qq.com',false);
+
+
+insert into Student(stu_num,password,name,email,is_activated) values ('45678951','234567', 'cesare','fsa@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678952','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678953','234567', '邱明','1357959025@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678954','234567', 'cesare','fsa@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678955','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678956','234567', 'cesare','fsa@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678957','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678958','234567', '邱明','1357959025@qq.com',true );
+insert into Student(stu_num,password,name,email,is_activated) values ('45678959','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678960','234567', '邱明','1357959025@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678961','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678962','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678963','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678964','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678965','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678966','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678967','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678968','234567', '邱明','1357959025@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678969','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678970','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678971','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678972','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678973','234567', '邱明','1357959025@qq.com',true);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678974','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678975','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678976','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678977','234567', 'east','sfa@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678978','234567', '邱明','1357959025@qq.com',false);
+insert into Student(stu_num,password,name,email,is_activated) values ('45678979','234567', '邱明','1357959025@qq.com',false);
+
+insert into Admin(name,password) values('hzy','123456');
+
+select name, password, badge_num as badgeNum, email, is_activated as activated from Teacher;
+
+delete from Teacher where badge_num=1;

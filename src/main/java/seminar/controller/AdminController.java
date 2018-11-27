@@ -12,6 +12,7 @@ import seminar.entity.Teacher;
 import seminar.entity.view.StudentFilter;
 import seminar.entity.view.TeacherFilter;
 import seminar.service.AdminService;
+import seminar.service.LoginService;
 import seminar.service.StudentService;
 import seminar.service.TeacherService;
 
@@ -24,25 +25,28 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService service;
+    private final LoginService loginService;
     private final TeacherService teacherService;
     private final StudentService studentService;
 
     @Autowired
-    public AdminController(AdminService service, TeacherService teacherService, StudentService studentService) {
+    public AdminController(AdminService service, LoginService loginService, TeacherService teacherService, StudentService studentService) {
         this.service = service;
+        this.loginService = loginService;
         this.teacherService = teacherService;
         this.studentService = studentService;
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String adminLogin() {
         return "admin/login";
     }
 
+
     @PostMapping("/login")
     public @ResponseBody
-    ResponseEntity login(Admin admin) {
-        if (service.adminLogin(admin)) {
+    ResponseEntity<Object> adminLogin(Admin admin) {
+        if (loginService.adminLogin(admin)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/imgs/apple-icon.png">
     <link rel="icon" type="image/png" href="/imgs/favicon.png">
     <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
-    <link rel="stylesheet" href="/css/seminar/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <script src="/js/jquery-3.3.1.js"></script>
     <script src="/js/seminar/util.js"></script>
     <script src="/js/seminar/admin/login.js"></script>

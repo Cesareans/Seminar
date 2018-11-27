@@ -37,7 +37,7 @@ public class StudentService {
     public boolean update(Student student){
         List<Student> students = studentDAO.getBySN(student.getStuNum());
         if(students.size() == 0){
-            return false;
+            return false; 
         }else {
             Student targetStudent = students.get(0);
             student.setPassword(targetStudent.getPassword());
