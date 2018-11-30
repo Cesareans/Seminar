@@ -13,7 +13,7 @@ var util = {
         }, s * 1000);
     },
     verify:function (form) {
-        var emptyVerifies = form.find("input.empty-verify");
+        var emptyVerifies = form.find(".empty-verify");
         for(var i = 0 ; i < emptyVerifies.length; ++i){
             var emptyVerify = $(emptyVerifies.get(i));
             if(emptyVerify.val() == null || emptyVerify.val() ===""){
@@ -22,7 +22,7 @@ var util = {
                 return false;
             }
         }
-        var regVerifies = form.find("input.reg-verify");
+        var regVerifies = form.find(".reg-verify");
         for(i = 0 ; i < regVerifies.length; ++i){
             var regVerify = $(regVerifies.get(i));
             if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
@@ -57,24 +57,22 @@ var util = {
         }, second * 1000);
     },
     verifyWithAlert:function(form){
-        var emptyVerifies = form.find("input.empty-verify");
+        var emptyVerifies = form.find(".empty-verify");
         for(var i = 0 ; i < emptyVerifies.length; ++i){
             var emptyVerify = $(emptyVerifies.get(i));
             if(emptyVerify.val() == null || emptyVerify.val() ===""){
                 this.showAlert("warning", emptyVerify.attr("data-emptyMessage"), 3);
-                emptyVerify.focus();
-                return false;
+                return emptyVerify;
             }
         }
-        var regVerifies = form.find("input.reg-verify");
+        var regVerifies = form.find(".reg-verify");
         for(i = 0 ; i < regVerifies.length; ++i){
             var regVerify = $(regVerifies.get(i));
             if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
                 this.showAlert("warning", regVerify.attr("data-regMessage"), 3);
-                regVerify.focus();
-                return false;
+                return regVerify;
             }
         }
-        return true;
+        return null;
     }
 };

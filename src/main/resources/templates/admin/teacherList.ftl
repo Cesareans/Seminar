@@ -43,7 +43,7 @@
                 </div>
             </td>
             <td class="counter">${teacher?counter + fromIndex}</td>
-            <td class="badgeNum">${teacher.badgeNum}</td>
+            <td class="teacherNum">${teacher.teacherNum}</td>
             <td class="name">${teacher.name}</td>
             <td class="email">${teacher.email}</td>
             <td>
@@ -59,11 +59,11 @@
                     <i class="material-icons">create</i>
                 </button>
                 <button class="btn btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#resetPwdModal" data-gist="${teacher.badgeNum}"  style="background-color: #f39c12">
+                        data-target="#resetPwdModal" data-gist="${teacher.teacherNum}" style="background-color: #f39c12">
                     <i class="material-icons">settings_backup_restore</i>
                 </button>
                 <button class="btn btn-danger btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#deleteItemModal" data-gist="${teacher.badgeNum}">
+                        data-target="#deleteItemModal" data-gist="${teacher.teacherNum}">
                     <i class="material-icons">delete</i>
                 </button>
             </td>
@@ -96,8 +96,8 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
-                                <label for="badgeNum" class="bmd-label-floating">教工号</label>
-                                <input id="badgeNum" name="badgeNum" type="text" autocomplete="off"
+                                <label for="teacherNum" class="bmd-label-floating">教工号</label>
+                                <input id="teacherNum" name="teacherNum" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入教工号">
                             </div>

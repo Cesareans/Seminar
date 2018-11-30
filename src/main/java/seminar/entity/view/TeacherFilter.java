@@ -8,7 +8,7 @@ public class TeacherFilter {
     private int page = 0;
     private int count = 0;
     private String name = null;
-    private String badgeNum = null;
+    private String teacherNum = null;
 
     public boolean isNewFilter() {
         return newFilter;
@@ -42,11 +42,11 @@ public class TeacherFilter {
         this.name = name;
     }
 
-    public String getBadgeNum() {
-        return badgeNum;
+    public String getTeacherNum() {
+        return teacherNum;
     }
 
-    public void setBadgeNum(String badgeNum) {
-        this.badgeNum = badgeNum;
+    public void setTeacherNum(String teacherNum) {
+        this.teacherNum = teacherNum;
     }
 }

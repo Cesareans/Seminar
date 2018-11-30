@@ -9,7 +9,6 @@ import seminar.entity.Admin;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
 
-import javax.swing.text.Style;
 import java.util.List;
 
 /**
@@ -35,12 +34,12 @@ public class LoginService {
     }
 
     public boolean teacherLogin(Teacher teacher){
-        List<Teacher> foundTeachers = teacherDAO.getByBN(teacher.getBadgeNum());
+        List<Teacher> foundTeachers = teacherDAO.getByTN(teacher.getTeacherNum());
         return foundTeachers.size() != 0 && foundTeachers.get(0).getPassword().equals(teacher.getPassword());
     }
 
     public boolean studentLogin(Student student){
-        List<Student> foundStudent = studentDAO.getBySN(student.getStuNum());
+        List<Student> foundStudent = studentDAO.getBySN(student.getStudentNum());
         return foundStudent.size() != 0 && foundStudent.get(0).getPassword().equals(student.getPassword());
     }
 }

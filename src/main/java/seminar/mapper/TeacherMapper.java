@@ -1,13 +1,14 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import seminar.entity.Teacher;
 
 import java.util.List;
 
 /**
- * An automatic generated mapper for the entity teacher.
+ * An automatic generated mapper for the entity Teacher.
  * This mapper is for a increment primary key table.
  *
  * @author Cesare
@@ -15,58 +16,94 @@ import java.util.List;
 @Mapper
 public interface TeacherMapper {
     /**
-     * Insert a teacher entity
+     * Insert a Teacher entity
      *
-     * @param teacher the teacher entity that will be inserted
+     * @param teacher the Teacher entity that will be inserted
      */
-    @Insert("insert into teacher(name, badge_num, password, email, is_activated) values(#{name}, #{badgeNum}, #{password}, #{email}, #{activated})")
+    @Insert("insert into teacher(name, teacher_num, password, email, is_activated) values(#{name}, #{teacherNum}, #{password}, #{email}, #{activated})")
     void insertTeacher(Teacher teacher);
 
     /**
-     * Update a teacher entity's information
+     * Update a Teacher entity's information
      *
-     * @param teacher the teacher entity that will be updated via the id
+     * @param teacher the Teacher entity that will be updated via the private java.lang.String seminar.entity.Teacher.id
      */
-    @Update("update teacher set name=#{name}, badge_num=#{badgeNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
+    @Update("update teacher set name=#{name}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
     void updateTeacher(Teacher teacher);
 
     /**
-     * Select allTeacher entities
+     * Select all Teacher entities
      *
-     * @return List<teacher> the selected teacher entities list
+     * @return List<teacher> the selected Teacher entities list
      */
-    @Select("select name, id, badge_num as badgeNum, password, email, is_activated as activated from teacher")
+    @Select("select * from teacher")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherNum", fetchType = FetchType.LAZY))
+    })
     List<Teacher> selectAllTeacher();
 
     /**
-     * Select a teacher entity via name
+     * Select a Teacher entity via name
      *
      * @param name the select gist
-     * @return List<teacher> the selected teacher entity as list
+     * @return List<teacher> the selected Teacher entity as list
      */
-    @Select("select name, id, badge_num as badgeNum, password, email, is_activated as activated from teacher where name=#{name}")
+    @Select("select * from teacher where name=#{name}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherNum", fetchType = FetchType.LAZY))
+    })
     List<Teacher> selectTeacherByName(String name);
 
     /**
-     * Select a teacher entity via badgeNum
+     * Select a Teacher entity via teacherNum
      *
-     * @param badgeNum the select gist
-     * @return List<teacher> the selected teacher entity as list
+     * @param teacherNum the select gist
+     * @return List<teacher> the selected Teacher entity as list
      */
-    @Select("select name, id, badge_num as badgeNum, password, email, is_activated as activated from teacher where badge_num=#{badgeNum}")
-    List<Teacher> selectTeacherByBadgeNum(String badgeNum);
+    @Select("select * from teacher where teacher_num=#{teacherNum}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherNum", fetchType = FetchType.LAZY))
+    })
+    List<Teacher> selectTeacherByTeacherNum(String teacherNum);
 
     /**
-     * Select a teacher entity via id
+     * Select a Teacher entity via id
      *
      * @param id the select gist
-     * @return List<teacher> the selected teacher entity as list
+     * @return List<teacher> the selected Teacher entity as list
      */
-    @Select("select name, id, badge_num as badgeNum, password, email, is_activated as activated from teacher where id=#{id}")
+    @Select("select * from teacher where id=#{id}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherNum", fetchType = FetchType.LAZY))
+    })
     List<Teacher> selectTeacherById(String id);
 
     /**
-     * Delete a teacher entity via name
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.name
      *
      * @param name the select gist
      */
@@ -74,15 +111,15 @@ public interface TeacherMapper {
     void deleteTeacherByName(String name);
 
     /**
-     * Delete a teacher entity via badgeNum
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.teacherNum
      *
-     * @param badgeNum the select gist
+     * @param teacherNum the select gist
      */
-    @Delete("delete from teacher where badge_num=#{badgeNum}")
-    void deleteTeacherByBadgeNum(String badgeNum);
+    @Delete("delete from teacher where teacher_num=#{teacherNum}")
+    void deleteTeacherByTeacherNum(String teacherNum);
 
     /**
-     * Delete a teacher entity via id
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.id
      *
      * @param id the select gist
      */

@@ -22,7 +22,7 @@
             <div class="card card-login">
                 <form class="form" id="loginForm">
                     <div class="card-header card-header-primary text-center">
-                        <h4 class="card-title">讨论课系统登录</h4>
+                        <h4 class="card-title">翻转课堂课程平台</h4>
                     </div>
                     <p class="description text-center">用户登录</p>
                     <div class="card-body">

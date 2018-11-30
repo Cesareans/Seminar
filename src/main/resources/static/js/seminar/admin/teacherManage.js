@@ -11,18 +11,18 @@ var countChoice;
 var defaultFilter = {
     newFilter:false,
     name:"",
-    badgeNum:"",
+    teacherNum:"",
     page:1,
     count:20
 };
 
-var bns = [];
+var tns = [];
 $(function () {
     teacherFilter ={
         form: $("#teacherFilter"),
         newFilter:$("#newFilter"),
         name: $("#nameFilter"),
-        badgeNum:$("#bnFilter"),
+        teacherNum:$("#tnFilter"),
         page:$("#pageFilter"),
         count:$("#countFilter")
     };
@@ -45,17 +45,17 @@ $(function () {
         sendDataRequest({
             newFilter:true,
             name:"",
-            badgeNum:"",
+            teacherNum:"",
             page:1
         });
         $(this).hide();
     });
 
     deleteItemsModal.on("show.bs.modal",function () {
-        bns = [];
-        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .badgeNum");
+        tns = [];
+        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .teacherNum");
         for(var i = 0; i < chosenBadgeNums.length ; ++i ){
-            bns.push($(chosenBadgeNums[i]).html());
+            tns.push($(chosenBadgeNums[i]).html());
         }
     });
     deleteItemsModal.find(".confirm").click(function () {
@@ -64,7 +64,7 @@ $(function () {
             url:"/admin/teacher",
             traditional:true,
             data:{
-                badgeNum:bns
+                teacherNum:tns
             },
             success:function () {
                 deleteItemsModal.modal("hide");
@@ -93,7 +93,7 @@ $(function () {
         filterChoice.html($(this).html());
         filterChoice.attr("data-filter",$(this).attr("data-filter"));
     });
-    $("#filter-choice-badge").click(function () {
+    $("#filter-choice-tn").click(function () {
         var choice = $(this).html();
         filterChoice.html(choice);
         filterChoice.attr("data-filter",$(this).attr("data-filter"));
@@ -107,17 +107,17 @@ $(function () {
             if (filterChoice.attr("data-filter") === "name") {
                 $.extend(filter, {
                     name: filterContent.val(),
-                    badgeNum: ""
+                    teacherNum: ""
                 })
-            } else if (filterChoice.attr("data-filter") === "badgeNum") {
+            } else if (filterChoice.attr("data-filter") === "teacherNum") {
                 $.extend(filter, {
                     name: "",
-                    badgeNum: filterContent.val()
+                    teacherNum: filterContent.val()
                 })
             } else {
                 $.extend(filter, {
                     name: "",
-                    badgeNum: ""
+                    teacherNum: ""
                 })
             }
             sendDataRequest(filter);
@@ -201,7 +201,7 @@ function sendDataRequest(filter) {
     }
     teacherFilter.newFilter.val(defaultFilter.newFilter);
     teacherFilter.name.val(defaultFilter.name);
-    teacherFilter.badgeNum.val(defaultFilter.badgeNum);
+    teacherFilter.teacherNum.val(defaultFilter.teacherNum);
     teacherFilter.page.val(defaultFilter.page);
     teacherFilter.count.val(defaultFilter.count);
 

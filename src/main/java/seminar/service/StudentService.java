@@ -26,7 +26,7 @@ public class StudentService {
         return studentDAO.getByFilter(filter);
     }
     public boolean add(Student student){
-        if(studentDAO.getBySN(student.getStuNum()).size() == 0){
+        if(studentDAO.getBySN(student.getStudentNum()).size() == 0){
             studentDAO.add(student);
             return true;
         }else {
@@ -35,7 +35,7 @@ public class StudentService {
     }
 
     public boolean update(Student student){
-        List<Student> students = studentDAO.getBySN(student.getStuNum());
+        List<Student> students = studentDAO.getBySN(student.getStudentNum());
         if(students.size() == 0){
             return false; 
         }else {

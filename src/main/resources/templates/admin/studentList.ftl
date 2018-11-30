@@ -43,7 +43,7 @@
                 </div>
             </td>
             <td class="counter">${student?counter + fromIndex}</td>
-            <td class="stuNum">${student.stuNum}</td>
+            <td class="studentNum">${student.studentNum}</td>
             <td class="name">${student.name}</td>
             <td class="email">${student.email}</td>
             <td>
@@ -59,11 +59,11 @@
                     <i class="material-icons">create</i>
                 </button>
                 <button class="btn btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#resetPwdModal" data-gist="${student.stuNum}" style="background-color: #f39c12">
+                        data-target="#resetPwdModal" data-gist="${student.studentNum}" style="background-color: #f39c12">
                     <i class="material-icons">settings_backup_restore</i>
                 </button>
                 <button class="btn btn-danger btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#deleteItemModal" data-gist="${student.stuNum}">
+                        data-target="#deleteItemModal" data-gist="${student.studentNum}">
                     <i class="material-icons">delete</i>
                 </button>
             </td>
@@ -96,8 +96,8 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
-                                <label for="stuNum" class="bmd-label-floating">学号</label>
-                                <input id="stuNum" name="stuNum" type="text" autocomplete="off"
+                                <label for="studentNum" class="bmd-label-floating">学号</label>
+                                <input id="studentNum" name="studentNum" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入学号">
                             </div>

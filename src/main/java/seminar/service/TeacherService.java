@@ -1,14 +1,11 @@
 package seminar.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.TeacherDAO;
 import seminar.entity.Admin;
 import seminar.entity.Teacher;
 import seminar.entity.view.TeacherFilter;
-import seminar.mapper.TeacherMapper;
-import util.log.DebugLogger;
 
 import java.util.List;
 
@@ -28,9 +25,13 @@ public class TeacherService {
         return teacherDAO.getByFilter(filter);
     }
 
+    public List<Teacher> getByTN(String teacherNum){
+        return teacherDAO.getByTN(teacherNum);
+    }
+
 
     public boolean add(Teacher teacher){
-        if(teacherDAO.getByBN(teacher.getBadgeNum()).size() == 0){
+        if(teacherDAO.getByTN(teacher.getTeacherNum()).size() == 0){
             teacherDAO.add(teacher);
             return true;
         }else {
@@ -39,7 +40,7 @@ public class TeacherService {
     }
 
     public boolean update(Teacher teacher){
-        List<Teacher> teachers = teacherDAO.getByBN(teacher.getBadgeNum());
+        List<Teacher> teachers = teacherDAO.getByTN(teacher.getTeacherNum());
         if(teachers.size() == 0){
             return false;
         }else {
@@ -51,17 +52,17 @@ public class TeacherService {
         }
     }
 
-    public boolean deleteByBadgeNum(String badgeNum){
-        if(teacherDAO.getByBN(badgeNum).size() == 0){
+    public boolean deleteByTeacherNum(String teacherNum){
+        if(teacherDAO.getByTN(teacherNum).size() == 0){
             return false;
         }else {
-            teacherDAO.deleteByBN(badgeNum);
+            teacherDAO.deleteByTN(teacherNum);
             return true;
         }
     }
 
-    public boolean resetPassword(String badgeNum){
-        List<Teacher> teachers = teacherDAO.getByBN(badgeNum);
+    public boolean resetPassword(String teacherNum){
+        List<Teacher> teachers = teacherDAO.getByTN(teacherNum);
         if (teachers.size() == 0){
             return false;
         }

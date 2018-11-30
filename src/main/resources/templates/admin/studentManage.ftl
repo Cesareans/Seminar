@@ -53,7 +53,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <h6 class="dropdown-header">筛选</h6>
                         <a class="dropdown-item" id="filter-choice-name" data-filter="name">姓名</a>
-                        <a class="dropdown-item" id="filter-choice-stuNum" data-filter="stuNum">学号</a>
+                        <a class="dropdown-item" id="filter-choice-sn" data-filter="sn">学号</a>
                     </div>
                 </li>
             </ul>
@@ -98,7 +98,7 @@
                     <form hidden id="studentFilter" action="/admin/studentList" method="post" target="tableIframe">
                         <input id="newFilter" name="newFilter" title="newFilter">
                         <input id="nameFilter" name="name" title="name">
-                        <input id="snFilter" name="stuNum" title="stuNum">
+                        <input id="snFilter" name="studentNum" title="studentNum">
                         <input id="pageFilter" name="page" title="page">
                         <input id="countFilter" name="count" title="count">
                     </form>
@@ -185,8 +185,8 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
-                                <label for="stuNum" class="bmd-label-floating">学号</label>
-                                <input id="stuNum" name="stuNum" type="text" autocomplete="off"
+                                <label for="studentNum" class="bmd-label-floating">学号</label>
+                                <input id="studentNum" name="studentNum" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入学号">
                             </div>

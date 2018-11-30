@@ -32,14 +32,14 @@ public class TeacherDAO {
         return teacherMapper.selectAllTeacher();
     }
 
-    public List<Teacher> getByBN(String badgeNum) {
-        return teacherMapper.selectTeacherByBadgeNum(badgeNum);
+    public List<Teacher> getByTN(String teacherNum) {
+        return teacherMapper.selectTeacherByTeacherNum(teacherNum);
     }
 
     public List<Teacher> getByFilter(TeacherFilter filter) {
         List<Teacher> teachers;
-        if(filter.getBadgeNum().length() != 0){
-            teachers = teacherMapper.selectTeacherByBadgeNum(filter.getBadgeNum());
+        if(filter.getTeacherNum().length() != 0){
+            teachers = teacherMapper.selectTeacherByTeacherNum(filter.getTeacherNum());
         }else if(filter.getName().length() != 0){
             teachers = teacherMapper.selectTeacherByName(filter.getName());
         }else {
@@ -48,8 +48,8 @@ public class TeacherDAO {
         return teachers;
     }
 
-    public void deleteByBN(String badgeNum) {
-        teacherMapper.deleteTeacherByBadgeNum(badgeNum);
+    public void deleteByTN(String teacherNum) {
+        teacherMapper.deleteTeacherByTeacherNum(teacherNum);
     }
 
 }

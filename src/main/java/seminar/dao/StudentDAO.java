@@ -32,14 +32,14 @@ public class StudentDAO {
         return studentMapper.selectAllStudent();
     }
 
-    public List<Student> getBySN(String id){
-        return studentMapper.selectStudentByStuNum(id);
+    public List<Student> getBySN(String studentNum){
+        return studentMapper.selectStudentByStudentNum(studentNum);
     }
 
     public List<Student> getByFilter(StudentFilter filter){
         List<Student> students;
-        if(filter.getStuNum().length() != 0){
-            students = studentMapper.selectStudentByStuNum(filter.getStuNum());
+        if(filter.getStudentNum().length() != 0){
+            students = studentMapper.selectStudentByStudentNum(filter.getStudentNum());
         }else if(filter.getName().length() != 0){
             students = studentMapper.selectStudentByName(filter.getName());
         }else {
@@ -48,8 +48,8 @@ public class StudentDAO {
         return students;
     }
 
-    public void deleteBySN(String id){
-        studentMapper.deleteStudentByStuNum(id);
+    public void deleteBySN(String studentNum){
+        studentMapper.deleteStudentByStudentNum(studentNum);
     }
 
 }

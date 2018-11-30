@@ -1,12 +1,20 @@
 package seminar.entity;
 
+import cesare.mybatis.annotations.Gist;
+import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.TargetPackage;
+
 /**
  * @author Cesare
  */
+@TargetPackage(target = "seminar.mapper")
 public class Student {
+    @ID(isIncrement = true)
     private String id;
+    @Gist
     private String name;
-    private String stuNum;
+    @Gist
+    private String studentNum;
     private String password;
     private String email;
     private boolean activated;
@@ -27,12 +35,12 @@ public class Student {
         this.name = name;
     }
 
-    public String getStuNum() {
-        return stuNum;
+    public String getStudentNum() {
+        return studentNum;
     }
 
-    public void setStuNum(String stuNum) {
-        this.stuNum = stuNum;
+    public void setStudentNum(String studentNum) {
+        this.studentNum = studentNum;
     }
 
     public String getPassword() {

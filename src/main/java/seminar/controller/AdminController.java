@@ -11,12 +11,13 @@ import seminar.entity.Student;
 import seminar.entity.Teacher;
 import seminar.entity.view.StudentFilter;
 import seminar.entity.view.TeacherFilter;
-import seminar.service.AdminService;
 import seminar.service.LoginService;
 import seminar.service.StudentService;
 import seminar.service.TeacherService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cesare
@@ -24,14 +25,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final AdminService service;
     private final LoginService loginService;
     private final TeacherService teacherService;
     private final StudentService studentService;
 
     @Autowired
-    public AdminController(AdminService service, LoginService loginService, TeacherService teacherService, StudentService studentService) {
-        this.service = service;
+    public AdminController(LoginService loginService, TeacherService teacherService, StudentService studentService) {
         this.loginService = loginService;
         this.teacherService = teacherService;
         this.studentService = studentService;
@@ -82,7 +81,7 @@ public class AdminController {
     @PutMapping("/teacher")
     public @ResponseBody
     ResponseEntity<Object> addTeacher(Teacher teacher) {
-        if (teacher.getName().length() == 0 || teacher.getBadgeNum().length() == 0 || teacher.getEmail().length() == 0) {
+        if (teacher.getName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         teacher.setPassword(Admin.DEFAULT_PASSWORD);
@@ -104,20 +103,20 @@ public class AdminController {
         }
     }
 
-    @PatchMapping("/teacher/{badgeNum}/resetPwd")
+    @PatchMapping("/teacher/{teacherNum}/resetPwd")
     public @ResponseBody
-    ResponseEntity<Object> resetTeacherPassword(@PathVariable String badgeNum) {
-        if (teacherService.resetPassword(badgeNum)) {
+    ResponseEntity<Object> resetTeacherPassword(@PathVariable String teacherNum) {
+        if (teacherService.resetPassword(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
 
-    @DeleteMapping("/teacher/{badgeNum}")
+    @DeleteMapping("/teacher/{teacherNum}")
     public @ResponseBody
-    ResponseEntity<Object> deleteTeacher(@PathVariable String badgeNum) {
-        if (teacherService.deleteByBadgeNum(badgeNum)) {
+    ResponseEntity<Object> deleteTeacher(@PathVariable String teacherNum) {
+        if (teacherService.deleteByTeacherNum(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -126,9 +125,9 @@ public class AdminController {
 
     @DeleteMapping("/teacher")
     public @ResponseBody
-    ResponseEntity<Object> deleteTeacher(String[] badgeNum) {
-        for (String s : badgeNum) {
-            if (!teacherService.deleteByBadgeNum(s)) {
+    ResponseEntity<Object> deleteTeacher(String[] teacherNum) {
+        for (String s : teacherNum) {
+            if (!teacherService.deleteByTeacherNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
             }
         }
@@ -149,18 +148,20 @@ public class AdminController {
         int fromIndex = (page - 1) * filter.getCount();
         int toIndex = page * filter.getCount();
         toIndex = toIndex > students.size() ? students.size() : toIndex;
-        model.addAttribute("newFilter", filter.isNewFilter());
-        model.addAttribute("fromIndex", fromIndex);
-        model.addAttribute("sumPage", sumPage);
-        model.addAttribute("page", page);
-        model.addAttribute("students", students.subList(fromIndex, toIndex));
+        Map<String, Object> root = new HashMap<>(5);
+        root.put("newFilter", filter.isNewFilter());
+        root.put("fromIndex", fromIndex);
+        root.put("sumPage", sumPage);
+        root.put("page", page);
+        root.put("students", students.subList(fromIndex, toIndex));
+        model.addAllAttributes(root);
         return "admin/studentList";
     }
 
     @PutMapping("/student")
     public @ResponseBody
     ResponseEntity<Object> addStudent(Student student) {
-        if (student.getName().length() == 0 || student.getStuNum().length() == 0 || student.getEmail().length() == 0) {
+        if (student.getName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         student.setPassword(Admin.DEFAULT_PASSWORD);
@@ -182,20 +183,20 @@ public class AdminController {
         }
     }
 
-    @PatchMapping("/student/{stuNum}/resetPwd")
+    @PatchMapping("/student/{studentNum}/resetPwd")
     public @ResponseBody
-    ResponseEntity<Object> resetStudentPassword(@PathVariable String stuNum) {
-        if (studentService.resetPassword(stuNum)) {
+    ResponseEntity<Object> resetStudentPassword(@PathVariable String studentNum) {
+        if (studentService.resetPassword(studentNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
 
-    @DeleteMapping("/student/{stuNum}")
+    @DeleteMapping("/student/{studentNum}")
     public @ResponseBody
-    ResponseEntity<Object> deleteStudent(@PathVariable String stuNum) {
-        if (studentService.deleteByStuNum(stuNum)) {
+    ResponseEntity<Object> deleteStudent(@PathVariable String studentNum) {
+        if (studentService.deleteByStuNum(studentNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -204,8 +205,8 @@ public class AdminController {
 
     @DeleteMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> deleteStudent(String[] stuNum) {
-        for (String s : stuNum) {
+    ResponseEntity<Object> deleteStudent(String[] studentNum) {
+        for (String s : studentNum) {
             if (!studentService.deleteByStuNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
             }

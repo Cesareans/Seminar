@@ -11,7 +11,7 @@ var countChoice;
 var defaultFilter = {
     newFilter:false,
     name:"",
-    stuNum:"",
+    studentNum:"",
     page:1,
     count:20
 };
@@ -22,7 +22,7 @@ $(function () {
         form: $("#studentFilter"),
         newFilter:$("#newFilter"),
         name: $("#nameFilter"),
-        stuNum:$("#snFilter"),
+        studentNum:$("#snFilter"),
         page:$("#pageFilter"),
         count:$("#countFilter")
     };
@@ -45,7 +45,7 @@ $(function () {
         sendDataRequest({
             newFilter:true,
             name:"",
-            stuNum:"",
+            studentNum:"",
             page:1
         });
         $(this).hide();
@@ -53,7 +53,7 @@ $(function () {
 
     deleteItemsModal.on("show.bs.modal",function () {
         sns = [];
-        var chosenStuNums = $("#tableIframe").contents().find(".chosen .stuNum");
+        var chosenStuNums = $("#tableIframe").contents().find(".chosen .studentNum");
         for(var i = 0; i < chosenStuNums.length ; ++i ){
             sns.push($(chosenStuNums[i]).html());
         }
@@ -64,7 +64,7 @@ $(function () {
             url:"/admin/student",
             traditional:true,
             data:{
-                stuNum:sns
+                studentNum:sns
             },
             success:function () {
                 deleteItemsModal.modal("hide");
@@ -93,7 +93,7 @@ $(function () {
         filterChoice.html($(this).html());
         filterChoice.attr("data-filter",$(this).attr("data-filter"));
     });
-    $("#filter-choice-stuNum").click(function () {
+    $("#filter-choice-sn").click(function () {
         var choice = $(this).html();
         filterChoice.html(choice);
         filterChoice.attr("data-filter",$(this).attr("data-filter"));
@@ -107,17 +107,17 @@ $(function () {
             if (filterChoice.attr("data-filter") === "name") {
                 $.extend(filter, {
                     name: filterContent.val(),
-                    stuNum: ""
+                    studentNum: ""
                 })
-            } else if (filterChoice.attr("data-filter") === "stuNum") {
+            } else if (filterChoice.attr("data-filter") === "sn") {
                 $.extend(filter, {
                     name: "",
-                    stuNum: filterContent.val()
+                    studentNum: filterContent.val()
                 })
             } else {
                 $.extend(filter, {
                     name: "",
-                    stuNum: ""
+                    studentNum: ""
                 })
             }
             sendDataRequest(filter);
@@ -201,7 +201,7 @@ function sendDataRequest(filter) {
     }
     studentFilter.newFilter.val(defaultFilter.newFilter);
     studentFilter.name.val(defaultFilter.name);
-    studentFilter.stuNum.val(defaultFilter.stuNum);
+    studentFilter.studentNum.val(defaultFilter.studentNum);
     studentFilter.page.val(defaultFilter.page);
     studentFilter.count.val(defaultFilter.count);
 

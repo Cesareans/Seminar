@@ -1,15 +1,30 @@
 package seminar.entity;
 
+
+import cesare.mybatis.annotations.Gist;
+import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.Link;
+import cesare.mybatis.annotations.TargetPackage;
+
+import java.util.List;
+
 /**
  * @author Cesare
  */
+@TargetPackage(target = "seminar.mapper")
 public class Teacher {
+    @ID(isIncrement = true)
     private String id;
+    @Gist
     private String name;
-    private String badgeNum;
+    @Gist
+    private String teacherNum;
     private String password;
     private String email;
     private boolean activated;
+
+    @Link(gist = "teacherNum",select = "seminar.mapper.CourseMapper.selectCourseByTeacherNum")
+    private List<Course> courses;
 
     public String getId() {
         return id;
@@ -27,12 +42,12 @@ public class Teacher {
         this.name = name;
     }
 
-    public String getBadgeNum() {
-        return badgeNum;
+    public String getTeacherNum() {
+        return teacherNum;
     }
 
-    public void setBadgeNum(String badgeNum) {
-        this.badgeNum = badgeNum;
+    public void setTeacherNum(String teacherNum) {
+        this.teacherNum = teacherNum;
     }
 
     public String getPassword() {
@@ -57,5 +72,13 @@ public class Teacher {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

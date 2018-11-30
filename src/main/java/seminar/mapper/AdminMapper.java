@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import seminar.entity.Admin;
 
@@ -19,57 +20,75 @@ public interface AdminMapper {
      *
      * @param admin the Admin entity that will be inserted
      */
-    @Insert("insert into Admin(name, password) values(#{name}, #{password})")
+    @Insert("insert into admin(default_password, name, password) values(#{DEFAULT_PASSWORD}, #{name}, #{password})")
     void insertAdmin(Admin admin);
 
     /**
      * Update a Admin entity's information
      *
-     * @param admin the Admin entity that will be updated via the id
+     * @param admin the Admin entity that will be updated via the private java.lang.String seminar.entity.Admin.id
      */
-    @Update("update Admin set name=#{name}, password=#{password} where id=#{id}")
+    @Update("update admin set default_password=#{DEFAULT_PASSWORD}, name=#{name}, password=#{password} where id=#{id}")
     void updateAdmin(Admin admin);
 
     /**
-     * Select allAdmin entities
+     * Select all Admin entities
      *
-     * @return List<Admin> the selected Admin entities list
+     * @return List<admin> the selected Admin entities list
      */
-    @Select("select name, id, password from Admin")
+    @Select("select * from admin")
+    @Results({
+            @Result(property = "DEFAULT_PASSWORD", column = "default_password"),
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "password", column = "password")
+    })
     List<Admin> selectAllAdmin();
 
     /**
      * Select a Admin entity via name
      *
      * @param name the select gist
-     * @return List<Admin> the selected Admin entity as list
+     * @return List<admin> the selected Admin entity as list
      */
-    @Select("select name, id, password from Admin where name=#{name}")
+    @Select("select * from admin where name=#{name}")
+    @Results({
+            @Result(property = "DEFAULT_PASSWORD", column = "default_password"),
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "password", column = "password")
+    })
     List<Admin> selectAdminByName(String name);
 
     /**
      * Select a Admin entity via id
      *
      * @param id the select gist
-     * @return List<Admin> the selected Admin entity as list
+     * @return List<admin> the selected Admin entity as list
      */
-    @Select("select name, id, password from Admin where id=#{id}")
+    @Select("select * from admin where id=#{id}")
+    @Results({
+            @Result(property = "DEFAULT_PASSWORD", column = "default_password"),
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "name", column = "name"),
+            @Result(property = "password", column = "password")
+    })
     List<Admin> selectAdminById(String id);
 
     /**
-     * Delete a Admin entity via name
+     * Delete a Admin entity via private java.lang.String seminar.entity.Admin.name
      *
      * @param name the select gist
      */
-    @Delete("delete from Admin where name=#{name}")
+    @Delete("delete from admin where name=#{name}")
     void deleteAdminByName(String name);
 
     /**
-     * Delete a Admin entity via id
+     * Delete a Admin entity via private java.lang.String seminar.entity.Admin.id
      *
      * @param id the select gist
      */
-    @Delete("delete from Admin where id=#{id}")
+    @Delete("delete from admin where id=#{id}")
     void deleteAdminById(String id);
 
 }

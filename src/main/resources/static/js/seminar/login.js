@@ -10,7 +10,9 @@ $(function () {
     });
 });
 function login() {
-    if(util.verifyWithAlert($("#loginForm"))){
+    var verify = util.verifyWithAlert($("#loginForm"));
+    console.log(verify);
+    if(verify == null){
         $.ajax({
             type:"post",
             url:"/login",
@@ -20,7 +22,8 @@ function login() {
             },
             success:function (result,status,xhr) {
                 if(xhr.status === 200){
-                    window.location="/admin/index";
+                    console.log(xhr);
+                    window.location="/student/index";
                 }else if(xhr.status === 204){
                     util.showAlert("danger","登录失败，用户名或密码错误",3);
                 }
@@ -29,5 +32,7 @@ function login() {
                 util.showAlert("danger","登录失败，未知错误",3);
             }
         })
+    }else{
+        verify.focus();
     }
 }

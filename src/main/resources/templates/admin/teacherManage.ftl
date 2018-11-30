@@ -53,7 +53,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <h6 class="dropdown-header">筛选</h6>
                         <a class="dropdown-item" id="filter-choice-name" data-filter="name">姓名</a>
-                        <a class="dropdown-item" id="filter-choice-badge" data-filter="badgeNum">工号</a>
+                        <a class="dropdown-item" id="filter-choice-tn" data-filter="teacherNum">工号</a>
                     </div>
                 </li>
             </ul>
@@ -98,7 +98,7 @@
                     <form hidden id="teacherFilter" action="/admin/teacherList" method="post" target="tableIframe">
                         <input id="newFilter" name="newFilter" title="newFilter">
                         <input id="nameFilter" name="name" title="name">
-                        <input id="bnFilter" name="badgeNum" title="badgeNum">
+                        <input id="tnFilter" name="teacherNum" title="teacherNum">
                         <input id="pageFilter" name="page" title="page">
                         <input id="countFilter" name="count" title="count">
                     </form>
@@ -185,8 +185,8 @@
                             </div>
 
                             <div class="form-group bmd-form-group">
-                                <label for="badgeNum" class="bmd-label-floating">教工号</label>
-                                <input id="badgeNum" name="badgeNum" type="text" autocomplete="off"
+                                <label for="teacherNum" class="bmd-label-floating">教工号</label>
+                                <input id="teacherNum" name="teacherNum" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入教工号">
                             </div>

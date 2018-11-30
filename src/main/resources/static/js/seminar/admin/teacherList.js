@@ -9,7 +9,7 @@ $(function () {
     modifyModal = {
         modal : $("#modifyModal"),
         id : $("#id"),
-        badgeNum : $("#badgeNum"),
+        teacherNum : $("#teacherNum"),
         name : $("#name"),
         email : $("#email")
     };
@@ -35,8 +35,8 @@ $(function () {
         modifyModal.id.val(item.attr("data-id"));
         modifyModal.name.val(item.find(".name").html());
         modifyModal.name.parent().addClass("is-filled");
-        modifyModal.badgeNum.val(item.find(".badgeNum").html());
-        modifyModal.badgeNum.parent().addClass("is-filled");
+        modifyModal.teacherNum.val(item.find(".teacherNum").html());
+        modifyModal.teacherNum.parent().addClass("is-filled");
         modifyModal.email.val(item.find(".email").html());
         modifyModal.email.parent().addClass("is-filled");
     });

@@ -8,7 +8,7 @@ public class StudentFilter {
     private int page = 0;
     private int count = 0;
     private String name = null;
-    private String stuNum = null;
+    private String studentNum = null;
 
     public boolean isNewFilter() {
         return newFilter;
@@ -42,11 +42,11 @@ public class StudentFilter {
         this.name = name;
     }
 
-    public String getStuNum() {
-        return stuNum;
+    public String getStudentNum() {
+        return studentNum;
     }
 
-    public void setStuNum(String stuNum) {
-        this.stuNum = stuNum;
+    public void setStudentNum(String studentNum) {
+        this.studentNum = studentNum;
     }
 }

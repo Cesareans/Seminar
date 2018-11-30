@@ -85,6 +85,6 @@ insert into Student(stu_num,password,name,email,is_activated) values ('45678979'
 
 insert into Admin(name,password) values('hzy','123456');
 
-select name, password, badge_num as badgeNum, email, is_activated as activated from Teacher;
+select name, password, badge_num as teacherNum, email, is_activated as activated from Teacher;
 
 delete from Teacher where badge_num=1;
