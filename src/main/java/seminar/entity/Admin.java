@@ -9,7 +9,6 @@ import cesare.mybatis.annotations.TargetPackage;
  */
 @TargetPackage(target = "seminar.mapper")
 public class Admin {
-    public static final String DEFAULT_PASSWORD = "123456";
     @ID(isIncrement = true)
     private String id;
     @Gist

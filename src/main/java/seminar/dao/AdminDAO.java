@@ -19,7 +19,7 @@ public class AdminDAO {
         this.adminMapper = adminMapper;
     }
 
-    public List<Admin> getByName(String name){
+    public List<Admin> getByName(String name) {
         return adminMapper.selectAdminByName(name);
     }
 }

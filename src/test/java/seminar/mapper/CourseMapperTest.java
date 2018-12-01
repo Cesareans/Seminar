@@ -14,6 +14,6 @@ public class CourseMapperTest {
 
     @Test
     public void selectCourseByTeacherNumTest(){
-        System.out.println(courseMapper.selectCourseByTeacherNum("123479"));
+        System.out.println(courseMapper.selectCourseByTeacherId("123479"));
     }
 }

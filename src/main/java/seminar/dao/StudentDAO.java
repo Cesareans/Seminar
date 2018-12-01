@@ -20,11 +20,11 @@ public class StudentDAO {
         this.studentMapper = studentMapper;
     }
 
-    public void add(Student student){
+    public void add(Student student) {
         studentMapper.insertStudent(student);
     }
 
-    public void update(Student student){
+    public void update(Student student) {
         studentMapper.updateStudent(student);
     }
 
@@ -32,23 +32,23 @@ public class StudentDAO {
         return studentMapper.selectAllStudent();
     }
 
-    public List<Student> getBySN(String studentNum){
+    public List<Student> getBySN(String studentNum) {
         return studentMapper.selectStudentByStudentNum(studentNum);
     }
 
-    public List<Student> getByFilter(StudentFilter filter){
+    public List<Student> getByFilter(StudentFilter filter) {
         List<Student> students;
-        if(filter.getStudentNum().length() != 0){
+        if (filter.getStudentNum().length() != 0) {
             students = studentMapper.selectStudentByStudentNum(filter.getStudentNum());
-        }else if(filter.getName().length() != 0){
+        } else if (filter.getName().length() != 0) {
             students = studentMapper.selectStudentByName(filter.getName());
-        }else {
+        } else {
             students = studentMapper.selectAllStudent();
         }
         return students;
     }
 
-    public void deleteBySN(String studentNum){
+    public void deleteBySN(String studentNum) {
         studentMapper.deleteStudentByStudentNum(studentNum);
     }
 

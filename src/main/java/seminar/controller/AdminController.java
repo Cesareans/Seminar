@@ -6,12 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import seminar.entity.Admin;
+import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
 import seminar.entity.view.StudentFilter;
 import seminar.entity.view.TeacherFilter;
-import seminar.service.LoginService;
 import seminar.service.StudentService;
 import seminar.service.TeacherService;
 
@@ -25,31 +24,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final LoginService loginService;
     private final TeacherService teacherService;
     private final StudentService studentService;
 
     @Autowired
-    public AdminController(LoginService loginService, TeacherService teacherService, StudentService studentService) {
-        this.loginService = loginService;
+    public AdminController(TeacherService teacherService, StudentService studentService) {
         this.teacherService = teacherService;
         this.studentService = studentService;
-    }
-
-    @GetMapping("/login")
-    public String adminLogin() {
-        return "admin/login";
-    }
-
-
-    @PostMapping("/login")
-    public @ResponseBody
-    ResponseEntity<Object> adminLogin(Admin admin) {
-        if (loginService.adminLogin(admin)) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
     }
 
     @GetMapping("/index")
@@ -84,7 +65,7 @@ public class AdminController {
         if (teacher.getName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
-        teacher.setPassword(Admin.DEFAULT_PASSWORD);
+        teacher.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         teacher.setActivated(false);
         if (teacherService.add(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -164,7 +145,7 @@ public class AdminController {
         if (student.getName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
-        student.setPassword(Admin.DEFAULT_PASSWORD);
+        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         student.setActivated(false);
         if (studentService.add(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);

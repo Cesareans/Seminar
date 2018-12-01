@@ -5,7 +5,7 @@
     justify-content: center;
 }
 
-.flex-space-around{
+.flex-space-around {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -124,6 +124,15 @@
     align-items: center;
 }
 
+.content-card .card-body .line {
+    height: 30px;
+}
+
+.content-card .card-body .line label {
+    display: flex;
+    align-items: center;
+}
+
 /*Navbar*/
 .navbar {
     padding-top: 0;
@@ -203,7 +212,7 @@
 /*Login page*/
 .login-page {
     overflow: hidden;
-    background: url(/imgs/indexBGI.jpg) no-repeat center;
+    background: url(/static/imgs/indexBGI.jpg) no-repeat center;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -269,22 +278,13 @@
     min-width: 80px;
 }
 
-/*Course pages*/
-.course-page .main.main-raised {
+/*Card pages*/
+.card-page .main.main-raised {
     margin-top: 10px;
     margin-bottom: 10px;
     height: calc(100% - 126px);
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-}
-
-.course-card .card-body .line {
-    height: 30px;
-}
-
-.course-card .card-body .line label {
-    display: flex;
-    align-items: center;
 }
 
 /*Responsive style*/
@@ -298,7 +298,6 @@
     .alert-area .alert {
         width: 100%;
     }
-
 
     .form .form-group .bootstrap-datetimepicker-widget {
         z-index: 3;
@@ -334,15 +333,16 @@
         content: "";
     }
 
-    .modal .modal-dialog{
+    .modal .modal-dialog {
         margin-top: 90px;
     }
 
-    .nav-pills-icons{
+    .nav-pills-icons {
         padding-left: 0;
         padding-right: 0;
     }
-    .nav-pills-icons .nav-link{
+
+    .nav-pills-icons .nav-link {
         padding-left: 0 !important;
         padding-right: 0 !important;
         min-width: 75px !important;

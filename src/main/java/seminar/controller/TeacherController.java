@@ -2,7 +2,6 @@ package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import seminar.service.TeacherService;
@@ -65,34 +64,14 @@ public class TeacherController {
         return "/teacher/course/create";
     }
 
-    /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
-     */
     @GetMapping("/course/clbum")
     public String clbum() {
         return "/teacher/course/clbum";
     }
 
-    /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
-     */
-    @GetMapping("/course/clbum/create")
+    @GetMapping("/course/createClbum")
     public String clbumCreate() {
-        return "/teacher/course/clbum/create";
-    }
-
-    /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
-     */
-    @GetMapping("/course/clbum/info")
-    public String clbumInfo() {
-        return "/teacher/course/clbum/info";
+        return "/teacher/course/createClbum";
     }
 
     /**

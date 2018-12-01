@@ -1,8 +1,6 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
-
 import seminar.entity.Student;
 
 import java.util.List;
@@ -99,7 +97,7 @@ public interface StudentMapper {
     List<Student> selectStudentById(String id);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.name
+     * Delete a Student entity via name
      *
      * @param name the select gist
      */
@@ -107,7 +105,7 @@ public interface StudentMapper {
     void deleteStudentByName(String name);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.studentNum
+     * Delete a Student entity via studentNum
      *
      * @param studentNum the select gist
      */
@@ -115,7 +113,7 @@ public interface StudentMapper {
     void deleteStudentByStudentNum(String studentNum);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.id
+     * Delete a Student entity via id
      *
      * @param id the select gist
      */

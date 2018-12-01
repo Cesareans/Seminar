@@ -2,8 +2,8 @@ package seminar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import seminar.config.SeminarConfig;
 import seminar.dao.StudentDAO;
-import seminar.entity.Admin;
 import seminar.entity.Student;
 import seminar.entity.view.StudentFilter;
 
@@ -22,23 +22,24 @@ public class StudentService {
     }
 
 
-    public List<Student> getByFilter(StudentFilter filter){
+    public List<Student> getByFilter(StudentFilter filter) {
         return studentDAO.getByFilter(filter);
     }
-    public boolean add(Student student){
-        if(studentDAO.getBySN(student.getStudentNum()).size() == 0){
+
+    public boolean add(Student student) {
+        if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
             studentDAO.add(student);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public boolean update(Student student){
+    public boolean update(Student student) {
         List<Student> students = studentDAO.getBySN(student.getStudentNum());
-        if(students.size() == 0){
-            return false; 
-        }else {
+        if (students.size() == 0) {
+            return false;
+        } else {
             Student targetStudent = students.get(0);
             student.setPassword(targetStudent.getPassword());
             student.setActivated(targetStudent.isActivated());
@@ -47,22 +48,22 @@ public class StudentService {
         }
     }
 
-    public boolean deleteByStuNum(String stuNum){
-        if(studentDAO.getBySN(stuNum).size() == 0){
+    public boolean deleteByStuNum(String stuNum) {
+        if (studentDAO.getBySN(stuNum).size() == 0) {
             return false;
-        }else {
+        } else {
             studentDAO.deleteBySN(stuNum);
             return true;
         }
     }
 
-    public boolean resetPassword(String stuNum){
+    public boolean resetPassword(String stuNum) {
         List<Student> students = studentDAO.getBySN(stuNum);
-        if (students.size() == 0){
+        if (students.size() == 0) {
             return false;
         }
         Student student = students.get(0);
-        student.setPassword(Admin.DEFAULT_PASSWORD);
+        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         return update(student);
     }
 }

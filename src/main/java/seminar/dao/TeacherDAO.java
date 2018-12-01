@@ -38,11 +38,11 @@ public class TeacherDAO {
 
     public List<Teacher> getByFilter(TeacherFilter filter) {
         List<Teacher> teachers;
-        if(filter.getTeacherNum().length() != 0){
+        if (filter.getTeacherNum().length() != 0) {
             teachers = teacherMapper.selectTeacherByTeacherNum(filter.getTeacherNum());
-        }else if(filter.getName().length() != 0){
+        } else if (filter.getName().length() != 0) {
             teachers = teacherMapper.selectTeacherByName(filter.getName());
-        }else {
+        } else {
             teachers = teacherMapper.selectAllTeacher();
         }
         return teachers;

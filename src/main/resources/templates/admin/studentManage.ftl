@@ -4,14 +4,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <link rel="apple-touch-icon" sizes="76x76" href="/imgs/apple-icon.png">
-    <link rel="icon" type="image/png" href="/imgs/favicon.png">
-    <link rel="stylesheet" href="/css/material-kit.css?v=2.0.4">
-    <link rel="stylesheet" href="/css/admin.css">
-    <link rel="stylesheet" href="/css/icon.css">
-    <script src="/js/jquery-3.3.1.js"></script>
-    <script src="/js/seminar/util.js"></script>
-    <script src="/js/seminar/admin/studentManage.js"></script>
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/imgs/apple-icon.png">
+    <link rel="icon" type="image/png" href="/static/imgs/favicon.png">
+    <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/icon.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/seminar/util.js"></script>
+    <script src="/static/js/seminar/admin/studentManage.js"></script>
     <title>登录</title>
 </head>
 <body>
@@ -235,16 +235,16 @@
 
 
 <!--   Core JS Files   -->
-<script src="/js/core/popper.min.js" type="text/javascript"></script>
-<script src="/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-<script src="/js/plugins/moment.min.js"></script>
+<script src="/static/js/core/popper.min.js" type="text/javascript"></script>
+<script src="/static/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+<script src="/static/js/plugins/moment.min.js"></script>
 <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-<script src="/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<script src="/static/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="/static/js/plugins/nouislider.min.js" type="text/javascript"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-<script src="/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
+<script src="/static/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
 </body>
 </html>

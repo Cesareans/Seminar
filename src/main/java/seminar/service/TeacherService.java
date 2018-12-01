@@ -2,8 +2,8 @@ package seminar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import seminar.config.SeminarConfig;
 import seminar.dao.TeacherDAO;
-import seminar.entity.Admin;
 import seminar.entity.Teacher;
 import seminar.entity.view.TeacherFilter;
 
@@ -21,29 +21,29 @@ public class TeacherService {
         this.teacherDAO = teacherDAO;
     }
 
-    public List<Teacher> getByFilter(TeacherFilter filter){
+    public List<Teacher> getByFilter(TeacherFilter filter) {
         return teacherDAO.getByFilter(filter);
     }
 
-    public List<Teacher> getByTN(String teacherNum){
+    public List<Teacher> getByTN(String teacherNum) {
         return teacherDAO.getByTN(teacherNum);
     }
 
 
-    public boolean add(Teacher teacher){
-        if(teacherDAO.getByTN(teacher.getTeacherNum()).size() == 0){
+    public boolean add(Teacher teacher) {
+        if (teacherDAO.getByTN(teacher.getTeacherNum()).size() == 0) {
             teacherDAO.add(teacher);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public boolean update(Teacher teacher){
+    public boolean update(Teacher teacher) {
         List<Teacher> teachers = teacherDAO.getByTN(teacher.getTeacherNum());
-        if(teachers.size() == 0){
+        if (teachers.size() == 0) {
             return false;
-        }else {
+        } else {
             Teacher targetTeacher = teachers.get(0);
             teacher.setPassword(targetTeacher.getPassword());
             teacher.setActivated(targetTeacher.isActivated());
@@ -52,22 +52,22 @@ public class TeacherService {
         }
     }
 
-    public boolean deleteByTeacherNum(String teacherNum){
-        if(teacherDAO.getByTN(teacherNum).size() == 0){
+    public boolean deleteByTeacherNum(String teacherNum) {
+        if (teacherDAO.getByTN(teacherNum).size() == 0) {
             return false;
-        }else {
+        } else {
             teacherDAO.deleteByTN(teacherNum);
             return true;
         }
     }
 
-    public boolean resetPassword(String teacherNum){
+    public boolean resetPassword(String teacherNum) {
         List<Teacher> teachers = teacherDAO.getByTN(teacherNum);
-        if (teachers.size() == 0){
+        if (teachers.size() == 0) {
             return false;
         }
         Teacher teacher = teachers.get(0);
-        teacher.setPassword(Admin.DEFAULT_PASSWORD);
+        teacher.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         return update(teacher);
     }
 }
