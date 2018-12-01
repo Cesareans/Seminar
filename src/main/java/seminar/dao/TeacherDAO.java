@@ -41,7 +41,7 @@ public class TeacherDAO {
         if (filter.getTeacherNum().length() != 0) {
             teachers = teacherMapper.selectTeacherByTeacherNum(filter.getTeacherNum());
         } else if (filter.getName().length() != 0) {
-            teachers = teacherMapper.selectTeacherByName(filter.getName());
+            teachers = teacherMapper.selectTeacherByTeacherName(filter.getName());
         } else {
             teachers = teacherMapper.selectAllTeacher();
         }

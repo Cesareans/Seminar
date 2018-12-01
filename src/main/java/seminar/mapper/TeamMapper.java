@@ -18,7 +18,7 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be inserted
      */
-    @Insert("insert into team(serial, name, is_valid, clbum_id) values(#{serial}, #{name}, #{valid}, #{clbumId})")
+    @Insert("insert into team(serial, team_name, is_valid, clbum_id) values(#{serial}, #{teamName}, #{valid}, #{clbumId})")
     void insertTeam(Team team);
 
     /**
@@ -26,7 +26,7 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be updated via the private java.lang.String seminar.entity.Team.id
      */
-    @Update("update team set serial=#{serial}, name=#{name}, is_valid=#{valid}, clbum_id=#{clbumId} where id=#{id}")
+    @Update("update team set serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, clbum_id=#{clbumId} where id=#{id}")
     void updateTeam(Team team);
 
     /**
@@ -38,7 +38,7 @@ public interface TeamMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "serial"),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
             @Result(property = "clbumId", column = "clbum_id")
     })
@@ -54,7 +54,7 @@ public interface TeamMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "serial"),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
             @Result(property = "clbumId", column = "clbum_id")
     })
@@ -70,14 +70,14 @@ public interface TeamMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "serial"),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
             @Result(property = "clbumId", column = "clbum_id")
     })
     List<Team> selectTeamById(String id);
 
     /**
-     * Delete a Team entity via clbumId
+     * Delete a Team entity via private java.lang.String seminar.entity.Team.clbumId
      *
      * @param clbumId the select gist
      */
@@ -85,7 +85,7 @@ public interface TeamMapper {
     void deleteTeamByClbumId(String clbumId);
 
     /**
-     * Delete a Team entity via id
+     * Delete a Team entity via private java.lang.String seminar.entity.Team.id
      *
      * @param id the select gist
      */

@@ -1,4 +1,4 @@
-package seminar.service;
+package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import seminar.dao.AdminDAO;
 import seminar.dao.StudentDAO;
 import seminar.dao.TeacherDAO;
-import seminar.entity.Admin;
+import seminar.entity.Administrator;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
 
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author Cesare
  */
-@Component
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final AdminDAO adminDAO;
     private final StudentDAO studentDAO;
@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     /**
-     * TODO:Such code is in a mess. Please refine if time is enough. [inferiority]
+     * TODO[inferiority]: Such code is in a mess. Please refine if time is enough.
      *
      * @param username load user by given username
      * @return the found user
@@ -46,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         //New a list to contain user's role
         List<GrantedAuthority> roleList = new LinkedList<>();
-        List<Admin> foundAdmin = adminDAO.getByName(username);
+        List<Administrator> foundAdmin = adminDAO.getByName(username);
         if (foundAdmin.size() != 0) {
             roleList.add(new SimpleGrantedAuthority("ROLE_admin"));
             String password = passwordEncoder.encode(foundAdmin.get(0).getPassword());

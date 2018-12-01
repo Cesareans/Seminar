@@ -74,7 +74,7 @@ public interface ClbumSeminarMapper {
     List<ClbumSeminar> selectClbumSeminarById(String id);
 
     /**
-     * Delete a ClbumSeminar entity via clbumId
+     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.clbumId
      *
      * @param clbumId the select gist
      */
@@ -82,7 +82,7 @@ public interface ClbumSeminarMapper {
     void deleteClbumSeminarByClbumId(String clbumId);
 
     /**
-     * Delete a ClbumSeminar entity via id
+     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.id
      *
      * @param id the select gist
      */

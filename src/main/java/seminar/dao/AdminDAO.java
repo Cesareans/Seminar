@@ -2,8 +2,8 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Admin;
-import seminar.mapper.AdminMapper;
+import seminar.entity.Administrator;
+import seminar.mapper.AdministratorMapper;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ import java.util.List;
  */
 @Component
 public class AdminDAO {
-    private AdminMapper adminMapper;
+    private AdministratorMapper adminMapper;
 
     @Autowired
-    public AdminDAO(AdminMapper adminMapper) {
+    public AdminDAO(AdministratorMapper adminMapper) {
         this.adminMapper = adminMapper;
     }
 
-    public List<Admin> getByName(String name) {
-        return adminMapper.selectAdminByName(name);
+    public List<Administrator> getByName(String name) {
+        return adminMapper.selectAdministratorByAdminName(name);
     }
 }

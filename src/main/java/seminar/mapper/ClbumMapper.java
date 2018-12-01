@@ -18,7 +18,7 @@ public interface ClbumMapper {
      *
      * @param clbum the Clbum entity that will be inserted
      */
-    @Insert("insert into clbum(name, time, location, course_id) values(#{name}, #{time}, #{location}, #{courseId})")
+    @Insert("insert into clbum(clbum_name, time, location, course_id) values(#{clbumName}, #{time}, #{location}, #{courseId})")
     void insertClbum(Clbum clbum);
 
     /**
@@ -26,7 +26,7 @@ public interface ClbumMapper {
      *
      * @param clbum the Clbum entity that will be updated via the private java.lang.String seminar.entity.Clbum.id
      */
-    @Update("update clbum set name=#{name}, time=#{time}, location=#{location}, course_id=#{courseId} where id=#{id}")
+    @Update("update clbum set clbum_name=#{clbumName}, time=#{time}, location=#{location}, course_id=#{courseId} where id=#{id}")
     void updateClbum(Clbum clbum);
 
     /**
@@ -37,7 +37,7 @@ public interface ClbumMapper {
     @Select("select * from clbum")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "clbumName", column = "clbum_name"),
             @Result(property = "time", column = "time"),
             @Result(property = "location", column = "location"),
             @Result(property = "courseId", column = "course_id")
@@ -53,7 +53,7 @@ public interface ClbumMapper {
     @Select("select * from clbum where course_id=#{courseId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "clbumName", column = "clbum_name"),
             @Result(property = "time", column = "time"),
             @Result(property = "location", column = "location"),
             @Result(property = "courseId", column = "course_id")
@@ -69,7 +69,7 @@ public interface ClbumMapper {
     @Select("select * from clbum where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "clbumName", column = "clbum_name"),
             @Result(property = "time", column = "time"),
             @Result(property = "location", column = "location"),
             @Result(property = "courseId", column = "course_id")
@@ -77,7 +77,7 @@ public interface ClbumMapper {
     List<Clbum> selectClbumById(String id);
 
     /**
-     * Delete a Clbum entity via courseId
+     * Delete a Clbum entity via private java.lang.String seminar.entity.Clbum.courseId
      *
      * @param courseId the select gist
      */
@@ -85,7 +85,7 @@ public interface ClbumMapper {
     void deleteClbumByCourseId(String courseId);
 
     /**
-     * Delete a Clbum entity via id
+     * Delete a Clbum entity via private java.lang.String seminar.entity.Clbum.id
      *
      * @param id the select gist
      */

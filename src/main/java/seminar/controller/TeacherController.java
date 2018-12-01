@@ -1,9 +1,13 @@
 package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import seminar.entity.Teacher;
 import seminar.service.TeacherService;
 
 /**
@@ -20,7 +24,10 @@ public class TeacherController {
     }
 
     @GetMapping(value = {"", "/index"})
-    public String index() {
+    public String index(Model model) {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Teacher teacher = service.getTeacherByTN(user.getUsername()).get(0);
+        model.addAttribute("teacher", teacher);
         return "/teacher/index";
     }
 
@@ -45,7 +52,10 @@ public class TeacherController {
     }
 
     @GetMapping("/course")
-    public String course() {
+    public String course(Model model) {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Teacher teacher = service.getTeacherByTN(user.getUsername()).get(0);
+        model.addAttribute("courses", teacher.getCourses());
         return "/teacher/course";
     }
 

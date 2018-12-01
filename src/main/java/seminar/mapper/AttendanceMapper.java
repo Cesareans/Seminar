@@ -105,7 +105,7 @@ public interface AttendanceMapper {
     List<Attendance> selectAttendanceById(String id);
 
     /**
-     * Delete a Attendance entity via teamId
+     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.teamId
      *
      * @param teamId the select gist
      */
@@ -113,7 +113,7 @@ public interface AttendanceMapper {
     void deleteAttendanceByTeamId(String teamId);
 
     /**
-     * Delete a Attendance entity via clbumSeminarId
+     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.clbumSeminarId
      *
      * @param clbumSeminarId the select gist
      */
@@ -121,7 +121,7 @@ public interface AttendanceMapper {
     void deleteAttendanceByClbumSeminarId(String clbumSeminarId);
 
     /**
-     * Delete a Attendance entity via id
+     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.id
      *
      * @param id the select gist
      */

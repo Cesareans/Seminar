@@ -11,8 +11,7 @@ import seminar.entity.Student;
 import seminar.entity.Teacher;
 import seminar.entity.view.StudentFilter;
 import seminar.entity.view.TeacherFilter;
-import seminar.service.StudentService;
-import seminar.service.TeacherService;
+import seminar.service.AccountManageService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +23,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final TeacherService teacherService;
-    private final StudentService studentService;
+    private final AccountManageService accountManageService;
 
     @Autowired
-    public AdminController(TeacherService teacherService, StudentService studentService) {
-        this.teacherService = teacherService;
-        this.studentService = studentService;
+    public AdminController(AccountManageService accountManageService) {
+        this.accountManageService = accountManageService;
     }
+
 
     @GetMapping("/index")
     public String index() {
@@ -45,7 +43,7 @@ public class AdminController {
 
     @PostMapping("/teacherList")
     public String teacherList(Model model, TeacherFilter filter) {
-        List<Teacher> teachers = teacherService.getByFilter(filter);
+        List<Teacher> teachers = accountManageService.getTeachersByFilter(filter);
         int sumPage = (teachers.size() - 1) / filter.getCount() + 1;
         int page = filter.getPage() < 1 ? 1 : (filter.getPage() > sumPage ? sumPage : filter.getPage());
         int fromIndex = (page - 1) * filter.getCount();
@@ -62,12 +60,12 @@ public class AdminController {
     @PutMapping("/teacher")
     public @ResponseBody
     ResponseEntity<Object> addTeacher(Teacher teacher) {
-        if (teacher.getName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
+        if (teacher.getTeacherName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         teacher.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         teacher.setActivated(false);
-        if (teacherService.add(teacher)) {
+        if (accountManageService.addTeacher(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -77,7 +75,7 @@ public class AdminController {
     @PatchMapping("/teacher")
     public @ResponseBody
     ResponseEntity<Object> updateTeacher(Teacher teacher) {
-        if (teacherService.update(teacher)) {
+        if (accountManageService.updateTeacher(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -87,7 +85,7 @@ public class AdminController {
     @PatchMapping("/teacher/{teacherNum}/resetPwd")
     public @ResponseBody
     ResponseEntity<Object> resetTeacherPassword(@PathVariable String teacherNum) {
-        if (teacherService.resetPassword(teacherNum)) {
+        if (accountManageService.teacherResetPassword(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -97,7 +95,7 @@ public class AdminController {
     @DeleteMapping("/teacher/{teacherNum}")
     public @ResponseBody
     ResponseEntity<Object> deleteTeacher(@PathVariable String teacherNum) {
-        if (teacherService.deleteByTeacherNum(teacherNum)) {
+        if (accountManageService.deleteByTeacherNum(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -108,7 +106,7 @@ public class AdminController {
     public @ResponseBody
     ResponseEntity<Object> deleteTeacher(String[] teacherNum) {
         for (String s : teacherNum) {
-            if (!teacherService.deleteByTeacherNum(s)) {
+            if (!accountManageService.deleteByTeacherNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
             }
         }
@@ -123,7 +121,7 @@ public class AdminController {
 
     @PostMapping("/studentList")
     public String studentList(Model model, StudentFilter filter) {
-        List<Student> students = studentService.getByFilter(filter);
+        List<Student> students = accountManageService.getStudentsByFilter(filter);
         int sumPage = (students.size() - 1) / filter.getCount() + 1;
         int page = filter.getPage() < 1 ? 1 : (filter.getPage() > sumPage ? sumPage : filter.getPage());
         int fromIndex = (page - 1) * filter.getCount();
@@ -142,12 +140,12 @@ public class AdminController {
     @PutMapping("/student")
     public @ResponseBody
     ResponseEntity<Object> addStudent(Student student) {
-        if (student.getName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
+        if (student.getStudentName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         student.setActivated(false);
-        if (studentService.add(student)) {
+        if (accountManageService.addStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -157,7 +155,7 @@ public class AdminController {
     @PatchMapping("/student")
     public @ResponseBody
     ResponseEntity<Object> updateStudent(Student student) {
-        if (studentService.update(student)) {
+        if (accountManageService.updateStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -167,7 +165,7 @@ public class AdminController {
     @PatchMapping("/student/{studentNum}/resetPwd")
     public @ResponseBody
     ResponseEntity<Object> resetStudentPassword(@PathVariable String studentNum) {
-        if (studentService.resetPassword(studentNum)) {
+        if (accountManageService.studentResetPassword(studentNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -177,7 +175,7 @@ public class AdminController {
     @DeleteMapping("/student/{studentNum}")
     public @ResponseBody
     ResponseEntity<Object> deleteStudent(@PathVariable String studentNum) {
-        if (studentService.deleteByStuNum(studentNum)) {
+        if (accountManageService.deleteStudentByStuNum(studentNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -188,7 +186,7 @@ public class AdminController {
     public @ResponseBody
     ResponseEntity<Object> deleteStudent(String[] studentNum) {
         for (String s : studentNum) {
-            if (!studentService.deleteByStuNum(s)) {
+            if (!accountManageService.deleteStudentByStuNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
             }
         }

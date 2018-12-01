@@ -89,7 +89,7 @@ public interface TeamStudentMapper {
     List<TeamStudent> selectTeamStudentById(String id);
 
     /**
-     * Delete a TeamStudent entity via teamId
+     * Delete a TeamStudent entity via private java.lang.String seminar.entity.TeamStudent.teamId
      *
      * @param teamId the select gist
      */
@@ -97,7 +97,7 @@ public interface TeamStudentMapper {
     void deleteTeamStudentByTeamId(String teamId);
 
     /**
-     * Delete a TeamStudent entity via studentId
+     * Delete a TeamStudent entity via private java.lang.String seminar.entity.TeamStudent.studentId
      *
      * @param studentId the select gist
      */
@@ -105,7 +105,7 @@ public interface TeamStudentMapper {
     void deleteTeamStudentByStudentId(String studentId);
 
     /**
-     * Delete a TeamStudent entity via id
+     * Delete a TeamStudent entity via java.lang.String seminar.entity.TeamStudent.id
      *
      * @param id the select gist
      */

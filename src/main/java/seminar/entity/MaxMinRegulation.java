@@ -4,6 +4,9 @@ import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
 
+/**
+ * @author Cesare
+ */
 @TargetPackage(target = "seminar.mapper")
 public class MaxMinRegulation {
     @ID(isIncrement = true)

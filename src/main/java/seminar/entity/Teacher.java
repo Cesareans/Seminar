@@ -16,7 +16,7 @@ public class Teacher {
     @ID(isIncrement = true)
     private String id;
     @Gist
-    private String name;
+    private String teacherName;
     @Gist
     private String teacherNum;
     private String password;
@@ -24,7 +24,7 @@ public class Teacher {
     private int msgInterval;
     private boolean activated;
 
-    @Link(gist = "teacherNum", select = "seminar.mapper.CourseMapper.selectCourseByTeacherId")
+    @Link(gist = "id", select = "seminar.mapper.CourseMapper.selectCourseByTeacherId")
     private List<Course> courses;
 
     public String getId() {
@@ -35,12 +35,12 @@ public class Teacher {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getTeacherNum() {

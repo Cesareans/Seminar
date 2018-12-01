@@ -44,7 +44,7 @@
             </td>
             <td class="counter">${teacher?counter + fromIndex}</td>
             <td class="teacherNum">${teacher.teacherNum}</td>
-            <td class="name">${teacher.name}</td>
+            <td class="name">${teacher.teacherName}</td>
             <td class="email">${teacher.email}</td>
             <td>
                 <#if teacher.activated>

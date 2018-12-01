@@ -12,7 +12,7 @@ public class Team {
     @ID(isIncrement = true)
     private String id;
     private String serial;
-    private String name;
+    private String teamName;
     private boolean valid;
     @Gist
     private String clbumId;
@@ -33,12 +33,12 @@ public class Team {
         this.serial = serial;
     }
 
-    public String getName() {
-        return name;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public boolean isValid() {

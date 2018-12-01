@@ -43,7 +43,7 @@
         </div>
     </div>
 </nav>
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('/imgs/profile.jpg');"></div>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/static/imgs/profile.jpg');"></div>
 <div class="main main-raised">
     <div class="profile-content">
         <div class="container">
@@ -54,7 +54,7 @@
                             <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
                         </div>
                         <div class="name">
-                            <h3 class="title">胡泽勇</h3>
+                            <h3 class="title">${teacher.teacherName}</h3>
                         </div>
                     </div>
                 </div>

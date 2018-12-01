@@ -12,7 +12,7 @@ public class Student {
     @ID(isIncrement = true)
     private String id;
     @Gist
-    private String name;
+    private String studentName;
     @Gist
     private String studentNum;
     private String password;
@@ -28,12 +28,12 @@ public class Student {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public String getStudentNum() {

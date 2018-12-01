@@ -19,7 +19,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be inserted
      */
-    @Insert("insert into teacher(name, teacher_num, password, email, is_activated) values(#{name}, #{teacherNum}, #{password}, #{email}, #{activated})")
+    @Insert("insert into teacher(teacher_name, teacher_num, password, email, msg_interval, is_activated) values(#{teacherName}, #{teacherNum}, #{password}, #{email}, #{msgInterval}, #{activated})")
     void insertTeacher(Teacher teacher);
 
     /**
@@ -27,7 +27,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be updated via the private java.lang.String seminar.entity.Teacher.id
      */
-    @Update("update teacher set name=#{name}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
+    @Update("update teacher set teacher_name=#{teacherName}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, msg_interval=#{msgInterval}, is_activated=#{activated} where id=#{id}")
     void updateTeacher(Teacher teacher);
 
     /**
@@ -38,32 +38,34 @@ public interface TeacherMapper {
     @Select("select * from teacher")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teacherName", column = "teacher_name"),
             @Result(property = "teacherNum", column = "teacher_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
+            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated"),
-            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectAllTeacher();
 
     /**
-     * Select a Teacher entity via name
+     * Select a Teacher entity via teacherName
      *
-     * @param name the select gist
+     * @param teacherName the select gist
      * @return List<teacher> the selected Teacher entity as list
      */
-    @Select("select * from teacher where name=#{name}")
+    @Select("select * from teacher where teacher_name=#{teacherName}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teacherName", column = "teacher_name"),
             @Result(property = "teacherNum", column = "teacher_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
+            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated"),
-            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
-    List<Teacher> selectTeacherByName(String name);
+    List<Teacher> selectTeacherByTeacherName(String teacherName);
 
     /**
      * Select a Teacher entity via teacherNum
@@ -74,12 +76,13 @@ public interface TeacherMapper {
     @Select("select * from teacher where teacher_num=#{teacherNum}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teacherName", column = "teacher_name"),
             @Result(property = "teacherNum", column = "teacher_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
+            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated"),
-            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectTeacherByTeacherNum(String teacherNum);
 
@@ -92,25 +95,26 @@ public interface TeacherMapper {
     @Select("select * from teacher where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "teacherName", column = "teacher_name"),
             @Result(property = "teacherNum", column = "teacher_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
+            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated"),
-            @Result(property = "courses", column = "teacher_num", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectTeacherById(String id);
 
     /**
-     * Delete a Teacher entity via name
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.teacherName
      *
-     * @param name the select gist
+     * @param teacherName the select gist
      */
-    @Delete("delete from teacher where name=#{name}")
-    void deleteTeacherByName(String name);
+    @Delete("delete from teacher where teacher_name=#{teacherName}")
+    void deleteTeacherByTeacherName(String teacherName);
 
     /**
-     * Delete a Teacher entity via teacherNum
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.teacherNum
      *
      * @param teacherNum the select gist
      */
@@ -118,7 +122,7 @@ public interface TeacherMapper {
     void deleteTeacherByTeacherNum(String teacherNum);
 
     /**
-     * Delete a Teacher entity via id
+     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.id
      *
      * @param id the select gist
      */

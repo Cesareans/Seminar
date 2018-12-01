@@ -10,6 +10,7 @@ public class LoginForm {
     private String username;
     @NotNull
     private String password;
+
     public LoginForm() {
     }
 

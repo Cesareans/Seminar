@@ -109,7 +109,7 @@ public interface QuestionMapper {
     List<Question> selectQuestionById(String id);
 
     /**
-     * Delete a Question entity via teamId
+     * Delete a Question entity via private java.lang.String seminar.entity.Question.teamId
      *
      * @param teamId the select gist
      */
@@ -117,7 +117,7 @@ public interface QuestionMapper {
     void deleteQuestionByTeamId(String teamId);
 
     /**
-     * Delete a Question entity via studentId
+     * Delete a Question entity via private java.lang.String seminar.entity.Question.studentId
      *
      * @param studentId the select gist
      */
@@ -125,7 +125,7 @@ public interface QuestionMapper {
     void deleteQuestionByStudentId(String studentId);
 
     /**
-     * Delete a Question entity via attendanceId
+     * Delete a Question entity via private java.lang.String seminar.entity.Question.attendanceId
      *
      * @param attendanceId the select gist
      */
@@ -133,7 +133,7 @@ public interface QuestionMapper {
     void deleteQuestionByAttendanceId(String attendanceId);
 
     /**
-     * Delete a Question entity via id
+     * Delete a Question entity via private java.lang.String seminar.entity.Question.id
      *
      * @param id the select gist
      */

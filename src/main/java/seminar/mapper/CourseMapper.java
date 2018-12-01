@@ -18,7 +18,7 @@ public interface CourseMapper {
      *
      * @param course the Course entity that will be inserted
      */
-    @Insert("insert into course(name, introduction, pre_percentage, report_percentage, ques_percentage, team_start_date, team_end_date, teacher_id) values(#{name}, #{introduction}, #{prePercentage}, #{reportPercentage}, #{quesPercentage}, #{teamStartDate}, #{teamEndDate}, #{teacherId})")
+    @Insert("insert into course(course_name, introduction, pre_percentage, report_percentage, ques_percentage, team_start_date, team_end_date, teacher_id) values(#{courseName}, #{introduction}, #{prePercentage}, #{reportPercentage}, #{quesPercentage}, #{teamStartDate}, #{teamEndDate}, #{teacherId})")
     void insertCourse(Course course);
 
     /**
@@ -26,7 +26,7 @@ public interface CourseMapper {
      *
      * @param course the Course entity that will be updated via the private java.lang.String seminar.entity.Course.id
      */
-    @Update("update course set name=#{name}, introduction=#{introduction}, pre_percentage=#{prePercentage}, report_percentage=#{reportPercentage}, ques_percentage=#{quesPercentage}, team_start_date=#{teamStartDate}, team_end_date=#{teamEndDate}, teacher_id=#{teacherId} where id=#{id}")
+    @Update("update course set course_name=#{courseName}, introduction=#{introduction}, pre_percentage=#{prePercentage}, report_percentage=#{reportPercentage}, ques_percentage=#{quesPercentage}, team_start_date=#{teamStartDate}, team_end_date=#{teamEndDate}, teacher_id=#{teacherId} where id=#{id}")
     void updateCourse(Course course);
 
     /**
@@ -37,7 +37,7 @@ public interface CourseMapper {
     @Select("select * from course")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "courseName", column = "course_name"),
             @Result(property = "introduction", column = "introduction"),
             @Result(property = "prePercentage", column = "pre_percentage"),
             @Result(property = "reportPercentage", column = "report_percentage"),
@@ -57,7 +57,7 @@ public interface CourseMapper {
     @Select("select * from course where teacher_id=#{teacherId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "courseName", column = "course_name"),
             @Result(property = "introduction", column = "introduction"),
             @Result(property = "prePercentage", column = "pre_percentage"),
             @Result(property = "reportPercentage", column = "report_percentage"),
@@ -77,7 +77,7 @@ public interface CourseMapper {
     @Select("select * from course where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "name", column = "name"),
+            @Result(property = "courseName", column = "course_name"),
             @Result(property = "introduction", column = "introduction"),
             @Result(property = "prePercentage", column = "pre_percentage"),
             @Result(property = "reportPercentage", column = "report_percentage"),
@@ -89,7 +89,7 @@ public interface CourseMapper {
     List<Course> selectCourseById(String id);
 
     /**
-     * Delete a Course entity via teacherId
+     * Delete a Course entity via private java.lang.String seminar.entity.Course.teacherId
      *
      * @param teacherId the select gist
      */
@@ -97,7 +97,7 @@ public interface CourseMapper {
     void deleteCourseByTeacherId(String teacherId);
 
     /**
-     * Delete a Course entity via id
+     * Delete a Course entity via private java.lang.String seminar.entity.Course.id
      *
      * @param id the select gist
      */

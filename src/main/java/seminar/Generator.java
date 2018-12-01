@@ -6,7 +6,7 @@ import cesare.mybatis.PackageGenerator;
  * @author Cesare
  */
 public class Generator {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         PackageGenerator generator = new PackageGenerator("Cesare", "seminar.entity");
         generator.generateMapper();
     }

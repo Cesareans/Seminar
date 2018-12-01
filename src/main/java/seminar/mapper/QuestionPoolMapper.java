@@ -104,7 +104,7 @@ public interface QuestionPoolMapper {
     List<QuestionPool> selectQuestionPoolById(String id);
 
     /**
-     * Delete a QuestionPool entity via clbumSeminarId
+     * Delete a QuestionPool entity via private java.lang.String seminar.entity.QuestionPool.clbumSeminarId
      *
      * @param clbumSeminarId the select gist
      */
@@ -112,7 +112,7 @@ public interface QuestionPoolMapper {
     void deleteQuestionPoolByClbumSeminarId(String clbumSeminarId);
 
     /**
-     * Delete a QuestionPool entity via teamId
+     * Delete a QuestionPool entity via private java.lang.String seminar.entity.QuestionPool.teamId
      *
      * @param teamId the select gist
      */
@@ -120,7 +120,7 @@ public interface QuestionPoolMapper {
     void deleteQuestionPoolByTeamId(String teamId);
 
     /**
-     * Delete a QuestionPool entity via studentId
+     * Delete a QuestionPool entity via private java.lang.String seminar.entity.QuestionPool.studentId
      *
      * @param studentId the select gist
      */
@@ -128,7 +128,7 @@ public interface QuestionPoolMapper {
     void deleteQuestionPoolByStudentId(String studentId);
 
     /**
-     * Delete a QuestionPool entity via id
+     * Delete a QuestionPool entity via private java.lang.String seminar.entity.QuestionPool.id
      *
      * @param id the select gist
      */

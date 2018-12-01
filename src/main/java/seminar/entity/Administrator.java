@@ -8,11 +8,11 @@ import cesare.mybatis.annotations.TargetPackage;
  * @author Cesare
  */
 @TargetPackage(target = "seminar.mapper")
-public class Admin {
+public class Administrator {
     @ID(isIncrement = true)
     private String id;
     @Gist
-    private String name;
+    private String adminName;
     private String password;
 
     public String getId() {
@@ -23,12 +23,12 @@ public class Admin {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public String getPassword() {

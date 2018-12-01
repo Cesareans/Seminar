@@ -4,6 +4,8 @@ import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
 
+import java.util.Date;
+
 /**
  * @author Cesare
  */
@@ -11,13 +13,13 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Course {
     @ID(isIncrement = true)
     private String id;
-    private String name;
+    private String courseName;
     private String introduction;
     private int prePercentage;
     private int reportPercentage;
     private int quesPercentage;
-    private int teamStartDate;
-    private int teamEndDate;
+    private Date teamStartDate;
+    private Date teamEndDate;
     @Gist
     private String teacherId;
 
@@ -29,12 +31,12 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getIntroduction() {
@@ -69,19 +71,19 @@ public class Course {
         this.quesPercentage = quesPercentage;
     }
 
-    public int getTeamStartDate() {
+    public Date getTeamStartDate() {
         return teamStartDate;
     }
 
-    public void setTeamStartDate(int teamStartDate) {
+    public void setTeamStartDate(Date teamStartDate) {
         this.teamStartDate = teamStartDate;
     }
 
-    public int getTeamEndDate() {
+    public Date getTeamEndDate() {
         return teamEndDate;
     }
 
-    public void setTeamEndDate(int teamEndDate) {
+    public void setTeamEndDate(Date teamEndDate) {
         this.teamEndDate = teamEndDate;
     }
 

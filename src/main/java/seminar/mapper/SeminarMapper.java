@@ -92,7 +92,7 @@ public interface SeminarMapper {
     List<Seminar> selectSeminarById(String id);
 
     /**
-     * Delete a Seminar entity via roundId
+     * Delete a Seminar entity via private java.lang.String seminar.entity.Seminar.roundId
      *
      * @param roundId the select gist
      */
@@ -100,7 +100,7 @@ public interface SeminarMapper {
     void deleteSeminarByRoundId(String roundId);
 
     /**
-     * Delete a Seminar entity via id
+     * Delete a Seminar entity via private java.lang.String seminar.entity.Seminar.id
      *
      * @param id the select gist
      */

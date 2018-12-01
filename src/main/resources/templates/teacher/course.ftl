@@ -48,11 +48,15 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row">
+            <#if courses?size ==0>
+                <b>空荡荡的</b>
+            <#else>
+            <#list courses as course>
             <div class="col-lg-4 col-md-6">
                 <div class="card content-card">
                     <div class="card-body" data-courseID="" data-toggle="modal" data-target="#courseModal">
                         <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
+                            <div class="body-title">${course.courseName}</div>
                         </div>
                         <div class="body-content">
                             <hr>
@@ -75,87 +79,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </#list>
+            </#if>
         </div>
     </div>
 </div>

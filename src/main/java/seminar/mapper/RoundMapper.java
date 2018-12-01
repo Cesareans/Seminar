@@ -71,7 +71,7 @@ public interface RoundMapper {
     List<Round> selectRoundById(String id);
 
     /**
-     * Delete a Round entity via courseId
+     * Delete a Round entity via private java.lang.String seminar.entity.Round.courseId
      *
      * @param courseId the select gist
      */
@@ -79,7 +79,7 @@ public interface RoundMapper {
     void deleteRoundByCourseId(String courseId);
 
     /**
-     * Delete a Round entity via id
+     * Delete a Round entity via private java.lang.String seminar.entity.Round.id
      *
      * @param id the select gist
      */

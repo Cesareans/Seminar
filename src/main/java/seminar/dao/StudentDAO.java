@@ -41,7 +41,7 @@ public class StudentDAO {
         if (filter.getStudentNum().length() != 0) {
             students = studentMapper.selectStudentByStudentNum(filter.getStudentNum());
         } else if (filter.getName().length() != 0) {
-            students = studentMapper.selectStudentByName(filter.getName());
+            students = studentMapper.selectStudentByStudentName(filter.getName());
         } else {
             students = studentMapper.selectAllStudent();
         }

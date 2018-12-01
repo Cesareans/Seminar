@@ -11,7 +11,7 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Clbum {
     @ID(isIncrement = true)
     private String id;
-    private String name;
+    private String clbumName;
     private String time;
     private String location;
 
@@ -27,12 +27,12 @@ public class Clbum {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getClbumName() {
+        return clbumName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClbumName(String clbumName) {
+        this.clbumName = clbumName;
     }
 
     public String getTime() {

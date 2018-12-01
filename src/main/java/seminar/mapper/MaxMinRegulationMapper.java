@@ -74,7 +74,7 @@ public interface MaxMinRegulationMapper {
     List<MaxMinRegulation> selectMaxMinRegulationById(String id);
 
     /**
-     * Delete a MaxMinRegulation entity via courseId
+     * Delete a MaxMinRegulation entity via private java.lang.String seminar.entity.MaxMinRegulation.courseId
      *
      * @param courseId the select gist
      */
@@ -82,7 +82,7 @@ public interface MaxMinRegulationMapper {
     void deleteMaxMinRegulationByCourseId(String courseId);
 
     /**
-     * Delete a MaxMinRegulation entity via id
+     * Delete a MaxMinRegulation entity via private java.lang.String seminar.entity.MaxMinRegulation.id
      *
      * @param id the select gist
      */
