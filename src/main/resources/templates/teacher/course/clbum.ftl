@@ -50,33 +50,40 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-clbumID="" data-toggle="modal" data-target="#clbumModal">
-                        <div class="body-header">
-                            <div class="body-title">2018年1班</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>讨论课时间</label>
-                                <div class="sep"></div>
-                                <div class="content">周三78节</div>
+            <#if clbums?size == 0>
+                <div>空荡荡的</div>
+            <#else >
+                <#list clbums as clbum>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-clbumID="${clbum.id}" data-toggle="modal" data-target="#clbumModal">
+                            <div class="body-header">
+                                <div class="body-title">${clbum.clbumName}</div>
                             </div>
-                            <div class="line">
-                                <label>讨论课地点</label>
-                                <div class="sep"></div>
-                                <div class="content">海韵教学楼</div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>讨论课时间</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${clbum.time}</div>
+                                </div>
+                                <div class="line">
+                                    <label>讨论课地点</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${clbum.location}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </#list>
+            </#if>
         </div>
     </div>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/createClbum'" class="btn btn-dark btn-round bg-dark" style="margin: 0">
+    <button onclick="window.location='/teacher/course/createClbum'" class="btn btn-dark btn-round bg-dark"
+            style="margin: 0">
         <i class="material-icons">add_circle</i>
         创建班级
     </button>

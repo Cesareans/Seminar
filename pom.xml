@@ -33,7 +33,7 @@
         <dependency>
             <groupId>usr.cesare</groupId>
             <artifactId>MybatisGenerator</artifactId>
-            <version>2.2-Beta</version>
+            <version>2.3-Stable</version>
         </dependency>
 
         <dependency>

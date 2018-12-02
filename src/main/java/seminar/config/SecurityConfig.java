@@ -45,16 +45,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/student/**", "/student").hasRole("student")
                 .antMatchers("/teacher/**", "/teacher").hasRole("teacher")
                 .anyRequest().authenticated();
-        //Admin login config
-        http.formLogin()
-                .loginPage("/admin/login").loginProcessingUrl("/admin/login")
-                .usernameParameter("name").passwordParameter("password")
-                .successHandler(ajaxAuthSuccessHandler).failureHandler(ajaxAuthFailureHandler)
-                .permitAll();
         //User login config
         http.formLogin()
                 .loginPage("/login").loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")
+                .successHandler(ajaxAuthSuccessHandler).failureHandler(ajaxAuthFailureHandler)
+                .permitAll();
+        //Admin login config
+        http.formLogin()
+                .loginPage("/admin/login").loginProcessingUrl("/admin/login")
+                .usernameParameter("name").passwordParameter("password")
                 .successHandler(ajaxAuthSuccessHandler).failureHandler(ajaxAuthFailureHandler)
                 .permitAll();
         //Disable CSRF security

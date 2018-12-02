@@ -49,12 +49,12 @@
     <div class="container">
         <div class="row">
             <#if courses?size ==0>
-                <b>空荡荡的</b>
+                <div>空荡荡的</div>
             <#else>
             <#list courses as course>
             <div class="col-lg-4 col-md-6">
                 <div class="card content-card">
-                    <div class="card-body" data-courseID="" data-toggle="modal" data-target="#courseModal">
+                    <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
                         <div class="body-header">
                             <div class="body-title">${course.courseName}</div>
                         </div>
@@ -90,8 +90,10 @@
         创建课程
     </button>
 </div>
-
-<div class="modal fade" id="courseModal">
+<form hidden id="courseIdForm">
+    <input id="courseIdInput" name="courseId" title="">
+</form>
+<div class="modal fade" id="courseModal" data-courseID="">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -141,7 +143,7 @@
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                             <li class="nav-item">
-                                <a class="nav-link" onclick="window.location='/teacher/course'">
+                                <a class="nav-link">
                                     <i class="material-icons">tune</i>
                                     讨论课设置
                                 </a>

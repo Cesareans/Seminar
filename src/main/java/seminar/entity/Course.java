@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @author Cesare
  */
-@TargetPackage(target = "seminar.mapper")
+@TargetPackage(value = "seminar.mapper")
 public class Course {
     @ID(isIncrement = true)
     private String id;

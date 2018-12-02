@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Cesare
  */
-@TargetPackage(target = "seminar.mapper")
+@TargetPackage(value = "seminar.mapper")
 public class Teacher {
     @ID(isIncrement = true)
     private String id;

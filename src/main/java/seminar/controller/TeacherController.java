@@ -16,17 +16,17 @@ import seminar.service.TeacherService;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
-    private TeacherService service;
+    private TeacherService teacherService;
 
     @Autowired
-    public TeacherController(TeacherService service) {
-        this.service = service;
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 
     @GetMapping(value = {"", "/index"})
     public String index(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = service.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
         return "/teacher/index";
     }
@@ -54,7 +54,7 @@ public class TeacherController {
     @GetMapping("/course")
     public String course(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = service.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("courses", teacher.getCourses());
         return "/teacher/course";
     }
@@ -69,13 +69,19 @@ public class TeacherController {
         return "/teacher/course/info";
     }
 
+    /**
+     * Todo: Remain to be realize
+     *
+     * @return ViewName
+     */
     @GetMapping("/course/create")
     public String courseCreate() {
         return "/teacher/course/create";
     }
 
     @GetMapping("/course/clbum")
-    public String clbum() {
+    public String clbum(String courseId, Model model) {
+        model.addAttribute("clbums", teacherService.getClbumByCourseId(courseId));
         return "/teacher/course/clbum";
     }
 

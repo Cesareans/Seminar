@@ -15,13 +15,18 @@ import java.io.IOException;
 @Component
 public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         String typeHeader = "X-Requested-With";
         String ajaxFlag = "XMLHttpRequest";
+        String adminPrefix = "/admin";
+        String url = request.getRequestURI();
         if (ajaxFlag.equals(request.getHeader(typeHeader))) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-        } else {
+        } else if(url.startsWith(adminPrefix)) {
             response.sendRedirect("/admin/login");
+        }else{
+            response.sendRedirect("/login");
         }
+
     }
 }

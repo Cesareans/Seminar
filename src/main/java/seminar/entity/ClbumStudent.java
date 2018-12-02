@@ -7,7 +7,7 @@ import cesare.mybatis.annotations.TargetPackage;
 /**
  * @author Cesare
  */
-@TargetPackage(target = "seminar.mapper")
+@TargetPackage(value = "seminar.mapper")
 public class ClbumStudent {
     @ID(isIncrement = true)
     private String id;

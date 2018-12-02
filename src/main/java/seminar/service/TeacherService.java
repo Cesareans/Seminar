@@ -1,5 +1,7 @@
 package seminar.service;
 
+import seminar.entity.Clbum;
+import seminar.entity.Course;
 import seminar.entity.Teacher;
 
 import java.util.List;
@@ -9,10 +11,27 @@ import java.util.List;
  */
 public interface TeacherService {
     /**
-     * TODO:Write Javadoc
+     * Get the teacher entity via teacherNum
      *
-     * @param teacherNum
-     * @return
+     * @param teacherNum refer gist
+     * @return teacher entity
      */
     public List<Teacher> getTeacherByTN(String teacherNum);
+
+    /**
+     * TODO:May not be useful. Can be deleted afterwards
+     * Get a teacher's courses via teacherId
+     *
+     * @param teacherId refer gist
+     * @return list of teacher's courses
+     */
+    public List<Course> getCoursesByTeacherId(String teacherId);
+
+    /**
+     * Get a course's clbums via teacherId
+     *
+     * @param courseId refer gist
+     * @return list of course's clbums
+     */
+    public List<Clbum> getClbumByCourseId(String courseId);
 }
