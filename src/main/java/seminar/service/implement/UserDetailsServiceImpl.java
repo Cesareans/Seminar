@@ -45,6 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         //New a list to contain user's role
+
         List<GrantedAuthority> roleList = new LinkedList<>();
         List<Administrator> foundAdmin = adminDAO.getByName(username);
         if (foundAdmin.size() != 0) {
