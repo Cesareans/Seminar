@@ -140,6 +140,8 @@
     margin-bottom: 0;
 }
 
+.navbar .navbar-brand.
+
 .navbar-nav .nav-item .nav-link i {
     margin-right: 20px !important;
 }
@@ -285,6 +287,10 @@
     height: calc(100% - 126px);
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+}
+
+.card-page .main.main-raised.no-footer{
+    height: calc(100% - 70px) !important;
 }
 
 /*Responsive style*/

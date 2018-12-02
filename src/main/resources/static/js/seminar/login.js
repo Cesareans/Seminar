@@ -5,7 +5,6 @@ $(function () {
     loginBtn = $("#login");
     nameInput = $("#username");
     passwordInput = $("#password");
-    var s = "[ROLE_teacher]";
     loginBtn.click(function () {
         login();
     });
@@ -24,13 +23,16 @@ function login() {
             success: function (result, status, xhr) {
                 if (xhr.status === 200) {
                     var response = xhr.responseText;
-                    console.log(response);
                     var auth = response.substring(response.indexOf('_') + 1, response.lastIndexOf(']'));
                     window.location = "/" + auth + "/index";
                 }
             },
             error: function () {
-                util.showAlert("danger", "登录失败，未知错误", 3);
+                if (xhr.status === 401) {
+                    util.showAlert("danger", "登录失败，用户名或者密码错误", 3);
+                }else{
+                    util.showAlert("danger", "登录失败，未知错误", 3);
+                }
             }
         })
     } else {

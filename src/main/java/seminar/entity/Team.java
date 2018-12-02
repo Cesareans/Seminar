@@ -16,6 +16,7 @@ public class Team {
     private boolean valid;
     @Gist
     private String clbumId;
+    private String leaderId;
 
     public String getId() {
         return id;
@@ -55,5 +56,13 @@ public class Team {
 
     public void setClbumId(String clbumId) {
         this.clbumId = clbumId;
+    }
+
+    public String getLeaderId() {
+        return leaderId;
+    }
+
+    public void setLeaderId(String leaderId) {
+        this.leaderId = leaderId;
     }
 }

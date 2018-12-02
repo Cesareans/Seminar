@@ -133,6 +133,7 @@ public class AdminController {
         root.put("sumPage", sumPage);
         root.put("page", page);
         root.put("students", students.subList(fromIndex, toIndex));
+        model.addAttribute(filter.isNewFilter());
         model.addAllAttributes(root);
         return "admin/studentList";
     }

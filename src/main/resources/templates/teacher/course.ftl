@@ -120,7 +120,7 @@
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                             <li class="nav-item">
                                 <a class="nav-link">
-                                    <i class="material-icons">event_note</i>
+                                    <i class="material-icons" id="seminarNav">event_note</i>
                                     讨论课
                                 </a>
                             </li>
@@ -132,7 +132,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link">
-                                    <i class="material-icons">group</i>
+                                    <i class="material-icons" id="teamNav">group</i>
                                     分组
                                 </a>
                             </li>

@@ -19,13 +19,11 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService {
     private TeacherDAO teacherDAO;
     private final CourseDAO courseDAO;
-    private final ClbumDao clbumDao;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDao) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
-        this.clbumDao = clbumDao;
     }
 
     @Override
@@ -38,8 +36,5 @@ public class TeacherServiceImpl implements TeacherService {
         return courseDAO.getCoursesByTeacherId(teacherId);
     }
 
-    @Override
-    public List<Clbum> getClbumByCourseId(String courseId) {
-        return clbumDao.getClbumsByCourseId(courseId);
-    }
+
 }

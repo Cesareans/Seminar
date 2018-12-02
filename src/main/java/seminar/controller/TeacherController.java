@@ -7,8 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import seminar.entity.Round;
 import seminar.entity.Teacher;
+import seminar.service.SeminarService;
 import seminar.service.TeacherService;
+
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * @author Cesare
@@ -16,17 +21,20 @@ import seminar.service.TeacherService;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
-    private TeacherService teacherService;
+    private final TeacherService teacherService;
+    private final SeminarService seminarService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService) {
+    public TeacherController(TeacherService teacherService, SeminarService seminarService) {
         this.teacherService = teacherService;
+        this.seminarService = seminarService;
     }
 
     @GetMapping(value = {"", "/index"})
-    public String index(Model model) {
+    public String index(Model model,HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        session.setAttribute("teacherId", teacher.getId());
         model.addAttribute("teacher", teacher);
         return "/teacher/index";
     }
@@ -52,10 +60,8 @@ public class TeacherController {
     }
 
     @GetMapping("/course")
-    public String course(Model model) {
-        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
-        model.addAttribute("courses", teacher.getCourses());
+    public String course(Model model, HttpSession session) {
+        model.addAttribute("courses", teacherService.getCoursesByTeacherId(((String) session.getAttribute("teacherId"))));
         return "/teacher/course";
     }
 
@@ -70,7 +76,7 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize
+     * Todo: Page finished. Remain to be realize Post
      *
      * @return ViewName
      */
@@ -80,8 +86,13 @@ public class TeacherController {
     }
 
     @GetMapping("/course/clbum")
-    public String clbum(String courseId, Model model) {
-        model.addAttribute("clbums", teacherService.getClbumByCourseId(courseId));
+    public String clbum(String courseId, Model model, HttpSession session) {
+        if(courseId == null){
+            courseId = ((String) session.getAttribute("courseId"));
+        }else{
+            session.setAttribute("courseId", courseId);
+        }
+        model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
         return "/teacher/course/clbum";
     }
 
@@ -90,13 +101,23 @@ public class TeacherController {
         return "/teacher/course/createClbum";
     }
 
-    /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
-     */
     @GetMapping("/course/seminar")
-    public String seminar() {
+    public String seminar(String courseId, Model model, HttpSession session) {
+        if(courseId == null){
+            courseId = ((String) session.getAttribute("courseId"));
+        }else{
+            session.setAttribute("courseId", courseId);
+        }
+        List<Map<String,Object>> root = new LinkedList<>();
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        for (Round round : rounds) {
+            Map<String, Object> roundSeminar = new HashMap<>(4);
+            roundSeminar.put("round", round);
+            roundSeminar.put("seminars", seminarService.getSeminarsByRoundId(round.getId()));
+            root.add(roundSeminar);
+        }
+        model.addAttribute("rounds", root);
+
         return "/teacher/course/seminar";
     }
 
@@ -151,15 +172,22 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
+     * TODO:Need better design [Inferiority]
+     * @param courseId
+     * @param model
+     * @param session
+     * @return
      */
-    @GetMapping("/course/group")
-    public String group() {
-        return "/teacher/course/group";
+    @GetMapping("/course/team")
+    public String team(String courseId, Model model, HttpSession session) {
+        if(courseId == null){
+            courseId = ((String) session.getAttribute("courseId"));
+        }else{
+            session.setAttribute("courseId", courseId);
+        }
+        model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
+        return "/teacher/course/team";
     }
-
     /**
      * Todo: Remain to be realize
      *

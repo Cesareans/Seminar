@@ -18,7 +18,7 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be inserted
      */
-    @Insert("insert into team(serial, team_name, is_valid, clbum_id) values(#{serial}, #{teamName}, #{valid}, #{clbumId})")
+    @Insert("insert into team(serial, team_name, is_valid, clbum_id, leader_id) values(#{serial}, #{teamName}, #{valid}, #{clbumId}, #{leaderId})")
     void insertTeam(Team team);
 
     /**
@@ -26,7 +26,7 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be updated via the private java.lang.String seminar.entity.Team.id
      */
-    @Update("update team set serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, clbum_id=#{clbumId} where id=#{id}")
+    @Update("update team set serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, clbum_id=#{clbumId}, leader_id=#{leaderId} where id=#{id}")
     void updateTeam(Team team);
 
     /**
@@ -40,7 +40,8 @@ public interface TeamMapper {
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id")
+            @Result(property = "clbumId", column = "clbum_id"),
+            @Result(property = "leaderId", column = "leader_id")
     })
     List<Team> selectAllTeam();
 
@@ -56,7 +57,8 @@ public interface TeamMapper {
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id")
+            @Result(property = "clbumId", column = "clbum_id"),
+            @Result(property = "leaderId", column = "leader_id")
     })
     List<Team> selectTeamByClbumId(String clbumId);
 
@@ -72,7 +74,8 @@ public interface TeamMapper {
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id")
+            @Result(property = "clbumId", column = "clbum_id"),
+            @Result(property = "leaderId", column = "leader_id")
     })
     List<Team> selectTeamById(String id);
 

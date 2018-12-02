@@ -27,11 +27,4 @@ public interface TeacherService {
      */
     public List<Course> getCoursesByTeacherId(String teacherId);
 
-    /**
-     * Get a course's clbums via teacherId
-     *
-     * @param courseId refer gist
-     * @return list of course's clbums
-     */
-    public List<Clbum> getClbumByCourseId(String courseId);
 }

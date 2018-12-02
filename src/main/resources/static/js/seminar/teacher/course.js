@@ -10,9 +10,14 @@ $(function () {
         courseModal.attr("data-courseID", item.attr("data-courseID"));
         $(courseModal.find(".modal-title")).html($(item.find(".body-title")).html());
     });
-    $("#clbumNav").click(function () {
-        courseIdForm.form.attr("action", "/teacher/course/clbum");
-        courseIdForm.courseIdInput.val(courseModal.attr("data-courseID"));
-        courseIdForm.form.submit();
-    });
+    $("#clbumNav").click({url:"/teacher/course/clbum"},postCourseId);
+    $("#teamNav").click({url:"/teacher/course/team"},postCourseId);
+    $("#seminarNav").click({url:"/teacher/course/seminar"}, postCourseId);
 });
+
+function postCourseId(e) {
+    console.log(e.data.url);
+    courseIdForm.form.attr("action", e.data.url);
+    courseIdForm.courseIdInput.val(courseModal.attr("data-courseID"));
+    courseIdForm.form.submit();
+}
