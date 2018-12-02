@@ -14,6 +14,7 @@ import seminar.dao.TeacherDAO;
 import seminar.entity.Administrator;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
+import seminar.logger.DebugLogger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         //New a list to contain user's role
-
+        DebugLogger.log(username);
         List<GrantedAuthority> roleList = new LinkedList<>();
         List<Administrator> foundAdmin = adminDAO.getByName(username);
         if (foundAdmin.size() != 0) {
