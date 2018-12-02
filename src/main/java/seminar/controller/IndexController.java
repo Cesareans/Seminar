@@ -16,7 +16,7 @@ public class IndexController {
 
     @RequestMapping("/admin/login")
     public String adminLogin() {
-        return "/admin/login";
+        return "admin/login";
     }
 
     /**
@@ -26,7 +26,7 @@ public class IndexController {
      */
     @GetMapping("/activation")
     public String activation() {
-        return "/activation";
+        return "activation";
     }
 
 
@@ -37,7 +37,7 @@ public class IndexController {
      */
     @GetMapping("/forgetPassword")
     public String forgetPassword() {
-        return "/forgetPassword";
+        return "forgetPassword";
     }
 
 }

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StudentController {
     @GetMapping("/index")
     public String index() {
-        return "/student/index";
+        return "student/index";
     }
 
     @GetMapping("/course")
     public String courses() {
-        return "/student/course";
+        return "student/course";
     }
 }

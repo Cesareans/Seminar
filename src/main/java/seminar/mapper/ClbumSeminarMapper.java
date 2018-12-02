@@ -59,6 +59,21 @@ public interface ClbumSeminarMapper {
     List<ClbumSeminar> selectClbumSeminarByClbumId(String clbumId);
 
     /**
+     * Select a ClbumSeminar entity via seminarId
+     *
+     * @param seminarId the select gist
+     * @return List<clbumSeminar> the selected ClbumSeminar entity as list
+     */
+    @Select("select * from clbum_seminar where seminar_id=#{seminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "state", column = "state"),
+            @Result(property = "clbumId", column = "clbum_id"),
+            @Result(property = "seminarId", column = "seminar_id")
+    })
+    List<ClbumSeminar> selectClbumSeminarBySeminarId(String seminarId);
+
+    /**
      * Select a ClbumSeminar entity via id
      *
      * @param id the select gist
@@ -74,12 +89,36 @@ public interface ClbumSeminarMapper {
     List<ClbumSeminar> selectClbumSeminarById(String id);
 
     /**
+     * Select a ClbumSeminar entity via union
+     *
+     * @param clbumId   the select gist
+     * @param seminarId the union gist
+     * @return List<clbumSeminar> the selected ClbumSeminar entity as list
+     */
+    @Select("select * from clbum_seminar where clbum_id=#{clbumId} and seminar_id=#{seminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "state", column = "state"),
+            @Result(property = "clbumId", column = "clbum_id"),
+            @Result(property = "seminarId", column = "seminar_id")
+    })
+    List<ClbumSeminar> selectClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
+
+    /**
      * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.clbumId
      *
      * @param clbumId the select gist
      */
     @Delete("delete from clbum_seminar where clbum_id=#{clbumId}")
     void deleteClbumSeminarByClbumId(String clbumId);
+
+    /**
+     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.seminarId
+     *
+     * @param seminarId the select gist
+     */
+    @Delete("delete from clbum_seminar where seminar_id=#{seminarId}")
+    void deleteClbumSeminarBySeminarId(String seminarId);
 
     /**
      * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.id

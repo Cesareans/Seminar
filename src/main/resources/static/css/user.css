@@ -11,6 +11,22 @@
     justify-content: space-around;
 }
 
+.flex-space-between{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-right{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.color-grey{
+    color: #999999;
+
+}
 /****** Component Style ******/
 
 /*Alert*/
@@ -166,6 +182,43 @@
     font-weight: 400;
     font-size: 15px;
 }
+
+.seminar-modal .modal-content{
+    max-height: 80%;
+}
+
+.seminar-modal .col-4,.seminar-modal .col-12{
+    transition-duration: 0.6s;
+    transition-property: flex,max-width;
+}
+
+.seminar-modal .nav-col,.seminar-modal .tab-col{
+    overflow: scroll;
+}
+.seminar-modal .tab-col{
+    display: none;
+}
+.seminar-modal .tab-col.show{
+    display: block;
+}
+.seminar-modal .tab-col .info{
+    padding-top: 0;
+}
+
+.seminar-modal .tab-col .clbum-btn{
+    width: 100%;
+}
+
+
+.seminar-modal .nav-link.seminar{
+    height: 104px;
+}
+.seminar-modal .col-4 .theme{
+    display: none;
+}
+
+
+
 
 /*Graph Icon*/
 .triangle {

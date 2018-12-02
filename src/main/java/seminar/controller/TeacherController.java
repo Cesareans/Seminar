@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import seminar.entity.Clbum;
 import seminar.entity.Round;
 import seminar.entity.Teacher;
 import seminar.service.SeminarService;
@@ -46,7 +47,7 @@ public class TeacherController {
      */
     @GetMapping("/info")
     public String info() {
-        return "/teacher/info";
+        return "teacher/info";
     }
 
     /**
@@ -56,13 +57,13 @@ public class TeacherController {
      */
     @GetMapping("/notification")
     public String notification() {
-        return "/teacher/notification";
+        return "teacher/notification";
     }
 
     @GetMapping("/course")
     public String course(Model model, HttpSession session) {
         model.addAttribute("courses", teacherService.getCoursesByTeacherId(((String) session.getAttribute("teacherId"))));
-        return "/teacher/course";
+        return "teacher/course";
     }
 
     /**
@@ -72,7 +73,7 @@ public class TeacherController {
      */
     @GetMapping("/course/info")
     public String courseInfo() {
-        return "/teacher/course/info";
+        return "teacher/course/info";
     }
 
     /**
@@ -82,7 +83,7 @@ public class TeacherController {
      */
     @GetMapping("/course/create")
     public String courseCreate() {
-        return "/teacher/course/create";
+        return "teacher/course/create";
     }
 
     @GetMapping("/course/clbum")
@@ -93,12 +94,12 @@ public class TeacherController {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
-        return "/teacher/course/clbum";
+        return "teacher/course/clbum";
     }
 
     @GetMapping("/course/createClbum")
     public String clbumCreate() {
-        return "/teacher/course/createClbum";
+        return "teacher/course/createClbum";
     }
 
     @GetMapping("/course/seminar")
@@ -112,13 +113,16 @@ public class TeacherController {
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         for (Round round : rounds) {
             Map<String, Object> roundSeminar = new HashMap<>(4);
-            roundSeminar.put("round", round);
+            roundSeminar.put("roundIns", round);
             roundSeminar.put("seminars", seminarService.getSeminarsByRoundId(round.getId()));
             root.add(roundSeminar);
         }
         model.addAttribute("rounds", root);
 
-        return "/teacher/course/seminar";
+        List<Clbum> clbums = seminarService.getClbumByCourseId(courseId);
+        model.addAttribute("clbums", clbums);
+
+        return "teacher/course/seminar";
     }
 
     /**
@@ -128,7 +132,7 @@ public class TeacherController {
      */
     @GetMapping("/course/seminar/create")
     public String seminarCreate() {
-        return "/teacher/course/seminar/create";
+        return "teacher/course/seminar/create";
     }
 
     /**
@@ -137,18 +141,9 @@ public class TeacherController {
      * @return ViewName
      */
     @GetMapping("/course/seminar/info")
-    public String seminarInfo() {
-        return "/teacher/course/seminar/info";
-    }
+    public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
 
-    /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
-     */
-    @GetMapping("/course/seminar/round")
-    public String seminarRound() {
-        return "/teacher/course/seminar/round";
+        return "teacher/course/seminar/info";
     }
 
     /**
@@ -158,7 +153,7 @@ public class TeacherController {
      */
     @GetMapping("/course/seminar/grade")
     public String seminarGrade() {
-        return "/teacher/course/seminar/grade";
+        return "teacher/course/seminar/grade";
     }
 
     /**
@@ -168,7 +163,7 @@ public class TeacherController {
      */
     @GetMapping("/course/seminar/progressing")
     public String seminarProgressing() {
-        return "/teacher/course/seminar/progressing";
+        return "teacher/course/seminar/progressing";
     }
 
     /**
@@ -186,7 +181,7 @@ public class TeacherController {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
-        return "/teacher/course/team";
+        return "teacher/course/team";
     }
     /**
      * Todo: Remain to be realize
@@ -195,6 +190,6 @@ public class TeacherController {
      */
     @GetMapping("/course/grade")
     public String grade() {
-        return "/teacher/course/grade";
+        return "teacher/course/grade";
     }
 }

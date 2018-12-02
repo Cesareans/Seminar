@@ -12,8 +12,9 @@ public class ClbumSeminar {
     @ID(isIncrement = true)
     private String id;
     private String state;
-    @Gist
+    @Gist(unions = {"seminarId"})
     private String clbumId;
+    @Gist
     private String seminarId;
 
     public String getId() {

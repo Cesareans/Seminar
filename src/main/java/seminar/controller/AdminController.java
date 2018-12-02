@@ -49,10 +49,14 @@ public class AdminController {
         int fromIndex = (page - 1) * filter.getCount();
         int toIndex = page * filter.getCount();
         toIndex = toIndex > teachers.size() ? teachers.size() : toIndex;
-        model.addAttribute("newFilter", filter.isNewFilter());
-        model.addAttribute("fromIndex", fromIndex);
-        model.addAttribute("sumPage", sumPage);
-        model.addAttribute("page", page);
+
+        //Using this converter to make this declaration recognizable for freemarker template.
+        Boolean mNewFilter = filter.isNewFilter();
+        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        model.addAttribute("newFilter", mNewFilter);
+        model.addAttribute("fromIndex", mFromIndex);
+        model.addAttribute("sumPage", mSumPage);
+        model.addAttribute("page", mPage);
         model.addAttribute("teachers", teachers.subList(fromIndex, toIndex));
         return "admin/teacherList";
     }
@@ -127,14 +131,15 @@ public class AdminController {
         int fromIndex = (page - 1) * filter.getCount();
         int toIndex = page * filter.getCount();
         toIndex = toIndex > students.size() ? students.size() : toIndex;
-        Map<String, Object> root = new HashMap<>(5);
-        root.put("newFilter", filter.isNewFilter());
-        root.put("fromIndex", fromIndex);
-        root.put("sumPage", sumPage);
-        root.put("page", page);
-        root.put("students", students.subList(fromIndex, toIndex));
-        model.addAttribute(filter.isNewFilter());
-        model.addAllAttributes(root);
+
+        //Using this converter to make this declaration recognizable for freemarker template.
+        Boolean mNewFilter = filter.isNewFilter();
+        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        model.addAttribute("newFilter", mNewFilter);
+        model.addAttribute("fromIndex", mFromIndex);
+        model.addAttribute("sumPage", mSumPage);
+        model.addAttribute("page", mPage);
+        model.addAttribute("students", students.subList(fromIndex, toIndex));
         return "admin/studentList";
     }
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/js/jquery-3.3.1.js"></script>
     <script src="/static/js/seminar/util.js"></script>
-    <script src="/static/js/seminar/teacher/course.js"></script>
+    <script src="/static/js/seminar/teacher/course/seminar.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -51,122 +51,105 @@
             <#if rounds?size ==0>
                 <div>空荡荡的</div>
             <#else>
-                <#list courses as course>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title">${course.courseName}</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
+                <#list rounds as round>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body" data-toggle="modal" data-target="#round${round.roundIns.id}Modal">
+                                <div class="body-header">
+                                    <div class="body-title">第${round.roundIns.roundNum}轮</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                        <#--TODO:Change the icon-->
+                                            <a class="nav-link" style="padding-bottom: 0;">
+                                                <i class="material-icons">dashboard</i>
+                                                讨论课
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="padding-bottom: 0;">
+                                                <i class="material-icons">settings</i>
+                                                轮次设置
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
                 </#list>
             </#if>
         </div>
     </div>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark" style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建讨论课
-    </button>
-</div>
-<form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId" title="">
-</form>
-<div class="modal fade" id="courseModal" data-courseID="">
+
+<#list rounds as round>
+<div class="modal seminar-modal fade" id="round${round.roundIns.id}Modal" data-roundId="${round.roundIns.id}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">第${round.roundIns.roundNum}轮</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-center">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">description</i>
-                                    课程信息
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">event_note</i>
-                                    讨论课
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons" id="clbumNav">class</i>
-                                    班级
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons" id="teamNav">group</i>
-                                    分组
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">equalizer</i>
-                                    成绩
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">share</i>
-                                    课程共享
-                                </a>
-                            </li>
-                        </ul>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 nav-col">
+                            <ul class="nav nav-pills nav-pills-icons flex-column">
+                                <#list round.seminars as seminar>
+                                <li class="nav-item">
+                                    <a class="nav-link seminar" href="#pane${seminar.id}" data-toggle="tab">
+                                        <i class="material-icons">list</i>
+                                        <span>${seminar.serial}</span>
+                                        <span class="theme">-${seminar.theme}</span>
+                                    </a>
+                                </li>
+                                </#list>
+                            </ul>
+                        </div>
+                        <div class="col-8 tab-col">
+                            <div class="tab-content">
+                                <#list round.seminars as seminar>
+                                <div class="tab-pane" id="pane${seminar.id}">
+                                    <div class="info">
+                                        <#--TODO:Change color here-->
+                                        <div class="icon icon-rose flex-space-between">
+                                            <i class="material-icons">group_work</i>
+                                        </div>
+                                        <h4 class="info-title">${seminar.theme}</h4>
+                                    </div>
+                                </div>
+                                </#list>
+                            </div>
+                            <div class="container">
+                                <#list clbums as clbum>
+                                    <button type="button" class="btn btn-round bg-dark clbum-btn">${clbum.clbumName}</button>
+                                </#list>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</#list>
+
+<div class="container foot-container flex-center">
+    <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
+            style="margin: 0">
+        <i class="material-icons">add_circle</i>
+        创建讨论课
+    </button>
+</div>
+<form hidden id="seminarForm">
+    <input id="seminarIdInput" name="seminarId" title="">
+    <input id="clbumIdInput" name="clbumId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/js/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
