@@ -1,0 +1,22 @@
+# 存放mapper 方法的格式样例
+
+
+@author
+${MapperName}
+MethodBody...
+
+
+如
+
+@Cesare
+${AdministratorMapper}
+/**
+ * Insert a Administrator entity
+ *
+ * @param administrator the Administrator entity that will be inserted
+ */
+@Insert("insert into administrator(admin_name, password) values(#{adminName}, #{password})")
+void insertAdministrator(Administrator administrator);
+
+
+------------------------------华丽的分割线---------------------------------------

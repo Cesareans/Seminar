@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.ClbumSeminar;
 
 import java.util.List;
@@ -39,7 +40,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "seminarId", column = "seminar_id")
+            @Result(property = "seminarId", column = "seminar_id"),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
     })
     List<ClbumSeminar> selectAllClbumSeminar();
 
@@ -54,7 +56,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "seminarId", column = "seminar_id")
+            @Result(property = "seminarId", column = "seminar_id"),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
     })
     List<ClbumSeminar> selectClbumSeminarByClbumId(String clbumId);
 
@@ -69,7 +72,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "seminarId", column = "seminar_id")
+            @Result(property = "seminarId", column = "seminar_id"),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
     })
     List<ClbumSeminar> selectClbumSeminarBySeminarId(String seminarId);
 
@@ -84,7 +88,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "seminarId", column = "seminar_id")
+            @Result(property = "seminarId", column = "seminar_id"),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
     })
     List<ClbumSeminar> selectClbumSeminarById(String id);
 
@@ -100,7 +105,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "seminarId", column = "seminar_id")
+            @Result(property = "seminarId", column = "seminar_id"),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
     })
     List<ClbumSeminar> selectClbumSeminarByClbumIdAndSeminarId(@Param("clbumId") String clbumId, @Param("seminarId") String seminarId);
 

@@ -37,7 +37,7 @@ public class TeacherController {
         Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
         model.addAttribute("teacher", teacher);
-        return "/teacher/index";
+        return "teacher/index";
     }
 
     /**
@@ -60,10 +60,10 @@ public class TeacherController {
         return "teacher/notification";
     }
 
-    @GetMapping("/course")
+    @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
         model.addAttribute("courses", teacherService.getCoursesByTeacherId(((String) session.getAttribute("teacherId"))));
-        return "teacher/course";
+        return "teacher/courseList";
     }
 
     /**
@@ -86,7 +86,7 @@ public class TeacherController {
         return "teacher/course/create";
     }
 
-    @PostMapping("/course/clbum")
+    @GetMapping("/course/clbumList")
     public String clbum(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
@@ -94,7 +94,7 @@ public class TeacherController {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
-        return "teacher/course/clbum";
+        return "teacher/course/clbumList";
     }
 
     @GetMapping("/course/createClbum")
@@ -102,7 +102,7 @@ public class TeacherController {
         return "teacher/course/createClbum";
     }
 
-    @PostMapping("/course/seminar")
+    @GetMapping("/course/seminarList")
     public String seminar(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
@@ -122,7 +122,7 @@ public class TeacherController {
         List<Clbum> clbums = seminarService.getClbumByCourseId(courseId);
         model.addAttribute("clbums", clbums);
 
-        return "teacher/course/seminar";
+        return "teacher/course/seminarList";
     }
 
     /**
@@ -140,7 +140,7 @@ public class TeacherController {
      *
      * @return ViewName
      */
-    @PostMapping("/course/seminar/info")
+    @GetMapping("/course/seminar/info")
     public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
         String sessionKey = "clbumSeminarHso";
         ClbumSeminarHso clbumSeminarHso;
@@ -152,7 +152,7 @@ public class TeacherController {
         }
         List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(),clbumSeminarHso.getSeminarId());
         if(clbumSeminar.size() == 0){
-            //TODO:refresh code here.
+            //TODO:need better code here.
             throw new RuntimeException("No clbum seminar");
         }
         model.addAttribute("clbumSeminar", clbumSeminar.get(0));
@@ -187,7 +187,7 @@ public class TeacherController {
      * @param session
      * @return
      */
-    @PostMapping("/course/team")
+    @GetMapping("/course/teamList")
     public String team(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
@@ -195,7 +195,7 @@ public class TeacherController {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
-        return "teacher/course/team";
+        return "teacher/course/teamList";
     }
     /**
      * Todo: Remain to be realize

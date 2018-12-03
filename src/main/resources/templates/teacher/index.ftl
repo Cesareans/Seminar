@@ -17,7 +17,7 @@
 <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand">首页</a>
+            <div class="navbar-brand">首页</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
@@ -63,7 +63,7 @@
                 <div class="col-md-6 ml-auto mr-auto">
                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                         <li class="nav-item">
-                            <a class="nav-link" onclick="window.location='/teacher/course'">
+                            <a class="nav-link" onclick="window.location='/teacher/courseList'">
                                 <i class="material-icons">dashboard</i>
                                 我的课程
                             </a>

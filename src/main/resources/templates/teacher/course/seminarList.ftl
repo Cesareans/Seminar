@@ -18,7 +18,9 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand">课程页</a>
+            <a class="navbar-brand" onclick="window.location='/teacher/courseList'">
+                <i class="material-icons">arrow_back_ios</i>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -46,11 +48,18 @@
     </div>
 </nav>
 <div class="main main-raised">
-    <div class="container">
-        <div class="row">
-            <#if rounds?size ==0>
-                <div>空荡荡的</div>
-            <#else>
+    <#if rounds?size ==0>
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-primary">
+                    <i class="material-icons">chat</i>
+                </div>
+                <h4 class="info-title">这里空荡荡的</h4>
+            </div>
+        </div>
+    <#else>
+            <div class="container">
+                <div class="row">
                 <#list rounds as round>
                     <div class="col-lg-4 col-md-6">
                         <div class="card content-card">
@@ -64,7 +73,7 @@
                                         <li class="nav-item" data-toggle="modal" data-target="#round${round.roundIns.id}Modal">
                                         <#--TODO:Change the icon-->
                                             <a class="nav-link" style="padding-bottom: 0;">
-                                                <i class="material-icons">dashboard</i>
+                                                <i class="material-icons">ballot</i>
                                                 讨论课
                                             </a>
                                         </li>
@@ -79,10 +88,10 @@
                             </div>
                         </div>
                     </div>
-                </#list>
-            </#if>
-        </div>
-    </div>
+                </div>
+            </div>
+        </#list>
+    </#if>
 </div>
 
 <#list rounds as round>
@@ -146,7 +155,7 @@
         创建讨论课
     </button>
 </div>
-<form hidden id="seminarForm" method="post" action="/teacher/course/seminar/info">
+<form hidden id="seminarForm" action="/teacher/course/seminar/info">
     <input id="seminarIdInput" name="seminarId" title="">
     <input id="clbumIdInput" name="clbumId" title="">
 </form>

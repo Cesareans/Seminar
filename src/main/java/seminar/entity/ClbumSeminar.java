@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -16,6 +17,9 @@ public class ClbumSeminar {
     private String clbumId;
     @Gist
     private String seminarId;
+
+    @Link(gist = "seminarId", select = "seminar.mapper.SeminarMapper.selectSeminarById")
+    Seminar seminar;
 
     public String getId() {
         return id;
@@ -47,5 +51,13 @@ public class ClbumSeminar {
 
     public void setSeminarId(String seminarId) {
         this.seminarId = seminarId;
+    }
+
+    public Seminar getSeminar() {
+        return seminar;
+    }
+
+    public void setSeminar(Seminar seminar) {
+        this.seminar = seminar;
     }
 }

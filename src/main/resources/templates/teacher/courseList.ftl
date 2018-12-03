@@ -18,7 +18,9 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand">课程页</a>
+            <a class="navbar-brand" onclick="window.location='/teacher/index'">
+                <i class="material-icons">arrow_back_ios</i>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -90,7 +92,7 @@
         创建课程
     </button>
 </div>
-<form hidden id="courseIdForm" method="post">
+<form hidden id="courseIdForm">
     <input id="courseIdInput" name="courseId" title="">
 </form>
 <div class="modal fade" id="courseModal" data-courseID="">

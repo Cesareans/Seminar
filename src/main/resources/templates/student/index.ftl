@@ -39,6 +39,12 @@
                         待办
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="material-icons">notifications</i>
+                        讨论课
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
