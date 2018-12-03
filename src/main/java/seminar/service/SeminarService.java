@@ -1,12 +1,12 @@
 package seminar.service;
 
-import seminar.entity.Clbum;
-import seminar.entity.Round;
-import seminar.entity.Seminar;
-import seminar.entity.Team;
+import seminar.entity.*;
 
 import java.util.List;
 
+/**
+ * @author Cesare
+ */
 public interface SeminarService {
 
     /**
@@ -28,4 +28,8 @@ public interface SeminarService {
     public List<Round> getRoundsByCourseId(String courseId);
 
     public List<Seminar> getSeminarsByRoundId(String roundId);
+
+    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
+
+    public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId);
 }

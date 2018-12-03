@@ -18,7 +18,7 @@ function login() {
                     window.location = "/admin/index";
                 }
             },
-            error: function () {
+            error: function (xhr) {
                 if (xhr.status === 401) {
                     util.popWithDelay(loginBtn, "登录失败，用户名或密码错误", 3);
                 }else{

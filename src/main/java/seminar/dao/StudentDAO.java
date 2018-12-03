@@ -3,7 +3,7 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Student;
-import seminar.entity.view.StudentFilter;
+import seminar.entity.vo.StudentFilter;
 import seminar.mapper.StudentMapper;
 
 import java.util.List;

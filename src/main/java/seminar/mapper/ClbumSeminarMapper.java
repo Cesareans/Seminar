@@ -102,7 +102,7 @@ public interface ClbumSeminarMapper {
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id")
     })
-    List<ClbumSeminar> selectClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
+    List<ClbumSeminar> selectClbumSeminarByClbumIdAndSeminarId(@Param("clbumId") String clbumId, @Param("seminarId") String seminarId);
 
     /**
      * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.clbumId

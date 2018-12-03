@@ -1,14 +1,14 @@
-package seminar.entity.view;
+package seminar.entity.vo;
 
 /**
  * @author Cesare
  */
-public class StudentFilter {
+public class TeacherFilter {
     private boolean newFilter = false;
     private int page = 0;
     private int count = 0;
     private String name = null;
-    private String studentNum = null;
+    private String teacherNum = null;
 
     public boolean isNewFilter() {
         return newFilter;
@@ -42,11 +42,11 @@ public class StudentFilter {
         this.name = name;
     }
 
-    public String getStudentNum() {
-        return studentNum;
+    public String getTeacherNum() {
+        return teacherNum;
     }
 
-    public void setStudentNum(String studentNum) {
-        this.studentNum = studentNum;
+    public void setTeacherNum(String teacherNum) {
+        this.teacherNum = teacherNum;
     }
 }

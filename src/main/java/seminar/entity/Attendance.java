@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -20,6 +21,9 @@ public class Attendance {
     private String teamId;
     @Gist
     private String clbumSeminarId;
+
+    @Link(gist = "teamId",select = "seminar.mapper.TeamMapper.selectTeamById",lazy = false)
+    private Team team;
 
     public String getId() {
         return id;
@@ -83,5 +87,13 @@ public class Attendance {
 
     public void setClbumSeminarId(String clbumSeminarId) {
         this.clbumSeminarId = clbumSeminarId;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

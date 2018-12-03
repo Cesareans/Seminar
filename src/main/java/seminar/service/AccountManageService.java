@@ -2,8 +2,8 @@ package seminar.service;
 
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.view.StudentFilter;
-import seminar.entity.view.TeacherFilter;
+import seminar.entity.vo.StudentFilter;
+import seminar.entity.vo.TeacherFilter;
 
 import java.util.List;
 

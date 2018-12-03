@@ -27,7 +27,7 @@ function login() {
                     window.location = "/" + auth + "/index";
                 }
             },
-            error: function () {
+            error: function (xhr) {//xhr, textStatus, errorThrown
                 if (xhr.status === 401) {
                     util.showAlert("danger", "登录失败，用户名或者密码错误", 3);
                 }else{

@@ -6,10 +6,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import seminar.entity.Clbum;
-import seminar.entity.Round;
-import seminar.entity.Teacher;
+import seminar.entity.*;
+import seminar.entity.hso.ClbumSeminarHso;
 import seminar.service.SeminarService;
 import seminar.service.TeacherService;
 
@@ -86,7 +86,7 @@ public class TeacherController {
         return "teacher/course/create";
     }
 
-    @GetMapping("/course/clbum")
+    @PostMapping("/course/clbum")
     public String clbum(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
@@ -102,7 +102,7 @@ public class TeacherController {
         return "teacher/course/createClbum";
     }
 
-    @GetMapping("/course/seminar")
+    @PostMapping("/course/seminar")
     public String seminar(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
@@ -140,9 +140,23 @@ public class TeacherController {
      *
      * @return ViewName
      */
-    @GetMapping("/course/seminar/info")
+    @PostMapping("/course/seminar/info")
     public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
-
+        String sessionKey = "clbumSeminarHso";
+        ClbumSeminarHso clbumSeminarHso;
+        if(clbumId == null||seminarId==null){
+            clbumSeminarHso = ((ClbumSeminarHso) session.getAttribute(sessionKey));
+        }else{
+            clbumSeminarHso = new ClbumSeminarHso(clbumId,seminarId);
+            session.setAttribute(sessionKey,clbumSeminarHso);
+        }
+        List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(),clbumSeminarHso.getSeminarId());
+        if(clbumSeminar.size() == 0){
+            //TODO:refresh code here.
+            throw new RuntimeException("No clbum seminar");
+        }
+        model.addAttribute("clbumSeminar", clbumSeminar.get(0));
+        model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminar.get(0).getId()));
         return "teacher/course/seminar/info";
     }
 
@@ -173,7 +187,7 @@ public class TeacherController {
      * @param session
      * @return
      */
-    @GetMapping("/course/team")
+    @PostMapping("/course/team")
     public String team(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));

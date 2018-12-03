@@ -2,14 +2,8 @@ package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import seminar.dao.ClbumDao;
-import seminar.dao.RoundDAO;
-import seminar.dao.SeminarDAO;
-import seminar.dao.TeamDAO;
-import seminar.entity.Clbum;
-import seminar.entity.Round;
-import seminar.entity.Seminar;
-import seminar.entity.Team;
+import seminar.dao.*;
+import seminar.entity.*;
 import seminar.service.SeminarService;
 
 import java.util.List;
@@ -23,13 +17,17 @@ public class SeminarServiceImpl implements SeminarService {
     private final TeamDAO teamDAO;
     private final RoundDAO roundDAO;
     private final SeminarDAO seminarDAO;
+    private final ClbumSeminarDAO clbumSeminarDAO;
+    private final AttendanceDAO attendanceDAO;
 
     @Autowired
-    public SeminarServiceImpl(ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO) {
+    public SeminarServiceImpl(ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO) {
         this.clbumDao = clbumDao;
         this.teamDAO = teamDAO;
         this.roundDAO = roundDAO;
         this.seminarDAO = seminarDAO;
+        this.clbumSeminarDAO = clbumSeminarDAO;
+        this.attendanceDAO = attendanceDAO;
     }
 
     @Override
@@ -50,5 +48,15 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Seminar> getSeminarsByRoundId(String roundId) {
         return seminarDAO.getSeminarsByRoundId(roundId);
+    }
+
+    @Override
+    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId){
+        return clbumSeminarDAO.getClbumSeminarByClbumIdAndSeminarId(clbumId,seminarId);
+    }
+
+    @Override
+    public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId) {
+        return attendanceDAO.getAttendanceByClbumSeminarId(clbumSeminarId);
     }
 }

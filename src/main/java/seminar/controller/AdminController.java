@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.view.StudentFilter;
-import seminar.entity.view.TeacherFilter;
+import seminar.entity.vo.StudentFilter;
+import seminar.entity.vo.TeacherFilter;
 import seminar.service.AccountManageService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Cesare

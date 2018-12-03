@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
-    <script src="/static/js/jquery-3.3.1.js"></script>
-    <script src="/static/js/seminar/util.js"></script>
-    <script src="/static/js/seminar/teacher/course.js"></script>
+    <script src="/static/lib/jquery-3.3.1.js"></script>
+    <script src="/static/js/util.js"></script>
+    <script src="/static/js/teacher/course.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -178,16 +178,16 @@
     </button>
 </div>
 <!--   Core JS Files   -->
-<script src="/static/js/core/popper.min.js" type="text/javascript"></script>
-<script src="/static/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-<script src="/static/js/plugins/moment.min.js"></script>
+<script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
+<script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+<script src="/static/lib/plugins/moment.min.js"></script>
 <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-<script src="/static/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<script src="/static/lib/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="/static/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="/static/lib/plugins/nouislider.min.js" type="text/javascript"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-<script src="/static/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
+<script src="/static/lib/material-kit.js?v=2.0.4" type="text/javascript"></script>
 </body>
 </html>

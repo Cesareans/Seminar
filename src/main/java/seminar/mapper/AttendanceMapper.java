@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Attendance;
 
 import java.util.List;
@@ -43,7 +44,8 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id")
+            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAllAttendance();
 
@@ -62,7 +64,8 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id")
+            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAttendanceByTeamId(String teamId);
 
@@ -81,7 +84,8 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id")
+            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAttendanceByClbumSeminarId(String clbumSeminarId);
 
@@ -100,7 +104,8 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id")
+            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAttendanceById(String id);
 

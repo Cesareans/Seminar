@@ -1,4 +1,4 @@
-package seminar.entity.view;
+package seminar.entity.vo;
 
 import javax.validation.constraints.NotNull;
 
