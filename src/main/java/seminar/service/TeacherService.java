@@ -27,4 +27,20 @@ public interface TeacherService {
      */
     public List<Course> getCoursesByTeacherId(String teacherId);
 
+    /**
+     * @author lyf
+     */
+    public void createCourse(Course course);
+
+    /**
+     * @author lyf
+     */
+    public void deleteCourseById(String courseId);
+
+    /**
+     * @author lyf
+     */
+    public void updateCourse(Course course);
+
+
 }
