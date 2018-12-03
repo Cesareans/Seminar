@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import seminar.dao.AdminDAO;
@@ -37,6 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.teacherDAO = teacherDAO;
     }
 
+
     /**
      * TODO[inferiority]: Such code is in a mess. Please refine if time is enough.
      *
@@ -44,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @return the found user
      */
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //New a list to contain user's role
         List<GrantedAuthority> roleList = new LinkedList<>();
         List<Administrator> foundAdmin = adminDAO.getByName(username);
@@ -65,6 +67,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             String password = passwordEncoder.encode(foundStudent.get(0).getPassword());
             return new User(username, password, roleList);
         }
-        return new User("", passwordEncoder.encode(""), roleList);
+        throw new UsernameNotFoundException("User " + username + " not found!");
     }
 }

@@ -16,7 +16,6 @@ $(function () {
 });
 
 function postCourseId(e) {
-    console.log(e.data.url);
     courseIdForm.form.attr("action", e.data.url);
     courseIdForm.courseIdInput.val(courseModal.attr("data-courseID"));
     courseIdForm.form.submit();

@@ -12,15 +12,16 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course.js"></script>
-    <title>首页</title>
+    <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
+            <div class="navbar-brand brand-title">课程</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,11 +49,18 @@
     </div>
 </nav>
 <div class="main main-raised">
-    <div class="container">
-        <div class="row">
-            <#if courses?size ==0>
-                <div>空荡荡的</div>
-            <#else>
+    <#if courses?size ==0>
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">portable_wifi_off</i>
+                </div>
+                <h4 class="info-title">这里空荡荡的</h4>
+            </div>
+        </div>
+    <#else>
+        <div class="container">
+            <div class="row">
             <#list courses as course>
             <div class="col-lg-4 col-md-6">
                 <div class="card content-card">
@@ -82,9 +90,9 @@
                 </div>
             </div>
             </#list>
-            </#if>
+            </div>
         </div>
-    </div>
+    </#if>
 </div>
 <div class="container foot-container flex-center">
     <button onclick="window.location='/teacher/course/create'" class="btn btn-dark btn-round bg-dark" style="margin: 0">

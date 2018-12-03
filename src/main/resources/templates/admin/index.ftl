@@ -24,7 +24,7 @@
             <li class="dropdown nav-item">
                 <a class="dropdown-toggle nav-link" data-toggle="dropdown" style="cursor: pointer;">管理员</a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item">退出</a>
+                    <a class="dropdown-item" href="/admin/logout">退出</a>
                 </div>
             </li>
         </ul>

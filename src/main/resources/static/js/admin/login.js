@@ -2,7 +2,8 @@ var loginBtn;
 var loginForm;
 $(function () {
     loginForm = $("#loginForm");
-    $("#login").click(function () {
+    loginBtn = $("#login");
+    loginBtn.click(function () {
         login();
     });
 });

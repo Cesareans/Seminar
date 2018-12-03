@@ -17,7 +17,10 @@
 <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <div class="navbar-brand">首页</div>
+            <a class="navbar-brand" style="visibility: hidden">
+                <i class="material-icons">arrow_back_ios</i>
+            </a>
+            <div class="navbar-brand brand-title">首页</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>

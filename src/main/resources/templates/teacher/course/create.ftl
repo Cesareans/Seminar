@@ -12,16 +12,17 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/create.js"></script>
-    <title>首页</title>
+    <title>创建课程</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
+            <div class="navbar-brand brand-title">创建课程</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->

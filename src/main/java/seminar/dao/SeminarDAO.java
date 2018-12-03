@@ -23,4 +23,5 @@ public class SeminarDAO {
     public List<Seminar> getSeminarsByRoundId(String roundId){
         return seminarMapper.selectSeminarByRoundId(roundId);
     }
+    public List<Seminar> getSeminarBySeminarId(String seminarId){return seminarMapper.selectSeminarById(seminarId);}
 }

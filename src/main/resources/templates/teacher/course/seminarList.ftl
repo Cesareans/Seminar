@@ -12,15 +12,16 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar.js"></script>
-    <title>首页</title>
+    <title>讨论课</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
+            <div class="navbar-brand brand-title">讨论课</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -51,46 +52,46 @@
     <#if rounds?size ==0>
         <div class="empty-tag">
             <div class="info">
-                <div class="icon icon-primary">
-                    <i class="material-icons">chat</i>
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">portable_wifi_off</i>
                 </div>
                 <h4 class="info-title">这里空荡荡的</h4>
             </div>
         </div>
     <#else>
-            <div class="container">
-                <div class="row">
-                <#list rounds as round>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card content-card">
-                            <div class="card-body">
-                                <div class="body-header">
-                                    <div class="body-title">第${round.roundIns.roundNum}轮</div>
-                                </div>
-                                <div class="body-content">
-                                    <hr>
-                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                        <li class="nav-item" data-toggle="modal" data-target="#round${round.roundIns.id}Modal">
-                                        <#--TODO:Change the icon-->
-                                            <a class="nav-link" style="padding-bottom: 0;">
-                                                <i class="material-icons">ballot</i>
-                                                讨论课
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" style="padding-bottom: 0;">
-                                                <i class="material-icons">settings</i>
-                                                轮次设置
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+        <div class="container">
+            <div class="row">
+            <#list rounds as round>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">第${round.roundIns.roundNum}轮</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item" data-toggle="modal" data-target="#round${round.roundIns.id}Modal">
+                                    <#--TODO:Change the icon-->
+                                        <a class="nav-link" style="padding-bottom: 0;">
+                                            <i class="material-icons">ballot</i>
+                                            讨论课
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" style="padding-bottom: 0;">
+                                            <i class="material-icons">settings</i>
+                                            轮次设置
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+            </#list>
             </div>
-        </#list>
+        </div>
     </#if>
 </div>
 
@@ -105,6 +106,16 @@
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
+                <#if round.seminars?size == 0>
+                <div class="empty-tag modal-tag">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
+                        </div>
+                        <h4 class="info-title">这里空荡荡的</h4>
+                    </div>
+                </div>
+                <#else >
                 <div class="container">
                     <div class="row">
                         <div class="col-12 nav-col">
@@ -142,6 +153,7 @@
                         </div>
                     </div>
                 </div>
+                </#if>
             </div>
         </div>
     </div>

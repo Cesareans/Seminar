@@ -27,8 +27,8 @@
                         <p class="description text-center">管理员登录</p>
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
-                                <label for="name" class="bmd-label-floating">请输入你的管理员名</label>
-                                <input id="name" name="name" type="text" autocomplete="off" class="form-control empty-verify"
+                                <label for="account" class="bmd-label-floating">请输入你的管理员名</label>
+                                <input id="account" name="account" type="text" autocomplete="off" class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入管理员名">
                             </div>
                             <div class="form-group bmd-form-group">

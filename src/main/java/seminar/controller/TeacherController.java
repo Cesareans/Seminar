@@ -136,9 +136,12 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
+     * TODO:May need change url here to be /course/clbumSeminar/info
+     * @param clbumId
+     * @param seminarId
+     * @param model
+     * @param session
+     * @return
      */
     @GetMapping("/course/seminar/info")
     public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
@@ -158,6 +161,14 @@ public class TeacherController {
         model.addAttribute("clbumSeminar", clbumSeminar.get(0));
         model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminar.get(0).getId()));
         return "teacher/course/seminar/info";
+    }
+
+    @GetMapping("/course/seminar/enrollList")
+    public String seminarEnrollList(String clbumSeminarId, Model model) {
+//        List<ClbumSeminar> clbumSeminar =
+//        model.addAttribute("seminar",seminarService.getSeminarBySeminarId())
+        model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminarId));
+        return "teacher/course/seminar/enrollList";
     }
 
     /**

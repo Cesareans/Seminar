@@ -43,6 +43,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.empty-tag.modal-tag{
+    height: 40%;
+}
 /****** Component Style ******/
 
 /*Alert*/
@@ -125,7 +129,7 @@
     display: flex;
     align-items: center;
     padding-left: 10px;
-    width: 48%;
+    width: 56%;
 }
 
 .card-body .line .content .form-group {
@@ -165,11 +169,54 @@
     align-items: center;
 }
 
+.seminar-card{
+    height: 80%;
+}
+
+.seminar-card .card-body{
+    padding: 10% 0 0;
+}
+
+.seminar-card .card-body .line {
+    font-size: 15px;
+    height: 30px;
+}
+
+.seminar-card .card-body .line label {
+    display: flex;
+    align-items: center;
+}
+
+.seminar-card .card-body .line.content-line {
+    margin-top: 20px;
+    height: auto;
+}
+
+.seminar-card .card-body .line.content-line label {
+    padding-top: 5px;
+    align-items: flex-start;
+}
+
+.seminar-card .card-body .line.status-line {
+    margin-top: 50px;
+}
+.seminar-card .card-body .line.status-line .content {
+    width: 49%;
+    justify-content: center;
+}
 /*Navbar*/
 .navbar {
     padding-top: 0;
     padding-bottom: 0;
     margin-bottom: 0;
+}
+
+.navbar-translate{
+    height: 50px;
+}
+
+.navbar-translate .brand-title{
+    margin-right: 0;
 }
 
 .navbar-nav .nav-item .nav-link i {
@@ -361,6 +408,12 @@
 }
 
 /*Responsive style*/
+@media screen and  (min-width: 992px) {
+    .navbar-translate .brand-title{
+        margin-left: 40px;
+    }
+}
+
 @media screen and  (max-width: 991px) {
     .navbar-collapse {
         padding-top: 20px;

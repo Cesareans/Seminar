@@ -1,4 +1,4 @@
-package seminar.config.handler;
+package seminar.config.security.handler;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

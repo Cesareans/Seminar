@@ -11,16 +11,28 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course.js"></script>
-    <title>首页</title>
+    <script>
+        var csIdForm = {};
+        $(function () {
+            csIdForm.form = $("#csIdForm");
+            csIdForm.csIdInput = $("#csIdInput");
+            $("#enrollBtn").click(function () {
+                csIdForm.csIdInput.val($(this).attr("data-csId"));
+                csIdForm.form.attr("action", "/teacher/course/seminar/enrollList");
+                csIdForm.form.submit();
+            });
+        });
+    </script>
+    <title>讨论课信息</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" onclick="window.location='/teacher/course/seminarList'">
+            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/teacher/course/seminarList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
+            <div class="navbar-brand brand-title">讨论课信息</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -47,42 +59,78 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised no-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
+<div class="container" style="margin-top: 40px">
+    <div class="row">
+        <div class="col-md-10 ml-auto mr-auto">
+            <div class="card seminar-card">
                 <div class="card-header">
-                    <h4 class="card-title">${clbumSeminar.seminar.theme}</h4>
+                    <div class="row">
+                        <div class="col-9" style="display: flex;align-items: center">
+                            <h4 class="card-title" style="margin-top: 0">${clbumSeminar.seminar.theme}</h4>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn" data-csId="${clbumSeminar.id}">
+                                <i class="material-icons">library_books</i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card content-card">
-                    <div class="card-body"">
-                        <div class="body-header">
-                            <div class="body-title"></div>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="line">
+                                <label>轮次</label>
+                                <div class="sep"></div>
+                            <#--TODO:{}-->
+                                <div class="content">｛第二轮｝</div>
+                            </div>
+                            <div class="line">
+                                <label>班级</label>
+                                <div class="sep"></div>
+                            <#--TODO:{}-->
+                                <div class="content">｛2016(1)｝</div>
+                            </div>
+                            <div class="line">
+                                <label>课次序号</label>
+                                <div class="sep"></div>
+                                <div class="content" style="margin-left: 10px">${clbumSeminar.seminar.serial}</div>
+                            </div>
+                            <div class="line content-line">
+                                <label>课程要求</label>
+                                <div class="sep"></div>
+                                <div class="content">${clbumSeminar.seminar.content}</div>
+                            </div>
+                            <div class="line status-line">
+                                <label>状态</label>
+                                <div class="sep"></div>
+                                <div class="content">
+                                    <#if clbumSeminar.state == 0>
+                                        尚未开始
+                                    <#elseif clbumSeminar.state == 1>
+                                        正在进行
+                                    <#else>
+                                        已经结束
+                                    </#if>
+                                </div>
+                            </div>
                         </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark">
+                            <i class="material-icons">arrow_forward_ios</i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<form hidden id="csIdForm" method="get">
+    <input id="csIdInput" name="clbumSeminarId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

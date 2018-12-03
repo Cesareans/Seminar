@@ -17,7 +17,7 @@ function login() {
             type: "post",
             url: "/login",
             data: {
-                "username": nameInput.val(),
+                "account": nameInput.val(),
                 "password": passwordInput.val()
             },
             success: function (result, status, xhr) {

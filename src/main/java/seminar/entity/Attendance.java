@@ -12,6 +12,7 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Attendance {
     @ID(isIncrement = true)
     private String id;
+    private int sn;
     private String preFile;
     private boolean presenting;
     private String reportFile;
@@ -31,6 +32,14 @@ public class Attendance {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getSn() {
+        return sn;
+    }
+
+    public void setSn(int sn) {
+        this.sn = sn;
     }
 
     public String getPreFile() {

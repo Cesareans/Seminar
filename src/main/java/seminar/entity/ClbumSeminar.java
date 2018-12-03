@@ -12,7 +12,7 @@ import cesare.mybatis.annotations.TargetPackage;
 public class ClbumSeminar {
     @ID(isIncrement = true)
     private String id;
-    private String state;
+    private int state;
     @Gist(unions = {"seminarId"})
     private String clbumId;
     @Gist
@@ -29,11 +29,11 @@ public class ClbumSeminar {
         this.id = id;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 

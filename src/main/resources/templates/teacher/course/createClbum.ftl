@@ -19,9 +19,10 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" onclick="window.location='/teacher/course/clbumList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/clbumList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
+            <div class="navbar-brand brand-title">创建班级</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
