@@ -2,6 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Student;
 import seminar.entity.Teacher;
 import seminar.entity.vo.TeacherFilter;
 import seminar.mapper.TeacherMapper;
@@ -52,4 +53,10 @@ public class TeacherDAO {
         teacherMapper.deleteTeacherByTeacherNum(teacherNum);
     }
 
+    /**
+     * @author lyf
+     */
+    public void updatePasswordByTeacherId(Teacher teacher, String password, String id){
+        teacherMapper.updatePasswordByTeacherId(teacher, password, id);
+    }
 }

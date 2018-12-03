@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.ClbumDao;
 import seminar.dao.CourseDAO;
+import seminar.dao.StudentDAO;
 import seminar.dao.TeacherDAO;
 import seminar.entity.Clbum;
 import seminar.entity.Course;
@@ -40,23 +41,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public void createCourse(Course course) {
-        courseDAO.createCourse(course);
+    public void updatePasswordByTeacherId(Teacher teacher, String password, String id){
+        teacherDAO.updatePasswordByTeacherId(teacher, password, id);
     }
 
-    /**
-     * @author lyf
-     */
-    @Override
-    public void deleteCourseById(String courseId){
-        courseDAO.deleteCourseById(courseId);
-    }
-
-    /**
-     * @author lyf
-     */
-    @Override
-    public void updateCourse(Course course){
-        courseDAO.updateCourseById(course);
-    }
 }

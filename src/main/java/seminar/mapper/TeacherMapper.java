@@ -2,6 +2,7 @@ package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
+import seminar.entity.Student;
 import seminar.entity.Teacher;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public interface TeacherMapper {
      */
     @Update("update teacher set teacher_name=#{teacherName}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, msg_interval=#{msgInterval}, is_activated=#{activated} where id=#{id}")
     void updateTeacher(Teacher teacher);
+
+    /**
+     * Update a Teacher entity's password
+     *
+     * @param teacher the Teacher entity's password that will be updated via the private java.lang.String seminar.entity.Student.id
+     */
+    @Update("update teacher set password=#{password} where id=#{id}")
+    void updatePasswordByTeacherId(Teacher teacher, String password, String id);
 
     /**
      * Select all Teacher entities

@@ -23,4 +23,27 @@ public class SeminarDAO {
     public List<Seminar> getSeminarsByRoundId(String roundId){
         return seminarMapper.selectSeminarByRoundId(roundId);
     }
+
+    /**
+     * @author lyf
+     */
+    public void createSeminar(Seminar seminar) {
+        seminarMapper.insertSeminar(seminar);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void updateSeminar(Seminar seminar) {
+        seminarMapper.updateSeminar(seminar);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteSeminarByCourseId(String roundId) {
+        seminarMapper.deleteSeminarByRoundId(roundId);
+    }
+
+
 }

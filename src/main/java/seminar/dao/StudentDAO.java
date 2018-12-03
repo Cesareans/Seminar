@@ -52,4 +52,10 @@ public class StudentDAO {
         studentMapper.deleteStudentByStudentNum(studentNum);
     }
 
+    /**
+     * @author lyfcourse
+     */
+    public void updatePasswordByStudentId(Student student, String password, String id) {
+        studentMapper.updatePasswordByStudentId(student, password, id);
+    }
 }

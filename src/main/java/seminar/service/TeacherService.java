@@ -1,6 +1,5 @@
 package seminar.service;
 
-import seminar.entity.Clbum;
 import seminar.entity.Course;
 import seminar.entity.Teacher;
 
@@ -27,20 +26,9 @@ public interface TeacherService {
      */
     public List<Course> getCoursesByTeacherId(String teacherId);
 
-    /**
-     * @author lyf
-     */
-    public void createCourse(Course course);
 
     /**
      * @author lyf
      */
-    public void deleteCourseById(String courseId);
-
-    /**
-     * @author lyf
-     */
-    public void updateCourse(Course course);
-
-
+    public void updatePasswordByTeacherId(Teacher teacher, String password, String id);
 }

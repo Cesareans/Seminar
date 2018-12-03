@@ -3,7 +3,9 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Course;
+import seminar.entity.MaxMinRegulation;
 import seminar.mapper.CourseMapper;
+import seminar.mapper.MaxMinRegulationMapper;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class CourseDAO {
     public List<Course> getCoursesByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
+
 
     /**
      * @author lyf

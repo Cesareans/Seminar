@@ -22,4 +22,33 @@ public class ClbumDao {
     public List<Clbum> getClbumsByCourseId(String courseId){
         return clbumMapper.selectClbumByCourseId(courseId);
     }
+
+    /**
+     * @author lyf
+     */
+    public void createClbum(Clbum clbum){
+        clbumMapper.insertClbum(clbum);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void updateClbum(Clbum clbum){
+        clbumMapper.updateClbum(clbum);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteClbumById(String clbumId){
+        clbumMapper.deleteClbumById(clbumId);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteClbumByCourseId(String courseId){
+        clbumMapper.deleteClbumByCourseId(courseId);
+    }
+
 }

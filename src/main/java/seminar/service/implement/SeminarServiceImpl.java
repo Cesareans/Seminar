@@ -59,4 +59,7 @@ public class SeminarServiceImpl implements SeminarService {
     public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId) {
         return attendanceDAO.getAttendanceByClbumSeminarId(clbumSeminarId);
     }
+
+
+
 }
