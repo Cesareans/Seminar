@@ -36,5 +36,27 @@ public class TeacherServiceImpl implements TeacherService {
         return courseDAO.getCoursesByTeacherId(teacherId);
     }
 
+    /**
+     * @author lyf
+     */
+    @Override
+    public void createCourse(Course course) {
+        courseDAO.createCourse(course);
+    }
 
+    /**
+     * @author lyf
+     */
+    @Override
+    public void deleteCourseById(String courseId){
+        courseDAO.deleteCourseById(courseId);
+    }
+
+    /**
+     * @author lyf
+     */
+    @Override
+    public void updateCourse(Course course){
+        courseDAO.updateCourseById(course);
+    }
 }

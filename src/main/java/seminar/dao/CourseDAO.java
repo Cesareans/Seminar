@@ -22,4 +22,25 @@ public class CourseDAO {
     public List<Course> getCoursesByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
+
+    /**
+     * @author lyf
+     */
+    public void createCourse(Course course) {
+        courseMapper.insertCourse(course);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteCourseById(String courseId){
+        courseMapper.deleteCourseById(courseId);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void updateCourseById(Course course){
+        courseMapper.updateCourse(course);
+    }
 }
