@@ -24,4 +24,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getStudentBySN(String studentNum) {
         return studentDAO.getBySN(studentNum);
     }
+
+    /**
+     * @author lyf
+     */
+    @Override
+    public void updatePasswordByStudentId(Student student, String password, String id){
+        studentDAO.updatePasswordByStudentId(student, password, id);
+    }
 }

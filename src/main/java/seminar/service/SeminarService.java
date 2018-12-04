@@ -26,10 +26,17 @@ public interface SeminarService {
 
     public List<Seminar> getSeminarsByRoundId(String roundId);
 
-    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
-
     public List<Seminar> getSeminarBySeminarId(String clbumSeminarId);
 
+    /**
+     * @author lyf
+     */
+    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
+
+    /**
+     * @author lyf
+     */
     public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId);
+
 
 }

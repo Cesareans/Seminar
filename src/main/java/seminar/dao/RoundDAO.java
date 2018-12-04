@@ -22,4 +22,25 @@ public class RoundDAO {
     public List<Round> getRoundsByCourseId(String courseId){
         return roundMapper.selectRoundByCourseId(courseId);
     }
+
+    /**
+     * @author lyf
+     */
+    public void createRound(Round round){
+        roundMapper.insertRound(round);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void updateRound(Round round){
+        roundMapper.updateRound(round);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteRound(String courseId){
+        roundMapper.deleteRoundByCourseId(courseId);
+    }
 }

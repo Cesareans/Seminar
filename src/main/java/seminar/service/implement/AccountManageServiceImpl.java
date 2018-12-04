@@ -20,7 +20,6 @@ import java.util.List;
 public class AccountManageServiceImpl implements AccountManageService {
     private final StudentDAO studentDAO;
     private final TeacherDAO teacherDAO;
-
     @Autowired
     public AccountManageServiceImpl(StudentDAO studentDAO, TeacherDAO teacherDAO) {
         this.studentDAO = studentDAO;

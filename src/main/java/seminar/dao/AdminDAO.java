@@ -22,4 +22,27 @@ public class AdminDAO {
     public List<Administrator> getByName(String name) {
         return adminMapper.selectAdministratorByAdminName(name);
     }
+
+
+    /**
+     * @author lyf
+     */
+    public void addAdmin(Administrator administrator){
+        adminMapper.insertAdministrator(administrator);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteAdminByName(String adminName){
+        adminMapper.deleteAdministratorByAdminName(adminName);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void updateAdmin(Administrator administrator){
+        adminMapper.updateAdministrator(administrator);
+    }
+
 }

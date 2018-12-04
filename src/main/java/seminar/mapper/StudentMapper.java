@@ -30,6 +30,14 @@ public interface StudentMapper {
     void updateStudent(Student student);
 
     /**
+     * Update a Student entity's password
+     *
+     * @param student the Student entity's password that will be updated via the private java.lang.String seminar.entity.Student.id
+     */
+    @Update("update student set password=#{password} where id=#{id}")
+    void updatePasswordByStudentId(Student student, String password, String id);
+
+    /**
      * Select all Student entities
      *
      * @return List<student> the selected Student entities list
