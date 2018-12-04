@@ -11,6 +11,7 @@ import seminar.service.AccountService;
 /**
  * @author lyf
  */
+@Service
 public class AccountServiceImpl implements AccountService {
 
 }
