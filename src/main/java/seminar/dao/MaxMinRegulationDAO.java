@@ -7,6 +7,7 @@ import seminar.mapper.MaxMinRegulationMapper;
 
 import java.util.List;
 
+@Component
 public class MaxMinRegulationDAO {
     private final MaxMinRegulationMapper maxminRegulationMapper;
 
@@ -14,6 +15,5 @@ public class MaxMinRegulationDAO {
     public MaxMinRegulationDAO(MaxMinRegulationMapper maxminRegulationMapper) {
         this.maxminRegulationMapper = maxminRegulationMapper;
     }
-
 
 }

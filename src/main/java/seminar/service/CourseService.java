@@ -2,6 +2,7 @@ package seminar.service;
 
 import seminar.entity.Clbum;
 import seminar.entity.Course;
+import seminar.entity.MaxMinRegulation;
 import seminar.entity.Seminar;
 
 public interface CourseService {
@@ -9,7 +10,7 @@ public interface CourseService {
     /**
      * @author lyf
      */
-    public void createCourse(Course course);
+    public void createCourse(Course course, MaxMinRegulation maxminregulation);
 
     /**
      * @author lyf

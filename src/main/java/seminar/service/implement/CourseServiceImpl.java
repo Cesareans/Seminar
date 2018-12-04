@@ -1,6 +1,7 @@
 package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import seminar.dao.ClbumDao;
 import seminar.dao.CourseDAO;
 import seminar.dao.SeminarDAO;
@@ -12,27 +13,28 @@ import seminar.entity.Seminar;
 import seminar.service.CourseService;
 import seminar.entity.MaxMinRegulation;
 
+@Service
 public class CourseServiceImpl implements CourseService {
 
     private final CourseDAO courseDAO;
     private final ClbumDao clbumDAO;
     private final SeminarDAO seminarDAO;
-    private final MaxMinRegulationDAO maxminregualtionDAO;
+    private final MaxMinRegulationDAO maxMinRegulationDAO;
 
     @Autowired
-    public CourseServiceImpl(CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxminregulationDAO){
+    public CourseServiceImpl(CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO){
         this.courseDAO = courseDAO;
         this.clbumDAO = clbumDAO;
         this.seminarDAO = seminarDAO;
-        this.maxminregualtionDAO = maxminregulationDAO;
+        this.maxMinRegulationDAO = maxMinRegulationDAO;
     }
     /**
      * @author lyf
      */
     @Override
-    public void createCourse(Course course, MaxMinRegulation maxminregulation) {
+    public void createCourse(Course course, MaxMinRegulation maxMinRegulation) {
         courseDAO.createCourse(course);
-        maxminregulationDAO.insertMaxMinRegulation(maxminregulation);
+//        maxMinRegulationDAO.insertMaxMinRegulation(maxMinRegulation);
     }
 
     /**
