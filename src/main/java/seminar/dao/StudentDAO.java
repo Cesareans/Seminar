@@ -20,7 +20,7 @@ public class StudentDAO {
         this.studentMapper = studentMapper;
     }
 
-    public void add(Student student) {
+    public void create(Student student) {
         studentMapper.insertStudent(student);
     }
 
@@ -52,10 +52,4 @@ public class StudentDAO {
         studentMapper.deleteStudentByStudentNum(studentNum);
     }
 
-    /**
-     * @author lyfcourse
-     */
-    public void updatePasswordByStudentId(Student student, String password, String id) {
-        studentMapper.updatePasswordByStudentId(student, password, id);
-    }
 }

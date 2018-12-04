@@ -22,7 +22,9 @@ public class TeamDAO {
         this.teamMapper = teamMapper;
     }
 
-    public List<Team> getTeamsByClbumId(String clbumId){return teamMapper.selectTeamByClbumId(clbumId);}
+    public List<Team> getByClbumId(String clbumId) {
+        return teamMapper.selectTeamByClbumId(clbumId);
+    }
 
     /**
      * Team belongs to clbum. So here are necessary
@@ -30,11 +32,11 @@ public class TeamDAO {
      * @param courseId
      * @return
      */
-    public List<Team> getTeamsByCourseId(String courseId){
-        List<Clbum> clbums = clbumDao.getClbumsByCourseId(courseId);
+    public List<Team> getByCourseId(String courseId){
+        List<Clbum> clbums = clbumDao.getByCourseId(courseId);
         List<Team> teams = new LinkedList<>();
         clbums.forEach(clbum -> {
-            teams.addAll(getTeamsByClbumId(clbum.getId()));
+            teams.addAll(getByClbumId(clbum.getId()));
         });
         return teams;
     }

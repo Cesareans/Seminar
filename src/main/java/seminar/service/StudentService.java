@@ -16,9 +16,4 @@ public interface StudentService {
      */
     public List<Student> getStudentBySN(String studentNum);
 
-    /**
-     * @author lyf
-     * @param student
-     */
-    public void updatePasswordByStudentId(Student student, String password, String id);
 }

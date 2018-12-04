@@ -21,7 +21,7 @@ public class TeacherDAO {
         this.teacherMapper = teacherMapper;
     }
 
-    public void add(Teacher teacher) {
+    public void create(Teacher teacher) {
         teacherMapper.insertTeacher(teacher);
     }
 
@@ -53,10 +53,4 @@ public class TeacherDAO {
         teacherMapper.deleteTeacherByTeacherNum(teacherNum);
     }
 
-    /**
-     * @author lyf
-     */
-    public void updatePasswordByTeacherId(Teacher teacher, String password, String id){
-        teacherMapper.updatePasswordByTeacherId(teacher, password, id);
-    }
 }

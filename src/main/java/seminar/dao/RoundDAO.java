@@ -19,28 +19,28 @@ public class RoundDAO {
         this.roundMapper = roundMapper;
     }
 
-    public List<Round> getRoundsByCourseId(String courseId){
+    public List<Round> getByCourseId(String courseId){
         return roundMapper.selectRoundByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
-    public void createRound(Round round){
+    public void create(Round round){
         roundMapper.insertRound(round);
     }
 
     /**
      * @author lyf
      */
-    public void updateRound(Round round){
+    public void update(Round round){
         roundMapper.updateRound(round);
     }
 
     /**
      * @author lyf
      */
-    public void deleteRound(String courseId){
+    public void delete(String courseId){
         roundMapper.deleteRoundByCourseId(courseId);
     }
 }

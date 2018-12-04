@@ -1,7 +1,6 @@
 package seminar.service;
 
-import seminar.entity.Course;
-import seminar.entity.Teacher;
+import seminar.entity.*;
 
 import java.util.List;
 
@@ -26,9 +25,49 @@ public interface TeacherService {
      */
     public List<Course> getCoursesByTeacherId(String teacherId);
 
+    /**
+     * @author lyf
+     */
+    public boolean createCourse(Course course, MaxMinRegulation maxminregulation);
 
     /**
      * @author lyf
      */
-    public void updatePasswordByTeacherId(Teacher teacher, String password, String id);
+    public boolean deleteCourseById(String courseId);
+
+    /**
+     * @author lyf
+     */
+    public boolean updateCourse(Course course);
+
+    /**
+     * @author lyf
+     */
+    public boolean createClbum(Clbum clbum);
+
+    /**
+     * @author lyf
+     */
+    public boolean updateClbum(Clbum clbum);
+
+    /**
+     * @author lyf
+     */
+    public boolean deleteClbumById(String clbumId);
+
+    /**
+     * @author lyf
+     */
+    public boolean createSeminar(Seminar seminar);
+
+    /**
+     * @author lyf
+     */
+    public boolean updateSeminar(Seminar seminar);
+
+    /**
+     * @author lyf
+     */
+    public boolean deleteSeminarByRoundId(String courseId);
+
 }

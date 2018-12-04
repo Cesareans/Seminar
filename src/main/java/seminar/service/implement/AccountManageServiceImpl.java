@@ -35,7 +35,7 @@ public class AccountManageServiceImpl implements AccountManageService {
     @Override
     public boolean addStudent(Student student) {
         if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
-            studentDAO.add(student);
+            studentDAO.create(student);
             return true;
         } else {
             return false;
@@ -86,7 +86,7 @@ public class AccountManageServiceImpl implements AccountManageService {
     @Override
     public boolean addTeacher(Teacher teacher) {
         if (teacherDAO.getByTN(teacher.getTeacherNum()).size() == 0) {
-            teacherDAO.add(teacher);
+            teacherDAO.create(teacher);
             return true;
         } else {
             return false;

@@ -32,22 +32,22 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Clbum> getClbumByCourseId(String courseId) {
-        return clbumDao.getClbumsByCourseId(courseId);
+        return clbumDao.getByCourseId(courseId);
     }
 
     @Override
     public List<Team> getTeamsByCourseId(String courseId) {
-        return teamDAO.getTeamsByCourseId(courseId);
+        return teamDAO.getByCourseId(courseId);
     }
 
     @Override
     public List<Round> getRoundsByCourseId(String courseId) {
-        return roundDAO.getRoundsByCourseId(courseId);
+        return roundDAO.getByCourseId(courseId);
     }
 
     @Override
     public List<Seminar> getSeminarsByRoundId(String roundId) {
-        return seminarDAO.getSeminarsByRoundId(roundId);
+        return seminarDAO.getByRoundId(roundId);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Seminar> getSeminarBySeminarId(String seminarId) {
-        return seminarDAO.getSeminarBySeminarId(seminarId);
+        return seminarDAO.getBySeminarId(seminarId);
     }
 
     @Override
