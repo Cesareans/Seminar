@@ -1,18 +1,15 @@
 package seminar.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import seminar.config.security.entrypoint.UnauthorizedEntryPoint;
 import seminar.config.security.handler.AjaxAuthFailureHandler;
 import seminar.config.security.handler.AjaxAuthSuccessHandler;
+import seminar.service.implement.AdminDetailServiceImpl;
 
 /**
  * @author Cesare
@@ -20,12 +17,14 @@ import seminar.config.security.handler.AjaxAuthSuccessHandler;
 @Configuration
 @Order(1)
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final AdminDetailServiceImpl adminDetailService;
     private final AjaxAuthFailureHandler ajaxAuthFailureHandler;
     private final AjaxAuthSuccessHandler ajaxAuthSuccessHandler;
     private final UnauthorizedEntryPoint unauthorizedEntryPoint;
 
     @Autowired
-    public AdminSecurityConfig(AjaxAuthFailureHandler ajaxAuthFailureHandler, AjaxAuthSuccessHandler ajaxAuthSuccessHandler, UnauthorizedEntryPoint unauthorizedEntryPoint) {
+    public AdminSecurityConfig(AdminDetailServiceImpl adminDetailService, AjaxAuthFailureHandler ajaxAuthFailureHandler, AjaxAuthSuccessHandler ajaxAuthSuccessHandler, UnauthorizedEntryPoint unauthorizedEntryPoint) {
+        this.adminDetailService = adminDetailService;
         this.ajaxAuthFailureHandler = ajaxAuthFailureHandler;
         this.ajaxAuthSuccessHandler = ajaxAuthSuccessHandler;
         this.unauthorizedEntryPoint = unauthorizedEntryPoint;
@@ -55,5 +54,10 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
         //Enable Ajax login fail exception handler
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint);
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(adminDetailService);
     }
 }

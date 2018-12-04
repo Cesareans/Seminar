@@ -50,35 +50,48 @@
 <div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
-            <#list attendances as attendence>
-                <div class="col-lg-4 col-md-6">
-                        <div class="card content-card">
-                            <div class="card-body" data-toggle="modal"
-                                 data-target="#courseModal">
-                                <div class="body-header">
-                                    <div class="body-title">${attendence.team.teamName}</div>
+            <#assign i = 0/>
+            <#list enrollList as attendance>
+                <#assign i = i+1/>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card enroll-card">
+                        <#if attendance??>
+                        <div class="card-body">
+                            <div class="body-header flex-space-between">
+                                <div class="body-title">第${i}组</div>
+                                <div class="line team-line">
+                                    <label style="width: 50px">队伍</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${attendance.team.teamName}</div>
                                 </div>
-                                <div class="body-content">
-                                    <hr>
-                                    <div class="line">
-                                        <label>序号</label>
-                                        <div class="sep"></div>
-                                        <div class="content">${attendence.team.serial}</div>
-                                    </div>
-                                    <div class="line">
-                                        <label>队长</label>
-                                        <div class="sep"></div>
-                                        <div class="content">${attendence.team.leaderId}</div>
-                                    </div>
-                                    <div class="line">
-                                        <label>合法性</label>
-                                        <div class="sep"></div>
-                                        <div class="content">${attendence.team.valid?string("合法","不合法")}</div>
-                                    </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item">
+                                        <a class="nav-link" style="padding: 0;color: #AAAAAA;">
+                                            <i class="material-icons">cloud_download</i>
+                                            下载PPT
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <#else>
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">第${i}组</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="flex-center">
+                                    尚未报名
                                 </div>
                             </div>
                         </div>
+                        </#if>
                     </div>
+                </div>
             </#list>
         </div>
     </div>

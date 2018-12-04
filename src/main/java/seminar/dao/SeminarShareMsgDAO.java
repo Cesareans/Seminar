@@ -24,19 +24,19 @@ public class SeminarShareMsgDAO {
     public void update(SeminarShareMsg seminarShareMsg){
         seminarShareMsgMapper.updateSeminarShareMsg(seminarShareMsg);
     }
-    public List<SeminarShareMsg> retrieveAll(){
+    public List<SeminarShareMsg> getAll(){
         return seminarShareMsgMapper.selectAllSeminarShareMsg();
     }
-    public List<SeminarShareMsg> retrieveById(String id){
+    public List<SeminarShareMsg> getById(String id){
         return seminarShareMsgMapper.selectSeminarShareMsgById(id);
     }
-    public List<SeminarShareMsg> retrieveByPCourseId(String principalCourseId){
+    public List<SeminarShareMsg> getByPCourseId(String principalCourseId){
         return seminarShareMsgMapper.selectSeminarShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public List<SeminarShareMsg> retrieveBySubCourseId(String subordinateCourseId){
+    public List<SeminarShareMsg> getBySubCourseId(String subordinateCourseId){
         return seminarShareMsgMapper.selectSeminarShareMsgBySubordinateCourseId(subordinateCourseId);
     }
-    public List<SeminarShareMsg> retrieveByTeacherId(String teacherId){
+    public List<SeminarShareMsg> getByTeacherId(String teacherId){
         return seminarShareMsgMapper.selectSeminarShareMsgByTeacherId(teacherId);
     }
     public void deleteById(String id){

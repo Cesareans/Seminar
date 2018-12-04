@@ -3,13 +3,13 @@ package seminar.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import seminar.config.security.entrypoint.UnauthorizedEntryPoint;
 import seminar.config.security.handler.AjaxAuthFailureHandler;
 import seminar.config.security.handler.AjaxAuthSuccessHandler;
+import seminar.service.implement.UserDetailsServiceImpl;
 
 /**
  * @author Cesare
@@ -17,12 +17,14 @@ import seminar.config.security.handler.AjaxAuthSuccessHandler;
 @Configuration
 @Order(2)
 public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsServiceImpl userDetailsService;
     private final AjaxAuthFailureHandler ajaxAuthFailureHandler;
     private final AjaxAuthSuccessHandler ajaxAuthSuccessHandler;
     private final UnauthorizedEntryPoint unauthorizedEntryPoint;
 
     @Autowired
-    public UserSecurityConfig(AjaxAuthFailureHandler ajaxAuthFailureHandler, AjaxAuthSuccessHandler ajaxAuthSuccessHandler, UnauthorizedEntryPoint unauthorizedEntryPoint) {
+    public UserSecurityConfig(UserDetailsServiceImpl userDetailsService, AjaxAuthFailureHandler ajaxAuthFailureHandler, AjaxAuthSuccessHandler ajaxAuthSuccessHandler, UnauthorizedEntryPoint unauthorizedEntryPoint) {
+        this.userDetailsService = userDetailsService;
         this.ajaxAuthFailureHandler = ajaxAuthFailureHandler;
         this.ajaxAuthSuccessHandler = ajaxAuthSuccessHandler;
         this.unauthorizedEntryPoint = unauthorizedEntryPoint;
@@ -50,7 +52,12 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
         //Enable Ajax login fail exception handler
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint);
     }
-//
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+    //
 //    @Override
 //    public void configure(WebSecurity web) {
 //        //Enable static resource access

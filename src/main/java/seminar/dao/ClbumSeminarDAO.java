@@ -22,4 +22,8 @@ public class ClbumSeminarDAO {
     public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId){
         return clbumSeminarMapper.selectClbumSeminarByClbumIdAndSeminarId(clbumId,seminarId);
     }
+
+    public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId){
+        return clbumSeminarMapper.selectClbumSeminarById(clbumSeminarId);
+    }
 }

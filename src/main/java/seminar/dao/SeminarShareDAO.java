@@ -27,13 +27,13 @@ public class SeminarShareDAO {
     public List<SeminarShare> getAllSeminarShare(){
         return seminarShareMapper.selectAllSeminarShare();
     }
-    public List<SeminarShare> retrieveById(String id){
+    public List<SeminarShare> getById(String id){
         return seminarShareMapper.selectSeminarShareById(id);
     }
-    public List<SeminarShare> retrieveByPCourseId(String principalCourseId){
+    public List<SeminarShare> getByPCourseId(String principalCourseId){
         return seminarShareMapper.selectSeminarShareByPrincipalCourseId(principalCourseId);
     }
-    public List<SeminarShare> retrieveBySubCourseId(String subordinateCourseId){
+    public List<SeminarShare> getBySubCourseId(String subordinateCourseId){
         return seminarShareMapper.selectSeminarShareBySubordinateCourseId(subordinateCourseId);
     }
     public void deleteById(String id){

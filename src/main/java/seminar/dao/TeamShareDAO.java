@@ -25,16 +25,16 @@ public class TeamShareDAO {
     public void update(TeamShare teamShare){
         teamShareMapper.updateTeamShare(teamShare);
     }
-    public List<TeamShare> retrieveAll() {
+    public List<TeamShare> getAll() {
         return teamShareMapper.selectAllTeamShare();
     }
-    public List<TeamShare> retrieveById(String id){
+    public List<TeamShare> getById(String id){
         return teamShareMapper.selectTeamShareById(id);
     }
-    public List<TeamShare> retrieveByPCourseId(String principalCourseId){
+    public List<TeamShare> getByPCourseId(String principalCourseId){
         return teamShareMapper.selectTeamShareByPrincipalCourseId(principalCourseId);
     }
-    public List<TeamShare> retrieveBySubCourseId(String subordinateCourseId){
+    public List<TeamShare> getBySubCourseId(String subordinateCourseId){
         return teamShareMapper.selectTeamShareBySubordinateCourseId(subordinateCourseId);
     }
     public void deleteById(String id){

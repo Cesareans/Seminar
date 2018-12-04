@@ -1,6 +1,7 @@
 package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -8,13 +9,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import seminar.entity.*;
 import seminar.entity.hso.ClbumSeminarHso;
+import seminar.logger.DebugLogger;
 import seminar.service.SeminarService;
 import seminar.service.TeacherService;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author Cesare
@@ -86,6 +90,12 @@ public class TeacherController {
         return "teacher/course/create";
     }
 
+    @PostMapping("/course/create")
+    public @ResponseBody
+    ResponseEntity<Object> courseCreate(Course course){
+        return null;
+    }
+
     @GetMapping("/course/clbumList")
     public String clbum(String courseId, Model model, HttpSession session) {
         if(courseId == null){
@@ -127,8 +137,6 @@ public class TeacherController {
 
     /**
      * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
      */
     @GetMapping("/course/seminar/create")
     public String seminarCreate() {
@@ -137,11 +145,6 @@ public class TeacherController {
 
     /**
      * TODO:May need change url here to be /course/clbumSeminar/info
-     * @param clbumId
-     * @param seminarId
-     * @param model
-     * @param session
-     * @return
      */
     @GetMapping("/course/seminar/info")
     public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
@@ -165,9 +168,26 @@ public class TeacherController {
 
     @GetMapping("/course/seminar/enrollList")
     public String seminarEnrollList(String clbumSeminarId, Model model) {
-//        List<ClbumSeminar> clbumSeminar =
-//        model.addAttribute("seminar",seminarService.getSeminarBySeminarId())
-        model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminarId));
+        //TODO:need exceptions handling here
+        ClbumSeminar clbumSeminar = seminarService.getClbumSeminarByClbumSeminarId(clbumSeminarId).get(0);
+        Seminar seminar = seminarService.getSeminarBySeminarId(clbumSeminar.getSeminarId()).get(0);
+        List<Attendance> attendances = seminarService.getAttendancesByClbumSeminarId(clbumSeminarId);
+        List<Attendance> enrollList = new LinkedList<>();
+        IntStream.range(1,seminar.getMaxTeam()+1).forEach(i->{
+            boolean isEnrolled = false;
+            for (Attendance attendance : attendances) {
+                if(attendance.getSn() == i){
+                    isEnrolled = true;
+                    enrollList.add(attendance);
+                    break;
+                }
+            }
+            if (!isEnrolled) {
+                enrollList.add(null);
+            }
+        });
+        model.addAttribute("seminar", seminar);
+        model.addAttribute("enrollList", enrollList);
         return "teacher/course/seminar/enrollList";
     }
 

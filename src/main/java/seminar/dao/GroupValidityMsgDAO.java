@@ -24,16 +24,16 @@ public class GroupValidityMsgDAO {
     public void update(GroupValidityMsg groupValidityMsg){
         groupValidityMsgMapper.updateGroupValidityMsg(groupValidityMsg);
     }
-    public List<GroupValidityMsg> retrieveAll(){
+    public List<GroupValidityMsg> getAll(){
         return groupValidityMsgMapper.selectAllGroupValidityMsg();
     }
-    public List<GroupValidityMsg> retrieveById(String id){
+    public List<GroupValidityMsg> getById(String id){
         return groupValidityMsgMapper.selectGroupValidityMsgById(id);
     }
-    public List<GroupValidityMsg> retrieveByTeacherId(String teacherId){
+    public List<GroupValidityMsg> getByTeacherId(String teacherId){
         return groupValidityMsgMapper.selectGroupValidityMsgByTeacherId(teacherId);
     }
-    public List<GroupValidityMsg> retrieveByTeamId(String teamId){
+    public List<GroupValidityMsg> getByTeamId(String teamId){
         return groupValidityMsgMapper.selectGroupValidityMsgByTeamId(teamId);
     }
     public void deleteById(String id){

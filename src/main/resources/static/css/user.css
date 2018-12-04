@@ -149,6 +149,19 @@
     align-items: center;
 }
 
+
+.card-body .line.team-line{
+    min-width: 200px;
+}
+
+.card-body .line.team-line label{
+    width: 40px;
+}
+
+.card-body .line.team-line .content{
+    color: #AAAAAA;
+}
+
 .form-card .card-body .body-header .body-title {
     font-weight: 300;
     font-size: 16px;
@@ -203,6 +216,19 @@
 .seminar-card .card-body .line.status-line .content {
     width: 49%;
     justify-content: center;
+}
+
+.enroll-card{
+    height: 165px;
+}
+
+.enroll-card .card-body .line {
+    height: 30px;
+}
+
+.enroll-card .card-body .line label {
+    display: flex;
+    align-items: center;
 }
 /*Navbar*/
 .navbar {

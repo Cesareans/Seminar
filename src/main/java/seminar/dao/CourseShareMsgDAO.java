@@ -25,19 +25,19 @@ public class CourseShareMsgDAO {
     public void update(CourseShareMsg courseShareMsg){
         courseShareMsgMapper.updateCourseShareMsg(courseShareMsg);
     }
-    public List<CourseShareMsg> retrieveAll(){
+    public List<CourseShareMsg> getAll(){
         return courseShareMsgMapper.selectAllCourseShareMsg();
     }
-    public List<CourseShareMsg> retrieveById(String id){
+    public List<CourseShareMsg> getById(String id){
         return courseShareMsgMapper.selectCourseShareMsgById(id);
     }
-    public List<CourseShareMsg> retrieveByPCourseId(String principalCourseId){
+    public List<CourseShareMsg> getByPCourseId(String principalCourseId){
         return courseShareMsgMapper.selectCourseShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public List<CourseShareMsg> retrieveBySubCourseId(String subordinateCourseId){
+    public List<CourseShareMsg> getBySubCourseId(String subordinateCourseId){
         return courseShareMsgMapper.selectCourseShareMsgBySubordinateCourseId(subordinateCourseId);
     }
-    public List<CourseShareMsg> retrieveByTeacherId(String teacherId){
+    public List<CourseShareMsg> getByTeacherId(String teacherId){
         return courseShareMsgMapper.selectCourseShareMsgByTeacherId(teacherId);
     }
     public void deleteById(String id){

@@ -28,6 +28,8 @@ public interface SeminarService {
 
     public List<Seminar> getSeminarBySeminarId(String clbumSeminarId);
 
+    public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId);
+
     /**
      * @author lyf
      */

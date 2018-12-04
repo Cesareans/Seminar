@@ -25,36 +25,21 @@ import java.util.List;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final AdminDAO adminDAO;
     private final StudentDAO studentDAO;
     private final TeacherDAO teacherDAO;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserDetailsServiceImpl(PasswordEncoder passwordEncoder, AdminDAO adminDAO, StudentDAO studentDAO, TeacherDAO teacherDAO) {
+    public UserDetailsServiceImpl(PasswordEncoder passwordEncoder, StudentDAO studentDAO, TeacherDAO teacherDAO) {
         this.passwordEncoder = passwordEncoder;
-        this.adminDAO = adminDAO;
         this.studentDAO = studentDAO;
         this.teacherDAO = teacherDAO;
     }
 
-
-    /**
-     * TODO[inferiority]: Such code is in a mess. Please refine if time is enough.
-     *
-     * @param username load user by given username
-     * @return the found user
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //New a list to contain user's role
         List<GrantedAuthority> roleList = new LinkedList<>();
-        List<Administrator> foundAdmin = adminDAO.getByName(username);
-        if (foundAdmin.size() != 0) {
-            roleList.add(new SimpleGrantedAuthority("ROLE_admin"));
-            String password = passwordEncoder.encode(foundAdmin.get(0).getPassword());
-            return new User(username, password, roleList);
-        }
         List<Teacher> foundTeacher = teacherDAO.getByTN(username);
         if (foundTeacher.size() != 0) {
             roleList.add(new SimpleGrantedAuthority("ROLE_teacher"));
