@@ -19,31 +19,34 @@ public class CourseShareMsgDAO {
         this.courseShareMsgMapper=courseShareMsgMapper;
     }
 
-    public void add(CourseShareMsg courseShareMsg){
+    public void create(CourseShareMsg courseShareMsg){
         courseShareMsgMapper.insertCourseShareMsg(courseShareMsg);
     }
     public void update(CourseShareMsg courseShareMsg){
         courseShareMsgMapper.updateCourseShareMsg(courseShareMsg);
     }
-    public List<CourseShareMsg> getAllSeminarShareMsg(){
+    public List<CourseShareMsg> retrieveAll(){
         return courseShareMsgMapper.selectAllCourseShareMsg();
     }
-    public List<CourseShareMsg> getMsgByPrincipalCourseId(String principalCourseId){
+    public List<CourseShareMsg> retrieveById(String id){
+        return courseShareMsgMapper.selectCourseShareMsgById(id);
+    }
+    public List<CourseShareMsg> retrieveByPCourseId(String principalCourseId){
         return courseShareMsgMapper.selectCourseShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public List<CourseShareMsg> getMsgBySubordinateCourseId(String subordinateCourseId){
+    public List<CourseShareMsg> retrieveBySubCourseId(String subordinateCourseId){
         return courseShareMsgMapper.selectCourseShareMsgBySubordinateCourseId(subordinateCourseId);
     }
-    public List<CourseShareMsg> getMsgByTeacherId(String teacherId){
+    public List<CourseShareMsg> retrieveByTeacherId(String teacherId){
         return courseShareMsgMapper.selectCourseShareMsgByTeacherId(teacherId);
     }
     public void deleteById(String id){
         courseShareMsgMapper.deleteCourseShareMsgById(id);
     }
-    public void deleteByPrincipalCourseId(String principalCourseId){
+    public void deleteByPCourseId(String principalCourseId){
         courseShareMsgMapper.deleteCourseShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public void deleteBySubordinateCourseId(String subordinateCourseId){
+    public void deleteBySubCourseId(String subordinateCourseId){
         courseShareMsgMapper.deleteCourseShareMsgBySubordinateCourseId(subordinateCourseId);
     }
     public void deleteByTeacherId(String teacherId){

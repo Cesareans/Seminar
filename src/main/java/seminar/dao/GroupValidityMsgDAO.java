@@ -18,19 +18,22 @@ public class GroupValidityMsgDAO {
         this.groupValidityMsgMapper = groupValidityMsgMapper;
     }
 
-    public void add(GroupValidityMsg groupValidityMsg){
+    public void create(GroupValidityMsg groupValidityMsg){
         groupValidityMsgMapper.insertGroupValidityMsg(groupValidityMsg);
     }
     public void update(GroupValidityMsg groupValidityMsg){
         groupValidityMsgMapper.updateGroupValidityMsg(groupValidityMsg);
     }
-    public List<GroupValidityMsg> getAllGroupValidityMsg(){
+    public List<GroupValidityMsg> retrieveAll(){
         return groupValidityMsgMapper.selectAllGroupValidityMsg();
     }
-    public List<GroupValidityMsg> getMsgByTeacherId(String teacherId){
+    public List<GroupValidityMsg> retrieveById(String id){
+        return groupValidityMsgMapper.selectGroupValidityMsgById(id);
+    }
+    public List<GroupValidityMsg> retrieveByTeacherId(String teacherId){
         return groupValidityMsgMapper.selectGroupValidityMsgByTeacherId(teacherId);
     }
-    public List<GroupValidityMsg> getMsgByTeamId(String teamId){
+    public List<GroupValidityMsg> retrieveByTeamId(String teamId){
         return groupValidityMsgMapper.selectGroupValidityMsgByTeamId(teamId);
     }
     public void deleteById(String id){

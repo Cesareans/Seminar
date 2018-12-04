@@ -18,7 +18,7 @@ public class SeminarShareDAO {
         this.seminarShareMapper = seminarShareMapper;
     }
 
-    public void add(SeminarShare seminarShare){
+    public void create(SeminarShare seminarShare){
         seminarShareMapper.insertSeminarShare(seminarShare);
     }
     public void update(SeminarShare seminarShare){
@@ -27,22 +27,22 @@ public class SeminarShareDAO {
     public List<SeminarShare> getAllSeminarShare(){
         return seminarShareMapper.selectAllSeminarShare();
     }
-    public List<SeminarShare> getSeminarShareById(String id){
+    public List<SeminarShare> retrieveById(String id){
         return seminarShareMapper.selectSeminarShareById(id);
     }
-    public List<SeminarShare> getSeminarShareByPrincipalCourseId(String principalCourseId){
+    public List<SeminarShare> retrieveByPCourseId(String principalCourseId){
         return seminarShareMapper.selectSeminarShareByPrincipalCourseId(principalCourseId);
     }
-    public List<SeminarShare> getSeminarShareBySubordinateCourseId(String subordinateCourseId){
+    public List<SeminarShare> retrieveBySubCourseId(String subordinateCourseId){
         return seminarShareMapper.selectSeminarShareBySubordinateCourseId(subordinateCourseId);
     }
     public void deleteById(String id){
         seminarShareMapper.deleteSeminarShareById(id);
     }
-    public void deleteByPrincipalCourseId(String principalCourseId){
+    public void deleteByPCourseId(String principalCourseId){
         seminarShareMapper.deleteSeminarShareByPrincipalCourseId(principalCourseId);
     }
-    public void deleteBySubordinateCourseId(String subordinateCourseId){
+    public void deleteBySubCourseId(String subordinateCourseId){
         seminarShareMapper.deleteSeminarShareBySubordinateCourseId(subordinateCourseId);
     }
 
