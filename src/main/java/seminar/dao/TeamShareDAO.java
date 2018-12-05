@@ -13,17 +13,32 @@ import java.util.List;
  */
 @Component
 public class TeamShareDAO {
-    private TeamShareMapper teamShareMapper;
+    private final TeamShareMapper teamShareMapper;
     @Autowired
     public TeamShareDAO(TeamShareMapper teamShareMapper){
         this.teamShareMapper=teamShareMapper;
     }
 
-    public void create(TeamShare teamShare){
+    /**
+     * The course which is a subordinateCourse can't be a new principalCourse
+     *
+     */
+    public boolean create(TeamShare teamShare){
+        List<TeamShare> teamShares=teamShareMapper.selectAllTeamShare();
+        for(TeamShare t:teamShares){
+            if(t.getSubordinateCourseId().equals(teamShare.getPrincipalCourseId())){
+                return false;
+            }
+        }
         teamShareMapper.insertTeamShare(teamShare);
+        return true;
     }
-    public void update(TeamShare teamShare){
-        teamShareMapper.updateTeamShare(teamShare);
+    public boolean update(TeamShare teamShare){
+        if(teamShareMapper.selectTeamShareById(teamShare.getId()).isEmpty()) {
+            teamShareMapper.updateTeamShare(teamShare);
+            return true;
+        }
+        return false;
     }
     public List<TeamShare> getAll() {
         return teamShareMapper.selectAllTeamShare();
