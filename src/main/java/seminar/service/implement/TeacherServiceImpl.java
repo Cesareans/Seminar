@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
+import seminar.mapper.MaxMinRegulationMapper;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -44,24 +45,23 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public boolean createCourse(Course course, MaxMinRegulation maxMinRegulation) {
-        maxMinRegulation.setCourseId(course.getId());
-        return (courseDAO.create(course) && maxMinRegulationDAO.create(maxMinRegulation));
+        return courseDAO.create(course, maxMinRegulation);
     }
 
     /**
      * @author lyf
      */
     @Override
-    public boolean deleteCourseById(String courseId) {
-        return courseDAO.deleteByCoruseId(courseId);
+    public void deleteCourseById(String courseId) {
+        courseDAO.deleteByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
     @Override
-    public boolean updateCourse(Course course) {
-        return courseDAO.update(course);
+    public boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation) {
+        return courseDAO.update(course, maxMinRegulation);
     }
 
     /**
@@ -84,8 +84,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean deleteClbumById(String clbumId) {
-        return clbumDAO.deleteById(clbumId);
+    public void deleteClbumById(String clbumId) {
+        clbumDAO.deleteById(clbumId);
     }
 
     /**
@@ -108,8 +108,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean deleteSeminarByRoundId(String roundId) {
-        return seminarDAO.deleteByRoundId(roundId);
+    public void deleteSeminarByRoundId(String roundId) {
+        seminarDAO.deleteByRoundId(roundId);
     }
 
 }

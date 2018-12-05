@@ -20,21 +20,3 @@ void insertAdministrator(Administrator administrator);
 
 
 ------------------------------华丽的分割线---------------------------------------
-@lyf
-${StudentMapper}
-    /**
-     * Update a Student entity's password
-     *
-     * @param student the Student entity's password that will be updated via the private java.lang.String seminar.entity.Student.id
-     */
-    @Update("update student set password=#{password} where id=#{id}")
-    void updatePasswordByStudentId(Student student, String password, String id);
-
-${TeacherMapper}
-     /**
-      * Update a Teacher entity's information
-      *
-      * @param teacher the Teacher entity that will be updated via the private java.lang.String seminar.entity.Teacher.id
-      */
-     @Update("update teacher set teacher_name=#{teacherName}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, msg_interval=#{msgInterval}, is_activated=#{activated} where id=#{id}")
-     void updatePasswordByTeacherId(Teacher teacher, String password, String id);

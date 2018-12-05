@@ -33,12 +33,12 @@ public interface TeacherService {
     /**
      * @author lyf
      */
-    public boolean deleteCourseById(String courseId);
+    public void deleteCourseById(String courseId);
 
     /**
      * @author lyf
      */
-    public boolean updateCourse(Course course);
+    public boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation);
 
     /**
      * @author lyf
@@ -53,7 +53,7 @@ public interface TeacherService {
     /**
      * @author lyf
      */
-    public boolean deleteClbumById(String clbumId);
+    public void deleteClbumById(String clbumId);
 
     /**
      * @author lyf
@@ -68,6 +68,6 @@ public interface TeacherService {
     /**
      * @author lyf
      */
-    public boolean deleteSeminarByRoundId(String courseId);
+    public void deleteSeminarByRoundId(String courseId);
 
 }
