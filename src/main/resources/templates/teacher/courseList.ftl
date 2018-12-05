@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course.js"></script>
+    <script src="/static/js/teacher/courseList.js"></script>
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -62,7 +62,7 @@
         <div class="container">
             <div class="row">
             <#list courses as course>
-            <div class="col-lg-4 col-md-6">
+            <div class="col-md-6">
                 <div class="card content-card">
                     <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
                         <div class="body-header">
@@ -70,20 +70,29 @@
                         </div>
                         <div class="body-content">
                             <hr>
-                            <div class="line">
-                                <label>班级数</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <label>分组数</label>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <label>待完成讨论课</label>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
+                            <div class="row">
+                                <div class="col-md-12 ml-auto mr-auto">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item seminar-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">event_note</i>
+                                                讨论课
+                                            </a>
+                                        </li>
+                                        <li class="nav-item clbum-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">class</i>
+                                                班级
+                                            </a>
+                                        </li>
+                                        <li class="nav-item team-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">group</i>
+                                                分组
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,58 +122,34 @@
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row">
+                <div class="row" style="margin-bottom: 40px">
                     <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-center">
-                            <li class="nav-item">
+                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                            <li class="nav-item" id="infoNav">
                                 <a class="nav-link">
                                     <i class="material-icons">description</i>
                                     课程信息
                                 </a>
                             </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons" id="seminarNav">event_note</i>
-                                    讨论课
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons" id="clbumNav">class</i>
-                                    班级
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons" id="teamNav">group</i>
-                                    分组
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item">
+                            <li class="nav-item" id="gradeNav">
                                 <a class="nav-link">
                                     <i class="material-icons">equalizer</i>
                                     成绩
                                 </a>
                             </li>
-                            <li class="nav-item">
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 ml-auto mr-auto">
+                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                            <li class="nav-item" id="optionNav">
+                                <a class="nav-link">
+                                    <i class="material-icons">tune</i>
+                                    讨论课设置
+                                </a>
+                            </li>
+                            <li class="nav-item" id="shareNav">
                                 <a class="nav-link">
                                     <i class="material-icons">share</i>
                                     课程共享

@@ -207,7 +207,8 @@ public class TeacherController {
      * @return ViewName
      */
     @GetMapping("/course/seminar/progressing")
-    public String seminarProgressing() {
+    public String seminarProgressing(String clbumSeminarId, Model model) {
+        model.addAttribute("csId",clbumSeminarId);
         return "teacher/course/seminar/progressing";
     }
 

@@ -12,15 +12,17 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var csIdForm = {};
+        var csIdForm;
         $(function () {
-            csIdForm.form = $("#csIdForm");
-            csIdForm.csIdInput = $("#csIdInput");
+            csIdForm=$("#csIdForm");
             $("#enrollBtn").click(function () {
-                csIdForm.csIdInput.val($(this).attr("data-csId"));
-                csIdForm.form.attr("action", "/teacher/course/seminar/enrollList");
-                csIdForm.form.submit();
+                csIdForm.attr("action", "/teacher/course/seminar/enrollList");
+                csIdForm.submit();
             });
+            $("#enterSeminar").click(function () {
+                csIdForm.attr("action", "/teacher/course/seminar/progressing");
+                csIdForm.submit();
+            })
         });
     </script>
     <title>讨论课信息</title>
@@ -69,7 +71,7 @@
                             <h4 class="card-title" style="margin-top: 0">${clbumSeminar.seminar.theme}</h4>
                         </div>
                         <div class="col-3">
-                            <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn" data-csId="${clbumSeminar.id}">
+                            <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn">
                                 <i class="material-icons">library_books</i>
                             </button>
                         </div>
@@ -118,7 +120,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enterSeminar">
                             <i class="material-icons">arrow_forward_ios</i>
                         </button>
                     </div>
@@ -129,7 +131,7 @@
 </div>
 
 <form hidden id="csIdForm" method="get">
-    <input id="csIdInput" name="clbumSeminarId" title="">
+    <input id="csIdInput" name="clbumSeminarId" title="" value="${clbumSeminar.id}">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

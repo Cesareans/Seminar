@@ -17,7 +17,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/seminar/info'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课</div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="body-content">
                                 <hr>
-                                <div class="flex-center">
+                                <div class="flex-center not-enroll">
                                     尚未报名
                                 </div>
                             </div>
