@@ -6,13 +6,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
 import seminar.entity.hso.ClbumSeminarHso;
-import seminar.logger.DebugLogger;
 import seminar.service.SeminarService;
 import seminar.service.TeacherService;
 
@@ -44,14 +40,13 @@ public class TeacherController {
         return "teacher/index";
     }
 
-    /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
-     */
-    @GetMapping("/info")
-    public String info() {
-        return "teacher/info";
+    @GetMapping("/option")
+    public String info(Model model) {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        model.addAttribute("teacher", teacher);
+
+        return "teacher/option";
     }
 
     /**
@@ -107,13 +102,14 @@ public class TeacherController {
         return "teacher/course/clbumList";
     }
 
-    @GetMapping("/course/createClbum")
+    @GetMapping("/course/clbum/create")
     public String clbumCreate() {
         return "teacher/course/createClbum";
     }
 
+
     @GetMapping("/course/seminarList")
-    public String seminar(String courseId, Model model, HttpSession session) {
+    public String seminarList(String courseId, Model model, HttpSession session) {
         if(courseId == null){
             courseId = ((String) session.getAttribute("courseId"));
         }else{
@@ -135,6 +131,12 @@ public class TeacherController {
         return "teacher/course/seminarList";
     }
 
+    @PutMapping("/course/round")
+    public @ResponseBody
+    ResponseEntity<Object> createRound(String courseId){
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        return null;
+    }
     /**
      * Todo: Remain to be realize, Priority
      */

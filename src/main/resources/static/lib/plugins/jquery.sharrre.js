@@ -291,7 +291,7 @@
             FB.Event.subscribe('edge.remove', function(targetUrl) {
               _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
             });
-            FB.Event.subscribe('message.send', function(targetUrl) {
+            FB.Event.subscribe('msgList.send', function(targetUrl) {
               _gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
             });
             //console.logger('ok');
