@@ -1,6 +1,8 @@
 var datetimepicker;
+var createCourseForm;
 $(function () {
     datetimepicker = $(".datetimepicker");
+    createCourseForm = $("#createCourseForm");
     datetimepicker.datetimepicker({
         format: 'L'
     });
@@ -8,7 +10,7 @@ $(function () {
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
-            //TODO:post create course info
+            console.log(createCourseForm.serialize());
         }else{
             dropdown(verify.parents(".dropdown-card"));
             verify.focus();

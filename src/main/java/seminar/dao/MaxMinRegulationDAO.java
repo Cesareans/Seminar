@@ -5,25 +5,27 @@ import org.springframework.stereotype.Component;
 import seminar.entity.MaxMinRegulation;
 import seminar.mapper.MaxMinRegulationMapper;
 
-import javax.validation.constraints.Max;
 import java.util.List;
 
+/**
+ * @author lyf
+ */
 @Component
 public class MaxMinRegulationDAO {
-    private final MaxMinRegulationMapper maxminRegulationMapper;
+    private final MaxMinRegulationMapper maxMinRegulationMapper;
 
     @Autowired
-    public MaxMinRegulationDAO(MaxMinRegulationMapper maxminRegulationMapper) {
-        this.maxminRegulationMapper = maxminRegulationMapper;
+    public MaxMinRegulationDAO(MaxMinRegulationMapper maxMinRegulationMapper) {
+        this.maxMinRegulationMapper = maxMinRegulationMapper;
     }
 
     /**
      * @author lyf
      */
     public boolean create(MaxMinRegulation maxminRegulation){
-        List<MaxMinRegulation> maxMinRegulations = maxminRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
+        List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
         if(maxMinRegulations.isEmpty()){
-            maxminRegulationMapper.insertMaxMinRegulation(maxminRegulation);
+            maxMinRegulationMapper.insertMaxMinRegulation(maxminRegulation);
             return true;
         }
         else return false;
@@ -33,11 +35,11 @@ public class MaxMinRegulationDAO {
      * @author lyf
      */
     public boolean update(MaxMinRegulation maxminRegulation){
-        List<MaxMinRegulation> maxMinRegulations = maxminRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
+        List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
         if(maxMinRegulations.isEmpty())
             return false;
         else{
-            maxminRegulationMapper.updateMaxMinRegulation(maxminRegulation);
+            maxMinRegulationMapper.updateMaxMinRegulation(maxminRegulation);
             return true;
         }
 
@@ -47,6 +49,6 @@ public class MaxMinRegulationDAO {
      * @author lyf
      */
     public List<MaxMinRegulation> getByCourseId(String CourseId){
-        return maxminRegulationMapper.selectMaxMinRegulationByCourseId(CourseId);
+        return maxMinRegulationMapper.selectMaxMinRegulationByCourseId(CourseId);
     }
 }

@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <form class="form" id="createCourseForm">
                     <div class="form-group bmd-form-group">
-                        <input id="username" name="username" type="text" placeholder="课程名称" autocomplete="off"
+                        <input id="courseName" name="courseName" type="text" placeholder="课程名称" autocomplete="off"
                                class="form-control empty-verify" data-emptyMessage="请输入课程名称">
                     </div>
                     <div class="form-group bmd-form-group">
@@ -124,41 +124,41 @@
                                     <div class="body-content" style="display: none">
                                         <hr>
                                         <div class="line">
-                                            <label for="groupMax">人数上限</label>
+                                            <label for="teamMax">人数上限</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group" style="display: inline">
-                                                    <input id="groupMax" name="groupMax" type="text" autocomplete="off"
+                                                    <input id="teamMax" name="teamMax" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="line">
-                                            <label for="groupMin">人数下限</label>
+                                            <label for="teamMin">人数下限</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group" style="display: inline">
-                                                    <input id="groupMin" name="groupMin" type="text" autocomplete="off"
+                                                    <input id="teamMin" name="teamMin" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="line">
-                                            <label for="groupStart">组队开始时间</label>
+                                            <label for="teamStartDate">组队开始时间</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group">
-                                                    <input id="groupStart" name="groupStart" type="text" autocomplete="off"
+                                                    <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off"
                                                            class="form-control datetimepicker empty-verify" data-emptyMessage="请输入课堂提问权重">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="line">
-                                            <label for="groupEnd">组队结束时间</label>
+                                            <label for="teamEndDate">组队结束时间</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group">
-                                                    <input id="groupEnd" name="groupEnd" type="text" autocomplete="off"
+                                                    <input id="teamEndDate" name="teamEndDate" type="text" autocomplete="off"
                                                            class="form-control datetimepicker empty-verify" data-emptyMessage="请输入书面报告权重">
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@
         </button>
     </div>
     <div class="cancel-div">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course'" style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/courseList'" style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>
