@@ -47,33 +47,20 @@ public class SeminarDAO {
             seminarMapper.updateSeminar(seminar);
             return true;
         }
-
     }
 
     /**
      * @author lyf
      */
-    public boolean deleteById(String seminarId) {
-        if(seminarMapper.selectSeminarById(seminarId).isEmpty())
-            return false;
-        else{
-            seminarMapper.deleteSeminarById(seminarId);
-            return true;
-        }
+    public void deleteById(String seminarId) {
+        seminarMapper.deleteSeminarById(seminarId);
     }
 
     /**
      * @author lyf
      */
-    public boolean deleteByRoundId(String roundId) {
-        List<Round> rounds = roundMapper.selectRoundById(roundId);
-        for(Round r : rounds){
-            if(r.getId().equals(roundId)){
-                seminarMapper.deleteSeminarByRoundId(roundId);
-                return true;
-            }
-        }
-        return false;
+    public void deleteByRoundId(String roundId) {
+        seminarMapper.deleteSeminarByRoundId(roundId);
     }
 
 

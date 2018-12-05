@@ -20,12 +20,22 @@ public class StudentDAO {
         this.studentMapper = studentMapper;
     }
 
-    public void create(Student student) {
-        studentMapper.insertStudent(student);
+    public boolean create(Student student) {
+        List<Student> students = studentMapper.selectStudentByStudentNum(student.getStudentNum());
+        if(students.isEmpty()){
+            studentMapper.insertStudent(student);
+            return true;
+        }
+        else return false;
     }
 
-    public void update(Student student) {
-        studentMapper.updateStudent(student);
+    public boolean update(Student student) {
+        List<Student> students = studentMapper.selectStudentById(student.getId());
+        if(students.isEmpty()) return false;
+        else {
+            studentMapper.updateStudent(student);
+            return true;
+        }
     }
 
     public List<Student> getAll() {

@@ -46,12 +46,16 @@ public class ClbumDao {
      */
     public boolean update(Clbum clbum){
         List<Clbum> clbums = clbumMapper.selectClbumByCourseId(clbum.getCourseId());
-        for(Clbum c:clbums){
-            if(c.getClbumName().equals(clbum.getClbumName()))
-                return false;
+        if(clbums.isEmpty()) return false;
+        else {
+            for (Clbum c : clbums) {
+                if (c.getClbumName().equals(clbum.getClbumName())) {
+                    clbumMapper.updateClbum(clbum);
+                    return true;
+                }
+            }
         }
-        clbumMapper.updateClbum(clbum);
-        return true;
+        return false;
     }
 
     /**

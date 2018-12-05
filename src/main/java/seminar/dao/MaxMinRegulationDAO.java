@@ -51,4 +51,11 @@ public class MaxMinRegulationDAO {
     public List<MaxMinRegulation> getByCourseId(String CourseId){
         return maxMinRegulationMapper.selectMaxMinRegulationByCourseId(CourseId);
     }
+
+    /**
+     * @author lyf
+     */
+    public void deleteByCourseId(String courseId){
+        maxMinRegulationMapper.deleteMaxMinRegulationByCourseId(courseId);
+    }
 }
