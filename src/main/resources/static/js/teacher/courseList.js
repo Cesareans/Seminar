@@ -30,7 +30,6 @@ function modalCardNavClick(e) {
     postCourseId(e.data.url,courseModal.attr("data-courseID"));
 }
 function postCourseId(url,id) {
-    console.log(url);
     courseIdForm.form.attr("action", url);
     courseIdForm.courseIdInput.val(id);
     courseIdForm.form.submit();
