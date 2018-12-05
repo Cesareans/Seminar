@@ -63,8 +63,9 @@ public class ClbumDao {
      */
     public boolean deleteById(String clbumId){
         List<Clbum> clbums = clbumMapper.selectClbumById(clbumId);
-        if(clbums.isEmpty())
+        if(clbums.isEmpty()) {
             return false;
+        }
         else {
             clbumMapper.deleteClbumById(clbumId);
             return true;
@@ -76,8 +77,9 @@ public class ClbumDao {
      */
     public boolean deleteByCourseId(String courseId){
         List<Course> courses = courseMapper.selectCourseById(courseId);
-        if(courses.isEmpty())
+        if(courses.isEmpty()) {
             return false;
+        }
         else{
             clbumMapper.deleteClbumByCourseId(courseId);
             return true;

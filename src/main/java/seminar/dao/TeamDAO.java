@@ -41,4 +41,46 @@ public class TeamDAO {
         return teams;
     }
 
+    /**
+     * @author lyf
+     */
+    public boolean create(Team team){
+        List<Team> teams = teamMapper.selectTeamById(team.getId());
+        if(teams.isEmpty()) {
+            teamMapper.insertTeam(team);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteById(String teamId){
+        teamMapper.deleteTeamById(teamId);
+    }
+
+    /**
+     * @author lyf
+     */
+    public void deleteByClbumId(String clbumId){
+        teamMapper.deleteTeamByClbumId(clbumId);
+    }
+
+    /**
+     * @author lyf
+     */
+    public boolean update(Team team){
+        List<Team> teams = teamMapper.selectTeamById(team.getId());
+        if(teams.isEmpty()) {
+            return false;
+        }
+        else{
+            teamMapper.updateTeam(team);
+            return true;
+        }
+    }
+
 }

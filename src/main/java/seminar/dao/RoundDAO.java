@@ -34,8 +34,9 @@ public class RoundDAO {
         }
 
         for(Round r:rounds){
-            if(r.getRoundNum().equals(round.getRoundNum()))
+            if(r.getRoundNum().equals(round.getRoundNum())) {
                 return false;
+            }
         }
         roundMapper.insertRound(round);
         return true;
@@ -46,7 +47,9 @@ public class RoundDAO {
      */
     public boolean update(Round round){
         List<Round> rounds = roundMapper.selectRoundById(round.getId());
-        if(rounds.isEmpty()) return false;
+        if(rounds.isEmpty()){
+            return false;
+        }
         else{
             roundMapper.updateRound(round);
             return true;

@@ -26,12 +26,16 @@ public class StudentDAO {
             studentMapper.insertStudent(student);
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
     public boolean update(Student student) {
         List<Student> students = studentMapper.selectStudentById(student.getId());
-        if(students.isEmpty()) return false;
+        if(students.isEmpty()) {
+            return false;
+        }
         else {
             studentMapper.updateStudent(student);
             return true;
