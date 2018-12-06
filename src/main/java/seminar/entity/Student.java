@@ -17,7 +17,6 @@ public class Student {
     private String studentNum;
     private String password;
     private String email;
-    private int msgInterval;
     private boolean activated;
 
     public String getId() {
@@ -58,14 +57,6 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getMsgInterval() {
-        return msgInterval;
-    }
-
-    public void setMsgInterval(int msgInterval) {
-        this.msgInterval = msgInterval;
     }
 
     public boolean isActivated() {

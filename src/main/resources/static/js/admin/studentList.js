@@ -53,7 +53,8 @@ $(function () {
             $.ajax({
                 type: "patch",
                 url: "/admin/student",
-                data: form.serialize(),
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(form.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         modifyModal.modal.modal("hide");

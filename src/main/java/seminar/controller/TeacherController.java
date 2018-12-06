@@ -1,6 +1,7 @@
 package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -9,11 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
 import seminar.entity.hso.ClbumSeminarHso;
+import seminar.entity.vo.ClbumCreateVO;
 import seminar.service.SeminarService;
 import seminar.service.TeacherService;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -32,7 +37,7 @@ public class TeacherController {
     }
 
     @GetMapping(value = {"", "/index"})
-    public String index(Model model,HttpSession session) {
+    public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
@@ -65,13 +70,9 @@ public class TeacherController {
         return "teacher/courseList";
     }
 
-    /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
-     */
     @GetMapping("/course/info")
-    public String courseInfo() {
+    public String courseInfo(String courseId,Model model) {
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "teacher/course/info";
     }
 
@@ -85,17 +86,17 @@ public class TeacherController {
         return "teacher/course/create";
     }
 
-    @PostMapping("/course/create")
+    @PutMapping("/course")
     public @ResponseBody
-    ResponseEntity<Object> courseCreate(Course course){
+    ResponseEntity<Object> courseCreate(Course course) {
         return null;
     }
 
     @GetMapping("/course/clbumList")
     public String clbum(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
+        if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
-        }else{
+        } else {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
@@ -103,19 +104,38 @@ public class TeacherController {
     }
 
     @GetMapping("/course/clbum/create")
-    public String clbumCreate() {
+    public String clbumCreate(Model model, HttpSession session) {
+        model.addAttribute("courseId", session.getAttribute("courseId"));
         return "teacher/course/createClbum";
+    }
+
+    @PutMapping("/course/clbum")
+    public @ResponseBody
+    ResponseEntity<Object> createClbum(@RequestBody ClbumCreateVO vo) {
+        Clbum clbum = vo.getClbum();
+        if (teacherService.createClbum(clbum)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @DeleteMapping("/course/clbum/{clbumId}")
+    public @ResponseBody
+    ResponseEntity<Object> deleteClbum(@PathVariable String clbumId) {
+        teacherService.deleteClbumById(clbumId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 
     @GetMapping("/course/seminarList")
     public String seminarList(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
+        if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
-        }else{
+        } else {
             session.setAttribute("courseId", courseId);
         }
-        List<Map<String,Object>> root = new LinkedList<>();
+        List<Map<String, Object>> root = new LinkedList<>();
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         for (Round round : rounds) {
             Map<String, Object> roundSeminar = new HashMap<>(4);
@@ -133,10 +153,11 @@ public class TeacherController {
 
     @PutMapping("/course/round")
     public @ResponseBody
-    ResponseEntity<Object> createRound(String courseId){
+    ResponseEntity<Object> createRound(String courseId) {
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         return null;
     }
+
     /**
      * Todo: Remain to be realize, Priority
      */
@@ -152,14 +173,14 @@ public class TeacherController {
     public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
         String sessionKey = "clbumSeminarHso";
         ClbumSeminarHso clbumSeminarHso;
-        if(clbumId == null||seminarId==null){
+        if (clbumId == null || seminarId == null) {
             clbumSeminarHso = ((ClbumSeminarHso) session.getAttribute(sessionKey));
-        }else{
-            clbumSeminarHso = new ClbumSeminarHso(clbumId,seminarId);
-            session.setAttribute(sessionKey,clbumSeminarHso);
+        } else {
+            clbumSeminarHso = new ClbumSeminarHso(clbumId, seminarId);
+            session.setAttribute(sessionKey, clbumSeminarHso);
         }
-        List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(),clbumSeminarHso.getSeminarId());
-        if(clbumSeminar.size() == 0){
+        List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(), clbumSeminarHso.getSeminarId());
+        if (clbumSeminar.size() == 0) {
             //TODO:need better code here.
             throw new RuntimeException("No clbum seminar");
         }
@@ -175,10 +196,10 @@ public class TeacherController {
         Seminar seminar = seminarService.getSeminarBySeminarId(clbumSeminar.getSeminarId()).get(0);
         List<Attendance> attendances = seminarService.getAttendancesByClbumSeminarId(clbumSeminarId);
         List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1,seminar.getMaxTeam()+1).forEach(i->{
+        IntStream.range(1, seminar.getMaxTeam() + 1).forEach(i -> {
             boolean isEnrolled = false;
             for (Attendance attendance : attendances) {
-                if(attendance.getSn() == i){
+                if (attendance.getSn() == i) {
                     isEnrolled = true;
                     enrollList.add(attendance);
                     break;
@@ -210,12 +231,13 @@ public class TeacherController {
      */
     @GetMapping("/course/seminar/progressing")
     public String seminarProgressing(String clbumSeminarId, Model model) {
-        model.addAttribute("csId",clbumSeminarId);
+        model.addAttribute("csId", clbumSeminarId);
         return "teacher/course/seminar/progressing";
     }
 
     /**
      * TODO:Need better design [Inferiority]
+     *
      * @param courseId
      * @param model
      * @param session
@@ -223,14 +245,15 @@ public class TeacherController {
      */
     @GetMapping("/course/teamList")
     public String team(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
+        if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
-        }else{
+        } else {
             session.setAttribute("courseId", courseId);
         }
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         return "teacher/course/teamList";
     }
+
     /**
      * Todo: Remain to be realize
      *

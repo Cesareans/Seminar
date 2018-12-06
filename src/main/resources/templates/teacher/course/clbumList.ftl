@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/clbum.js"></script>
+    <script src="/static/js/teacher/course/clbumList.js"></script>
     <title>班级</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -90,7 +90,7 @@
     </#if>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/createClbum'" class="btn btn-dark btn-round bg-dark"
+    <button onclick="window.location='/teacher/course/clbum/create'" class="btn btn-dark btn-round bg-dark"
             style="margin: 0">
         <i class="material-icons">add_circle</i>
         创建班级
@@ -122,7 +122,7 @@
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
+                            <li class="nav-item" id="deleteClbum">
                                 <a class="nav-link">
                                     <i class="material-icons" style="color: #f44336">delete</i>
                                     删除班级

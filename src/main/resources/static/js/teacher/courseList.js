@@ -14,7 +14,7 @@ $(function () {
     $(".team-nav").click({url:'/teacher/course/teamList'},courseCardNavClick);
     $(".seminar-nav").click({url:'/teacher/course/seminarList'},courseCardNavClick);
     $("#gradeNav");
-    $("#infoNav");
+    $("#infoNav").click({url:'/teacher/course/info'},modalCardNavClick);
     $("#optionNav");
     $("#shareNav");
 

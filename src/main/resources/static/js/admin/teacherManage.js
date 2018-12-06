@@ -40,45 +40,7 @@ $(function () {
         count:$(countChoice.find("#pageCount")).attr("data-count")
     });
 
-    clearBtn.click(function () {
-        filterContent.val("");
-        sendDataRequest({
-            newFilter:true,
-            name:"",
-            teacherNum:"",
-            page:1
-        });
-        $(this).hide();
-    });
 
-    deleteItemsModal.on("show.bs.modal",function () {
-        tns = [];
-        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .teacherNum");
-        for(var i = 0; i < chosenBadgeNums.length ; ++i ){
-            tns.push($(chosenBadgeNums[i]).html());
-        }
-    });
-    deleteItemsModal.find(".confirm").click(function () {
-        $.ajax({
-            type:"delete",
-            url:"/admin/teacher",
-            traditional:true,
-            data:{
-                teacherNum:tns
-            },
-            success:function () {
-                deleteItemsModal.modal("hide");
-                if (groupCheck.hasClass("groupChecked")) {
-                    groupCheck.trigger("click");
-                }
-                $(document).trigger("showNotification", ["删除成功", "success"]);
-                sendDataRequest(defaultFilter);
-            },
-            error:function () {
-                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
-            }
-        });
-    });
     groupCheck.click(function () {
         var check = $(this);
         if(check.hasClass("groupChecked")){
@@ -124,6 +86,17 @@ $(function () {
             clearBtn.show();
         }
     });
+    clearBtn.click(function () {
+        filterContent.val("");
+        sendDataRequest({
+            newFilter:true,
+            name:"",
+            teacherNum:"",
+            page:1
+        });
+        $(this).hide();
+    });
+
     $(".previous-item").click(function () {
         var curPage = parseInt(pagination.find(".page-item.active").children("a").html());
         if(curPage !== 1){
@@ -155,6 +128,33 @@ $(function () {
             count:pageCount.attr("data-count")
         });
     });
+
+    deleteItemsModal.on("show.bs.modal",function () {
+        tns = [];
+        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .teacherNum");
+        for(var i = 0; i < chosenBadgeNums.length ; ++i ){
+            tns.push($(chosenBadgeNums[i]).html());
+        }
+    });
+    deleteItemsModal.find(".confirm").click(function () {
+        $.ajax({
+            type:"delete",
+            url:"/admin/teacher",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(tns),
+            success:function () {
+                deleteItemsModal.modal("hide");
+                if (groupCheck.hasClass("groupChecked")) {
+                    groupCheck.trigger("click");
+                }
+                $(document).trigger("showNotification", ["删除成功", "success"]);
+                sendDataRequest(defaultFilter);
+            },
+            error:function () {
+                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
+            }
+        });
+    });
     $(createModal.find(".confirm")).click(function () {
         var btn = $(this);
         var form = createModal.find(".form");
@@ -162,12 +162,14 @@ $(function () {
             $.ajax({
                 type: "put",
                 url: "/admin/teacher",
-                data: form.serialize(),
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(form.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         createModal.modal("hide");
                         $(document).trigger("showNotification", ["创建成功", "success"]);
                         sendDataRequest(defaultFilter);
+                        form.get(0).reset();
                     } else if (xhr.status === 204) {
                         util.popWithDelay(btn, "创建失败，工号已存在", 3);
                     }
@@ -176,9 +178,9 @@ $(function () {
                     util.popWithDelay(btn, "创建失败，未知错误", 3);
                 }
             });
-            form.get(0).reset();
         }
     });
+
     $(document).bind("pageReset",function (event,pageNum,page) {
         pagination.attr("data-pages", pageNum);
         refreshPageState(page);

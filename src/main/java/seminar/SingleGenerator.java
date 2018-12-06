@@ -9,7 +9,7 @@ import seminar.entity.*;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("SWJ", TeamShare.class);
+        EntityGenerator generator = new EntityGenerator("Cesare", Teacher.class);
         generator.generateMapper();
     }
 }

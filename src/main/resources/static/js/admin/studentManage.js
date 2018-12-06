@@ -40,45 +40,7 @@ $(function () {
         count:$(countChoice.find("#pageCount")).attr("data-count")
     });
 
-    clearBtn.click(function () {
-        filterContent.val("");
-        sendDataRequest({
-            newFilter:true,
-            name:"",
-            studentNum:"",
-            page:1
-        });
-        $(this).hide();
-    });
 
-    deleteItemsModal.on("show.bs.modal",function () {
-        sns = [];
-        var chosenStuNums = $("#tableIframe").contents().find(".chosen .studentNum");
-        for(var i = 0; i < chosenStuNums.length ; ++i ){
-            sns.push($(chosenStuNums[i]).html());
-        }
-    });
-    deleteItemsModal.find(".confirm").click(function () {
-        $.ajax({
-            type:"delete",
-            url:"/admin/student",
-            traditional:true,
-            data:{
-                studentNum:sns
-            },
-            success:function () {
-                deleteItemsModal.modal("hide");
-                if (groupCheck.hasClass("groupChecked")) {
-                    groupCheck.trigger("click");
-                }
-                $(document).trigger("showNotification", ["删除成功", "success"]);
-                sendDataRequest(defaultFilter);
-            },
-            error:function () {
-                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
-            }
-        });
-    });
     groupCheck.click(function () {
         var check = $(this);
         if(check.hasClass("groupChecked")){
@@ -124,6 +86,17 @@ $(function () {
             clearBtn.show();
         }
     });
+    clearBtn.click(function () {
+        filterContent.val("");
+        sendDataRequest({
+            newFilter:true,
+            name:"",
+            studentNum:"",
+            page:1
+        });
+        $(this).hide();
+    });
+
     $(".previous-item").click(function () {
         var curPage = parseInt(pagination.find(".page-item.active").children("a").html());
         if(curPage !== 1){
@@ -155,6 +128,7 @@ $(function () {
             count:pageCount.attr("data-count")
         });
     });
+
     $(createModal.find(".confirm")).click(function () {
         var btn = $(this);
         var form = createModal.find(".form");
@@ -162,12 +136,14 @@ $(function () {
             $.ajax({
                 type: "put",
                 url: "/admin/student",
-                data: form.serialize(),
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(form.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         createModal.modal("hide");
                         $(document).trigger("showNotification", ["创建成功", "success"]);
                         sendDataRequest(defaultFilter);
+                        form.get(0).reset();
                     } else if (xhr.status === 204) {
                         util.popWithDelay(btn, "创建失败，学号已存在", 3);
                     }
@@ -176,9 +152,35 @@ $(function () {
                     util.popWithDelay(btn, "创建失败，未知错误", 3);
                 }
             });
-            form.get(0).reset();
         }
     });
+    deleteItemsModal.on("show.bs.modal",function () {
+        sns = [];
+        var chosenStuNums = $("#tableIframe").contents().find(".chosen .studentNum");
+        for(var i = 0; i < chosenStuNums.length ; ++i ){
+            sns.push($(chosenStuNums[i]).html());
+        }
+    });
+    deleteItemsModal.find(".confirm").click(function () {
+        $.ajax({
+            type:"delete",
+            url:"/admin/student",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(sns),
+            success:function () {
+                deleteItemsModal.modal("hide");
+                if (groupCheck.hasClass("groupChecked")) {
+                    groupCheck.trigger("click");
+                }
+                $(document).trigger("showNotification", ["删除成功", "success"]);
+                sendDataRequest(defaultFilter);
+            },
+            error:function () {
+                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
+            }
+        });
+    });
+
     $(document).bind("pageReset",function (event,pageNum,page) {
         pagination.attr("data-pages", pageNum);
         refreshPageState(page);

@@ -23,6 +23,9 @@ public class CourseDAO {
         this.maxMinRegulationMapper = maxMinRegulationMapper;
     }
 
+    public List<Course> getByCourseId(String courseId){
+        return courseMapper.selectCourseById(courseId);
+    }
     public List<Course> getByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
