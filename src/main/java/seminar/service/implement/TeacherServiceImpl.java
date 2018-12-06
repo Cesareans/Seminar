@@ -141,7 +141,15 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public void deleteTeamShare(String id){
-        teamShareDAO.deleteById(id);
+        List<TeamShare> teamShares = teamShareDAO.getAll();
+        for(TeamShare t:teamShares){
+            if(t.getPrincipalCourseId().equals(id)) {
+                teamShareDAO.deleteByPCourseId(id);
+            }
+            if(t.getSubordinateCourseId().equals(id)){
+                teamShareDAO.deleteBySubCourseId(id);
+            }
+        }
     }
 
     /**
@@ -156,7 +164,18 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateTeam(Team team){
+    public boolean updateTeam(String teamId){
+        Team team = teamDAO.getById(teamId).get(0);
+        team.setValid(true);
         return teamDAO.update(team);
     }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public List<Team> getTeamByTeacherId(String courseId){
+        return teamDAO.getByCourseId(courseId);
+    }
+
 }

@@ -103,12 +103,18 @@ public interface TeacherService {
     public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
 
     /**
-     * TODO[SWJ]: May can only update team's is_valid
-     * Agree this team's invalid state, update this team's is_valid
+     * Agree this team's invalid state, update this team's valid
      * @author SWJ
-     * @param  team refer gist.
+     * @param  teamId refer gist.
      * @return success or fail
      */
-    public boolean updateTeam(Team team);
+    public boolean updateTeam(String teamId);
 
+    /**
+     * Check all teams which in current course
+     * @author SWJ
+     * @param  courseId refer gist.
+     * @return Team entity
+     */
+    public List<Team> getTeamByTeacherId(String courseId);
 }
