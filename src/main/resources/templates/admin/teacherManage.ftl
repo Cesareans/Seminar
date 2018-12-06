@@ -107,8 +107,8 @@
                             <col/>
                             <col width="5%"/>
                             <col width="20%" class="left-align"/>
-                            <col width="20%" class="left-align"/>
-                            <col width="20%" class="left-align"/>
+                            <col width="15%" class="left-align"/>
+                            <col width="25%" class="left-align"/>
                             <col/>
                             <col width="10%"/>
                         </colgroup>
@@ -178,8 +178,8 @@
                     <form class="form">
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
-                                <label for="name" class="bmd-label-floating">教师姓名</label>
-                                <input id="name" name="name" type="text" autocomplete="off"
+                                <label for="teacherName" class="bmd-label-floating">教师姓名</label>
+                                <input id="teacherName" name="teacherName" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入教师姓名">
                             </div>

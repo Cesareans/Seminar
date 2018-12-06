@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/clbumList.js"></script>
-    <title>班级</title>
+    <script src="/static/js/teacher/courseList.js"></script>
+    <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">班级</div>
+            <div class="navbar-brand brand-title">账户设置</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,56 +48,65 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
-    <#if clbums?size == 0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else >
-        <div class="container">
-            <div class="row">
-                <#list clbums as clbum>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-clbumID="${clbum.id}" data-toggle="modal" data-target="#clbumModal">
-                            <div class="body-header">
-                                <div class="body-title">${clbum.clbumName}</div>
+<div class="main main-raised info-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="profile">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="avatar">
+                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
+                                </div>
                             </div>
-                            <div class="body-content">
+                            <div class="col-8 avatar-side">
+                                <h3 class="title">${student.studentName}</h3>
                                 <hr>
-                                <div class="line">
-                                    <label>讨论课时间</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${clbum.time}</div>
-                                </div>
-                                <div class="line">
-                                    <label>讨论课地点</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${clbum.location}</div>
-                                </div>
+                                <h4 class="title">${student.studentNum}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-                </#list>
             </div>
         </div>
-    </#if>
+        <hr>
+        <div class="row options" style="margin-top: 30px">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="flex-space-between">
+                            <span>电子邮箱：${student.email}</span>
+                            <span>
+                            <a class="btn btn-link btn-fab-mini btn-fab btn-round btn-rose"
+                               style="margin-top: 0;margin-bottom: 0;">
+                            <i class="material-icons">edit</i>
+                            </a>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row options" style="margin-top: 30px">
+            <div class="col-md-6 ml-auto mr-auto">
+                <button class="btn btn-round bg-dark" style="width: 100%">
+                    修改密码
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/clbum/create'" class="btn btn-dark btn-round bg-dark"
-            style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建班级
+    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+        <i class="material-icons">exit_to_app</i>
+        退出登录
     </button>
 </div>
-
-<div class="modal fade" id="clbumModal">
+<form hidden id="courseIdForm">
+    <input id="courseIdInput" name="courseId" title="">
+</form>
+<div class="modal fade" id="courseModal" data-courseID="">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,13 +116,19 @@
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row">
+                <div class="row" style="margin-bottom: 40px">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
+                            <li class="nav-item" id="infoNav">
                                 <a class="nav-link">
-                                    <i class="material-icons">save_alt</i>
-                                    导入名单
+                                    <i class="material-icons">description</i>
+                                    课程信息
+                                </a>
+                            </li>
+                            <li class="nav-item" id="gradeNav">
+                                <a class="nav-link">
+                                    <i class="material-icons">equalizer</i>
+                                    成绩
                                 </a>
                             </li>
                         </ul>
@@ -122,10 +137,16 @@
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="deleteClbum">
+                            <li class="nav-item" id="optionNav">
                                 <a class="nav-link">
-                                    <i class="material-icons" style="color: #f44336">delete</i>
-                                    删除班级
+                                    <i class="material-icons">tune</i>
+                                    讨论课设置
+                                </a>
+                            </li>
+                            <li class="nav-item" id="shareNav">
+                                <a class="nav-link">
+                                    <i class="material-icons">share</i>
+                                    课程共享
                                 </a>
                             </li>
                         </ul>

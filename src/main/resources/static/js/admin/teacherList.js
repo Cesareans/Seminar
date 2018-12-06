@@ -10,7 +10,7 @@ $(function () {
         modal : $("#modifyModal"),
         id : $("#id"),
         teacherNum : $("#teacherNum"),
-        name : $("#name"),
+        name : $("#teacherName"),
         email : $("#email")
     };
     resetPwdModal = $("#resetPwdModal");
@@ -49,11 +49,13 @@ $(function () {
     modifyModal.modal.find(".confirm").click(function () {
         var btn = $(this);
         var form = modifyModal.modal.find(".form");
+        console.log(form.serializeArray());
         if(util.verify(form)) {
             $.ajax({
                 type: "patch",
                 url: "/admin/teacher",
-                data: form.serialize(),
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(form.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         modifyModal.modal.modal("hide");
@@ -79,7 +81,7 @@ $(function () {
                 location.reload();
             },
             error:function () {
-                util.popWithDelay($(resetPwdModal.find(".confirm")), "删除失败", 3);
+                util.popWithDelay($(resetPwdModal.find(".confirm")), "重置密码失败", 3);
             }
         });
     });

@@ -21,7 +21,7 @@
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">首页</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -71,7 +71,7 @@
                                 我的课程
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" hidden>
                             <a class="nav-link" onclick="window.location='/teacher/notifications'">
                                 <i class="material-icons">notifications</i>
                                 待办

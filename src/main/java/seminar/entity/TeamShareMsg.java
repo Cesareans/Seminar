@@ -1,4 +1,5 @@
 package seminar.entity;
+
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
@@ -7,7 +8,7 @@ import cesare.mybatis.annotations.TargetPackage;
  * @author SWJ
  */
 @TargetPackage(value = "seminar.mapper")
-public class CourseShareMsg {
+public class TeamShareMsg {
     @ID(isIncrement = true)
     private String id;
     private String content;

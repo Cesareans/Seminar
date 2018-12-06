@@ -1,0 +1,30 @@
+package seminar.config;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.test.context.junit4.SpringRunner;
+import seminar.logger.DebugLogger;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SeminarConfigTest {
+    @Autowired
+    JavaMailSender mailSender;
+
+    @Test
+    public void mailSendTest(){
+        SimpleMailMessage message = new SimpleMailMessage();
+        DebugLogger.log(((JavaMailSenderImpl) mailSender).getUsername());
+        message.setFrom(((JavaMailSenderImpl) mailSender).getUsername());
+        message.setTo("1357959025@qq.com");
+        message.setSubject("Test email");
+        message.setText("test");
+        mailSender.send(message);
+    }
+}
