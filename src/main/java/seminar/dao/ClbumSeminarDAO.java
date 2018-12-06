@@ -14,20 +14,21 @@ import java.util.List;
 public class ClbumSeminarDAO {
     private final ClbumSeminarMapper clbumSeminarMapper;
 
+
     @Autowired
     public ClbumSeminarDAO(ClbumSeminarMapper clbumSeminarMapper) {
         this.clbumSeminarMapper = clbumSeminarMapper;
     }
 
-    /*
-    TO DO: Delete here.
+    /**
+     * TODO: Delete here.
      */
     public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId){
         return clbumSeminarMapper.selectClbumSeminarByClbumIdAndSeminarId(clbumId,seminarId);
     }
 
-    /*
-       TO DO: Delete here.
+    /**
+     *  TODO: Delete here.
      */
     public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId){
         return clbumSeminarMapper.selectClbumSeminarById(clbumSeminarId);
@@ -103,6 +104,14 @@ public class ClbumSeminarDAO {
     public List<ClbumSeminar> getByClbumIdAndSeminarId(String clbumId, String seminarId)
     {
         return clbumSeminarMapper.selectClbumSeminarByClbumIdAndSeminarId(clbumId, seminarId);
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    public List<ClbumSeminar> getByClbumSeminarId(String clbumSeminarId)
+    {
+        return clbumSeminarMapper.selectClbumSeminarById(clbumSeminarId);
     }
 
 }

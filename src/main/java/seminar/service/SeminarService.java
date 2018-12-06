@@ -9,6 +9,7 @@ public interface SeminarService {
     /**
      * Get a course's clbums via courseId
      *
+     * @author cesare
      * @param courseId refer gist
      * @return list of course's clbums
      */
@@ -24,6 +25,11 @@ public interface SeminarService {
 
     public List<Round> getRoundsByCourseId(String courseId);
 
+    /**
+     * @author Xinyu Shi
+     * @param roundId
+     * @return
+     */
     public List<Seminar> getSeminarsByRoundId(String roundId);
 
     public List<Seminar> getSeminarBySeminarId(String clbumSeminarId);
@@ -41,6 +47,8 @@ public interface SeminarService {
      * @author lyf
      */
     public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId);
+
+
 
 
 }
