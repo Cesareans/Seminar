@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
@@ -71,7 +71,8 @@
                             <div class="body-content">
                                 <hr>
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item" data-toggle="modal" data-target="#round${round.roundIns.id}Modal">
+                                    <li class="nav-item" data-toggle="modal"
+                                        data-target="#round${round.roundIns.id}Modal">
                                     <#--TODO:Change the icon-->
                                         <a class="nav-link" style="padding-bottom: 0;">
                                             <i class="material-icons">ballot</i>
@@ -121,33 +122,35 @@
                         <div class="col-12 nav-col">
                             <ul class="nav nav-pills nav-pills-icons flex-column">
                                 <#list round.seminars as seminar>
-                                <li class="nav-item">
-                                    <a class="nav-link seminar" href="#pane${seminar.id}" data-toggle="tab" data-seminarId="${seminar.id}">
-                                        <i class="material-icons">list</i>
-                                        <span>${seminar.serial}</span>
-                                        <span class="theme">-${seminar.theme}</span>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link seminar" href="#pane${seminar.id}" data-toggle="tab"
+                                           data-seminarId="${seminar.id}">
+                                            <i class="material-icons">list</i>
+                                            <span>${seminar.serial}</span>
+                                            <span class="theme">-${seminar.theme}</span>
+                                        </a>
+                                    </li>
                                 </#list>
                             </ul>
                         </div>
                         <div class="col-8 tab-col">
                             <div class="tab-content">
                                 <#list round.seminars as seminar>
-                                <div class="tab-pane" id="pane${seminar.id}">
-                                    <div class="info">
+                                    <div class="tab-pane" id="pane${seminar.id}">
+                                        <div class="info">
                                         <#--TODO:Change color here-->
-                                        <div class="icon icon-rose flex-space-between">
-                                            <i class="material-icons">group_work</i>
+                                            <div class="icon icon-rose flex-space-between">
+                                                <i class="material-icons">group_work</i>
+                                            </div>
+                                            <h4 class="info-title">${seminar.theme}</h4>
                                         </div>
-                                        <h4 class="info-title">${seminar.theme}</h4>
                                     </div>
-                                </div>
                                 </#list>
                             </div>
                             <div class="container">
                                 <#list clbums as clbum>
-                                    <button type="button" class="btn btn-round bg-dark clbum-btn" data-clbumId = "${clbum.id}">${clbum.clbumName}</button>
+                                    <button type="button" class="btn btn-round bg-dark clbum-btn"
+                                            data-clbumId="${clbum.id}">${clbum.clbumName}</button>
                                 </#list>
                             </div>
                         </div>
@@ -160,12 +163,21 @@
 </div>
 </#list>
 
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
-            style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建讨论课
-    </button>
+<div class="container foot-container flex-space-between">
+    <div class="left-button">
+        <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
+                style="margin: 0">
+            <i class="material-icons">add_circle</i>
+            轮次
+        </button>
+    </div>
+    <div class="right-button">
+        <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
+                style="margin: 0">
+            <i class="material-icons">add_circle</i>
+            讨论课
+        </button>
+    </div>
 </div>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info">
     <input id="seminarIdInput" name="seminarId" title="">

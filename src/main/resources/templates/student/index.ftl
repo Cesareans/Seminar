@@ -17,7 +17,10 @@
 <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand">首页</a>
+            <a class="navbar-brand" style="visibility: hidden">
+                <i class="material-icons">arrow_back_ios</i>
+            </a>
+            <div class="navbar-brand brand-title">首页</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
@@ -29,7 +32,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
@@ -37,12 +40,6 @@
                     <a class="nav-link">
                         <i class="material-icons">notifications</i>
                         待办
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        讨论课
                     </a>
                 </li>
             </ul>
@@ -60,28 +57,22 @@
                             <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
                         </div>
                         <div class="name">
-                            <h3 class="title">胡泽勇</h3>
+                            <h3 class="title">${student.studentName}</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row options">
                 <div class="col-md-6 ml-auto mr-auto">
-                    <ul class="nav nav-pills nav-pills-icons flex-center">
+                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" onclick="window.location='/student/courseList'">
                                 <i class="material-icons">dashboard</i>
                                 我的课程
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
-                                <i class="material-icons">notifications</i>
-                                待办
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" onclick="window.location='/student/option'">
                                 <i class="material-icons">settings</i>
                                 账户设置
                             </a>

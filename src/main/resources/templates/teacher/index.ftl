@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
@@ -72,13 +72,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" onclick="window.location='/teacher/notifications'">
                                 <i class="material-icons">notifications</i>
                                 待办
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" onclick="window.location='/teacher/option'">
                                 <i class="material-icons">settings</i>
                                 账户设置
                             </a>
