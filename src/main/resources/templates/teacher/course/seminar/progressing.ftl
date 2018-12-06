@@ -50,25 +50,44 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised no-footer" id="main" data-csId = "${csId}">
+<div class="main main-raised" id="main" data-csId="${csId}">
+    <form class="form" id="loginForm">
+        <div class="container">
+            <div class="row" style="margin-top: 30px;">
+                <div class="col-8">
+                    <div class="form-group bmd-form-group" style="padding-top: 10px;">
+                        <input id="toServer" name="toServer" type="text" placeholder="消息" autocomplete="off"
+                               class="form-control empty-verify" data-emptyMessage="请输入消息">
+                    </div>
+                </div>
+                <div class="col-4 flex-right" style="padding-right: 3%;">
+                    <button type="button" id="send" class="btn bg-dark">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="container">
-        <button class="btn btn-lg bg-dark" id="connect">
+        <div class="card"  style="height: calc(100% - 140px);">
+            <div id="msgList" class="card-body" style="overflow: scroll;flex-wrap: wrap">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container foot-container flex-center">
+    <div class="left-button">
+        <button class="btn bg-dark" id="connect" style="margin: 0">
             Connect
         </button>
     </div>
-    <div class="container">
-        <button class="btn btn-lg bg-dark" id="disconnect">
+    <div class="right-button">
+        <button class="btn bg-dark" id="disconnect" style="margin: 0">
             Disconnect
         </button>
-    </div>
-    <div class="container">
-        From server:
-        <div id="message"></div>
-    </div>
-    <div class="container">
-        <label for="toServer">To server:</label>
-        <input id="toServer">
-        <button id="send" class="btn btn-lg bg-dark">Send</button>
     </div>
 </div>
 <!--   Core JS Files   -->

@@ -21,7 +21,7 @@
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">课程</div>
+            <div class="navbar-brand brand-title">账户设置</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,65 +48,59 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
-    <#if courses?size ==0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else>
-        <div class="container">
-            <div class="row">
-            <#list courses as course>
-            <div class="col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title">${course.courseName}</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 ml-auto mr-auto">
-                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                        <li class="nav-item seminar-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">event_note</i>
-                                                讨论课
-                                            </a>
-                                        </li>
-                                        <li class="nav-item clbum-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">class</i>
-                                                班级
-                                            </a>
-                                        </li>
-                                        <li class="nav-item team-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">group</i>
-                                                分组
-                                            </a>
-                                        </li>
-                                    </ul>
+<div class="main main-raised info-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="profile">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="avatar">
+                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
                                 </div>
+                            </div>
+                            <div class="col-8 avatar-side">
+                                <h3 class="title">${teacher.teacherName}</h3>
+                                <hr>
+                                <h4 class="title">${teacher.teacherNum}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </#list>
+        </div>
+        <hr>
+        <div class="row options" style="margin-top: 30px">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="flex-space-between">
+                            <span>电子邮箱：${teacher.email}</span>
+                            <span>
+                            <a class="btn btn-link btn-fab-mini btn-fab btn-round btn-rose"
+                               style="margin-top: 0;margin-bottom: 0;">
+                            <i class="material-icons">edit</i>
+                            </a>
+                        </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </#if>
+        <div class="row options" style="margin-top: 30px">
+            <div class="col-md-6 ml-auto mr-auto">
+                <button class="btn btn-round bg-dark" style="width: 100%">
+                    修改密码
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/create'" class="btn btn-dark btn-round bg-dark" style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建课程
+    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+        <i class="material-icons">exit_to_app</i>
+        退出登录
     </button>
 </div>
 <form hidden id="courseIdForm">

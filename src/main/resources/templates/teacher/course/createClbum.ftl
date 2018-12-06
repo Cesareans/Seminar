@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
@@ -122,13 +122,13 @@
     </div>
 </div>
 <div class="container foot-container flex-center">
-    <div class="confirm-div">
+    <div class="left-button">
         <button class="btn btn-dark btn-round bg-dark confirm" style="margin: 0">
             <i class="material-icons">add_circle</i>
             创建
         </button>
     </div>
-    <div class="cancel-div">
+    <div class="right-button">
         <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/clbum'" style="margin: 0">
             <i class="material-icons">clear</i>
             取消

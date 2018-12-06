@@ -1,11 +1,11 @@
 var client = null;
-var message;
+var msgList;
 var socketAddr = "/seminar-socket";
 var clientAddr = '/topic/client/';
 var serverAddr = "/app/teacher/clbumSeminar/";
 var csId;
 $(function () {
-    message = $("#message");
+    msgList = $("#msgList");
     csId = $("#main").attr("data-csId");
     serverAddr += csId;
     clientAddr += csId;
@@ -14,8 +14,9 @@ $(function () {
         client = Stomp.over(socket);
         client.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            client.subscribe(clientAddr, function (greeting) {
-                message.html(JSON.parse(greeting.body).message);
+            client.subscribe(clientAddr, function (m) {
+                var json = JSON.parse(m.body);
+                appendMessage(json["user"],json["message"]);
             });
         });
     });
@@ -26,9 +27,21 @@ $(function () {
         console.log("disconnect");
     });
     $("#send").click(function () {
-        client.send(serverAddr, {}, JSON.stringify({'name': $("#toServer").val()}));
+        var toServer = $("#toServer");
+        var msg = JSON.stringify(toServer.val());
+        client.send(serverAddr, {}, msg.substring(1,msg.length - 1));
+        toServer.val("");
     });
 });
+
+function appendMessage(user, msg) {
+    var dom = $("<h6 style='margin: 0 20px 0 0;'>"+user+":</h6><h5 style='margin: 0;text-wrap: unrestricted '>" + msg + "</h5>");
+    var line = $("<div style='display: flex;align-items: center;justify-content: flex-start'></div>");
+    line.append(dom);
+    console.log(line);
+    msgList.append(line);
+    msgList.append($("<hr>"));
+}
 
 
 
