@@ -54,7 +54,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId){
-        return clbumSeminarDAO.getClbumSeminarByClbumIdAndSeminarId(clbumId,seminarId);
+        return clbumSeminarDAO.getByClbumIdAndSeminarId(clbumId,seminarId);
     }
 
     @Override

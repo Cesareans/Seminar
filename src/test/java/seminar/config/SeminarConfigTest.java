@@ -20,7 +20,6 @@ public class SeminarConfigTest {
     @Test
     public void mailSendTest(){
         SimpleMailMessage message = new SimpleMailMessage();
-        DebugLogger.log(((JavaMailSenderImpl) mailSender).getUsername());
         message.setFrom(((JavaMailSenderImpl) mailSender).getUsername());
         message.setTo("1357959025@qq.com");
         message.setSubject("Test email");

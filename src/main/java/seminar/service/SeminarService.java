@@ -9,6 +9,7 @@ public interface SeminarService {
     /**
      * Get a course's clbums via courseId
      *
+     * @author cesare
      * @param courseId refer gist
      * @return list of course's clbums
      */
