@@ -111,10 +111,26 @@ public interface TeacherService {
     public boolean updateTeam(String teamId);
 
     /**
-     * Check all teams which in current course
+     * Create a new seminarShareMsg
      * @author SWJ
-     * @param  courseId refer gist.
-     * @return Team entity
+     * @param  seminarShareMsg refer gist
+     * @return success or fail
      */
-    public List<Team> getTeamByTeacherId(String courseId);
+    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
+
+    /**
+     * Create a new seminarShare when accept seminarShareMsg
+     * @author SWJ
+     * @param  seminarShare refer gist
+     * @return success or fail
+     */
+    public boolean createSeminarShare(SeminarShare seminarShare);
+
+    /**
+     * Delete the seminarShare when cancel a seminarShare
+     * @author SWJ
+     * @param  id refer gist. principal_course_id or subordinate_course_id
+     * @return void
+     */
+    public void deleteSeminarShare(String id);
 }
