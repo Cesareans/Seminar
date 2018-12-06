@@ -41,8 +41,9 @@ public class SeminarDAO {
      * @author lyf
      */
     public boolean update(Seminar seminar) {
-        if(seminarMapper.selectSeminarById(seminar.getId()).isEmpty())
+        if(seminarMapper.selectSeminarById(seminar.getId()).isEmpty()) {
             return false;
+        }
         else{
             seminarMapper.updateSeminar(seminar);
             return true;

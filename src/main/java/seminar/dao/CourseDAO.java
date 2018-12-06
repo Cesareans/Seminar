@@ -34,7 +34,9 @@ public class CourseDAO {
     */
     public boolean deleteByTeacherId(String teacherId){
         List<Course> courses = courseMapper.selectCourseByTeacherId(teacherId);
-        if(courses.isEmpty()) return false;
+        if(courses.isEmpty()) {
+            return false;
+        }
         else{
             courseMapper.deleteCourseByTeacherId(teacherId);
             return true;
@@ -46,21 +48,20 @@ public class CourseDAO {
     public boolean create(Course course, MaxMinRegulation maxMinRegulation) {
         List<Course> courses = courseMapper.selectCourseByTeacherId(course.getTeacherId());
         for(Course c: courses) {
-            if (c.getCourseName().equals(course.getCourseName()))
+            if (c.getCourseName().equals(course.getCourseName())) {
                 return false;
-        }
-        courseMapper.insertCourse(course);
-
-        List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(course.getId());
-        if(!maxMinRegulations.isEmpty()){
-            for(MaxMinRegulation m:maxMinRegulations){
-                maxMinRegulationMapper.updateMaxMinRegulation(m);
             }
         }
-        else{
-            maxMinRegulationMapper.insertMaxMinRegulation(maxMinRegulation);
+        courseMapper.insertCourse(course);
+        List<Course> cs = courseMapper.selectCourseByTeacherId(course.getTeacherId());
+        for(Course c:cs){
+            if(c.getCourseName().equals(course.getCourseName())){
+                maxMinRegulation.setCourseId(c.getId());
+                maxMinRegulationMapper.insertMaxMinRegulation(maxMinRegulation);
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -82,9 +83,13 @@ public class CourseDAO {
                 maxMinRegulationMapper.updateMaxMinRegulation(maxMinRegulation);
                 return true;
             }
-            else return false;
+            else {
+                return false;
+            }
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
 }
