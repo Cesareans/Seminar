@@ -156,7 +156,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateTeam(String id){
-        return teamDAO.updateById(id);
+    public boolean updateTeam(Team team){
+        return teamDAO.update(team);
     }
 }

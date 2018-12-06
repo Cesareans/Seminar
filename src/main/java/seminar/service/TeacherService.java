@@ -106,9 +106,9 @@ public interface TeacherService {
      * TODO[SWJ]: May can only update team's is_valid
      * Agree this team's invalid state, update this team's is_valid
      * @author SWJ
-     * @param  id refer gist.
+     * @param  team refer gist.
      * @return success or fail
      */
-    public boolean updateTeam(String id);
+    public boolean updateTeam(Team team);
 
 }
