@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Component
 public class GroupValidityMsgDAO {
-    private GroupValidityMsgMapper groupValidityMsgMapper;
+    private final GroupValidityMsgMapper groupValidityMsgMapper;
     @Autowired
     public GroupValidityMsgDAO(GroupValidityMsgMapper groupValidityMsgMapper){
         this.groupValidityMsgMapper = groupValidityMsgMapper;
@@ -21,8 +21,12 @@ public class GroupValidityMsgDAO {
     public void create(GroupValidityMsg groupValidityMsg){
         groupValidityMsgMapper.insertGroupValidityMsg(groupValidityMsg);
     }
-    public void update(GroupValidityMsg groupValidityMsg){
-        groupValidityMsgMapper.updateGroupValidityMsg(groupValidityMsg);
+    public boolean update(GroupValidityMsg groupValidityMsg){
+        if(!groupValidityMsgMapper.selectGroupValidityMsgById(groupValidityMsg.getId()).isEmpty()){
+            groupValidityMsgMapper.updateGroupValidityMsg(groupValidityMsg);
+            return true;
+        }
+        return false;
     }
     public List<GroupValidityMsg> getAll(){
         return groupValidityMsgMapper.selectAllGroupValidityMsg();

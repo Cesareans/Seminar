@@ -1,7 +1,6 @@
 package seminar;
 
 import cesare.mybatis.EntityGenerator;
-import cesare.mybatis.PackageGenerator;
 import seminar.entity.*;
 
 /**
@@ -9,7 +8,7 @@ import seminar.entity.*;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("Cesare", Teacher.class);
+        EntityGenerator generator = new EntityGenerator("SWJ", TeamShareMsg.class);
         generator.generateMapper();
     }
 }

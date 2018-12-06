@@ -2,7 +2,9 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.SeminarShare;
 import seminar.entity.SeminarShareMsg;
+import seminar.mapper.SeminarShareMapper;
 import seminar.mapper.SeminarShareMsgMapper;
 
 import java.util.List;
@@ -12,17 +14,33 @@ import java.util.List;
  */
 @Component
 public class SeminarShareMsgDAO {
-    private SeminarShareMsgMapper seminarShareMsgMapper;
+    private final SeminarShareMsgMapper seminarShareMsgMapper;
+    private final SeminarShareMapper seminarShareMapper;
     @Autowired
-    public SeminarShareMsgDAO(SeminarShareMsgMapper seminarShareMsgMapper){
+    public SeminarShareMsgDAO(SeminarShareMsgMapper seminarShareMsgMapper, SeminarShareMapper seminarShareMapper){
         this.seminarShareMsgMapper=seminarShareMsgMapper;
+        this.seminarShareMapper=seminarShareMapper;
     }
-
-    public void create(SeminarShareMsg seminarShareMsg){
+    /**
+     * The course which is a subordinateCourse can't send a seminar share message
+     *
+     */
+    public boolean create(SeminarShareMsg seminarShareMsg){
+        List<SeminarShare> seminarShares =seminarShareMapper.selectAllSeminarShare();
+        for(SeminarShare s:seminarShares){
+            if(s.getSubordinateCourseId().equals(seminarShareMsg.getPrincipalCourseId())){
+                return false;
+            }
+        }
         seminarShareMsgMapper.insertSeminarShareMsg(seminarShareMsg);
+        return true;
     }
-    public void update(SeminarShareMsg seminarShareMsg){
-        seminarShareMsgMapper.updateSeminarShareMsg(seminarShareMsg);
+    public boolean update(SeminarShareMsg seminarShareMsg){
+        if(!seminarShareMsgMapper.selectSeminarShareMsgById(seminarShareMsg.getId()).isEmpty()){
+            seminarShareMsgMapper.updateSeminarShareMsg(seminarShareMsg);
+            return true;
+        }
+        return false;
     }
     public List<SeminarShareMsg> getAll(){
         return seminarShareMsgMapper.selectAllSeminarShareMsg();

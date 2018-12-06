@@ -16,4 +16,5 @@ public class CourseMapperTest {
     public void selectCourseByTeacherNumTest(){
         System.out.println(courseMapper.selectCourseByTeacherId("123479"));
     }
+
 }

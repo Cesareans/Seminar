@@ -70,4 +70,45 @@ public interface TeacherService {
      */
     public void deleteSeminarByRoundId(String courseId);
 
+    /**
+     * Create a new TeamShareMsg
+     * @author SWJ
+     * @param  teamShareMsg refer gist
+     * @return success or fail
+     */
+    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg);
+
+    /**
+     * Create a new teamShare when accept TeamShareMsg
+     * @author SWJ
+     * @param  teamShare refer gist
+     * @return success or fail
+     */
+    public boolean createTeamShare(TeamShare teamShare);
+
+    /**
+     * Delete the teamShare when cancel a teamShare
+     * @author SWJ
+     * @param  id refer gist. principal_course_id or subordinate_course_id
+     * @return void
+     */
+    public void deleteTeamShare(String id);
+
+    /**
+     * Check teacher's own groupValidityMsg
+     * @author SWJ
+     * @param  teacherId refer gist.
+     * @return This teacher's all groupValidityMsg
+     */
+    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
+
+    /**
+     * TODO[SWJ]: May can only update team's is_valid
+     * Agree this team's invalid state, update this team's is_valid
+     * @author SWJ
+     * @param  team refer gist.
+     * @return success or fail
+     */
+    public boolean updateTeam(Team team);
+
 }

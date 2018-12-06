@@ -12,17 +12,31 @@ import java.util.List;
  */
 @Component
 public class SeminarShareDAO {
-    private SeminarShareMapper seminarShareMapper;
+    private final SeminarShareMapper seminarShareMapper;
     @Autowired
     public SeminarShareDAO(SeminarShareMapper seminarShareMapper){
         this.seminarShareMapper = seminarShareMapper;
     }
-
-    public void create(SeminarShare seminarShare){
+    /**
+     * The course which is a subordinateCourse can't be a new principalCourse
+     *
+     */
+    public boolean create(SeminarShare seminarShare){
+        List<SeminarShare> seminarShares = seminarShareMapper.selectAllSeminarShare();
+        for(SeminarShare s:seminarShares){
+            if(s.getSubordinateCourseId().equals(seminarShare.getPrincipalCourseId())){
+                return false;
+            }
+        }
         seminarShareMapper.insertSeminarShare(seminarShare);
+        return true;
     }
-    public void update(SeminarShare seminarShare){
-        seminarShareMapper.updateSeminarShare(seminarShare);
+    public boolean update(SeminarShare seminarShare){
+        if(!seminarShareMapper.selectSeminarShareById(seminarShare.getId()).isEmpty()) {
+            seminarShareMapper.updateSeminarShare(seminarShare);
+            return true;
+        }
+        return false;
     }
     public List<SeminarShare> getAllSeminarShare(){
         return seminarShareMapper.selectAllSeminarShare();
