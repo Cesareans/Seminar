@@ -105,4 +105,12 @@ public class ClbumSeminarDAO {
         return clbumSeminarMapper.selectClbumSeminarByClbumIdAndSeminarId(clbumId, seminarId);
     }
 
+    /**
+     * @author Xinyu Shi
+     */
+    public List<ClbumSeminar> getByClbumSeminarId(String clbumSeminarId)
+    {
+        return clbumSeminarMapper.selectClbumSeminarById(clbumSeminarId);
+    }
+
 }
