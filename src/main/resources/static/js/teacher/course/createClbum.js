@@ -1,37 +1,38 @@
-var datetimepicker;
+var createClbumForm;
 $(function () {
-    datetimepicker = $(".datetimepicker");
-    datetimepicker.datetimepicker({
-        format: 'L'
-    });
-
+    createClbumForm = $("#createClbumForm");
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
-            //TODO:post create clbum info
+            console.log(createClbumForm.serialize());
+            $.ajax({
+                type: "put",
+                url: "/teacher/course/clbum",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(createClbumForm.serializeObject()),
+                success: function (result, status, xhr) {
+                    if (xhr.status === 200) {
+                        window.location = "/teacher/course/clbumList";
+                    }
+                },
+                error: function (xhr) {//xhr, textStatus, errorThrown
+                    if (xhr.status === 400) {
+                        util.showAlert("danger", "创建失败，班级相同", 3);
+                    }else{
+                        util.showAlert("danger", "创建失败，未知错误", 3);
+                    }
+                }
+            })
         }else{
             dropdown(verify.parents(".dropdown-card"));
             verify.focus();
         }
     });
-    $("#gradeCard").click(function (ev) {
+    $("#introCard").click(function (ev) {
         var offsetY = ev.pageY - $(this).offset().top;
         if(offsetY>0&&offsetY<50){
             toggleDrop($(this));
         }
-    });
-    $("#groupCard").click(function (ev) {
-        var offsetY = ev.pageY - $(this).offset().top;
-        if(offsetY>0&&offsetY<50){
-            toggleDrop($(this));
-        }
-    });
-    datetimepicker.bind("focus",function () {
-        console.log($(this).parent());
-        $(this).parent().addClass("on-date")
-    });
-    datetimepicker.bind("blur",function () {
-        $(this).parent().removeClass("on-date")
     });
 });
 

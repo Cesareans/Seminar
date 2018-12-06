@@ -32,15 +32,18 @@ public class AdminDAO {
             adminMapper.insertAdministrator(administrator);
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
     /**
      * @author lyf
      */
     public boolean deleteByName(String adminName){
-        if(adminMapper.selectAdministratorByAdminName(adminName).isEmpty())
+        if(adminMapper.selectAdministratorByAdminName(adminName).isEmpty()) {
             return false;
+        }
         else{
             adminMapper.deleteAdministratorByAdminName(adminName);
             return true;
@@ -52,9 +55,9 @@ public class AdminDAO {
      * @author lyf
      */
     public boolean update(Administrator administrator){
-        if(adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty())
+        if(adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty()) {
             return false;
-
+        }
         else{
             adminMapper.updateAdministrator(administrator);
             return true;

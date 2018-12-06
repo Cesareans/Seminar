@@ -18,7 +18,7 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be inserted
      */
-    @Insert("insert into student(student_name, student_num, password, email, msg_interval, is_activated) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{msgInterval}, #{activated})")
+    @Insert("insert into student(student_name, student_num, password, email, is_activated) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{activated})")
     void insertStudent(Student student);
 
     /**
@@ -26,16 +26,8 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be updated via the private java.lang.String seminar.entity.Student.id
      */
-    @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, msg_interval=#{msgInterval}, is_activated=#{activated} where id=#{id}")
+    @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
     void updateStudent(Student student);
-
-    /**
-     * Update a Student entity's password
-     *
-     * @param student the Student entity's password that will be updated via the private java.lang.String seminar.entity.Student.id
-     */
-    @Update("update student set password=#{password} where id=#{id}")
-    void updatePasswordByStudentId(Student student, String password, String id);
 
     /**
      * Select all Student entities
@@ -49,7 +41,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectAllStudent();
@@ -67,7 +58,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentByStudentName(String studentName);
@@ -85,7 +75,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentByStudentNum(String studentNum);
@@ -103,7 +92,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentById(String id);

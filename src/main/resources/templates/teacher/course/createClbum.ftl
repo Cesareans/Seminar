@@ -53,23 +53,24 @@
     <div class="container">
         <div class="row flex-center">
             <div class="col-md-6">
-                <form class="form" id="createCourseForm">
+                <form class="form" id="createClbumForm">
+                    <input hidden name="courseId" value="${courseId}" title="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
                         </div>
                         <div class="col">
-                            <input id="username" name="username" type="text" placeholder="年级" autocomplete="off"
+                            <input id="gradeNum" name="gradeNum" type="text" placeholder="年级" autocomplete="off"
                                    class="form-control empty-verify" data-emptyMessage="请输入年级">
                         </div>
                         <div class="col">
-                            <input id="username" name="username" type="text" placeholder="班级" autocomplete="off"
+                            <input id="clbumNum" name="clbumNum" type="text" placeholder="班级" autocomplete="off"
                                    class="form-control empty-verify" data-emptyMessage="请输入班级">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="groupCard" class="card form-card dropdown-card">
+                            <div id="introCard" class="card form-card dropdown-card">
                                 <div class="card-body">
                                     <div class="body-header">
                                         <div class="body-title">班级简介</div>
@@ -80,21 +81,21 @@
                                     <div class="body-content">
                                         <hr>
                                         <div class="line">
-                                            <label for="groupStart">讨论课时间</label>
+                                            <label for="clbumTime">讨论课时间</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group">
-                                                    <input id="groupStart" name="groupStart" type="text" autocomplete="off"
+                                                    <input id="clbumTime" name="clbumTime" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="line">
-                                            <label for="groupEnd">讨论课地点</label>
+                                            <label for="location">讨论课地点</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group">
-                                                    <input id="groupEnd" name="groupEnd" type="text" autocomplete="off"
+                                                    <input id="location" name="location" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
                                                 </div>
                                             </div>

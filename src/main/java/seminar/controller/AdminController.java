@@ -11,6 +11,7 @@ import seminar.entity.Student;
 import seminar.entity.Teacher;
 import seminar.entity.vo.StudentFilter;
 import seminar.entity.vo.TeacherFilter;
+import seminar.logger.DebugLogger;
 import seminar.service.AccountManageService;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class AdminController {
 
     @PutMapping("/teacher")
     public @ResponseBody
-    ResponseEntity<Object> addTeacher(Teacher teacher) {
+    ResponseEntity<Object> addTeacher(@RequestBody Teacher teacher) {
         if (teacher.getTeacherName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
@@ -74,9 +75,9 @@ public class AdminController {
         }
     }
 
-    @PatchMapping("/teacher")
+    @PatchMapping(value = "/teacher")
     public @ResponseBody
-    ResponseEntity<Object> updateTeacher(Teacher teacher) {
+    ResponseEntity<Object> updateTeacher(@RequestBody Teacher teacher) {
         if (accountManageService.updateTeacher(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
@@ -106,7 +107,7 @@ public class AdminController {
 
     @DeleteMapping("/teacher")
     public @ResponseBody
-    ResponseEntity<Object> deleteTeacher(String[] teacherNum) {
+    ResponseEntity<Object> deleteTeacher(@RequestBody String[] teacherNum) {
         for (String s : teacherNum) {
             if (!accountManageService.deleteByTeacherNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
@@ -143,7 +144,7 @@ public class AdminController {
 
     @PutMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> addStudent(Student student) {
+    ResponseEntity<Object> addStudent(@RequestBody Student student) {
         if (student.getStudentName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
@@ -158,7 +159,7 @@ public class AdminController {
 
     @PatchMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> updateStudent(Student student) {
+    ResponseEntity<Object> updateStudent(@RequestBody Student student) {
         if (accountManageService.updateStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
@@ -188,7 +189,7 @@ public class AdminController {
 
     @DeleteMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> deleteStudent(String[] studentNum) {
+    ResponseEntity<Object> deleteStudent(@RequestBody String[] studentNum) {
         for (String s : studentNum) {
             if (!accountManageService.deleteStudentByStuNum(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);

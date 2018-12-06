@@ -1,7 +1,6 @@
 package seminar;
 
 import cesare.mybatis.EntityGenerator;
-import cesare.mybatis.PackageGenerator;
 import seminar.entity.*;
 
 /**

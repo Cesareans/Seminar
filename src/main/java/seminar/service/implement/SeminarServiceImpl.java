@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Service
 public class SeminarServiceImpl implements SeminarService {
+    private final CourseDAO courseDAO;
     private final ClbumDao clbumDao;
     private final TeamDAO teamDAO;
     private final RoundDAO roundDAO;
@@ -21,7 +22,8 @@ public class SeminarServiceImpl implements SeminarService {
     private final AttendanceDAO attendanceDAO;
 
     @Autowired
-    public SeminarServiceImpl(ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO) {
+        this.courseDAO = courseDAO;
         this.clbumDao = clbumDao;
         this.teamDAO = teamDAO;
         this.roundDAO = roundDAO;
@@ -71,5 +73,8 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
 
-
+    @Override
+    public List<Course> getCourseByCourseId(String courseId) {
+        return courseDAO.getByCourseId(courseId);
+    }
 }

@@ -14,7 +14,7 @@ $(function () {
     $(".team-nav").click({url:'/teacher/course/teamList'},courseCardNavClick);
     $(".seminar-nav").click({url:'/teacher/course/seminarList'},courseCardNavClick);
     $("#gradeNav");
-    $("#infoNav");
+    $("#infoNav").click({url:'/teacher/course/info'},modalCardNavClick);
     $("#optionNav");
     $("#shareNav");
 
@@ -30,7 +30,6 @@ function modalCardNavClick(e) {
     postCourseId(e.data.url,courseModal.attr("data-courseID"));
 }
 function postCourseId(url,id) {
-    console.log(url);
     courseIdForm.form.attr("action", url);
     courseIdForm.courseIdInput.val(id);
     courseIdForm.form.submit();

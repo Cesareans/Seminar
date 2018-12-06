@@ -44,12 +44,7 @@ public class CourseCreateVO {
 
     @Override
     public String toString() {
-        try {
-            return SeminarConfig.objectMapper.writeValueAsString(this);
-        }catch (Exception ex){
-            DebugLogger.log(ex.getMessage());
-            return null;
-        }
+        return "";
     }
 
     public String getCourseName() {

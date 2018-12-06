@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import seminar.entity.Student;
-import seminar.entity.Teacher;
 import seminar.service.SeminarService;
 import seminar.service.StudentService;
 
@@ -48,7 +47,7 @@ public class StudentController {
     }
 
     @GetMapping("/courseList")
-    public String courses() {
-        return "student/course";
+    public String courses(Model model, HttpSession session) {
+        return "courseList";
     }
 }

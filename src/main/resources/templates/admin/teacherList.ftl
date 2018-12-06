@@ -21,10 +21,10 @@
         <col/>
         <col width="5%"/>
         <col width="20%" class="left-align"/>
-        <col width="20%" class="left-align"/>
-        <col width="20%" class="left-align"/>
+        <col width="15%" class="left-align"/>
+        <col width="25%" class="left-align"/>
         <col/>
-        <col width="10%"/>
+        <col width="10%" style="margin-right: -20px"/>
     </colgroup>
     <tbody>
     <#if teachers?size == 0>

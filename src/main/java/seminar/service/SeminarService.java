@@ -35,6 +35,8 @@ public interface SeminarService {
 
     public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId);
 
+    public List<Course> getCourseByCourseId(String courseId);
+
     /**
      * @author lyf
      */
