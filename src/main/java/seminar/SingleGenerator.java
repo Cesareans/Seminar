@@ -8,7 +8,7 @@ import seminar.entity.*;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("SWJ", TeamShareMsg.class);
+        EntityGenerator generator = new EntityGenerator("Xinyu Shi", TeamShare.class);
         generator.generateMapper();
     }
 }
