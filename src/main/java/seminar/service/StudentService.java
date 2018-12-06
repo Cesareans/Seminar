@@ -26,5 +26,4 @@ public interface StudentService {
      * @return boolean
      */
     public boolean createTeam(Team team);
-
 }

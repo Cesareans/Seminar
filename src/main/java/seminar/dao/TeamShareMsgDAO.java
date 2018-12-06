@@ -22,13 +22,16 @@ public class TeamShareMsgDAO {
     }
 
     /**
-     * The course which is a subordinateCourse can't send a seminar share message
+     * The course which is a subordinateCourse can't send and receive a seminar share message
      *
      */
     public boolean create(TeamShareMsg teamShareMsg){
         List<TeamShare> teamShares = teamShareMapper.selectAllTeamShare();
         for(TeamShare t:teamShares){
             if(t.getSubordinateCourseId().equals(teamShareMsg.getPrincipalCourseId())) {
+                return false;
+            }
+            else if(t.getSubordinateCourseId().equals(teamShareMsg.getSubordinateCourseId())) {
                 return false;
             }
         }

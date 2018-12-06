@@ -20,13 +20,16 @@ public class TeamShareDAO {
     }
 
     /**
-     * The course which is a subordinateCourse can't be a new principalCourse
+     * The course which is a subordinateCourse can't be a new principalCourse and can't be another subordinateCourse
      *
      */
     public boolean create(TeamShare teamShare){
         List<TeamShare> teamShares=teamShareMapper.selectAllTeamShare();
         for(TeamShare t:teamShares){
             if(t.getSubordinateCourseId().equals(teamShare.getPrincipalCourseId())){
+                return false;
+            }
+            if(t.getSubordinateCourseId().equals(teamShare.getSubordinateCourseId())&&!t.getPrincipalCourseId().equals(teamShare.getPrincipalCourseId())){
                 return false;
             }
         }

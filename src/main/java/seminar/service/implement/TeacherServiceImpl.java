@@ -19,14 +19,22 @@ public class TeacherServiceImpl implements TeacherService {
     private final MaxMinRegulationDAO maxMinRegulationDAO;
     private TeacherDAO teacherDAO;
     private final CourseDAO courseDAO;
+    private final TeamShareMsgDAO teamShareMsgDAO;
+    private final TeamShareDAO teamShareDAO;
+    private final GroupValidityMsgDAO groupValidityMsgDAO;
+    private final TeamDAO teamDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
         this.clbumDAO = clbumDAO;
         this.maxMinRegulationDAO = maxMinRegulationDAO;
+        this.teamShareMsgDAO = teamShareMsgDAO;
+        this.teamShareDAO = teamShareDAO;
+        this.groupValidityMsgDAO = groupValidityMsgDAO;
+        this.teamDAO = teamDAO;
     }
 
     @Override
@@ -112,4 +120,43 @@ public class TeacherServiceImpl implements TeacherService {
         seminarDAO.deleteByRoundId(roundId);
     }
 
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg){
+        return teamShareMsgDAO.create(teamShareMsg);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean createTeamShare(TeamShare teamShare){
+        return teamShareDAO.create(teamShare);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public void deleteTeamShare(String id){
+        teamShareDAO.deleteById(id);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId){
+        return groupValidityMsgDAO.getByTeacherId(teacherId);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean updateTeam(String id){
+        return teamDAO.updateById(id);
+    }
 }
