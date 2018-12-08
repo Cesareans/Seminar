@@ -87,4 +87,10 @@ public class TeamStudentDAO {
         teamStudentMapper.updateTeamStudent(teamStudent);
     }
 
+    /**
+     * @author  SWJ
+     */
+    public void deleteByTeamId(String teamId){
+        teamStudentMapper.deleteTeamStudentByTeamId(teamId);
+    }
 }

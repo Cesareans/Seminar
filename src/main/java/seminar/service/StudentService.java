@@ -18,13 +18,17 @@ public interface StudentService {
     public List<Student> getStudentBySN(String studentNum);
 
     /**
-     * TODO[SWJ]:
-     * create a new team
-     *
-     * @param team new team
+     * Create a new team
      * @author SWJ
-     * @return boolean
+     * @param  team refer gist
+     * @return success or fail
      */
     public boolean createTeam(Team team);
 
+    /**
+     * Leave from the team
+     * @author SWJ
+     * @param  studentId refer gist
+     */
+    public void leaveTeam(String studentId);
 }

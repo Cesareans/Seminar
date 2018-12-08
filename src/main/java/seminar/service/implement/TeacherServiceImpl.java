@@ -25,9 +25,10 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeamDAO teamDAO;
     private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final SeminarShareDAO seminarShareDAO;
+    private final AttendanceDAO attendanceDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO, AttendanceDAO attendanceDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -39,6 +40,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.teamDAO = teamDAO;
         this.seminarShareMsgDAO = seminarShareMsgDAO;
         this.seminarShareDAO = seminarShareDAO;
+        this.attendanceDAO = attendanceDAO;
     }
 
     @Override
@@ -194,16 +196,31 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public void deleteSeminarShare(String id){
+    public void deleteSeminarShare(String courseid){
         List<SeminarShare> seminarShares = seminarShareDAO.getAll();
         for(SeminarShare s:seminarShares){
-            if(s.getPrincipalCourseId().equals(id)) {
-                seminarShareDAO.deleteByPCourseId(id);
+            if(s.getPrincipalCourseId().equals(courseid)) {
+                seminarShareDAO.deleteByPCourseId(courseid);
             }
-            if(s.getSubordinateCourseId().equals(id)){
-                seminarShareDAO.deleteBySubCourseId(id);
+            if(s.getSubordinateCourseId().equals(courseid)){
+                seminarShareDAO.deleteBySubCourseId(courseid);
             }
         }
     }
 
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean updateReportScore(int reportScore, String clbumSeminarId){
+        List<Attendance> attendances = attendanceDAO.getByClbumSeminarId(clbumSeminarId);
+        for(Attendance a:attendances) {
+            a.setReportScore(reportScore);
+            boolean flag = attendanceDAO.update(a);
+            if (!flag) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
