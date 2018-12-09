@@ -4,8 +4,10 @@ import seminar.entity.*;
 
 import java.util.List;
 
+/**
+ * @author Cesare
+ */
 public interface SeminarService {
-
     /**
      * Get a course's clbums via courseId
      *
@@ -16,13 +18,21 @@ public interface SeminarService {
     public List<Clbum> getClbumByCourseId(String courseId);
 
     /**
-     * TODO:Write Javadoc
+     * Get a course's teams via courseId
      *
-     * @param courseId
-     * @return
+     * @author cesare
+     * @param courseId refer gist
+     * @return list of course's teams
      */
     public List<Team> getTeamsByCourseId(String courseId);
 
+    /**
+     * Get a course's rounds via courseId
+     *
+     * @author cesare
+     * @param courseId refer gist
+     * @return list of course's rounds
+     */
     public List<Round> getRoundsByCourseId(String courseId);
 
     /**

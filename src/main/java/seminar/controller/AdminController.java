@@ -147,8 +147,6 @@ public class AdminController {
     @PutMapping("/student")
     public @ResponseBody
     ResponseEntity<Object> addStudent(@RequestBody Student student) {
-        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
-        student.setActivated(false);
         if (accountManageService.addStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {

@@ -8,16 +8,41 @@ import java.util.List;
  * @author Cesare
  */
 public interface TeacherService {
+    /**
+     * Activate a teacher's account
+     *
+     * @author cesare
+     * @param teacherId the teacher's account id
+     * @param password the teacher's new password
+     * @param email the teacher's new email
+     * @return whether the operation is successful
+     */
     boolean activate(String teacherId, String password, String email);
 
+    /**
+     * Modify a teacher's email
+     *
+     * @author cesare
+     * @param teacherId the teacher's account id
+     * @param email the teacher's new email
+     * @return whether the operation is successful
+     */
     boolean modifyEmail(String teacherId, String email);
 
+    /**
+     * Modify a teacher's password
+     *
+     * @author cesare
+     * @param teacherId the teacher's account id
+     * @param password the teacher's new password
+     * @return whether the operation is successful
+     */
     boolean modifyPassword(String teacherId, String password);
 
     /**
-     * TODO:May not be useful. Can be deleted afterwards
      * Get a teacher's courses via teacherId
      *
+     * @author cesare
      * @param teacherId refer gist
      * @return list of teacher's courses
      */

@@ -45,6 +45,8 @@ public class AccountManageServiceImpl implements AccountManageService {
     @Override
     public boolean addStudent(Student student) {
         if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
+            student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
+            student.setActivated(false);
             studentDAO.create(student);
             return true;
         } else {
