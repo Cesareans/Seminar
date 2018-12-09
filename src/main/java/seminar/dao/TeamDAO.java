@@ -22,6 +22,13 @@ public class TeamDAO {
         this.teamMapper = teamMapper;
     }
 
+    /**
+     * @author SWJ
+     */
+    public List<Team> getById(String id){
+        return teamMapper.selectTeamById(id);
+    }
+
     public List<Team> getByClbumId(String clbumId) {
         return teamMapper.selectTeamByClbumId(clbumId);
     }
