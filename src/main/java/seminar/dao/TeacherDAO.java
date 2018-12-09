@@ -33,8 +33,10 @@ public class TeacherDAO {
         return teacherMapper.selectAllTeacher();
     }
 
-    public List<Teacher> getByTN(String teacherNum) {
-        return teacherMapper.selectTeacherByTeacherNum(teacherNum);
+    public List<Teacher> getById(String id){return teacherMapper.selectTeacherById(id);}
+
+    public List<Teacher> getByTN(String tn) {
+        return teacherMapper.selectTeacherByTeacherNum(tn);
     }
 
     public List<Teacher> getByFilter(TeacherFilter filter) {
@@ -49,8 +51,8 @@ public class TeacherDAO {
         return teachers;
     }
 
-    public void deleteByTN(String teacherNum) {
-        teacherMapper.deleteTeacherByTeacherNum(teacherNum);
+    public void deleteByTN(String tn) {
+        teacherMapper.deleteTeacherByTeacherNum(tn);
     }
 
 }

@@ -8,13 +8,11 @@ import java.util.List;
  * @author Cesare
  */
 public interface TeacherService {
-    /**
-     * Get the teacher entity via teacherNum
-     *
-     * @param teacherNum refer gist
-     * @return teacher entity
-     */
-    public List<Teacher> getTeacherByTN(String teacherNum);
+    boolean activate(String teacherId, String password, String email);
+
+    boolean modifyEmail(String teacherId, String email);
+
+    boolean modifyPassword(String teacherId, String password);
 
     /**
      * TODO:May not be useful. Can be deleted afterwards

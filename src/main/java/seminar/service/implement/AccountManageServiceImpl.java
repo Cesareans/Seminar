@@ -33,6 +33,16 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
+    public List<Student> getStudentBySN(String sn) {
+        return studentDAO.getBySN(sn);
+    }
+
+    @Override
+    public List<Student> getStudentById(String id) {
+        return studentDAO.getById(id);
+    }
+
+    @Override
     public boolean addStudent(Student student) {
         if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
             studentDAO.create(student);
@@ -57,18 +67,31 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
-    public boolean deleteStudentByStuNum(String stuNum) {
-        if (studentDAO.getBySN(stuNum).size() == 0) {
+    public boolean deleteStudentBySN(String sn) {
+        if (studentDAO.getBySN(sn).size() == 0) {
             return false;
         } else {
-            studentDAO.deleteBySN(stuNum);
+            studentDAO.deleteBySN(sn);
             return true;
         }
     }
 
     @Override
-    public boolean studentResetPassword(String stuNum) {
-        List<Student> students = studentDAO.getBySN(stuNum);
+    public boolean studentModifyPassword(String sn, String password){
+        List<Student> students = studentDAO.getBySN(sn);
+        if (students.size() == 0) {
+            return false;
+        } else {
+            Student targetStudent = students.get(0);
+            targetStudent.setPassword(password);
+            studentDAO.update(targetStudent);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean studentResetPassword(String sn) {
+        List<Student> students = studentDAO.getBySN(sn);
         if (students.size() == 0) {
             return false;
         }
@@ -82,6 +105,15 @@ public class AccountManageServiceImpl implements AccountManageService {
         return teacherDAO.getByFilter(filter);
     }
 
+    @Override
+    public List<Teacher> getTeacherByTN(String tn) {
+        return teacherDAO.getByTN(tn);
+    }
+
+    @Override
+    public List<Teacher> getTeacherById(String id) {
+        return teacherDAO.getById(id);
+    }
 
     @Override
     public boolean addTeacher(Teacher teacher) {
@@ -108,18 +140,31 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
-    public boolean deleteByTeacherNum(String teacherNum) {
-        if (teacherDAO.getByTN(teacherNum).size() == 0) {
+    public boolean deleteTeacherByTN(String tn) {
+        if (teacherDAO.getByTN(tn).size() == 0) {
             return false;
         } else {
-            teacherDAO.deleteByTN(teacherNum);
+            teacherDAO.deleteByTN(tn);
             return true;
         }
     }
 
     @Override
-    public boolean teacherResetPassword(String teacherNum) {
-        List<Teacher> teachers = teacherDAO.getByTN(teacherNum);
+    public boolean teacherModifyPassword(String tn, String password) {
+        List<Teacher> teachers = teacherDAO.getByTN(tn);
+        if (teachers.size() == 0) {
+            return false;
+        } else {
+            Teacher targetTeacher = teachers.get(0);
+            targetTeacher.setPassword(password);
+            teacherDAO.update(targetTeacher);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean teacherResetPassword(String tn) {
+        List<Teacher> teachers = teacherDAO.getByTN(tn);
         if (teachers.size() == 0) {
             return false;
         }

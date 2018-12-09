@@ -38,8 +38,41 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getTeacherByTN(String teacherNum) {
-        return teacherDAO.getByTN(teacherNum);
+    public boolean activate(String teacherId, String password, String email) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setPassword(password);
+        teacher.setEmail(email);
+        teacher.setActivated(true);
+        teacherDAO.update(teacher);
+        return true;
+    }
+
+    @Override
+    public boolean modifyEmail(String teacherId, String email) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setEmail(email);
+        teacherDAO.update(teacher);
+        return true;
+    }
+
+    @Override
+    public boolean modifyPassword(String teacherId, String password) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setPassword(password);
+        teacherDAO.update(teacher);
+        return true;
     }
 
     @Override

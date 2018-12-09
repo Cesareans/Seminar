@@ -10,14 +10,6 @@ import java.util.List;
  */
 public interface StudentService {
     /**
-     * TODO:Write Javadoc
-     *
-     * @param studentNum student'num
-     * @return void
-     */
-    public List<Student> getStudentBySN(String studentNum);
-
-    /**
      * TODO[SWJ]:
      * create a new team
      *

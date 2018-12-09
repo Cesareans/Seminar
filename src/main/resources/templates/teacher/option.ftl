@@ -71,27 +71,15 @@
             </div>
         </div>
         <hr>
-        <div class="row options" style="margin-top: 30px">
+        <div class="row" style="margin-top: 30px">
             <div class="col-md-6 ml-auto mr-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex-space-between">
-                            <span>电子邮箱：${teacher.email}</span>
-                            <span>
-                            <a class="btn btn-link btn-fab-mini btn-fab btn-round btn-rose"
-                               style="margin-top: 0;margin-bottom: 0;">
-                            <i class="material-icons">edit</i>
-                            </a>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row options" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn btn-round bg-dark" style="width: 100%">
-                    修改密码
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
+                    <span>电子邮箱：${teacher.email}</span>
+                    <i class="material-icons">chevron_right</i>
+                </button>
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
+                    <span>修改密码</span>
+                    <i class="material-icons">chevron_right</i>
                 </button>
             </div>
         </div>
