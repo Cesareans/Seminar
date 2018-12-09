@@ -46,8 +46,12 @@ public class StudentDAO {
         return studentMapper.selectAllStudent();
     }
 
-    public List<Student> getBySN(String studentNum) {
-        return studentMapper.selectStudentByStudentNum(studentNum);
+    public List<Student> getById(String id){
+        return studentMapper.selectStudentById(id);
+    }
+
+    public List<Student> getBySN(String sn) {
+        return studentMapper.selectStudentByStudentNum(sn);
     }
 
     public List<Student> getByFilter(StudentFilter filter) {
@@ -62,8 +66,8 @@ public class StudentDAO {
         return students;
     }
 
-    public void deleteBySN(String studentNum) {
-        studentMapper.deleteStudentByStudentNum(studentNum);
+    public void deleteBySN(String sn) {
+        studentMapper.deleteStudentByStudentNum(sn);
     }
 
 }

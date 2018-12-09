@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import seminar.entity.Student;
+import seminar.service.AccountManageService;
 import seminar.service.SeminarService;
 import seminar.service.StudentService;
 
@@ -21,26 +22,33 @@ import javax.servlet.http.HttpSession;
 public class StudentController {
     private final StudentService studentService;
     private final SeminarService seminarService;
+    private final AccountManageService accountManageService;
 
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, AccountManageService accountManageService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
+        this.accountManageService = accountManageService;
     }
 
     @GetMapping(value = {"", "/index"})
     public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Student student = studentService.getStudentBySN(user.getUsername()).get(0);
+        Student student = accountManageService.getStudentBySN(user.getUsername()).get(0);
         session.setAttribute("studentId", student.getId());
         model.addAttribute("student", student);
         return "student/index";
     }
 
+    @GetMapping("/activation")
+    public String activation() {
+        return "student/activation";
+    }
+
     @GetMapping("/option")
-    public String info(Model model) {
+    public String option(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Student student = studentService.getStudentBySN(user.getUsername()).get(0);
+        Student student = accountManageService.getStudentBySN(user.getUsername()).get(0);
         model.addAttribute("student", student);
 
         return "student/option";

@@ -8,13 +8,11 @@ import java.util.List;
  * @author Cesare
  */
 public interface TeacherService {
-    /**
-     * Get the teacher entity via teacherNum
-     *
-     * @param teacherNum refer gist
-     * @return teacher entity
-     */
-    public List<Teacher> getTeacherByTN(String teacherNum);
+    boolean activate(String teacherId, String password, String email);
+
+    boolean modifyEmail(String teacherId, String email);
+
+    boolean modifyPassword(String teacherId, String password);
 
     /**
      * TODO:May not be useful. Can be deleted afterwards
@@ -103,12 +101,34 @@ public interface TeacherService {
     public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
 
     /**
-     * TODO[SWJ]: May can only update team's is_valid
-     * Agree this team's invalid state, update this team's is_valid
+     * Agree this team's invalid state, update this team's valid
      * @author SWJ
-     * @param  team refer gist.
+     * @param  teamId refer gist.
      * @return success or fail
      */
-    public boolean updateTeam(Team team);
+    public boolean updateTeam(String teamId);
 
+    /**
+     * Create a new seminarShareMsg
+     * @author SWJ
+     * @param  seminarShareMsg refer gist
+     * @return success or fail
+     */
+    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
+
+    /**
+     * Create a new seminarShare when accept seminarShareMsg
+     * @author SWJ
+     * @param  seminarShare refer gist
+     * @return success or fail
+     */
+    public boolean createSeminarShare(SeminarShare seminarShare);
+
+    /**
+     * Delete the seminarShare when cancel a seminarShare
+     * @author SWJ
+     * @param  id refer gist. principal_course_id or subordinate_course_id
+     * @return void
+     */
+    public void deleteSeminarShare(String id);
 }

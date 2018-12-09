@@ -17,23 +17,46 @@ public interface AccountManageService {
      * @param filter
      * @return
      */
-    public List<Student> getStudentsByFilter(StudentFilter filter);
+    List<Student> getStudentsByFilter(StudentFilter filter);
 
-    public boolean addStudent(Student student);
+    /**
+     * TODO:Write Javadoc
+     *
+     * @param sn student'num
+     * @return void
+     */
+    List<Student> getStudentBySN(String sn);
 
-    public boolean updateStudent(Student student);
+    List<Student> getStudentById(String id);
 
-    public boolean deleteStudentByStuNum(String stuNum);
+    boolean addStudent(Student student);
 
-    public boolean studentResetPassword(String stuNum);
+    boolean updateStudent(Student student);
 
-    public List<Teacher> getTeachersByFilter(TeacherFilter filter);
+    boolean deleteStudentBySN(String sn);
 
-    public boolean addTeacher(Teacher teacher);
+    boolean studentModifyPassword(String sn, String password);
 
-    public boolean updateTeacher(Teacher teacher);
+    boolean studentResetPassword(String sn);
 
-    public boolean deleteByTeacherNum(String teacherNum);
+    List<Teacher> getTeachersByFilter(TeacherFilter filter);
+    /**
+     * Get the teacher entity via teacherNum
+     *
+     * @param tn refer gist
+     * @return teacher entity
+     */
+    List<Teacher> getTeacherByTN(String tn);
 
-    public boolean teacherResetPassword(String teacherNum);
+    List<Teacher> getTeacherById(String id);
+
+    boolean addTeacher(Teacher teacher);
+
+    boolean updateTeacher(Teacher teacher);
+
+    boolean deleteTeacherByTN(String tn);
+
+    boolean teacherModifyPassword(String tn, String password);
+
+    boolean teacherResetPassword(String tn);
 }

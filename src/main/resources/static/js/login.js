@@ -36,6 +36,6 @@ function login() {
             }
         })
     } else {
-        verify.focus();
+        verify.registerDanger();
     }
 }

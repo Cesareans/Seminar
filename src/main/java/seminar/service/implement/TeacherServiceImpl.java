@@ -23,9 +23,11 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeamShareDAO teamShareDAO;
     private final GroupValidityMsgDAO groupValidityMsgDAO;
     private final TeamDAO teamDAO;
+    private final SeminarShareMsgDAO seminarShareMsgDAO;
+    private final SeminarShareDAO seminarShareDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -35,11 +37,46 @@ public class TeacherServiceImpl implements TeacherService {
         this.teamShareDAO = teamShareDAO;
         this.groupValidityMsgDAO = groupValidityMsgDAO;
         this.teamDAO = teamDAO;
+        this.seminarShareMsgDAO = seminarShareMsgDAO;
+        this.seminarShareDAO = seminarShareDAO;
     }
 
     @Override
-    public List<Teacher> getTeacherByTN(String teacherNum) {
-        return teacherDAO.getByTN(teacherNum);
+    public boolean activate(String teacherId, String password, String email) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setPassword(password);
+        teacher.setEmail(email);
+        teacher.setActivated(true);
+        teacherDAO.update(teacher);
+        return true;
+    }
+
+    @Override
+    public boolean modifyEmail(String teacherId, String email) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setEmail(email);
+        teacherDAO.update(teacher);
+        return true;
+    }
+
+    @Override
+    public boolean modifyPassword(String teacherId, String password) {
+        List<Teacher> teachers = teacherDAO.getById(teacherId);
+        if(teachers.size() == 0) {
+            return false;
+        }
+        Teacher teacher = teachers.get(0);
+        teacher.setPassword(password);
+        teacherDAO.update(teacher);
+        return true;
     }
 
     @Override
@@ -141,7 +178,15 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public void deleteTeamShare(String id){
-        teamShareDAO.deleteById(id);
+        List<TeamShare> teamShares = teamShareDAO.getAll();
+        for(TeamShare t:teamShares){
+            if(t.getPrincipalCourseId().equals(id)) {
+                teamShareDAO.deleteByPCourseId(id);
+            }
+            if(t.getSubordinateCourseId().equals(id)){
+                teamShareDAO.deleteBySubCourseId(id);
+            }
+        }
     }
 
     /**
@@ -156,7 +201,42 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateTeam(Team team){
+    public boolean updateTeam(String teamId){
+        Team team = teamDAO.getById(teamId).get(0);
+        team.setValid(true);
         return teamDAO.update(team);
     }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg){
+        return seminarShareMsgDAO.create(seminarShareMsg);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public boolean createSeminarShare(SeminarShare seminarShare){
+        return seminarShareDAO.create(seminarShare);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public void deleteSeminarShare(String id){
+        List<SeminarShare> seminarShares = seminarShareDAO.getAll();
+        for(SeminarShare s:seminarShares){
+            if(s.getPrincipalCourseId().equals(id)) {
+                seminarShareDAO.deleteByPCourseId(id);
+            }
+            if(s.getSubordinateCourseId().equals(id)){
+                seminarShareDAO.deleteBySubCourseId(id);
+            }
+        }
+    }
+
 }

@@ -21,11 +21,6 @@ public class StudentServiceImpl implements StudentService {
         this.studentDAO = studentDAO;
     }
 
-    @Override
-    public List<Student> getStudentBySN(String studentNum) {
-        return studentDAO.getBySN(studentNum);
-    }
-
     /**
      * @author SWJ
      * TODO:Need change when TeamDAO finish.

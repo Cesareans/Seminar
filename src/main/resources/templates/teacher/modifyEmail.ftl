@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/forgetPassword.js"></script>
+    <script src="/static/js/teacher/modifyEmail.js"></script>
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -24,18 +24,20 @@
                     <div class="row">
                         <div class="col-9 flex-center ml-auto mr-auto">
                             <h4 class="card-title"
-                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 500">找回密码</h4>
+                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 500">修改邮箱</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-8 ml-auto mr-auto">
-                            <form id="forgetPwdForm">
+                            <form id="modifyEmailForm">
                                 <div class="form-group">
-                                    <label for="account">学号/教工号</label>
-                                    <input name="account" type="text" class="form-control empty-verify" id="account" autocomplete="off"
-                                           data-emptyMessage="请输入学号/教工号">
+                                    <label for="email">邮箱</label>
+                                    <input name="email" id="email" type="email" class="form-control empty-verify reg-verify" autocomplete="off"
+                                           data-emptyMessage="请输入邮箱"
+                                           data-reg="^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$"
+                                           data-regMessage="请输入正确的邮箱">
                                 </div>
                                 <div class="form-row" style="margin-left: 0;margin-right:0; ">
                                     <div class="form-group col-7">
@@ -55,11 +57,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/login'">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/teacher/option'">
                             <i class="material-icons">chevron_left</i>
                         </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">
-                            <i class="material-icons">chevron_right</i>
+                            <i class="material-icons">check</i>
                         </button>
                     </div>
                 </div>

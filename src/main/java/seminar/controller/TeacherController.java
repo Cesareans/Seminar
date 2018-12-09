@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
 import seminar.entity.hso.ClbumSeminarHso;
 import seminar.entity.vo.ClbumCreateVO;
-import seminar.service.SeminarService;
-import seminar.service.TeacherService;
+import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -27,32 +26,103 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    private final AccountManageService accountManageService;
     private final TeacherService teacherService;
     private final SeminarService seminarService;
+    private final CaptchaService captchaService;
+    private final MailService mailService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, SeminarService seminarService) {
+    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService) {
+        this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.seminarService = seminarService;
+        this.captchaService = captchaService;
+        this.mailService = mailService;
     }
 
     @GetMapping(value = {"", "/index"})
     public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
-        model.addAttribute("teacher", teacher);
-        return "teacher/index";
+        if (teacher.isActivated()) {
+            model.addAttribute("teacher", teacher);
+            return "teacher/index";
+        } else {
+            return "redirect:teacher/activation";
+        }
     }
 
+    @PostMapping("/captcha/{type}")
+    public @ResponseBody
+    ResponseEntity<Object> getCaptcha(@PathVariable String type, String email, HttpSession session) {
+        String captcha = captchaService.generateCaptcha();
+        session.setAttribute(type + "Captcha", captcha);
+        mailService.sendCaptcha(captcha, email);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+
+    @GetMapping("/activation")
+    public String activation() {
+        return "teacher/activation";
+    }
+
+    @PostMapping("/activation")
+    public @ResponseBody
+    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
+        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
+
+        if (captcha.equals(senderCaptcha)) {
+            teacherService.activate(((String) session.getAttribute("teacherId")), password, email);
+            session.removeAttribute("activationCaptcha");
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+    }
+
+
     @GetMapping("/option")
-    public String info(Model model) {
+    public String option(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
 
         return "teacher/option";
     }
+
+    @GetMapping("/modifyEmail")
+    public String modifyEmail() {
+        return "teacher/modifyEmail";
+    }
+
+    @PostMapping("/modifyEmail")
+    public @ResponseBody
+    ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
+        String senderCaptcha = ((String) session.getAttribute("modifyEmailCaptcha"));
+        if (captcha.equals(senderCaptcha)) {
+            teacherService.modifyEmail(((String) session.getAttribute("teacherId")), email);
+            session.removeAttribute("modifyEmailCaptcha");
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+    }
+
+    @GetMapping("/modifyPassword")
+    public String modifyPassword() {
+        return "teacher/modifyPassword";
+    }
+
+    @PostMapping("/modifyPassword")
+    public @ResponseBody
+    ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
+        teacherService.modifyPassword(((String) session.getAttribute("teacherId")), password);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
     /**
      * Todo: Remain to be realize
@@ -71,7 +141,7 @@ public class TeacherController {
     }
 
     @GetMapping("/course/info")
-    public String courseInfo(String courseId,Model model) {
+    public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "teacher/course/info";
     }
