@@ -70,4 +70,10 @@ public class StudentDAO {
         studentMapper.deleteStudentByStudentNum(sn);
     }
 
+    /**
+     * @author  SWJ
+     */
+    public List<Student> getStudentWithoutTeamByCourseId(String courseId) {
+        return studentMapper.selectStudentWithoutTeamByCourseId(courseId);
+    }
 }

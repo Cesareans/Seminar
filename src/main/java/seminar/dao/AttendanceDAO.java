@@ -89,10 +89,16 @@ public class AttendanceDAO {
 
     /**
      * @author Xinyu Shi
+     *
+     * change by SWJ
      */
-    public void update(Attendance attendance)
+    public boolean update(Attendance attendance)
     {
-        attendanceMapper.updateAttendance(attendance);
+        if(!attendanceMapper.selectAttendanceById(attendance.getId()).isEmpty()) {
+            attendanceMapper.updateAttendance(attendance);
+            return true;
+        }
+        return false;
     }
 
 

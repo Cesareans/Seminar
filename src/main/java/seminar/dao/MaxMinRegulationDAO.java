@@ -28,7 +28,9 @@ public class MaxMinRegulationDAO {
             maxMinRegulationMapper.insertMaxMinRegulation(maxminRegulation);
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
     /**
@@ -36,8 +38,9 @@ public class MaxMinRegulationDAO {
      */
     public boolean update(MaxMinRegulation maxminRegulation){
         List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
-        if(maxMinRegulations.isEmpty())
+        if(maxMinRegulations.isEmpty()){
             return false;
+        }
         else{
             maxMinRegulationMapper.updateMaxMinRegulation(maxminRegulation);
             return true;

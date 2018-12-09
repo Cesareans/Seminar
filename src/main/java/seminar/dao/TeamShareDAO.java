@@ -37,7 +37,7 @@ public class TeamShareDAO {
         return true;
     }
     public boolean update(TeamShare teamShare){
-        if(teamShareMapper.selectTeamShareById(teamShare.getId()).isEmpty()) {
+        if(!teamShareMapper.selectTeamShareById(teamShare.getId()).isEmpty()) {
             teamShareMapper.updateTeamShare(teamShare);
             return true;
         }

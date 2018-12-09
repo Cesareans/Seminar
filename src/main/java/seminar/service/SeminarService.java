@@ -58,7 +58,13 @@ public interface SeminarService {
      */
     public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId);
 
-
+    /**
+     * Get all student without team in the same course which belong to same teacher
+     * @author SWJ
+     * @param  courseId refer gist
+     * @return List of student entity
+     */
+    public List<Student> getStudentWithoutTeam(String courseId);
 
 
 }

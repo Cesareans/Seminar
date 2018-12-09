@@ -113,7 +113,6 @@ public interface TeacherService {
      * Delete the teamShare when cancel a teamShare
      * @author SWJ
      * @param  id refer gist. principal_course_id or subordinate_course_id
-     * @return void
      */
     public void deleteTeamShare(String id);
 
@@ -152,8 +151,16 @@ public interface TeacherService {
     /**
      * Delete the seminarShare when cancel a seminarShare
      * @author SWJ
-     * @param  id refer gist. principal_course_id or subordinate_course_id
-     * @return void
+     * @param  courseId refer gist. principal_course_id or subordinate_course_id
      */
-    public void deleteSeminarShare(String id);
+    public void deleteSeminarShare(String courseId);
+
+    /**
+     * Updete the report score when teacher give score
+     * @author SWJ
+     * @param  reportScore refer gist.
+     * @param  clbumSeminarId refer gist
+     * @return success of fail
+     */
+    public boolean updateReportScore(int reportScore, String clbumSeminarId);
 }
