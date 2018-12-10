@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.vo.StudentFilter;
-import seminar.entity.vo.TeacherFilter;
+import seminar.pojo.vo.StudentFilter;
+import seminar.pojo.vo.TeacherFilter;
 import seminar.service.AccountManageService;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class AdminController {
         this.accountManageService = accountManageService;
     }
 
-    @RequestMapping(value = {"/","/login"})
+    @RequestMapping(value = {"/", "/login"})
     public String adminLogin() {
         return "admin/login";
     }
@@ -56,7 +56,7 @@ public class AdminController {
 
         //Using this converter to make this declaration recognizable for freemarker template.
         Boolean mNewFilter = filter.isNewFilter();
-        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        Number mFromIndex = fromIndex, mSumPage = sumPage, mPage = page;
         model.addAttribute("newFilter", mNewFilter);
         model.addAttribute("fromIndex", mFromIndex);
         model.addAttribute("sumPage", mSumPage);
@@ -135,7 +135,7 @@ public class AdminController {
 
         //Using this converter to make this declaration recognizable for freemarker template.
         Boolean mNewFilter = filter.isNewFilter();
-        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        Number mFromIndex = fromIndex, mSumPage = sumPage, mPage = page;
         model.addAttribute("newFilter", mNewFilter);
         model.addAttribute("fromIndex", mFromIndex);
         model.addAttribute("sumPage", mSumPage);
@@ -147,8 +147,6 @@ public class AdminController {
     @PutMapping("/student")
     public @ResponseBody
     ResponseEntity<Object> addStudent(@RequestBody Student student) {
-        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
-        student.setActivated(false);
         if (accountManageService.addStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {

@@ -85,7 +85,7 @@ public interface TeacherMapper {
 
     /**
      * Select a Teacher entity via id
-     *
+     *\
      * @param id the select gist
      * @return List<teacher> the selected Teacher entity as list
      */

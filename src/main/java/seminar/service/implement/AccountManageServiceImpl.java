@@ -7,8 +7,8 @@ import seminar.dao.StudentDAO;
 import seminar.dao.TeacherDAO;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.vo.StudentFilter;
-import seminar.entity.vo.TeacherFilter;
+import seminar.pojo.vo.StudentFilter;
+import seminar.pojo.vo.TeacherFilter;
 import seminar.service.AccountManageService;
 
 import java.util.List;
@@ -20,12 +20,12 @@ import java.util.List;
 public class AccountManageServiceImpl implements AccountManageService {
     private final StudentDAO studentDAO;
     private final TeacherDAO teacherDAO;
+
     @Autowired
     public AccountManageServiceImpl(StudentDAO studentDAO, TeacherDAO teacherDAO) {
         this.studentDAO = studentDAO;
         this.teacherDAO = teacherDAO;
     }
-
 
     @Override
     public List<Student> getStudentsByFilter(StudentFilter filter) {
@@ -45,6 +45,8 @@ public class AccountManageServiceImpl implements AccountManageService {
     @Override
     public boolean addStudent(Student student) {
         if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
+            student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
+            student.setActivated(false);
             studentDAO.create(student);
             return true;
         } else {
@@ -72,19 +74,6 @@ public class AccountManageServiceImpl implements AccountManageService {
             return false;
         } else {
             studentDAO.deleteBySN(sn);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean studentModifyPassword(String sn, String password){
-        List<Student> students = studentDAO.getBySN(sn);
-        if (students.size() == 0) {
-            return false;
-        } else {
-            Student targetStudent = students.get(0);
-            targetStudent.setPassword(password);
-            studentDAO.update(targetStudent);
             return true;
         }
     }
@@ -145,19 +134,6 @@ public class AccountManageServiceImpl implements AccountManageService {
             return false;
         } else {
             teacherDAO.deleteByTN(tn);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean teacherModifyPassword(String tn, String password) {
-        List<Teacher> teachers = teacherDAO.getByTN(tn);
-        if (teachers.size() == 0) {
-            return false;
-        } else {
-            Teacher targetTeacher = teachers.get(0);
-            targetTeacher.setPassword(password);
-            teacherDAO.update(targetTeacher);
             return true;
         }
     }

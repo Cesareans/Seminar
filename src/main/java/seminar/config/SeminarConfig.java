@@ -1,17 +1,13 @@
 package seminar.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import seminar.logger.DebugLogger;
 
 import java.util.Objects;
-import java.util.Properties;
-import java.util.Random;
 
 /**
  * @author Cesare
@@ -30,7 +26,7 @@ public class SeminarConfig {
     }
 
     @Bean
-    public MultipartResolver multipartResolver(){
+    public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
 }

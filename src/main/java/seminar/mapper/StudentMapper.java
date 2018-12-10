@@ -120,4 +120,21 @@ public interface StudentMapper {
     @Delete("delete from student where id=#{id}")
     void deleteStudentById(String id);
 
+    /**
+     * Select all Student entity via courseId
+     *
+     * @param courseId the select gist
+     * @return List<Student> the selected Student entity as list
+     * @author SWJ
+     */
+    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId})))")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated")
+    })
+    List<Student> selectStudentWithoutTeamByCourseId(String courseId);
 }

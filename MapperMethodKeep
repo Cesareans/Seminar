@@ -1,22 +1,38 @@
-# 存放mapper 方法的格式样例
-
-
-@author
-${MapperName}
-MethodBody...
-
-
-如
+@SWJ
+${StudentMapper}
+    /**
+     * Select all Student entity via courseId
+     * @author SWJ
+     * @param courseId the select gist
+     * @return List<Student> the selected Student entity as list
+     */
+    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId})))")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated")
+    })
+    List<Student> selectStudentWithoutTeamByCourseId(String courseId);
 
 @Cesare
-${AdministratorMapper}
-/**
- * Insert a Administrator entity
- *
- * @param administrator the Administrator entity that will be inserted
- */
-@Insert("insert into administrator(admin_name, password) values(#{adminName}, #{password})")
-void insertAdministrator(Administrator administrator);
-
-
-------------------------------华丽的分割线---------------------------------------
+${TeamStudentMapper}
+    /**
+     * Select a Team's all students via teamId
+     *
+     * @author Cesare
+     * @param teamId the select gist
+     * @return List<Student> the selected Team's all students as list
+     */
+    @Select("select student.id,student_name,student_num,password,email,is_activated from team_student left join student on team_student.student_id = student.id where team_id=#{teamId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated")
+    })
+    List<Student> selectStudentsByTeamId(String teamId);

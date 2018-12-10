@@ -2,10 +2,9 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.vo.TeacherFilter;
 import seminar.mapper.TeacherMapper;
+import seminar.pojo.vo.TeacherFilter;
 
 import java.util.List;
 
@@ -33,7 +32,9 @@ public class TeacherDAO {
         return teacherMapper.selectAllTeacher();
     }
 
-    public List<Teacher> getById(String id){return teacherMapper.selectTeacherById(id);}
+    public List<Teacher> getById(String id) {
+        return teacherMapper.selectTeacherById(id);
+    }
 
     public List<Teacher> getByTN(String tn) {
         return teacherMapper.selectTeacherByTeacherNum(tn);

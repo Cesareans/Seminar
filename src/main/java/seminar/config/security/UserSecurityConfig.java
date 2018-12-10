@@ -29,8 +29,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
         this.ajaxAuthSuccessHandler = ajaxAuthSuccessHandler;
         this.unauthorizedEntryPoint = unauthorizedEntryPoint;
     }
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
         //Page Filter
         http.authorizeRequests()
                 .antMatchers("/student/**").hasRole("student")

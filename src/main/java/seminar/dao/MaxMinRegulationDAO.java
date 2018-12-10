@@ -2,7 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.MaxMinRegulation;
+import seminar.entity.regulation.MaxMinRegulation;
 import seminar.mapper.MaxMinRegulationMapper;
 
 import java.util.List;
@@ -22,13 +22,12 @@ public class MaxMinRegulationDAO {
     /**
      * @author lyf
      */
-    public boolean create(MaxMinRegulation maxminRegulation){
+    public boolean create(MaxMinRegulation maxminRegulation) {
         List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
-        if(maxMinRegulations.isEmpty()){
+        if (maxMinRegulations.isEmpty()) {
             maxMinRegulationMapper.insertMaxMinRegulation(maxminRegulation);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -36,12 +35,11 @@ public class MaxMinRegulationDAO {
     /**
      * @author lyf
      */
-    public boolean update(MaxMinRegulation maxminRegulation){
+    public boolean update(MaxMinRegulation maxminRegulation) {
         List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(maxminRegulation.getCourseId());
-        if(maxMinRegulations.isEmpty()){
+        if (maxMinRegulations.isEmpty()) {
             return false;
-        }
-        else{
+        } else {
             maxMinRegulationMapper.updateMaxMinRegulation(maxminRegulation);
             return true;
         }
@@ -51,14 +49,14 @@ public class MaxMinRegulationDAO {
     /**
      * @author lyf
      */
-    public List<MaxMinRegulation> getByCourseId(String CourseId){
+    public List<MaxMinRegulation> getByCourseId(String CourseId) {
         return maxMinRegulationMapper.selectMaxMinRegulationByCourseId(CourseId);
     }
 
     /**
      * @author lyf
      */
-    public void deleteByCourseId(String courseId){
+    public void deleteByCourseId(String courseId) {
         maxMinRegulationMapper.deleteMaxMinRegulationByCourseId(courseId);
     }
 }

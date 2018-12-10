@@ -1,18 +1,21 @@
-package seminar.entity;
+package seminar.entity.relation;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
+
+import java.util.List;
 
 /**
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
-public class ClbumStudent {
+public class TeamStudent {
     @ID(isIncrement = true)
-    private String id;
+    String id;
     @Gist
-    private String clbumId;
+    private String teamId;
     @Gist
     private String studentId;
 
@@ -24,12 +27,12 @@ public class ClbumStudent {
         this.id = id;
     }
 
-    public String getClbumId() {
-        return clbumId;
+    public String getTeamId() {
+        return teamId;
     }
 
-    public void setClbumId(String clbumId) {
-        this.clbumId = clbumId;
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 
     public String getStudentId() {

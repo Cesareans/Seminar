@@ -1,4 +1,4 @@
-package seminar.entity.websocket;
+package seminar.pojo.websocket;
 
 /**
  * @author Cesare

@@ -9,15 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
-import seminar.entity.hso.ClbumSeminarHso;
-import seminar.entity.vo.ClbumCreateVO;
+import seminar.pojo.hso.ClbumSeminarHso;
+import seminar.pojo.vo.ClbumCreateVO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -62,7 +60,6 @@ public class TeacherController {
         mailService.sendCaptcha(captcha, email);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
 
     @GetMapping("/activation")
     public String activation() {
@@ -119,15 +116,12 @@ public class TeacherController {
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        teacherService.modifyPassword(((String) session.getAttribute("teacherId")), password);
+        teacherService.modifyPasswordViaId(((String) session.getAttribute("teacherId")), password);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-
     /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
+     * Todo: Remain to be realized
      */
     @GetMapping("/notification")
     public String notification() {
@@ -140,22 +134,24 @@ public class TeacherController {
         return "teacher/courseList";
     }
 
+    /**
+     * Todo: Remains to be deepen designed
+     */
     @GetMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "teacher/course/info";
     }
 
-    /**
-     * Todo: Page finished. Remain to be realize Post
-     *
-     * @return ViewName
-     */
+
     @GetMapping("/course/create")
     public String courseCreate() {
         return "teacher/course/create";
     }
 
+    /**
+     * Todo[cesare]: Remain to br realized
+     */
     @PutMapping("/course")
     public @ResponseBody
     ResponseEntity<Object> courseCreate(Course course) {
@@ -205,18 +201,8 @@ public class TeacherController {
         } else {
             session.setAttribute("courseId", courseId);
         }
-        List<Map<String, Object>> root = new LinkedList<>();
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        for (Round round : rounds) {
-            Map<String, Object> roundSeminar = new HashMap<>(4);
-            roundSeminar.put("roundIns", round);
-            roundSeminar.put("seminars", seminarService.getSeminarsByRoundId(round.getId()));
-            root.add(roundSeminar);
-        }
-        model.addAttribute("rounds", root);
-
-        List<Clbum> clbums = seminarService.getClbumByCourseId(courseId);
-        model.addAttribute("clbums", clbums);
+        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
+        model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
@@ -255,7 +241,6 @@ public class TeacherController {
             throw new RuntimeException("No clbum seminar");
         }
         model.addAttribute("clbumSeminar", clbumSeminar.get(0));
-        model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminar.get(0).getId()));
         return "teacher/course/seminar/info";
     }
 
@@ -263,12 +248,10 @@ public class TeacherController {
     public String seminarEnrollList(String clbumSeminarId, Model model) {
         //TODO:need exceptions handling here
         ClbumSeminar clbumSeminar = seminarService.getClbumSeminarByClbumSeminarId(clbumSeminarId).get(0);
-        Seminar seminar = seminarService.getSeminarBySeminarId(clbumSeminar.getSeminarId()).get(0);
-        List<Attendance> attendances = seminarService.getAttendancesByClbumSeminarId(clbumSeminarId);
         List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1, seminar.getMaxTeam() + 1).forEach(i -> {
+        IntStream.range(1, clbumSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
             boolean isEnrolled = false;
-            for (Attendance attendance : attendances) {
+            for (Attendance attendance : clbumSeminar.getAttendances()) {
                 if (attendance.getSn() == i) {
                     isEnrolled = true;
                     enrollList.add(attendance);
@@ -279,15 +262,12 @@ public class TeacherController {
                 enrollList.add(null);
             }
         });
-        model.addAttribute("seminar", seminar);
         model.addAttribute("enrollList", enrollList);
         return "teacher/course/seminar/enrollList";
     }
 
     /**
      * Todo: Remain to be realize
-     *
-     * @return ViewName
      */
     @GetMapping("/course/seminar/grade")
     public String seminarGrade() {
@@ -295,9 +275,7 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
+     * Todo[Priority]: Remain to be realize
      */
     @GetMapping("/course/seminar/progressing")
     public String seminarProgressing(String clbumSeminarId, Model model) {
@@ -305,29 +283,14 @@ public class TeacherController {
         return "teacher/course/seminar/progressing";
     }
 
-    /**
-     * TODO:Need better design [Inferiority]
-     *
-     * @param courseId
-     * @param model
-     * @param session
-     * @return
-     */
     @GetMapping("/course/teamList")
-    public String team(String courseId, Model model, HttpSession session) {
-        if (courseId == null) {
-            courseId = ((String) session.getAttribute("courseId"));
-        } else {
-            session.setAttribute("courseId", courseId);
-        }
+    public String team(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         return "teacher/course/teamList";
     }
 
     /**
      * Todo: Remain to be realize
-     *
-     * @return ViewName
      */
     @GetMapping("/course/grade")
     public String grade() {

@@ -1,4 +1,4 @@
-package seminar.entity.exception;
+package seminar.pojo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

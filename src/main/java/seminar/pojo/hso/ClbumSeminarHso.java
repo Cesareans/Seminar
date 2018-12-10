@@ -1,4 +1,4 @@
-package seminar.entity.hso;
+package seminar.pojo.hso;
 
 /**
  * @author Cesare

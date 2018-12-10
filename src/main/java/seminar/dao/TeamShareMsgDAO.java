@@ -1,10 +1,11 @@
 package seminar.dao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.TeamShareMsg;
-import seminar.entity.TeamShare;
-import seminar.mapper.TeamShareMsgMapper;
+import seminar.entity.message.TeamShareMsg;
+import seminar.entity.share.TeamShare;
 import seminar.mapper.TeamShareMapper;
+import seminar.mapper.TeamShareMsgMapper;
 
 import java.util.List;
 
@@ -15,61 +16,70 @@ import java.util.List;
 public class TeamShareMsgDAO {
     private final TeamShareMsgMapper teamShareMsgMapper;
     private final TeamShareMapper teamShareMapper;
+
     @Autowired
-    private TeamShareMsgDAO(TeamShareMsgMapper teamShareMsgMapper, TeamShareMapper teamShareMapper){
-        this.teamShareMsgMapper=teamShareMsgMapper;
-        this.teamShareMapper=teamShareMapper;
+    private TeamShareMsgDAO(TeamShareMsgMapper teamShareMsgMapper, TeamShareMapper teamShareMapper) {
+        this.teamShareMsgMapper = teamShareMsgMapper;
+        this.teamShareMapper = teamShareMapper;
     }
 
     /**
      * The course which is a subordinateCourse can't send and receive a seminar share message
-     *
      */
-    public boolean create(TeamShareMsg teamShareMsg){
+    public boolean create(TeamShareMsg teamShareMsg) {
         List<TeamShare> teamShares = teamShareMapper.selectAllTeamShare();
-        for(TeamShare t:teamShares){
-            if(t.getSubordinateCourseId().equals(teamShareMsg.getPrincipalCourseId())) {
+        for (TeamShare t : teamShares) {
+            if (t.getSubordinateCourseId().equals(teamShareMsg.getPrincipalCourseId())) {
                 return false;
-            }
-            else if(t.getSubordinateCourseId().equals(teamShareMsg.getSubordinateCourseId())) {
+            } else if (t.getSubordinateCourseId().equals(teamShareMsg.getSubordinateCourseId())) {
                 return false;
             }
         }
         teamShareMsgMapper.insertTeamShareMsg(teamShareMsg);
         return true;
     }
-    public boolean update(TeamShareMsg teamShareMsg){
-        if(!teamShareMsgMapper.selectTeamShareMsgById(teamShareMsg.getId()).isEmpty()) {
+
+    public boolean update(TeamShareMsg teamShareMsg) {
+        if (!teamShareMsgMapper.selectTeamShareMsgById(teamShareMsg.getId()).isEmpty()) {
             teamShareMsgMapper.updateTeamShareMsg(teamShareMsg);
             return true;
         }
         return false;
     }
-    public List<TeamShareMsg> getAll(){
+
+    public List<TeamShareMsg> getAll() {
         return teamShareMsgMapper.selectAllTeamShareMsg();
     }
-    public List<TeamShareMsg> getById(String id){
+
+    public List<TeamShareMsg> getById(String id) {
         return teamShareMsgMapper.selectTeamShareMsgById(id);
     }
-    public List<TeamShareMsg> getByPCourseId(String principalCourseId){
+
+    public List<TeamShareMsg> getByPCourseId(String principalCourseId) {
         return teamShareMsgMapper.selectTeamShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public List<TeamShareMsg> getBySubCourseId(String subordinateCourseId){
+
+    public List<TeamShareMsg> getBySubCourseId(String subordinateCourseId) {
         return teamShareMsgMapper.selectTeamShareMsgBySubordinateCourseId(subordinateCourseId);
     }
-    public List<TeamShareMsg> getByTeacherId(String teacherId){
+
+    public List<TeamShareMsg> getByTeacherId(String teacherId) {
         return teamShareMsgMapper.selectTeamShareMsgByTeacherId(teacherId);
     }
-    public void deleteById(String id){
+
+    public void deleteById(String id) {
         teamShareMsgMapper.deleteTeamShareMsgById(id);
     }
-    public void deleteByPCourseId(String principalCourseId){
+
+    public void deleteByPCourseId(String principalCourseId) {
         teamShareMsgMapper.deleteTeamShareMsgByPrincipalCourseId(principalCourseId);
     }
-    public void deleteBySubCourseId(String subordinateCourseId){
+
+    public void deleteBySubCourseId(String subordinateCourseId) {
         teamShareMsgMapper.deleteTeamShareMsgBySubordinateCourseId(subordinateCourseId);
     }
-    public void deleteByTeacherId(String teacherId){
+
+    public void deleteByTeacherId(String teacherId) {
         teamShareMsgMapper.deleteTeamShareMsgByTeacherId(teacherId);
     }
 }

@@ -1,4 +1,4 @@
-package seminar.entity;
+package seminar.entity.relation;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
@@ -8,13 +8,11 @@ import cesare.mybatis.annotations.TargetPackage;
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
-public class QuestionPool {
+public class ClbumStudent {
     @ID(isIncrement = true)
     private String id;
     @Gist
-    private String clbumSeminarId;
-    @Gist
-    private String teamId;
+    private String clbumId;
     @Gist
     private String studentId;
 
@@ -26,20 +24,12 @@ public class QuestionPool {
         this.id = id;
     }
 
-    public String getClbumSeminarId() {
-        return clbumSeminarId;
+    public String getClbumId() {
+        return clbumId;
     }
 
-    public void setClbumSeminarId(String clbumSeminarId) {
-        this.clbumSeminarId = clbumSeminarId;
-    }
-
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setClbumId(String clbumId) {
+        this.clbumId = clbumId;
     }
 
     public String getStudentId() {

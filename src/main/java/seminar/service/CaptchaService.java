@@ -6,8 +6,9 @@ package seminar.service;
 public interface CaptchaService {
     /**
      * Generate random digit captcha for verification which length should be 6;
-     * @author cesare
+     *
      * @return a random captcha with 6 digits.
+     * @author cesare
      */
     public String generateCaptcha();
 }

@@ -20,9 +20,11 @@ public class SeminarServiceImpl implements SeminarService {
     private final SeminarDAO seminarDAO;
     private final ClbumSeminarDAO clbumSeminarDAO;
     private final AttendanceDAO attendanceDAO;
+    private final TeamStudentDAO teamStudentDAO;
+    private final StudentDAO studentDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO, TeamStudentDAO teamStudentDAO, StudentDAO studentDAO) {
         this.courseDAO = courseDAO;
         this.clbumDao = clbumDao;
         this.teamDAO = teamDAO;
@@ -30,6 +32,8 @@ public class SeminarServiceImpl implements SeminarService {
         this.seminarDAO = seminarDAO;
         this.clbumSeminarDAO = clbumSeminarDAO;
         this.attendanceDAO = attendanceDAO;
+        this.teamStudentDAO = teamStudentDAO;
+        this.studentDAO = studentDAO;
     }
 
     @Override
@@ -53,8 +57,8 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId){
-        return clbumSeminarDAO.getByClbumIdAndSeminarId(clbumId,seminarId);
+    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId) {
+        return clbumSeminarDAO.getByClbumIdAndSeminarId(clbumId, seminarId);
     }
 
     @Override
@@ -72,9 +76,16 @@ public class SeminarServiceImpl implements SeminarService {
         return attendanceDAO.getAttendanceByClbumSeminarId(clbumSeminarId);
     }
 
-
     @Override
     public List<Course> getCourseByCourseId(String courseId) {
         return courseDAO.getByCourseId(courseId);
+    }
+
+    /**
+     * @author SWJ
+     */
+    @Override
+    public List<Student> getStudentWithoutTeam(String courseId) {
+        return studentDAO.getStudentWithoutTeamByCourseId(courseId);
     }
 }

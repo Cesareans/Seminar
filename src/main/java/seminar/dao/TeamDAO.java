@@ -16,6 +16,7 @@ import java.util.List;
 public class TeamDAO {
     private final ClbumDao clbumDao;
     private final TeamMapper teamMapper;
+
     @Autowired
     public TeamDAO(ClbumDao clbumDao, TeamMapper teamMapper) {
         this.clbumDao = clbumDao;
@@ -25,7 +26,7 @@ public class TeamDAO {
     /**
      * @author SWJ
      */
-    public List<Team> getById(String id){
+    public List<Team> getById(String id) {
         return teamMapper.selectTeamById(id);
     }
 
@@ -36,10 +37,11 @@ public class TeamDAO {
     /**
      * Team belongs to clbum. So here are necessary
      * TODO:May use redundant courseId here.
+     *
      * @param courseId
      * @return
      */
-    public List<Team> getByCourseId(String courseId){
+    public List<Team> getByCourseId(String courseId) {
         List<Clbum> clbums = clbumDao.getByCourseId(courseId);
         List<Team> teams = new LinkedList<>();
         clbums.forEach(clbum -> {
@@ -51,13 +53,12 @@ public class TeamDAO {
     /**
      * @author lyf
      */
-    public boolean create(Team team){
+    public boolean create(Team team) {
         List<Team> teams = teamMapper.selectTeamById(team.getId());
-        if(teams.isEmpty()) {
+        if (teams.isEmpty()) {
             teamMapper.insertTeam(team);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -65,26 +66,25 @@ public class TeamDAO {
     /**
      * @author lyf
      */
-    public void deleteById(String teamId){
+    public void deleteById(String teamId) {
         teamMapper.deleteTeamById(teamId);
     }
 
     /**
      * @author lyf
      */
-    public void deleteByClbumId(String clbumId){
+    public void deleteByClbumId(String clbumId) {
         teamMapper.deleteTeamByClbumId(clbumId);
     }
 
     /**
      * @author lyf
      */
-    public boolean update(Team team){
+    public boolean update(Team team) {
         List<Team> teams = teamMapper.selectTeamById(team.getId());
-        if(teams.isEmpty()) {
+        if (teams.isEmpty()) {
             return false;
-        }
-        else{
+        } else {
             teamMapper.updateTeam(team);
             return true;
         }

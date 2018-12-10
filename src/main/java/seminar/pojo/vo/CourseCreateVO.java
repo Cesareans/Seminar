@@ -1,10 +1,7 @@
-package seminar.entity.vo;
+package seminar.pojo.vo;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import seminar.config.SeminarConfig;
 import seminar.entity.Course;
-import seminar.entity.MaxMinRegulation;
-import seminar.logger.DebugLogger;
+import seminar.entity.regulation.MaxMinRegulation;
 
 import java.util.Date;
 
@@ -23,7 +20,7 @@ public class CourseCreateVO {
     private Integer teamMax;
     private Integer teamMin;
 
-    public Course getCourse(){
+    public Course getCourse() {
         Course course = new Course();
         course.setCourseName(courseName);
         course.setIntroduction(intro);
@@ -35,7 +32,7 @@ public class CourseCreateVO {
         return course;
     }
 
-    public MaxMinRegulation getMaxMinReg(){
+    public MaxMinRegulation getMaxMinReg() {
         MaxMinRegulation maxMinReg = new MaxMinRegulation();
         maxMinReg.setMax(teamMax);
         maxMinReg.setMin(teamMin);

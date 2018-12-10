@@ -1,6 +1,14 @@
 package seminar.service;
 
-import seminar.entity.*;
+import seminar.entity.Clbum;
+import seminar.entity.Course;
+import seminar.entity.Seminar;
+import seminar.entity.message.GroupValidityMsg;
+import seminar.entity.message.SeminarShareMsg;
+import seminar.entity.message.TeamShareMsg;
+import seminar.entity.regulation.MaxMinRegulation;
+import seminar.entity.share.SeminarShare;
+import seminar.entity.share.TeamShare;
 
 import java.util.List;
 
@@ -8,18 +16,54 @@ import java.util.List;
  * @author Cesare
  */
 public interface TeacherService {
+    /**
+     * Activate a teacher's account
+     *
+     * @param teacherId the teacher's account id
+     * @param password  the teacher's new password
+     * @param email     the teacher's new email
+     * @return whether the operation is successful
+     * @author cesare
+     */
     boolean activate(String teacherId, String password, String email);
 
+    /**
+     * Modify a teacher's email
+     *
+     * @param teacherId the teacher's account id
+     * @param email     the teacher's new email
+     * @return whether the operation is successful
+     * @author cesare
+     */
     boolean modifyEmail(String teacherId, String email);
 
-    boolean modifyPassword(String teacherId, String password);
 
     /**
-     * TODO:May not be useful. Can be deleted afterwards
+     * Modify a teacher's password when he/she forget his/her password
+     *
+     * @param tn       the teacher num
+     * @param password the new password
+     * @return whether the operation is success
+     * @author cesare
+     */
+    boolean modifyPasswordViaTn(String tn, String password);
+
+    /**
+     * Modify a teacher's password
+     *
+     * @param teacherId the teacher's account id
+     * @param password  the teacher's new password
+     * @return whether the operation is successful
+     * @author cesare
+     */
+    boolean modifyPasswordViaId(String teacherId, String password);
+
+    /**
      * Get a teacher's courses via teacherId
      *
      * @param teacherId refer gist
      * @return list of teacher's courses
+     * @author cesare
      */
     public List<Course> getCoursesByTeacherId(String teacherId);
 
@@ -70,65 +114,81 @@ public interface TeacherService {
 
     /**
      * Create a new TeamShareMsg
-     * @author SWJ
-     * @param  teamShareMsg refer gist
+     *
+     * @param teamShareMsg refer gist
      * @return success or fail
+     * @author SWJ
      */
     public boolean createTeamShareMsg(TeamShareMsg teamShareMsg);
 
     /**
      * Create a new teamShare when accept TeamShareMsg
-     * @author SWJ
-     * @param  teamShare refer gist
+     *
+     * @param teamShare refer gist
      * @return success or fail
+     * @author SWJ
      */
     public boolean createTeamShare(TeamShare teamShare);
 
     /**
      * Delete the teamShare when cancel a teamShare
+     *
+     * @param id refer gist. principal_course_id or subordinate_course_id
      * @author SWJ
-     * @param  id refer gist. principal_course_id or subordinate_course_id
-     * @return void
      */
     public void deleteTeamShare(String id);
 
     /**
      * Check teacher's own groupValidityMsg
-     * @author SWJ
-     * @param  teacherId refer gist.
+     *
+     * @param teacherId refer gist.
      * @return This teacher's all groupValidityMsg
+     * @author SWJ
      */
     public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
 
     /**
      * Agree this team's invalid state, update this team's valid
-     * @author SWJ
-     * @param  teamId refer gist.
+     *
+     * @param teamId refer gist.
      * @return success or fail
+     * @author SWJ
      */
     public boolean updateTeam(String teamId);
 
     /**
      * Create a new seminarShareMsg
-     * @author SWJ
-     * @param  seminarShareMsg refer gist
+     *
+     * @param seminarShareMsg refer gist
      * @return success or fail
+     * @author SWJ
      */
     public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
 
     /**
      * Create a new seminarShare when accept seminarShareMsg
-     * @author SWJ
-     * @param  seminarShare refer gist
+     *
+     * @param seminarShare refer gist
      * @return success or fail
+     * @author SWJ
      */
     public boolean createSeminarShare(SeminarShare seminarShare);
 
     /**
      * Delete the seminarShare when cancel a seminarShare
+     *
+     * @param courseId refer gist. principal_course_id or subordinate_course_id
      * @author SWJ
-     * @param  id refer gist. principal_course_id or subordinate_course_id
-     * @return void
      */
-    public void deleteSeminarShare(String id);
+    public void deleteSeminarShare(String courseId);
+
+    /**
+     * Updete the report score when teacher give score
+     *
+     * @param reportScore    refer gist.
+     * @param clbumSeminarId refer gist
+     * @return success of fail
+     * @author SWJ
+     */
+    public boolean updateReportScore(int reportScore, String clbumSeminarId);
 }
