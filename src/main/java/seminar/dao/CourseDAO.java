@@ -47,7 +47,7 @@ public class CourseDAO {
     /**
      * @author lyf
      */
-    public boolean create(Course course, MaxMinRegulation maxMinRegulation) {
+    public boolean create(Course course) {
         List<Course> courses = courseMapper.selectCourseByTeacherId(course.getTeacherId());
         for (Course c : courses) {
             if (c.getCourseName().equals(course.getCourseName())) {
@@ -55,15 +55,7 @@ public class CourseDAO {
             }
         }
         courseMapper.insertCourse(course);
-        List<Course> cs = courseMapper.selectCourseByTeacherId(course.getTeacherId());
-        for (Course c : cs) {
-            if (c.getCourseName().equals(course.getCourseName())) {
-                maxMinRegulation.setCourseId(c.getId());
-                maxMinRegulationMapper.insertMaxMinRegulation(maxMinRegulation);
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     /**
