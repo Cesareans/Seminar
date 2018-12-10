@@ -1,4 +1,4 @@
-package seminar.entity.vo;
+package seminar.pojo.vo;
 
 public class ClbumStudent {
     /**

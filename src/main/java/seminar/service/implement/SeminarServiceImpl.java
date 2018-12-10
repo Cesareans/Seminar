@@ -85,7 +85,7 @@ public class SeminarServiceImpl implements SeminarService {
      * @author SWJ
      */
     @Override
-    public List<Student> getStudentWithoutTeam(String courseId){
+    public List<Student> getStudentWithoutTeam(String courseId) {
         return studentDAO.getStudentWithoutTeamByCourseId(courseId);
     }
 }

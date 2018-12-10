@@ -4,7 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
-import seminar.mapper.MaxMinRegulationMapper;
+import seminar.entity.message.GroupValidityMsg;
+import seminar.entity.message.SeminarShareMsg;
+import seminar.entity.message.TeamShareMsg;
+import seminar.entity.regulation.MaxMinRegulation;
+import seminar.entity.share.SeminarShare;
+import seminar.entity.share.TeamShare;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -17,7 +22,6 @@ public class TeacherServiceImpl implements TeacherService {
     private final SeminarDAO seminarDAO;
     private final ClbumDao clbumDAO;
     private final MaxMinRegulationDAO maxMinRegulationDAO;
-    private TeacherDAO teacherDAO;
     private final CourseDAO courseDAO;
     private final TeamShareMsgDAO teamShareMsgDAO;
     private final TeamShareDAO teamShareDAO;
@@ -26,6 +30,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final SeminarShareDAO seminarShareDAO;
     private final AttendanceDAO attendanceDAO;
+    private TeacherDAO teacherDAO;
 
     @Autowired
     public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO, AttendanceDAO attendanceDAO) {
@@ -46,7 +51,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean activate(String teacherId, String password, String email) {
         List<Teacher> teachers = teacherDAO.getById(teacherId);
-        if(teachers.size() == 0) {
+        if (teachers.size() == 0) {
             return false;
         }
         Teacher teacher = teachers.get(0);
@@ -60,7 +65,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean modifyEmail(String teacherId, String email) {
         List<Teacher> teachers = teacherDAO.getById(teacherId);
-        if(teachers.size() == 0) {
+        if (teachers.size() == 0) {
             return false;
         }
         Teacher teacher = teachers.get(0);
@@ -69,10 +74,24 @@ public class TeacherServiceImpl implements TeacherService {
         return true;
     }
 
+
     @Override
-    public boolean modifyPassword(String teacherId, String password) {
+    public boolean modifyPasswordViaTn(String tn, String password) {
+        List<Teacher> teachers = teacherDAO.getByTN(tn);
+        if (teachers.size() == 0) {
+            return false;
+        } else {
+            Teacher targetTeacher = teachers.get(0);
+            targetTeacher.setPassword(password);
+            teacherDAO.update(targetTeacher);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean modifyPasswordViaId(String teacherId, String password) {
         List<Teacher> teachers = teacherDAO.getById(teacherId);
-        if(teachers.size() == 0) {
+        if (teachers.size() == 0) {
             return false;
         }
         Teacher teacher = teachers.get(0);
@@ -163,7 +182,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg){
+    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg) {
         return teamShareMsgDAO.create(teamShareMsg);
     }
 
@@ -171,7 +190,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createTeamShare(TeamShare teamShare){
+    public boolean createTeamShare(TeamShare teamShare) {
         return teamShareDAO.create(teamShare);
     }
 
@@ -179,13 +198,13 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public void deleteTeamShare(String id){
+    public void deleteTeamShare(String id) {
         List<TeamShare> teamShares = teamShareDAO.getAll();
-        for(TeamShare t:teamShares){
-            if(t.getPrincipalCourseId().equals(id)) {
+        for (TeamShare t : teamShares) {
+            if (t.getPrincipalCourseId().equals(id)) {
                 teamShareDAO.deleteByPCourseId(id);
             }
-            if(t.getSubordinateCourseId().equals(id)){
+            if (t.getSubordinateCourseId().equals(id)) {
                 teamShareDAO.deleteBySubCourseId(id);
             }
         }
@@ -195,7 +214,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId){
+    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId) {
         return groupValidityMsgDAO.getByTeacherId(teacherId);
     }
 
@@ -203,7 +222,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateTeam(String teamId){
+    public boolean updateTeam(String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
         team.setValid(true);
         return teamDAO.update(team);
@@ -213,7 +232,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg){
+    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg) {
         return seminarShareMsgDAO.create(seminarShareMsg);
     }
 
@@ -221,7 +240,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createSeminarShare(SeminarShare seminarShare){
+    public boolean createSeminarShare(SeminarShare seminarShare) {
         return seminarShareDAO.create(seminarShare);
     }
 
@@ -229,13 +248,13 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public void deleteSeminarShare(String courseid){
+    public void deleteSeminarShare(String courseid) {
         List<SeminarShare> seminarShares = seminarShareDAO.getAll();
-        for(SeminarShare s:seminarShares){
-            if(s.getPrincipalCourseId().equals(courseid)) {
+        for (SeminarShare s : seminarShares) {
+            if (s.getPrincipalCourseId().equals(courseid)) {
                 seminarShareDAO.deleteByPCourseId(courseid);
             }
-            if(s.getSubordinateCourseId().equals(courseid)){
+            if (s.getSubordinateCourseId().equals(courseid)) {
                 seminarShareDAO.deleteBySubCourseId(courseid);
             }
         }
@@ -245,9 +264,9 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateReportScore(int reportScore, String clbumSeminarId){
+    public boolean updateReportScore(int reportScore, String clbumSeminarId) {
         List<Attendance> attendances = attendanceDAO.getByClbumSeminarId(clbumSeminarId);
-        for(Attendance a:attendances) {
+        for (Attendance a : attendances) {
             a.setReportScore(reportScore);
             boolean flag = attendanceDAO.update(a);
             if (!flag) {

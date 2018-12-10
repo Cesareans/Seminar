@@ -23,7 +23,7 @@ public class Attendance {
     @Gist
     private String clbumSeminarId;
 
-    @Link(gist = "teamId",select = "seminar.mapper.TeamMapper.selectTeamById",lazy = false)
+    @Link(gist = "teamId", select = "seminar.mapper.TeamMapper.selectTeamById", lazy = false)
     private Team team;
 
     public String getId() {

@@ -1,7 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
-import seminar.entity.ClbumStudent;
+import seminar.entity.relation.ClbumStudent;
 
 import java.util.List;
 

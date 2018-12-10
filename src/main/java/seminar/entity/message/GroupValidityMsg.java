@@ -1,4 +1,4 @@
-package seminar.entity;
+package seminar.entity.message;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
@@ -17,36 +17,36 @@ public class GroupValidityMsg {
     @Gist
     private String teamId;
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public void setId(String id){
-        this.id=id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
-    public void setContent(String content){
-        this.content=content;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getTeacherId(){
+    public String getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(String teacherId){
-        this.teacherId=teacherId;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 
-    public String getTeamId(){
+    public String getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(String teamId){
-        this.teamId=teamId;
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 
 }

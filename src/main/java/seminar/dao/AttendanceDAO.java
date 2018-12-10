@@ -19,82 +19,73 @@ public class AttendanceDAO {
         this.attendanceMapper = attendanceMapper;
     }
 
-    public List<Attendance> getAttendanceByClbumSeminarId(String clbumSeminarId){
+    public List<Attendance> getAttendanceByClbumSeminarId(String clbumSeminarId) {
         return attendanceMapper.selectAttendanceByClbumSeminarId(clbumSeminarId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public List<Attendance> getAll()
-    {
+    public List<Attendance> getAll() {
         return attendanceMapper.selectAllAttendance();
     }
 
     /**
      * @author Xinyu Shi
      */
-    public List<Attendance> getByClbumSeminarId(String clbumSeminarId)
-    {
+    public List<Attendance> getByClbumSeminarId(String clbumSeminarId) {
         return attendanceMapper.selectAttendanceByClbumSeminarId(clbumSeminarId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public List<Attendance> getById(String id)
-    {
+    public List<Attendance> getById(String id) {
         return attendanceMapper.selectAttendanceById(id);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public List<Attendance> getByTeamId(String teamId)
-    {
+    public List<Attendance> getByTeamId(String teamId) {
         return attendanceMapper.selectAttendanceByTeamId(teamId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void deleteByClbumSeminarId(String clbumSeminarId)
-    {
+    public void deleteByClbumSeminarId(String clbumSeminarId) {
         attendanceMapper.deleteAttendanceByClbumSeminarId(clbumSeminarId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void deleteById(String id)
-    {
+    public void deleteById(String id) {
         attendanceMapper.deleteAttendanceById(id);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void deleteByTeamId(String teamId)
-    {
+    public void deleteByTeamId(String teamId) {
         attendanceMapper.deleteAttendanceByTeamId(teamId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void create(Attendance attendance)
-    {
+    public void create(Attendance attendance) {
         attendanceMapper.insertAttendance(attendance);
     }
 
     /**
      * @author Xinyu Shi
-     *
+     * <p>
      * change by SWJ
      */
-    public boolean update(Attendance attendance)
-    {
-        if(!attendanceMapper.selectAttendanceById(attendance.getId()).isEmpty()) {
+    public boolean update(Attendance attendance) {
+        if (!attendanceMapper.selectAttendanceById(attendance.getId()).isEmpty()) {
             attendanceMapper.updateAttendance(attendance);
             return true;
         }

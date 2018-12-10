@@ -1,7 +1,6 @@
-package seminar.entity.websocket;
+package seminar.pojo.websocket;
 
 import seminar.entity.Attendance;
-import seminar.entity.Team;
 
 import java.util.List;
 

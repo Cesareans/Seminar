@@ -3,8 +3,8 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Student;
-import seminar.entity.vo.StudentFilter;
 import seminar.mapper.StudentMapper;
+import seminar.pojo.vo.StudentFilter;
 
 import java.util.List;
 
@@ -22,21 +22,19 @@ public class StudentDAO {
 
     public boolean create(Student student) {
         List<Student> students = studentMapper.selectStudentByStudentNum(student.getStudentNum());
-        if(students.isEmpty()){
+        if (students.isEmpty()) {
             studentMapper.insertStudent(student);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     public boolean update(Student student) {
         List<Student> students = studentMapper.selectStudentById(student.getId());
-        if(students.isEmpty()) {
+        if (students.isEmpty()) {
             return false;
-        }
-        else {
+        } else {
             studentMapper.updateStudent(student);
             return true;
         }
@@ -46,7 +44,7 @@ public class StudentDAO {
         return studentMapper.selectAllStudent();
     }
 
-    public List<Student> getById(String id){
+    public List<Student> getById(String id) {
         return studentMapper.selectStudentById(id);
     }
 
@@ -71,7 +69,7 @@ public class StudentDAO {
     }
 
     /**
-     * @author  SWJ
+     * @author SWJ
      */
     public List<Student> getStudentWithoutTeamByCourseId(String courseId) {
         return studentMapper.selectStudentWithoutTeamByCourseId(courseId);

@@ -17,9 +17,6 @@ public class Seminar {
     private int maxTeam;
     private boolean ordered;
     private boolean visible;
-    /**
-     * todo:test date cast
-     */
     private String enrollStartDate;
     private String enrollEndDate;
     @Gist

@@ -122,9 +122,10 @@ public interface StudentMapper {
 
     /**
      * Select all Student entity via courseId
-     * @author SWJ
+     *
      * @param courseId the select gist
      * @return List<Student> the selected Student entity as list
+     * @author SWJ
      */
     @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId})))")
     @Results({

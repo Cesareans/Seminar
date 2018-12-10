@@ -5,7 +5,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import seminar.logger.DebugLogger;
 import seminar.service.MailService;
 
 /**
@@ -26,7 +25,7 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public void sendCaptcha(String captcha, String targetEmail) {
-        sendMail(captcha,targetEmail);
+        sendMail(captcha, targetEmail);
     }
 
     @Override

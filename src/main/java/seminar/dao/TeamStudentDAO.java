@@ -2,19 +2,20 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.TeamStudent;
+import seminar.entity.relation.TeamStudent;
 import seminar.mapper.TeamStudentMapper;
 
 import java.util.List;
+
 /**
- * @author  Xinyu Shi
+ * @author Xinyu Shi
  */
 @Component
 public class TeamStudentDAO {
     private final TeamStudentMapper teamStudentMapper;
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
     @Autowired
     public TeamStudentDAO(TeamStudentMapper teamStudentMapper) {
@@ -23,74 +24,66 @@ public class TeamStudentDAO {
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public List<TeamStudent> getAll()
-    {
+    public List<TeamStudent> getAll() {
         return teamStudentMapper.selectAllTeamStudent();
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public List<TeamStudent> getById(String id)
-    {
+    public List<TeamStudent> getById(String id) {
         return teamStudentMapper.selectTeamStudentById(id);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public List<TeamStudent> getByStudentId(String studentId)
-    {
+    public List<TeamStudent> getByStudentId(String studentId) {
         return teamStudentMapper.selectTeamStudentByStudentId(studentId);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public List<TeamStudent> getByTeamId(String teamId)
-    {
+    public List<TeamStudent> getByTeamId(String teamId) {
         return teamStudentMapper.selectTeamStudentByTeamId(teamId);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public void deleteById(String id)
-    {
+    public void deleteById(String id) {
         teamStudentMapper.deleteTeamStudentById(id);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public void deleteByStudentId(String studentId)
-    {
+    public void deleteByStudentId(String studentId) {
         teamStudentMapper.deleteTeamStudentByStudentId(studentId);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public void create(TeamStudent teamStudent)
-    {
+    public void create(TeamStudent teamStudent) {
         teamStudentMapper.insertTeamStudent(teamStudent);
     }
 
     /**
-     * @author  Xinyu Shi
+     * @author Xinyu Shi
      */
-    public void update(TeamStudent teamStudent)
-    {
+    public void update(TeamStudent teamStudent) {
 
         teamStudentMapper.updateTeamStudent(teamStudent);
     }
 
     /**
-     * @author  SWJ
+     * @author SWJ
      */
-    public void deleteByTeamId(String teamId){
+    public void deleteByTeamId(String teamId) {
         teamStudentMapper.deleteTeamStudentByTeamId(teamId);
     }
 }

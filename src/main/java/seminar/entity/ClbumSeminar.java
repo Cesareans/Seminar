@@ -5,6 +5,8 @@ import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
 
+import java.util.List;
+
 /**
  * @author Cesare
  */
@@ -18,8 +20,11 @@ public class ClbumSeminar {
     @Gist
     private String seminarId;
 
+    @Link(gist = "id", select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId")
+    private List<Attendance> attendances;
+
     @Link(gist = "seminarId", select = "seminar.mapper.SeminarMapper.selectSeminarById")
-    Seminar seminar;
+    private Seminar seminar;
 
     public String getId() {
         return id;
@@ -51,6 +56,14 @@ public class ClbumSeminar {
 
     public void setSeminarId(String seminarId) {
         this.seminarId = seminarId;
+    }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
     }
 
     public Seminar getSeminar() {

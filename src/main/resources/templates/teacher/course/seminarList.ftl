@@ -66,13 +66,13 @@
                     <div class="card content-card">
                         <div class="card-body">
                             <div class="body-header">
-                                <div class="body-title">第${round.roundIns.roundNum}轮</div>
+                                <div class="body-title">第${round.roundNum}轮</div>
                             </div>
                             <div class="body-content">
                                 <hr>
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                     <li class="nav-item" data-toggle="modal"
-                                        data-target="#round${round.roundIns.id}Modal">
+                                        data-target="#round${round.id}Modal">
                                     <#--TODO:Change the icon-->
                                         <a class="nav-link" style="padding-bottom: 0;">
                                             <i class="material-icons">ballot</i>
@@ -97,11 +97,11 @@
 </div>
 
 <#list rounds as round>
-<div class="modal seminar-modal fade" id="round${round.roundIns.id}Modal" data-roundId="${round.roundIns.id}">
+<div class="modal seminar-modal fade" id="round${round.id}Modal" data-roundId="${round.id}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">第${round.roundIns.roundNum}轮</h5>
+                <h5 class="modal-title">第${round.roundNum}轮</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="material-icons">clear</i>
                 </button>

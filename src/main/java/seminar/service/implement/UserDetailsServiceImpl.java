@@ -9,13 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import seminar.dao.AdminDAO;
 import seminar.dao.StudentDAO;
 import seminar.dao.TeacherDAO;
-import seminar.entity.Administrator;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.logger.DebugLogger;
 
 import java.util.LinkedList;
 import java.util.List;

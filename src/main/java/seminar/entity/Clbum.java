@@ -16,8 +16,7 @@ public class Clbum {
     private String location;
 
     @Gist
-    private
-    String courseId;
+    private String courseId;
 
     public String getId() {
         return id;

@@ -1,11 +1,9 @@
 package seminar.service.implement;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.service.CaptchaService;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
 /**
  * @author Cesare

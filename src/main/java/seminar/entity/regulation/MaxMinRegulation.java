@@ -1,20 +1,31 @@
-package seminar.entity;
+package seminar.entity.regulation;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
+import seminar.entity.Team;
 
 /**
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
-public class MaxMinRegulation {
+public class MaxMinRegulation implements Regulation {
     @ID(isIncrement = true)
     private String id;
     private int min;
     private int max;
     @Gist
     private String courseId;
+
+    @Override
+    public boolean validate(Team team) {
+        return true;
+    }
+
+    @Override
+    public String getErrorMsg() {
+        return "组队人数应在" + min + "-" + max + "之间";
+    }
 
     public String getId() {
         return id;

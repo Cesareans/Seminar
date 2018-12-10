@@ -3,8 +3,8 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Clbum;
-import seminar.mapper.ClbumMapper;
 import seminar.entity.Course;
+import seminar.mapper.ClbumMapper;
 import seminar.mapper.CourseMapper;
 
 import java.util.List;
@@ -23,17 +23,17 @@ public class ClbumDao {
         this.courseMapper = courseMapper;
     }
 
-    public List<Clbum> getByCourseId(String courseId){
+    public List<Clbum> getByCourseId(String courseId) {
         return clbumMapper.selectClbumByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
-    public boolean create(Clbum clbum){
+    public boolean create(Clbum clbum) {
         List<Clbum> clbums = clbumMapper.selectClbumByCourseId(clbum.getCourseId());
-        for(Clbum c:clbums){
-            if(c.getClbumName().equals(clbum.getClbumName()))
+        for (Clbum c : clbums) {
+            if (c.getClbumName().equals(clbum.getClbumName()))
                 return false;
         }
 
@@ -44,9 +44,9 @@ public class ClbumDao {
     /**
      * @author lyf
      */
-    public boolean update(Clbum clbum){
+    public boolean update(Clbum clbum) {
         List<Clbum> clbums = clbumMapper.selectClbumByCourseId(clbum.getCourseId());
-        if(clbums.isEmpty()) return false;
+        if (clbums.isEmpty()) return false;
         else {
             for (Clbum c : clbums) {
                 if (c.getClbumName().equals(clbum.getClbumName())) {
@@ -61,12 +61,11 @@ public class ClbumDao {
     /**
      * @author lyf
      */
-    public boolean deleteById(String clbumId){
+    public boolean deleteById(String clbumId) {
         List<Clbum> clbums = clbumMapper.selectClbumById(clbumId);
-        if(clbums.isEmpty()) {
+        if (clbums.isEmpty()) {
             return false;
-        }
-        else {
+        } else {
             clbumMapper.deleteClbumById(clbumId);
             return true;
         }
@@ -75,12 +74,11 @@ public class ClbumDao {
     /**
      * @author lyf
      */
-    public boolean deleteByCourseId(String courseId){
+    public boolean deleteByCourseId(String courseId) {
         List<Course> courses = courseMapper.selectCourseById(courseId);
-        if(courses.isEmpty()) {
+        if (courses.isEmpty()) {
             return false;
-        }
-        else{
+        } else {
             clbumMapper.deleteClbumByCourseId(courseId);
             return true;
         }

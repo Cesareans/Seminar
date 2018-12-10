@@ -1,9 +1,6 @@
 package seminar.service;
 
-import seminar.entity.Student;
 import seminar.entity.Team;
-
-import java.util.List;
 
 /**
  * @author Cesare
@@ -11,17 +8,28 @@ import java.util.List;
 public interface StudentService {
 
     /**
+     * Modify a student's password when he/she forget his/her password
+     *
+     * @param sn       the student num
+     * @param password the new password
+     * @return whether the operation is success
+     * @author cesare
+     */
+    boolean modifyPasswordViaSn(String sn, String password);
+    /**
      * Create a new team
-     * @author SWJ
-     * @param  team refer gist
+     *
+     * @param team refer gist
      * @return success or fail
+     * @author SWJ
      */
     public boolean createTeam(Team team);
 
     /**
      * Leave from the team
+     *
+     * @param studentId refer gist
      * @author SWJ
-     * @param  studentId refer gist
      */
     public void leaveTeam(String studentId);
 }

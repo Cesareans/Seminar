@@ -11,34 +11,34 @@ public interface SeminarService {
     /**
      * Get a course's clbums via courseId
      *
-     * @author cesare
      * @param courseId refer gist
      * @return list of course's clbums
+     * @author cesare
      */
     public List<Clbum> getClbumByCourseId(String courseId);
 
     /**
      * Get a course's teams via courseId
      *
-     * @author cesare
      * @param courseId refer gist
      * @return list of course's teams
+     * @author cesare
      */
     public List<Team> getTeamsByCourseId(String courseId);
 
     /**
      * Get a course's rounds via courseId
      *
-     * @author cesare
      * @param courseId refer gist
      * @return list of course's rounds
+     * @author cesare
      */
     public List<Round> getRoundsByCourseId(String courseId);
 
     /**
-     * @author Xinyu Shi
      * @param roundId
      * @return
+     * @author Xinyu Shi
      */
     public List<Seminar> getSeminarsByRoundId(String roundId);
 
@@ -60,9 +60,10 @@ public interface SeminarService {
 
     /**
      * Get all student without team in the same course which belong to same teacher
-     * @author SWJ
-     * @param  courseId refer gist
+     *
+     * @param courseId refer gist
      * @return List of student entity
+     * @author SWJ
      */
     public List<Student> getStudentWithoutTeam(String courseId);
 

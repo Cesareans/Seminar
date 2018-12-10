@@ -1,10 +1,6 @@
-package seminar.entity.vo;
+package seminar.pojo.vo;
 
-import seminar.config.SeminarConfig;
 import seminar.entity.Clbum;
-import seminar.logger.DebugLogger;
-
-import java.util.Date;
 
 /**
  * @author Cesare
@@ -16,7 +12,7 @@ public class ClbumCreateVO {
     private String location;
     private String courseId;
 
-    public Clbum getClbum(){
+    public Clbum getClbum() {
         Clbum clbum = new Clbum();
         clbum.setClbumName(gradeNum + "-" + clbumNum);
         clbum.setTime(clbumTime);
@@ -30,6 +26,7 @@ public class ClbumCreateVO {
         return "gradeNum:" + gradeNum + " clbumNum:" + clbumNum + " clbumTime:" + clbumTime
                 + " location:" + location + " courseId:" + courseId;
     }
+
     public String getGradeNum() {
         return gradeNum;
     }

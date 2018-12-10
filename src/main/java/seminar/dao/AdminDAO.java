@@ -26,13 +26,12 @@ public class AdminDAO {
     /**
      * @author lyf
      */
-    public boolean create(Administrator administrator){
+    public boolean create(Administrator administrator) {
 
-        if(adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty()) {
+        if (adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty()) {
             adminMapper.insertAdministrator(administrator);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -40,11 +39,10 @@ public class AdminDAO {
     /**
      * @author lyf
      */
-    public boolean deleteByName(String adminName){
-        if(adminMapper.selectAdministratorByAdminName(adminName).isEmpty()) {
+    public boolean deleteByName(String adminName) {
+        if (adminMapper.selectAdministratorByAdminName(adminName).isEmpty()) {
             return false;
-        }
-        else{
+        } else {
             adminMapper.deleteAdministratorByAdminName(adminName);
             return true;
         }
@@ -54,11 +52,10 @@ public class AdminDAO {
     /**
      * @author lyf
      */
-    public boolean update(Administrator administrator){
-        if(adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty()) {
+    public boolean update(Administrator administrator) {
+        if (adminMapper.selectAdministratorByAdminName(administrator.getAdminName()).isEmpty()) {
             return false;
-        }
-        else{
+        } else {
             adminMapper.updateAdministrator(administrator);
             return true;
         }

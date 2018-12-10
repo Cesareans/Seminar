@@ -25,7 +25,7 @@ public interface ClbumSeminarMapper {
     /**
      * Update a ClbumSeminar entity's information
      *
-     * @param clbumSeminar the ClbumSeminar entity that will be updated via the private java.lang.String seminar.entity.ClbumSeminar.id
+     * @param clbumSeminar the ClbumSeminar entity that will be updated via the id
      */
     @Update("update clbum_seminar set state=#{state}, clbum_id=#{clbumId}, seminar_id=#{seminarId} where id=#{id}")
     void updateClbumSeminar(ClbumSeminar clbumSeminar);
@@ -41,7 +41,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id"),
-            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
+            @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId", fetchType = FetchType.EAGER)),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.LAZY))
     })
     List<ClbumSeminar> selectAllClbumSeminar();
 
@@ -57,7 +58,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id"),
-            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
+            @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId", fetchType = FetchType.EAGER)),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.LAZY))
     })
     List<ClbumSeminar> selectClbumSeminarByClbumId(String clbumId);
 
@@ -73,7 +75,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id"),
-            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
+            @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId", fetchType = FetchType.EAGER)),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.LAZY))
     })
     List<ClbumSeminar> selectClbumSeminarBySeminarId(String seminarId);
 
@@ -89,7 +92,8 @@ public interface ClbumSeminarMapper {
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id"),
-            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
+            @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId", fetchType = FetchType.EAGER)),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.LAZY))
     })
     List<ClbumSeminar> selectClbumSeminarById(String id);
 
@@ -106,12 +110,13 @@ public interface ClbumSeminarMapper {
             @Result(property = "state", column = "state"),
             @Result(property = "clbumId", column = "clbum_id"),
             @Result(property = "seminarId", column = "seminar_id"),
-            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.EAGER))
+            @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId", fetchType = FetchType.EAGER)),
+            @Result(property = "seminar", column = "seminar_id", one = @One(select = "seminar.mapper.SeminarMapper.selectSeminarById", fetchType = FetchType.LAZY))
     })
     List<ClbumSeminar> selectClbumSeminarByClbumIdAndSeminarId(@Param("clbumId") String clbumId, @Param("seminarId") String seminarId);
 
     /**
-     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.clbumId
+     * Delete a ClbumSeminar entity via clbumId
      *
      * @param clbumId the select gist
      */
@@ -119,7 +124,7 @@ public interface ClbumSeminarMapper {
     void deleteClbumSeminarByClbumId(String clbumId);
 
     /**
-     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.seminarId
+     * Delete a ClbumSeminar entity via seminarId
      *
      * @param seminarId the select gist
      */
@@ -127,7 +132,7 @@ public interface ClbumSeminarMapper {
     void deleteClbumSeminarBySeminarId(String seminarId);
 
     /**
-     * Delete a ClbumSeminar entity via private java.lang.String seminar.entity.ClbumSeminar.id
+     * Delete a ClbumSeminar entity via id
      *
      * @param id the select gist
      */
