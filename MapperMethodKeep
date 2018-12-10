@@ -1,7 +1,7 @@
 @SWJ
 ${StudentMapper}
     /**
-     * Select all Student entity via courseId
+     * Select all student entities which not join in any teams of the course via courseId
      * @author SWJ
      * @param courseId the select gist
      * @return List<Student> the selected Student entity as list
