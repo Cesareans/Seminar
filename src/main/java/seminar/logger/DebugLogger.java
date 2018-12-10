@@ -34,8 +34,12 @@ public class DebugLogger {
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + (b ? "True" : "False"));
     }
 
-    public static void logJson(Object object) throws JsonProcessingException {
+    public static void logJson(Object object) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
-        System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
+        try {
+            System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }
