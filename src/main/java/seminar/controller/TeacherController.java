@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
+import seminar.logger.DebugLogger;
 import seminar.pojo.hso.ClbumSeminarHso;
 import seminar.pojo.vo.ClbumCreateVO;
 import seminar.service.*;
@@ -76,7 +77,7 @@ public class TeacherController {
             session.removeAttribute("activationCaptcha");
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -159,7 +160,7 @@ public class TeacherController {
     }
 
     @GetMapping("/course/clbumList")
-    public String clbum(String courseId, Model model, HttpSession session) {
+    public String clbumList(String courseId, Model model, HttpSession session) {
         if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
         } else {
@@ -182,7 +183,7 @@ public class TeacherController {
         if (teacherService.createClbum(clbum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -201,17 +202,18 @@ public class TeacherController {
         } else {
             session.setAttribute("courseId", courseId);
         }
+        model.addAttribute("courseId", courseId);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
         model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
 
-    @PutMapping("/course/round")
+    @PostMapping("/course/round/add")
     public @ResponseBody
-    ResponseEntity<Object> createRound(String courseId) {
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        return null;
+    ResponseEntity<Object> addRound(String courseId) {
+        teacherService.addRound(courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**

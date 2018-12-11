@@ -24,4 +24,11 @@ public class RoundMapperTest {
         List<Round> rounds = roundMapper.selectRoundByCourseId("112");
         DebugLogger.logJson(rounds);
     }
+
+    @Test
+    public void addRound() {
+        DebugLogger.logJson(roundMapper.selectRoundByCourseId("112"));
+        roundMapper.addRound("112");
+        DebugLogger.logJson(roundMapper.selectRoundByCourseId("112"));
+    }
 }

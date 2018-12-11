@@ -17,7 +17,7 @@ public class TeamMapperTest {
     TeamMapper teamMapper;
 
     @Test
-    public void selectTeamById() throws JsonProcessingException {
+    public void selectTeamById() {
         DebugLogger.logJson(teamMapper.selectTeamById("111").get(0));
     }
 }

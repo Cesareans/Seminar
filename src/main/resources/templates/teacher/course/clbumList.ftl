@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/clbumList.js"></script>
+    <script src="/static/js/teacher/course/klassList.js"></script>
     <title>班级</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -49,7 +49,7 @@
     </div>
 </nav>
 <div class="main main-raised">
-    <#if clbums?size == 0>
+    <#if klasss?size == 0>
         <div class="empty-tag">
             <div class="info">
                 <div class="icon icon-rose flex-center">
@@ -61,24 +61,24 @@
     <#else >
         <div class="container">
             <div class="row">
-                <#list clbums as clbum>
+                <#list klasss as klass>
                 <div class="col-lg-4 col-md-6">
                     <div class="card content-card">
-                        <div class="card-body" data-clbumID="${clbum.id}" data-toggle="modal" data-target="#clbumModal">
+                        <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
                             <div class="body-header">
-                                <div class="body-title">${clbum.clbumName}</div>
+                                <div class="body-title">${klass.klassName}</div>
                             </div>
                             <div class="body-content">
                                 <hr>
                                 <div class="line">
                                     <label>讨论课时间</label>
                                     <div class="sep"></div>
-                                    <div class="content">${clbum.time}</div>
+                                    <div class="content">${klass.time}</div>
                                 </div>
                                 <div class="line">
                                     <label>讨论课地点</label>
                                     <div class="sep"></div>
-                                    <div class="content">${clbum.location}</div>
+                                    <div class="content">${klass.location}</div>
                                 </div>
                             </div>
                         </div>
@@ -90,14 +90,14 @@
     </#if>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/clbum/create'" class="btn btn-dark btn-round bg-dark"
+    <button onclick="window.location='/teacher/course/klass/create'" class="btn btn-dark btn-round bg-dark"
             style="margin: 0">
         <i class="material-icons">add_circle</i>
         创建班级
     </button>
 </div>
 
-<div class="modal fade" id="clbumModal">
+<div class="modal fade" id="klassModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +122,7 @@
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="deleteClbum">
+                            <li class="nav-item" id="deleteKlass">
                                 <a class="nav-link">
                                     <i class="material-icons" style="color: #f44336">delete</i>
                                     删除班级

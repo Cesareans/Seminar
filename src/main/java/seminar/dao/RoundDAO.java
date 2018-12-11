@@ -23,6 +23,9 @@ public class RoundDAO {
         return roundMapper.selectRoundByCourseId(courseId);
     }
 
+    public void addRound(String courseId){
+        roundMapper.addRound(courseId);
+    }
     /**
      * @author lyf
      */

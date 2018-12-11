@@ -121,13 +121,14 @@ public interface StudentMapper {
     void deleteStudentById(String id);
 
     /**
-     * Select all Student entity via courseId
+     * Select all student entities which not join in any teams of the course via courseId
      *
      * @param courseId the select gist
      * @return List<Student> the selected Student entity as list
      * @author SWJ
      */
-    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId})))")
+    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId}))) " +
+            "union select * from student where id not in(select leader_id from team where clbum_id in(select id from clbum where course_id=#{courseId}))")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),

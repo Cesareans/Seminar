@@ -1,18 +1,18 @@
-var createClbumForm;
+var createKlassForm;
 $(function () {
-    createClbumForm = $("#createClbumForm");
+    createKlassForm = $("#createKlassForm");
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
-            console.log(createClbumForm.serialize());
+            console.log(createKlassForm.serialize());
             $.ajax({
                 type: "put",
-                url: "/teacher/course/clbum",
+                url: "/teacher/course/klass",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(createClbumForm.serializeObject()),
+                data: JSON.stringify(createKlassForm.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
-                        window.location = "/teacher/course/clbumList";
+                        window.location = "/teacher/course/klassList";
                     }
                 },
                 error: function (xhr) {//xhr, textStatus, errorThrown

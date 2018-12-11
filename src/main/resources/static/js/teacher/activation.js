@@ -33,13 +33,13 @@ $(function () {
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         window.location="/teacher/index";
-                    }else if(xhr.status === 204){
-                        actForm.captcha.registerDanger();
-                        util.showAlert("warning","验证码错误",3);
                     }
                 },
                 error: function (xhr) {//xhr, textStatus, errorThrown
-                    if (xhr.status === 401) {
+                    if (xhr.status === 409) {
+                        actForm.captcha.registerDanger();
+                        util.showAlert("danger","验证码错误",3);
+                    } else {
                         util.showAlert("danger", "激活失败，未知错误", 3);
                     }
                 }
