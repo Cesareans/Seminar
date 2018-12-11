@@ -2,6 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Team;
 import seminar.entity.relation.TeamStudent;
 import seminar.mapper.TeamStudentMapper;
 
@@ -85,5 +86,10 @@ public class TeamStudentDAO {
      */
     public void deleteByTeamId(String teamId) {
         teamStudentMapper.deleteTeamStudentByTeamId(teamId);
+    }
+
+    public void getByTeamId(String teamId, Team team)
+    {
+        team.setStudents(teamStudentMapper.selectStudentsByTeamId(teamId));
     }
 }
