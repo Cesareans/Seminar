@@ -112,8 +112,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean createCourse(Course course, MaxMinRegulation maxMinRegulation) {
-        return courseDAO.create(course, maxMinRegulation);
+    public boolean createCourse(Course course) {
+        return courseDAO.create(course);
     }
 
     /**

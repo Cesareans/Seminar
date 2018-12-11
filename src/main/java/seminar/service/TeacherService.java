@@ -70,7 +70,7 @@ public interface TeacherService {
     /**
      * @author lyf
      */
-    public boolean createCourse(Course course, MaxMinRegulation maxminregulation);
+    public boolean createCourse(Course course);
 
     /**
      * @author lyf
