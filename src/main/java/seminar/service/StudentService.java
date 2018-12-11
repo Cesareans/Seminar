@@ -20,16 +20,18 @@ public interface StudentService {
      * Create a new team
      *
      * @param team refer gist
+     * @param courseId the new team in which course
      * @return success or fail
      * @author SWJ
      */
-    public boolean createTeam(Team team);
+    boolean createTeam(Team team,String courseId);
 
     /**
      * Leave from the team
      *
      * @param studentId refer gist
+     * @param courseId the new team in which course
      * @author SWJ
      */
-    public void leaveTeam(String studentId);
+    void leaveTeam(String studentId, String courseId);
 }

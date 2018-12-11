@@ -1,16 +1,16 @@
-var clbumModal;
+var klassModal;
 $(function () {
-    clbumModal = $("#clbumModal");
+    klassModal = $("#klassModal");
 
-    clbumModal.on("show.bs.modal",function (event) {
+    klassModal.on("show.bs.modal",function (event) {
         var item = $(event.relatedTarget);
-        clbumModal.attr("data-clbumID", item.attr("data-clbumID"));
-        $(clbumModal.find(".modal-title")).html($(item.find(".body-title")).html());
+        klassModal.attr("data-klassID", item.attr("data-klassID"));
+        $(klassModal.find(".modal-title")).html($(item.find(".body-title")).html());
     });
-    $("#deleteClbum").click(function () {
+    $("#deleteKlass").click(function () {
         $.ajax({
             type:"delete",
-            url:"/teacher/course/clbum/" + clbumModal.attr("data-clbumID"),
+            url:"/teacher/course/klass/" + klassModal.attr("data-klassID"),
             success:function () {
                 location.reload();
             },

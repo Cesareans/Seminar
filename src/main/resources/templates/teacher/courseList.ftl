@@ -79,7 +79,7 @@
                                                 讨论课
                                             </a>
                                         </li>
-                                        <li class="nav-item clbum-nav">
+                                        <li class="nav-item klass-nav">
                                             <a class="nav-link">
                                                 <i class="material-icons">class</i>
                                                 班级

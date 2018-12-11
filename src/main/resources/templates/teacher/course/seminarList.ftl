@@ -148,9 +148,9 @@
                                 </#list>
                             </div>
                             <div class="container">
-                                <#list clbums as clbum>
-                                    <button type="button" class="btn btn-round bg-dark clbum-btn"
-                                            data-clbumId="${clbum.id}">${clbum.clbumName}</button>
+                                <#list klasss as klass>
+                                    <button type="button" class="btn btn-round bg-dark klass-btn"
+                                            data-klassId="${klass.id}">${klass.klassName}</button>
                                 </#list>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
 
 <div class="container foot-container flex-space-between">
     <div class="left-button">
-        <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
+        <button id="addRound" class="btn btn-dark btn-round bg-dark"
                 style="margin: 0">
             <i class="material-icons">add_circle</i>
             轮次
@@ -181,7 +181,10 @@
 </div>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info">
     <input id="seminarIdInput" name="seminarId" title="">
-    <input id="clbumIdInput" name="clbumId" title="">
+    <input id="klassIdInput" name="klassId" title="">
+</form>
+<form hidden id="courseIdForm">
+    <input id="courseIdInput" name="courseId" title="" value="${courseId}">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

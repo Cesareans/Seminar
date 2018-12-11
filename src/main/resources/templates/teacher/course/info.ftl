@@ -12,16 +12,16 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var csIdForm;
+        var ksIdForm;
         $(function () {
-            csIdForm = $("#csIdForm");
+            ksIdForm = $("#ksIdForm");
             $("#enrollBtn").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/enrollList");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
+                ksIdForm.submit();
             });
             $("#enterSeminar").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/progressing");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/progressing");
+                ksIdForm.submit();
             })
         });
     </script>

@@ -12,16 +12,16 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var csIdForm;
+        var ksIdForm;
         $(function () {
-            csIdForm=$("#csIdForm");
+            ksIdForm=$("#ksIdForm");
             $("#enrollBtn").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/enrollList");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
+                ksIdForm.submit();
             });
             $("#enterSeminar").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/progressing");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/progressing");
+                ksIdForm.submit();
             })
         });
     </script>
@@ -68,7 +68,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-9" style="display: flex;align-items: center">
-                            <h4 class="card-title" style="margin-top: 0">${clbumSeminar.seminar.theme}</h4>
+                            <h4 class="card-title" style="margin-top: 0">${klassSeminar.seminar.theme}</h4>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn">
@@ -95,20 +95,20 @@
                             <div class="line">
                                 <label>课次序号</label>
                                 <div class="sep"></div>
-                                <div class="content" style="margin-left: 10px">${clbumSeminar.seminar.serial}</div>
+                                <div class="content" style="margin-left: 10px">${klassSeminar.seminar.serial}</div>
                             </div>
                             <div class="line content-line">
                                 <label>课程要求</label>
                                 <div class="sep"></div>
-                                <div class="content">${clbumSeminar.seminar.content}</div>
+                                <div class="content">${klassSeminar.seminar.content}</div>
                             </div>
                             <div class="line status-line">
                                 <label>状态</label>
                                 <div class="sep"></div>
                                 <div class="content">
-                                    <#if clbumSeminar.state == 0>
+                                    <#if klassSeminar.state == 0>
                                         尚未开始
-                                    <#elseif clbumSeminar.state == 1>
+                                    <#elseif klassSeminar.state == 1>
                                         正在进行
                                     <#else>
                                         已经结束
@@ -130,8 +130,8 @@
     </div>
 </div>
 
-<form hidden id="csIdForm" method="get">
-    <input id="csIdInput" name="clbumSeminarId" title="" value="${clbumSeminar.id}">
+<form hidden id="ksIdForm" method="get">
+    <input id="ksIdInput" name="klassSeminarId" title="" value="${klassSeminar.id}">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

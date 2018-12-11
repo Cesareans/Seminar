@@ -10,7 +10,7 @@ $(function () {
         courseModal.attr("data-courseID", item.attr("data-courseID"));
         $(courseModal.find(".modal-title")).html($(item.find(".body-title")).html());
     });
-    $(".clbum-nav").click({url:'/teacher/course/clbumList'},courseCardNavClick);
+    $(".klass-nav").click({url:'/teacher/course/klassList'},courseCardNavClick);
     $(".team-nav").click({url:'/teacher/course/teamList'},courseCardNavClick);
     $(".seminar-nav").click({url:'/teacher/course/seminarList'},courseCardNavClick);
     $("#gradeNav");

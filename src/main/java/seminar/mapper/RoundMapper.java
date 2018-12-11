@@ -23,6 +23,15 @@ public interface RoundMapper {
     void insertRound(Round round);
 
     /**
+     * Insert a new Round into a course.
+     *
+     * @param courseId the Course refer gist
+     */
+    @Insert("insert into round(round_num, course_id) select max(round_num) + 1,course_id from round where course_id = #{courseId}")
+    void addRound(String courseId);
+
+
+    /**
      * Update a Round entity's information
      *
      * @param round the Round entity that will be updated via the id

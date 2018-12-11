@@ -97,6 +97,8 @@ public interface TeacherService {
      */
     public void deleteClbumById(String clbumId);
 
+    public void addRound(String courseId);
+
     /**
      * @author lyf
      */

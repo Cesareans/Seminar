@@ -10,6 +10,7 @@ import seminar.entity.Team;
 import seminar.entity.relation.TeamStudent;
 import seminar.service.StudentService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -45,18 +46,21 @@ public class StudentServiceImpl implements StudentService {
      * @author SWJ
      */
     @Override
-    public boolean createTeam(Team team) {
-        List<TeamStudent> teamStudents = teamStudentDAO.getAll();
-        for (TeamStudent t : teamStudents) {
-            if (team.getLeaderId().equals(t.getStudentId())) {
+    public boolean createTeam(Team team, String courseId) {
+        List<Team> teams = teamDAO.getByCourseId(courseId);
+        List<TeamStudent> teamStudents = new LinkedList<>();
+        for(Team t:teams){
+            teamStudents.addAll(teamStudentDAO.getByTeamId(t.getId()));
+            if(team.getLeaderId().equals(t.getLeaderId())){
+                return false;
+            }
+        }
+        for (TeamStudent ts : teamStudents) {
+            if (team.getLeaderId().equals(ts.getStudentId())) {
                 return false;
             }
         }
         teamDAO.create(team);
-        TeamStudent teamStudent = new TeamStudent();
-        teamStudent.setTeamId(team.getId());
-        teamStudent.setStudentId(team.getLeaderId());
-        teamStudentDAO.create(teamStudent);
         return true;
     }
 
@@ -64,8 +68,19 @@ public class StudentServiceImpl implements StudentService {
      * @author SWJ
      */
     @Override
-    public void leaveTeam(String studentId) {
-        //数据库改了，之后重新写一下，identity去掉了
-        throw new UnsupportedOperationException();
+    public void leaveTeam(String studentId, String courseId) {
+        List<Team> teams = teamDAO.getByCourseId(courseId);
+        List<TeamStudent> teamStudents = new LinkedList<>();
+        for(Team t:teams){
+            teamStudents.addAll(teamStudentDAO.getByTeamId(t.getId()));
+        }
+        for(Team t:teams){
+            if(t.getLeaderId().equals(studentId)){
+                teamStudentDAO.deleteByTeamId(t.getId());
+                teamDAO.deleteById(t.getId());
+                return;
+            }
+        }
+        teamStudentDAO.deleteByStudentId(studentId);
     }
 }

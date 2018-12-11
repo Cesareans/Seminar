@@ -31,9 +31,10 @@ public class TeacherServiceImpl implements TeacherService {
     private final SeminarShareDAO seminarShareDAO;
     private final AttendanceDAO attendanceDAO;
     private TeacherDAO teacherDAO;
+    private final RoundDAO roundDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO, AttendanceDAO attendanceDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -46,6 +47,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.seminarShareMsgDAO = seminarShareMsgDAO;
         this.seminarShareDAO = seminarShareDAO;
         this.attendanceDAO = attendanceDAO;
+        this.roundDAO = roundDAO;
     }
 
     @Override
@@ -152,6 +154,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void deleteClbumById(String clbumId) {
         clbumDAO.deleteById(clbumId);
+    }
+
+    @Override
+    public void addRound(String courseId) {
+        roundDAO.addRound(courseId);
     }
 
     /**

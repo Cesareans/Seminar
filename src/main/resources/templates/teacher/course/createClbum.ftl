@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/createClbum.js"></script>
+    <script src="/static/js/teacher/course/createKlass.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -19,7 +19,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/clbumList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/klassList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">创建班级</div>
@@ -53,7 +53,7 @@
     <div class="container">
         <div class="row flex-center">
             <div class="col-md-6">
-                <form class="form" id="createClbumForm">
+                <form class="form" id="createKlassForm">
                     <input hidden name="courseId" value="${courseId}" title="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
@@ -64,7 +64,7 @@
                                    class="form-control empty-verify" data-emptyMessage="请输入年级">
                         </div>
                         <div class="col">
-                            <input id="clbumNum" name="clbumNum" type="text" placeholder="班级" autocomplete="off"
+                            <input id="klassNum" name="klassNum" type="text" placeholder="班级" autocomplete="off"
                                    class="form-control empty-verify" data-emptyMessage="请输入班级">
                         </div>
                     </div>
@@ -81,11 +81,11 @@
                                     <div class="body-content">
                                         <hr>
                                         <div class="line">
-                                            <label for="clbumTime">讨论课时间</label>
+                                            <label for="klassTime">讨论课时间</label>
                                             <div class="sep"></div>
                                             <div class="content">
                                                 <div class="form-group bmd-form-group">
-                                                    <input id="clbumTime" name="clbumTime" type="text" autocomplete="off"
+                                                    <input id="klassTime" name="klassTime" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
                                                 </div>
                                             </div>
@@ -130,7 +130,7 @@
         </button>
     </div>
     <div class="right-button">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/clbum'" style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/klass'" style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>
