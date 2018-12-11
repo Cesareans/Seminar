@@ -19,15 +19,15 @@ public interface AttendanceMapper {
      *
      * @param attendance the Attendance entity that will be inserted
      */
-    @Insert("insert into attendance(sn, pre_file, is_presenting, report_file, pre_score, report_score, team_id, clbum_seminar_id) values(#{sn}, #{preFile}, #{presenting}, #{reportFile}, #{preScore}, #{reportScore}, #{teamId}, #{clbumSeminarId})")
+    @Insert("insert into attendance(sn, pre_file, is_presenting, report_file, pre_score, report_score, team_id, klass_seminar_id) values(#{sn}, #{preFile}, #{presenting}, #{reportFile}, #{preScore}, #{reportScore}, #{teamId}, #{klassSeminarId})")
     void insertAttendance(Attendance attendance);
 
     /**
      * Update a Attendance entity's information
      *
-     * @param attendance the Attendance entity that will be updated via the private java.lang.String seminar.entity.Attendance.id
+     * @param attendance the Attendance entity that will be updated via the id
      */
-    @Update("update attendance set sn=#{sn}, pre_file=#{preFile}, is_presenting=#{presenting}, report_file=#{reportFile}, pre_score=#{preScore}, report_score=#{reportScore}, team_id=#{teamId}, clbum_seminar_id=#{clbumSeminarId} where id=#{id}")
+    @Update("update attendance set sn=#{sn}, pre_file=#{preFile}, is_presenting=#{presenting}, report_file=#{reportFile}, pre_score=#{preScore}, report_score=#{reportScore}, team_id=#{teamId}, klass_seminar_id=#{klassSeminarId} where id=#{id}")
     void updateAttendance(Attendance attendance);
 
     /**
@@ -45,7 +45,7 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAllAttendance();
@@ -66,18 +66,18 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAttendanceByTeamId(String teamId);
 
     /**
-     * Select a Attendance entity via clbumSeminarId
+     * Select a Attendance entity via klassSeminarId
      *
-     * @param clbumSeminarId the select gist
+     * @param klassSeminarId the select gist
      * @return List<attendance> the selected Attendance entity as list
      */
-    @Select("select * from attendance where clbum_seminar_id=#{clbumSeminarId}")
+    @Select("select * from attendance where klass_seminar_id=#{klassSeminarId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "sn", column = "sn"),
@@ -87,10 +87,10 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
-    List<Attendance> selectAttendanceByClbumSeminarId(String clbumSeminarId);
+    List<Attendance> selectAttendanceByKlassSeminarId(String klassSeminarId);
 
     /**
      * Select a Attendance entity via id
@@ -108,13 +108,13 @@ public interface AttendanceMapper {
             @Result(property = "preScore", column = "pre_score"),
             @Result(property = "reportScore", column = "report_score"),
             @Result(property = "teamId", column = "team_id"),
-            @Result(property = "clbumSeminarId", column = "clbum_seminar_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
     })
     List<Attendance> selectAttendanceById(String id);
 
     /**
-     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.teamId
+     * Delete a Attendance entity via teamId
      *
      * @param teamId the select gist
      */
@@ -122,15 +122,15 @@ public interface AttendanceMapper {
     void deleteAttendanceByTeamId(String teamId);
 
     /**
-     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.clbumSeminarId
+     * Delete a Attendance entity via klassSeminarId
      *
-     * @param clbumSeminarId the select gist
+     * @param klassSeminarId the select gist
      */
-    @Delete("delete from attendance where clbum_seminar_id=#{clbumSeminarId}")
-    void deleteAttendanceByClbumSeminarId(String clbumSeminarId);
+    @Delete("delete from attendance where klass_seminar_id=#{klassSeminarId}")
+    void deleteAttendanceByKlassSeminarId(String klassSeminarId);
 
     /**
-     * Delete a Attendance entity via private java.lang.String seminar.entity.Attendance.id
+     * Delete a Attendance entity via id
      *
      * @param id the select gist
      */

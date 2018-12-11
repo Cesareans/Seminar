@@ -46,12 +46,12 @@ create table if not exists course (
   teacher_id        int         not null
 );
 
-drop table if exists clbum;
-create table if not exists clbum (
+drop table if exists klass;
+create table if not exists klass (
   id         int auto_increment primary key,
   gmt_create      date,
   gmt_modified    date,
-  clbum_name varchar(16) not null,
+  klass_name varchar(16) not null,
   time       varchar(30),
   location   varchar(20),
   course_id  int         not null
@@ -65,7 +65,7 @@ create table if not exists team (
   serial    varchar(10) not null,
   team_name varchar(16) not null,
   is_valid  bool,
-  clbum_id  int         not null,
+  klass_id  int         not null,
   leader_id int         not null
 );
 
@@ -94,12 +94,12 @@ create table if not exists seminar (
   round_id          int         not null
 );
 
-drop table if exists clbum_student;
-create table if not exists clbum_student (
+drop table if exists klass_student;
+create table if not exists klass_student (
   id         int auto_increment primary key,
   gmt_create      date,
   gmt_modified    date,
-  clbum_id   int not null,
+  klass_id   int not null,
   student_id int not null
 );
 
@@ -112,13 +112,13 @@ create table if not exists team_student (
   student_id int not null
 );
 
-drop table if exists clbum_seminar;
-create table if not exists clbum_seminar (
+drop table if exists klass_seminar;
+create table if not exists klass_seminar (
   id         int auto_increment primary key,
   gmt_create      date,
   gmt_modified    date,
   state      bool,
-  clbum_id   int not null,
+  klass_id   int not null,
   seminar_id int not null
 );
 
@@ -134,7 +134,7 @@ create table if not exists attendance (
   report_score     float,
   order            int,
   team_id          int not null,
-  clbum_seminar_id int not null
+  klass_seminar_id int not null
 );
 
 drop table if exists question;
@@ -153,7 +153,7 @@ create table if not exists question_pool (
   id               int auto_increment primary key,
   gmt_create      date,
   gmt_modified    date,
-  clbum_seminar_id int not null,
+  klass_seminar_id int not null,
   team_id          int not null,
   student_id       int not null
 );
@@ -387,18 +387,18 @@ insert into course (id,
 values (113, 'JavaEE', 'J2EE', 30, 50, 20, '2018.10.9', '2018.12.30', 1234);
 
 
-insert into clbum (id, clbum_name, time, location, course_id)
+insert into klass (id, klass_name, time, location, course_id)
 values (143, '2018-1班', '周一12节', '海韵教学楼', 112);
-insert into clbum (id, clbum_name, time, location, course_id)
+insert into klass (id, klass_name, time, location, course_id)
 values (144, '2018-2班', '周一34节', '海韵教学楼', 112);
-insert into clbum (id, clbum_name, time, location, course_id)
+insert into klass (id, klass_name, time, location, course_id)
 values (145, '2018-3班', '周一56节', '海韵教学楼', 112);
 
-insert into team (id, serial, team_name, is_valid, clbum_id, leader_id)
+insert into team (id, serial, team_name, is_valid, klass_id, leader_id)
 values (111, '1-4', 'sr', true, 143, 1234);
-insert into team (id, serial, team_name, is_valid, clbum_id, leader_id)
+insert into team (id, serial, team_name, is_valid, klass_id, leader_id)
 values (112, '2-4', 'ssr', true, 144, 1234);
-insert into team (id, serial, team_name, is_valid, clbum_id, leader_id)
+insert into team (id, serial, team_name, is_valid, klass_id, leader_id)
 values (113, '3-4', 'ur', true, 145, 1234);
 
 
@@ -434,21 +434,21 @@ insert into seminar (id,
                      round_id)
 values(113,'领域模型分析','3',6,'2018.10.9', '2018.12.30',111);
 
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (1,0,143,111);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (2,0,143,112);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (3,0,143,113);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (4,0,144,111);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (5,0,144,112);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (6,0,144,113);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (7,0,145,111);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (8,0,145,112);
-insert into clbum_seminar (id,state,clbum_id,seminar_id)
+insert into klass_seminar (id,state,klass_id,seminar_id)
 values (9,0,145,113);

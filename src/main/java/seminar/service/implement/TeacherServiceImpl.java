@@ -8,8 +8,6 @@ import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
 import seminar.entity.message.TeamShareMsg;
 import seminar.entity.regulation.MaxMinRegulation;
-import seminar.entity.share.SeminarShare;
-import seminar.entity.share.TeamShare;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -20,32 +18,28 @@ import java.util.List;
 @Service
 public class TeacherServiceImpl implements TeacherService {
     private final SeminarDAO seminarDAO;
-    private final ClbumDao clbumDAO;
+    private final KlassDao klassDAO;
     private final MaxMinRegulationDAO maxMinRegulationDAO;
     private final CourseDAO courseDAO;
     private final TeamShareMsgDAO teamShareMsgDAO;
-    private final TeamShareDAO teamShareDAO;
     private final GroupValidityMsgDAO groupValidityMsgDAO;
     private final TeamDAO teamDAO;
     private final SeminarShareMsgDAO seminarShareMsgDAO;
-    private final SeminarShareDAO seminarShareDAO;
     private final AttendanceDAO attendanceDAO;
     private TeacherDAO teacherDAO;
     private final RoundDAO roundDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, ClbumDao clbumDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, TeamShareDAO teamShareDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, SeminarShareDAO seminarShareDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
-        this.clbumDAO = clbumDAO;
+        this.klassDAO = klassDAO;
         this.maxMinRegulationDAO = maxMinRegulationDAO;
         this.teamShareMsgDAO = teamShareMsgDAO;
-        this.teamShareDAO = teamShareDAO;
         this.groupValidityMsgDAO = groupValidityMsgDAO;
         this.teamDAO = teamDAO;
         this.seminarShareMsgDAO = seminarShareMsgDAO;
-        this.seminarShareDAO = seminarShareDAO;
         this.attendanceDAO = attendanceDAO;
         this.roundDAO = roundDAO;
     }
@@ -112,8 +106,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean createCourse(Course course, MaxMinRegulation maxMinRegulation) {
-        return courseDAO.create(course, maxMinRegulation);
+    public boolean createCourse(Course course) {
+        return courseDAO.create(course);
     }
 
     /**
@@ -136,24 +130,24 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean createClbum(Clbum clbum) {
-        return clbumDAO.create(clbum);
+    public boolean createKlass(Klass klass) {
+        return klassDAO.create(klass);
     }
 
     /**
      * @author lyf
      */
     @Override
-    public boolean updateClbum(Clbum clbum) {
-        return clbumDAO.update(clbum);
+    public boolean updateKlass(Klass klass) {
+        return klassDAO.update(klass);
     }
 
     /**
      * @author lyf
      */
     @Override
-    public void deleteClbumById(String clbumId) {
-        clbumDAO.deleteById(clbumId);
+    public void deleteKlassById(String klassId) {
+        klassDAO.deleteById(klassId);
     }
 
     @Override
@@ -197,30 +191,6 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createTeamShare(TeamShare teamShare) {
-        return teamShareDAO.create(teamShare);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public void deleteTeamShare(String id) {
-        List<TeamShare> teamShares = teamShareDAO.getAll();
-        for (TeamShare t : teamShares) {
-            if (t.getPrincipalCourseId().equals(id)) {
-                teamShareDAO.deleteByPCourseId(id);
-            }
-            if (t.getSubordinateCourseId().equals(id)) {
-                teamShareDAO.deleteBySubCourseId(id);
-            }
-        }
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
     public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId) {
         return groupValidityMsgDAO.getByTeacherId(teacherId);
     }
@@ -247,32 +217,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createSeminarShare(SeminarShare seminarShare) {
-        return seminarShareDAO.create(seminarShare);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public void deleteSeminarShare(String courseid) {
-        List<SeminarShare> seminarShares = seminarShareDAO.getAll();
-        for (SeminarShare s : seminarShares) {
-            if (s.getPrincipalCourseId().equals(courseid)) {
-                seminarShareDAO.deleteByPCourseId(courseid);
-            }
-            if (s.getSubordinateCourseId().equals(courseid)) {
-                seminarShareDAO.deleteBySubCourseId(courseid);
-            }
-        }
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public boolean updateReportScore(int reportScore, String clbumSeminarId) {
-        List<Attendance> attendances = attendanceDAO.getByClbumSeminarId(clbumSeminarId);
+    public boolean updateReportScore(int reportScore, String klassSeminarId) {
+        List<Attendance> attendances = attendanceDAO.getByKlassSeminarId(klassSeminarId);
         for (Attendance a : attendances) {
             a.setReportScore(reportScore);
             boolean flag = attendanceDAO.update(a);

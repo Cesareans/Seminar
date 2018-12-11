@@ -112,9 +112,9 @@ public interface TeamStudentMapper {
     /**
      * Select a Team's all students via teamId
      *
-     * @author Cesare
      * @param teamId the select gist
      * @return List<Student> the selected Team's all students as list
+     * @author Cesare
      */
     @Select("select student.id,student_name,student_num,password,email,is_activated from team_student left join student on team_student.student_id = student.id where team_id=#{teamId}")
     @Results({

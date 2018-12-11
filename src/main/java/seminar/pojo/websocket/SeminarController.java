@@ -8,7 +8,7 @@ import java.util.List;
  * @author Cesare
  */
 public class SeminarController {
-    String clbumSeminarId;
+    String klassSeminarId;
     List<Attendance> attendances;
 
 }

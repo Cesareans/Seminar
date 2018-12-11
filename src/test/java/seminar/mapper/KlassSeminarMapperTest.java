@@ -6,32 +6,27 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import seminar.entity.ClbumSeminar;
 import seminar.logger.DebugLogger;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ClbumSeminarMapperTest {
+public class KlassSeminarMapperTest {
     @Autowired
-    ClbumSeminarMapper clbumSeminarMapper;
+    KlassSeminarMapper klassSeminarMapper;
 
 
     /**
-     * This test checks out a problem that the ClbumSeminar cannot be serialized.
+     * This test checks out a problem that the KlassSeminar cannot be serialized.
      * reasonOut: when a class's link field was defined with lazy fetch type. The class will be registered with a handler which could not be serialized.
      */
     @Test
-    public void selectClbumSeminarByClbumIdAndSeminarId() throws JsonProcessingException {
-        DebugLogger.logJson(clbumSeminarMapper.selectClbumSeminarByClbumIdAndSeminarId("143", "111"));
+    public void selectKlassSeminarByKlassIdAndSeminarId() throws JsonProcessingException {
+        DebugLogger.logJson(klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId("143", "111"));
 
     }
 
     @Test
-    public void selectClbumSeminarById() throws JsonProcessingException {
-        DebugLogger.logJson(clbumSeminarMapper.selectClbumSeminarById("1"));
+    public void selectKlassSeminarById() throws JsonProcessingException {
+        DebugLogger.logJson(klassSeminarMapper.selectKlassSeminarById("1"));
     }
 }

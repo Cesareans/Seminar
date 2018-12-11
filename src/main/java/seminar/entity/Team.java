@@ -18,7 +18,7 @@ public class Team {
     private String teamName;
     private boolean valid;
     @Gist
-    private String clbumId;
+    private String klassId;
     private String leaderId;
 
     @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
@@ -58,12 +58,12 @@ public class Team {
         this.valid = valid;
     }
 
-    public String getClbumId() {
-        return clbumId;
+    public String getKlassId() {
+        return klassId;
     }
 
-    public void setClbumId(String clbumId) {
-        this.clbumId = clbumId;
+    public void setKlassId(String klassId) {
+        this.klassId = klassId;
     }
 
     public String getLeaderId() {

@@ -14,31 +14,31 @@ import java.util.List;
 @Service
 public class SeminarServiceImpl implements SeminarService {
     private final CourseDAO courseDAO;
-    private final ClbumDao clbumDao;
+    private final KlassDao klassDao;
     private final TeamDAO teamDAO;
     private final RoundDAO roundDAO;
     private final SeminarDAO seminarDAO;
-    private final ClbumSeminarDAO clbumSeminarDAO;
+    private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
     private final TeamStudentDAO teamStudentDAO;
     private final StudentDAO studentDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, ClbumDao clbumDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, ClbumSeminarDAO clbumSeminarDAO, AttendanceDAO attendanceDAO, TeamStudentDAO teamStudentDAO, StudentDAO studentDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, TeamStudentDAO teamStudentDAO, StudentDAO studentDAO) {
         this.courseDAO = courseDAO;
-        this.clbumDao = clbumDao;
+        this.klassDao = klassDao;
         this.teamDAO = teamDAO;
         this.roundDAO = roundDAO;
         this.seminarDAO = seminarDAO;
-        this.clbumSeminarDAO = clbumSeminarDAO;
+        this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
         this.teamStudentDAO = teamStudentDAO;
         this.studentDAO = studentDAO;
     }
 
     @Override
-    public List<Clbum> getClbumByCourseId(String courseId) {
-        return clbumDao.getByCourseId(courseId);
+    public List<Klass> getKlassByCourseId(String courseId) {
+        return klassDao.getByCourseId(courseId);
     }
 
     @Override
@@ -57,13 +57,13 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId) {
-        return clbumSeminarDAO.getByClbumIdAndSeminarId(clbumId, seminarId);
+    public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId) {
+        return klassSeminarDAO.getByKlassIdAndSeminarId(klassId, seminarId);
     }
 
     @Override
-    public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId) {
-        return clbumSeminarDAO.getClbumSeminarByClbumSeminarId(clbumSeminarId);
+    public List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId) {
+        return klassSeminarDAO.getKlassSeminarByKlassSeminarId(klassSeminarId);
     }
 
     @Override
@@ -72,8 +72,8 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId) {
-        return attendanceDAO.getAttendanceByClbumSeminarId(clbumSeminarId);
+    public List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId) {
+        return attendanceDAO.getAttendanceByKlassSeminarId(klassSeminarId);
     }
 
     @Override

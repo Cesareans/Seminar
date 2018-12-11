@@ -1,29 +1,29 @@
 package seminar.pojo.vo;
 
-import seminar.entity.Clbum;
+import seminar.entity.Klass;
 
 /**
  * @author Cesare
  */
-public class ClbumCreateVO {
+public class KlassCreateVO {
     private String gradeNum;
-    private String clbumNum;
-    private String clbumTime;
+    private String klassNum;
+    private String klassTime;
     private String location;
     private String courseId;
 
-    public Clbum getClbum() {
-        Clbum clbum = new Clbum();
-        clbum.setClbumName(gradeNum + "-" + clbumNum);
-        clbum.setTime(clbumTime);
-        clbum.setLocation(location);
-        clbum.setCourseId(courseId);
-        return clbum;
+    public Klass getKlass() {
+        Klass klass = new Klass();
+        klass.setKlassName(gradeNum + "-" + klassNum);
+        klass.setTime(klassTime);
+        klass.setLocation(location);
+        klass.setCourseId(courseId);
+        return klass;
     }
 
     @Override
     public String toString() {
-        return "gradeNum:" + gradeNum + " clbumNum:" + clbumNum + " clbumTime:" + clbumTime
+        return "gradeNum:" + gradeNum + " klassNum:" + klassNum + " klassTime:" + klassTime
                 + " location:" + location + " courseId:" + courseId;
     }
 
@@ -35,20 +35,20 @@ public class ClbumCreateVO {
         this.gradeNum = gradeNum;
     }
 
-    public String getClbumNum() {
-        return clbumNum;
+    public String getKlassNum() {
+        return klassNum;
     }
 
-    public void setClbumNum(String clbumNum) {
-        this.clbumNum = clbumNum;
+    public void setKlassNum(String klassNum) {
+        this.klassNum = klassNum;
     }
 
-    public String getClbumTime() {
-        return clbumTime;
+    public String getKlassTime() {
+        return klassTime;
     }
 
-    public void setClbumTime(String clbumTime) {
-        this.clbumTime = clbumTime;
+    public void setKlassTime(String klassTime) {
+        this.klassTime = klassTime;
     }
 
     public String getLocation() {

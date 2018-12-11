@@ -16,7 +16,7 @@ function sendModifyRequest() {
         modifyPwdForm.confirmPwd.registerDanger();
         return;
     }
-    var verify = util.verifyWithAlert(modifyPwdForm);
+    var verify = util.verifyWithAlert(modifyPwdForm.form);
     if(verify == null){
         $.ajax({
             type: "post",

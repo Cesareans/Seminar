@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
-import seminar.logger.DebugLogger;
-import seminar.pojo.hso.ClbumSeminarHso;
-import seminar.pojo.vo.ClbumCreateVO;
+import seminar.pojo.vo.KlassCreateVO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -49,7 +47,7 @@ public class TeacherController {
             model.addAttribute("teacher", teacher);
             return "teacher/index";
         } else {
-            return "redirect:teacher/activation";
+            return "redirect:/teacher/activation";
         }
     }
 
@@ -159,38 +157,38 @@ public class TeacherController {
         return null;
     }
 
-    @GetMapping("/course/clbumList")
-    public String clbumList(String courseId, Model model, HttpSession session) {
+    @GetMapping("/course/klassList")
+    public String klassList(String courseId, Model model, HttpSession session) {
         if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
         } else {
             session.setAttribute("courseId", courseId);
         }
-        model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
-        return "teacher/course/clbumList";
+        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
+        return "teacher/course/klassList";
     }
 
-    @GetMapping("/course/clbum/create")
-    public String clbumCreate(Model model, HttpSession session) {
+    @GetMapping("/course/klass/create")
+    public String klassCreate(Model model, HttpSession session) {
         model.addAttribute("courseId", session.getAttribute("courseId"));
-        return "teacher/course/createClbum";
+        return "teacher/course/createKlass";
     }
 
-    @PutMapping("/course/clbum")
+    @PutMapping("/course/klass")
     public @ResponseBody
-    ResponseEntity<Object> createClbum(@RequestBody ClbumCreateVO vo) {
-        Clbum clbum = vo.getClbum();
-        if (teacherService.createClbum(clbum)) {
+    ResponseEntity<Object> createKlass(@RequestBody KlassCreateVO vo) {
+        Klass klass = vo.getKlass();
+        if (teacherService.createKlass(klass)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
-    @DeleteMapping("/course/clbum/{clbumId}")
+    @DeleteMapping("/course/klass/{klassId}")
     public @ResponseBody
-    ResponseEntity<Object> deleteClbum(@PathVariable String clbumId) {
-        teacherService.deleteClbumById(clbumId);
+    ResponseEntity<Object> deleteKlass(@PathVariable String klassId) {
+        teacherService.deleteKlassById(klassId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -204,7 +202,7 @@ public class TeacherController {
         }
         model.addAttribute("courseId", courseId);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
-        model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
+        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
@@ -225,35 +223,27 @@ public class TeacherController {
     }
 
     /**
-     * TODO:May need change url here to be /course/clbumSeminar/info
+     * TODO:May need change url here to be /course/klassSeminar/info
      */
     @GetMapping("/course/seminar/info")
-    public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
-        String sessionKey = "clbumSeminarHso";
-        ClbumSeminarHso clbumSeminarHso;
-        if (clbumId == null || seminarId == null) {
-            clbumSeminarHso = ((ClbumSeminarHso) session.getAttribute(sessionKey));
-        } else {
-            clbumSeminarHso = new ClbumSeminarHso(clbumId, seminarId);
-            session.setAttribute(sessionKey, clbumSeminarHso);
-        }
-        List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(), clbumSeminarHso.getSeminarId());
-        if (clbumSeminar.size() == 0) {
+    public String seminarInfo(String klassId, String seminarId, Model model, HttpSession session) {
+        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        if (klassSeminar.size() == 0) {
             //TODO:need better code here.
-            throw new RuntimeException("No clbum seminar");
+            throw new RuntimeException("No klass seminar");
         }
-        model.addAttribute("clbumSeminar", clbumSeminar.get(0));
+        model.addAttribute("klassSeminar", klassSeminar.get(0));
         return "teacher/course/seminar/info";
     }
 
     @GetMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String clbumSeminarId, Model model) {
+    public String seminarEnrollList(String klassSeminarId, Model model) {
         //TODO:need exceptions handling here
-        ClbumSeminar clbumSeminar = seminarService.getClbumSeminarByClbumSeminarId(clbumSeminarId).get(0);
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
         List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1, clbumSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
+        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
             boolean isEnrolled = false;
-            for (Attendance attendance : clbumSeminar.getAttendances()) {
+            for (Attendance attendance : klassSeminar.getAttendances()) {
                 if (attendance.getSn() == i) {
                     isEnrolled = true;
                     enrollList.add(attendance);
@@ -280,8 +270,8 @@ public class TeacherController {
      * Todo[Priority]: Remain to be realize
      */
     @GetMapping("/course/seminar/progressing")
-    public String seminarProgressing(String clbumSeminarId, Model model) {
-        model.addAttribute("csId", clbumSeminarId);
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
         return "teacher/course/seminar/progressing";
     }
 
