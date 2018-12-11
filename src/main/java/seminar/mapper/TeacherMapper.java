@@ -25,7 +25,7 @@ public interface TeacherMapper {
     /**
      * Update a Teacher entity's information
      *
-     * @param teacher the Teacher entity that will be updated via the private java.lang.String seminar.entity.Teacher.id
+     * @param teacher the Teacher entity that will be updated via the id
      */
     @Update("update teacher set teacher_name=#{teacherName}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
     void updateTeacher(Teacher teacher);
@@ -85,7 +85,7 @@ public interface TeacherMapper {
 
     /**
      * Select a Teacher entity via id
-     *\
+     *
      * @param id the select gist
      * @return List<teacher> the selected Teacher entity as list
      */
@@ -102,7 +102,7 @@ public interface TeacherMapper {
     List<Teacher> selectTeacherById(String id);
 
     /**
-     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.teacherName
+     * Delete a Teacher entity via teacherName
      *
      * @param teacherName the select gist
      */
@@ -110,7 +110,7 @@ public interface TeacherMapper {
     void deleteTeacherByTeacherName(String teacherName);
 
     /**
-     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.teacherNum
+     * Delete a Teacher entity via teacherNum
      *
      * @param teacherNum the select gist
      */
@@ -118,7 +118,7 @@ public interface TeacherMapper {
     void deleteTeacherByTeacherNum(String teacherNum);
 
     /**
-     * Delete a Teacher entity via private java.lang.String seminar.entity.Teacher.id
+     * Delete a Teacher entity via id
      *
      * @param id the select gist
      */

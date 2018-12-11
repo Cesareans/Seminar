@@ -24,7 +24,7 @@ public interface StudentMapper {
     /**
      * Update a Student entity's information
      *
-     * @param student the Student entity that will be updated via the private java.lang.String seminar.entity.Student.id
+     * @param student the Student entity that will be updated via the id
      */
     @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
     void updateStudent(Student student);
@@ -97,7 +97,7 @@ public interface StudentMapper {
     List<Student> selectStudentById(String id);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.studentName
+     * Delete a Student entity via studentName
      *
      * @param studentName the select gist
      */
@@ -105,7 +105,7 @@ public interface StudentMapper {
     void deleteStudentByStudentName(String studentName);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.studentNum
+     * Delete a Student entity via studentNum
      *
      * @param studentNum the select gist
      */
@@ -113,7 +113,7 @@ public interface StudentMapper {
     void deleteStudentByStudentNum(String studentNum);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.id
+     * Delete a Student entity via id
      *
      * @param id the select gist
      */
@@ -127,8 +127,7 @@ public interface StudentMapper {
      * @return List<Student> the selected Student entity as list
      * @author SWJ
      */
-    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where clbum_id in(select id from clbum where course_id=#{courseId}))) " +
-            "union select * from student where id not in(select leader_id from team where clbum_id in(select id from clbum where course_id=#{courseId}))")
+    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where klass_id in(select id from klass where course_id=#{courseId})))")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
@@ -138,4 +137,5 @@ public interface StudentMapper {
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentWithoutTeamByCourseId(String courseId);
+
 }

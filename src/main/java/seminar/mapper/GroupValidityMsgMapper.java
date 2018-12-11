@@ -9,7 +9,7 @@ import java.util.List;
  * An automatic generated mapper for the entity GroupValidityMsg.
  * This mapper is for a increment primary key table.
  *
- * @author SWJ
+ * @author Cesare
  */
 @Mapper
 public interface GroupValidityMsgMapper {
@@ -24,7 +24,7 @@ public interface GroupValidityMsgMapper {
     /**
      * Update a GroupValidityMsg entity's information
      *
-     * @param groupValidityMsg the GroupValidityMsg entity that will be updated via the private java.lang.String seminar.entity.GroupValidityMsg.id
+     * @param groupValidityMsg the GroupValidityMsg entity that will be updated via the id
      */
     @Update("update group_validity_msg set content=#{content}, teacher_id=#{teacherId}, team_id=#{teamId} where id=#{id}")
     void updateGroupValidityMsg(GroupValidityMsg groupValidityMsg);
@@ -89,7 +89,7 @@ public interface GroupValidityMsgMapper {
     List<GroupValidityMsg> selectGroupValidityMsgById(String id);
 
     /**
-     * Delete a GroupValidityMsg entity via private java.lang.String seminar.entity.GroupValidityMsg.teacherId
+     * Delete a GroupValidityMsg entity via teacherId
      *
      * @param teacherId the select gist
      */
@@ -97,7 +97,7 @@ public interface GroupValidityMsgMapper {
     void deleteGroupValidityMsgByTeacherId(String teacherId);
 
     /**
-     * Delete a GroupValidityMsg entity via private java.lang.String seminar.entity.GroupValidityMsg.teamId
+     * Delete a GroupValidityMsg entity via teamId
      *
      * @param teamId the select gist
      */
@@ -105,7 +105,7 @@ public interface GroupValidityMsgMapper {
     void deleteGroupValidityMsgByTeamId(String teamId);
 
     /**
-     * Delete a GroupValidityMsg entity via private java.lang.String seminar.entity.GroupValidityMsg.id
+     * Delete a GroupValidityMsg entity via id
      *
      * @param id the select gist
      */

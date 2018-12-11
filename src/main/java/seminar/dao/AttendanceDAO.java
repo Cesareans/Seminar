@@ -19,8 +19,8 @@ public class AttendanceDAO {
         this.attendanceMapper = attendanceMapper;
     }
 
-    public List<Attendance> getAttendanceByClbumSeminarId(String clbumSeminarId) {
-        return attendanceMapper.selectAttendanceByClbumSeminarId(clbumSeminarId);
+    public List<Attendance> getAttendanceByKlassSeminarId(String klassSeminarId) {
+        return attendanceMapper.selectAttendanceByKlassSeminarId(klassSeminarId);
     }
 
     /**
@@ -33,8 +33,8 @@ public class AttendanceDAO {
     /**
      * @author Xinyu Shi
      */
-    public List<Attendance> getByClbumSeminarId(String clbumSeminarId) {
-        return attendanceMapper.selectAttendanceByClbumSeminarId(clbumSeminarId);
+    public List<Attendance> getByKlassSeminarId(String klassSeminarId) {
+        return attendanceMapper.selectAttendanceByKlassSeminarId(klassSeminarId);
     }
 
     /**
@@ -54,8 +54,8 @@ public class AttendanceDAO {
     /**
      * @author Xinyu Shi
      */
-    public void deleteByClbumSeminarId(String clbumSeminarId) {
-        attendanceMapper.deleteAttendanceByClbumSeminarId(clbumSeminarId);
+    public void deleteByKlassSeminarId(String klassSeminarId) {
+        attendanceMapper.deleteAttendanceByKlassSeminarId(klassSeminarId);
     }
 
     /**

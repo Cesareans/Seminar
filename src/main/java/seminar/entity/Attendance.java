@@ -21,7 +21,7 @@ public class Attendance {
     @Gist
     private String teamId;
     @Gist
-    private String clbumSeminarId;
+    private String klassSeminarId;
 
     @Link(gist = "teamId", select = "seminar.mapper.TeamMapper.selectTeamById", lazy = false)
     private Team team;
@@ -90,12 +90,12 @@ public class Attendance {
         this.teamId = teamId;
     }
 
-    public String getClbumSeminarId() {
-        return clbumSeminarId;
+    public String getKlassSeminarId() {
+        return klassSeminarId;
     }
 
-    public void setClbumSeminarId(String clbumSeminarId) {
-        this.clbumSeminarId = clbumSeminarId;
+    public void setKlassSeminarId(String klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
     }
 
     public Team getTeam() {

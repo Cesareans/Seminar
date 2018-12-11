@@ -24,7 +24,7 @@ public interface QuestionMapper {
     /**
      * Update a Question entity's information
      *
-     * @param question the Question entity that will be updated via the private java.lang.String seminar.entity.Question.id
+     * @param question the Question entity that will be updated via the id
      */
     @Update("update question set que_score=#{queScore}, team_id=#{teamId}, student_id=#{studentId}, attendance_id=#{attendanceId} where id=#{id}")
     void updateQuestion(Question question);
@@ -109,7 +109,7 @@ public interface QuestionMapper {
     List<Question> selectQuestionById(String id);
 
     /**
-     * Delete a Question entity via private java.lang.String seminar.entity.Question.teamId
+     * Delete a Question entity via teamId
      *
      * @param teamId the select gist
      */
@@ -117,7 +117,7 @@ public interface QuestionMapper {
     void deleteQuestionByTeamId(String teamId);
 
     /**
-     * Delete a Question entity via private java.lang.String seminar.entity.Question.studentId
+     * Delete a Question entity via studentId
      *
      * @param studentId the select gist
      */
@@ -125,7 +125,7 @@ public interface QuestionMapper {
     void deleteQuestionByStudentId(String studentId);
 
     /**
-     * Delete a Question entity via private java.lang.String seminar.entity.Question.attendanceId
+     * Delete a Question entity via attendanceId
      *
      * @param attendanceId the select gist
      */
@@ -133,7 +133,7 @@ public interface QuestionMapper {
     void deleteQuestionByAttendanceId(String attendanceId);
 
     /**
-     * Delete a Question entity via private java.lang.String seminar.entity.Question.id
+     * Delete a Question entity via id
      *
      * @param id the select gist
      */

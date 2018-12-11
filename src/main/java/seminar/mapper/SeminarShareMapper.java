@@ -9,7 +9,7 @@ import java.util.List;
  * An automatic generated mapper for the entity SeminarShare.
  * This mapper is for a increment primary key table.
  *
- * @author SWJ
+ * @author Cesare
  */
 @Mapper
 public interface SeminarShareMapper {
@@ -24,7 +24,7 @@ public interface SeminarShareMapper {
     /**
      * Update a SeminarShare entity's information
      *
-     * @param seminarShare the SeminarShare entity that will be updated via the private java.lang.String seminar.entity.SeminarShare.id
+     * @param seminarShare the SeminarShare entity that will be updated via the id
      */
     @Update("update seminar_share set principal_course_id=#{principalCourseId}, subordinate_course_id=#{subordinateCourseId} where id=#{id}")
     void updateSeminarShare(SeminarShare seminarShare);
@@ -85,7 +85,7 @@ public interface SeminarShareMapper {
     List<SeminarShare> selectSeminarShareById(String id);
 
     /**
-     * Delete a SeminarShare entity via private java.lang.String seminar.entity.SeminarShare.principalCourseId
+     * Delete a SeminarShare entity via principalCourseId
      *
      * @param principalCourseId the select gist
      */
@@ -93,7 +93,7 @@ public interface SeminarShareMapper {
     void deleteSeminarShareByPrincipalCourseId(String principalCourseId);
 
     /**
-     * Delete a SeminarShare entity via private java.lang.String seminar.entity.SeminarShare.subordinateCourseId
+     * Delete a SeminarShare entity via subordinateCourseId
      *
      * @param subordinateCourseId the select gist
      */
@@ -101,7 +101,7 @@ public interface SeminarShareMapper {
     void deleteSeminarShareBySubordinateCourseId(String subordinateCourseId);
 
     /**
-     * Delete a SeminarShare entity via private java.lang.String seminar.entity.SeminarShare.id
+     * Delete a SeminarShare entity via id
      *
      * @param id the select gist
      */

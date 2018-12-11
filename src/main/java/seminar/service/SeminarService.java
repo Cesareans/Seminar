@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface SeminarService {
     /**
-     * Get a course's clbums via courseId
+     * Get a course's klasss via courseId
      *
      * @param courseId refer gist
-     * @return list of course's clbums
+     * @return list of course's klasss
      * @author cesare
      */
-    public List<Clbum> getClbumByCourseId(String courseId);
+    public List<Klass> getKlassByCourseId(String courseId);
 
     /**
      * Get a course's teams via courseId
@@ -42,21 +42,21 @@ public interface SeminarService {
      */
     public List<Seminar> getSeminarsByRoundId(String roundId);
 
-    public List<Seminar> getSeminarBySeminarId(String clbumSeminarId);
+    public List<Seminar> getSeminarBySeminarId(String klassSeminarId);
 
-    public List<ClbumSeminar> getClbumSeminarByClbumSeminarId(String clbumSeminarId);
+    public List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId);
 
     public List<Course> getCourseByCourseId(String courseId);
 
     /**
      * @author lyf
      */
-    public List<ClbumSeminar> getClbumSeminarByClbumIdAndSeminarId(String clbumId, String seminarId);
+    public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
 
     /**
      * @author lyf
      */
-    public List<Attendance> getAttendancesByClbumSeminarId(String clbumSeminarId);
+    public List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId);
 
     /**
      * Get all student without team in the same course which belong to same teacher

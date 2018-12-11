@@ -9,7 +9,7 @@ import java.util.List;
  * An automatic generated mapper for the entity TeamShareMsg.
  * This mapper is for a increment primary key table.
  *
- * @author SWJ
+ * @author Cesare
  */
 @Mapper
 public interface TeamShareMsgMapper {
@@ -24,7 +24,7 @@ public interface TeamShareMsgMapper {
     /**
      * Update a TeamShareMsg entity's information
      *
-     * @param teamShareMsg the TeamShareMsg entity that will be updated via the private java.lang.String seminar.entity.TeamShareMsg.id
+     * @param teamShareMsg the TeamShareMsg entity that will be updated via the id
      */
     @Update("update team_share_msg set content=#{content}, teacher_id=#{teacherId}, principal_course_id=#{principalCourseId}, subordinate_course_id=#{subordinateCourseId} where id=#{id}")
     void updateTeamShareMsg(TeamShareMsg teamShareMsg);
@@ -109,7 +109,7 @@ public interface TeamShareMsgMapper {
     List<TeamShareMsg> selectTeamShareMsgById(String id);
 
     /**
-     * Delete a TeamShareMsg entity via private java.lang.String seminar.entity.TeamShareMsg.teacherId
+     * Delete a TeamShareMsg entity via teacherId
      *
      * @param teacherId the select gist
      */
@@ -117,7 +117,7 @@ public interface TeamShareMsgMapper {
     void deleteTeamShareMsgByTeacherId(String teacherId);
 
     /**
-     * Delete a TeamShareMsg entity via private java.lang.String seminar.entity.TeamShareMsg.principalCourseId
+     * Delete a TeamShareMsg entity via principalCourseId
      *
      * @param principalCourseId the select gist
      */
@@ -125,7 +125,7 @@ public interface TeamShareMsgMapper {
     void deleteTeamShareMsgByPrincipalCourseId(String principalCourseId);
 
     /**
-     * Delete a TeamShareMsg entity via private java.lang.String seminar.entity.TeamShareMsg.subordinateCourseId
+     * Delete a TeamShareMsg entity via subordinateCourseId
      *
      * @param subordinateCourseId the select gist
      */
@@ -133,7 +133,7 @@ public interface TeamShareMsgMapper {
     void deleteTeamShareMsgBySubordinateCourseId(String subordinateCourseId);
 
     /**
-     * Delete a TeamShareMsg entity via private java.lang.String seminar.entity.TeamShareMsg.id
+     * Delete a TeamShareMsg entity via id
      *
      * @param id the select gist
      */

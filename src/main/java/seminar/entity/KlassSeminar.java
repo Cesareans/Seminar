@@ -11,16 +11,16 @@ import java.util.List;
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
-public class ClbumSeminar {
+public class KlassSeminar {
     @ID(isIncrement = true)
     private String id;
     private int state;
     @Gist(unions = {"seminarId"})
-    private String clbumId;
+    private String klassId;
     @Gist
     private String seminarId;
 
-    @Link(gist = "id", select = "seminar.mapper.AttendanceMapper.selectAttendanceByClbumSeminarId")
+    @Link(gist = "id", select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId")
     private List<Attendance> attendances;
 
     @Link(gist = "seminarId", select = "seminar.mapper.SeminarMapper.selectSeminarById")
@@ -42,12 +42,12 @@ public class ClbumSeminar {
         this.state = state;
     }
 
-    public String getClbumId() {
-        return clbumId;
+    public String getKlassId() {
+        return klassId;
     }
 
-    public void setClbumId(String clbumId) {
-        this.clbumId = clbumId;
+    public void setKlassId(String klassId) {
+        this.klassId = klassId;
     }
 
     public String getSeminarId() {

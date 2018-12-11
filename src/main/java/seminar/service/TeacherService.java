@@ -1,14 +1,12 @@
 package seminar.service;
 
-import seminar.entity.Clbum;
+import seminar.entity.Klass;
 import seminar.entity.Course;
 import seminar.entity.Seminar;
 import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
 import seminar.entity.message.TeamShareMsg;
 import seminar.entity.regulation.MaxMinRegulation;
-import seminar.entity.share.SeminarShare;
-import seminar.entity.share.TeamShare;
 
 import java.util.List;
 
@@ -65,54 +63,54 @@ public interface TeacherService {
      * @return list of teacher's courses
      * @author cesare
      */
-    public List<Course> getCoursesByTeacherId(String teacherId);
+    List<Course> getCoursesByTeacherId(String teacherId);
 
     /**
      * @author lyf
      */
-    public boolean createCourse(Course course);
+    boolean createCourse(Course course);
 
     /**
      * @author lyf
      */
-    public void deleteCourseById(String courseId);
+    void deleteCourseById(String courseId);
 
     /**
      * @author lyf
      */
-    public boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation);
+    boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation);
 
     /**
      * @author lyf
      */
-    public boolean createClbum(Clbum clbum);
+    boolean createKlass(Klass klass);
 
     /**
      * @author lyf
      */
-    public boolean updateClbum(Clbum clbum);
+    boolean updateKlass(Klass klass);
 
     /**
      * @author lyf
      */
-    public void deleteClbumById(String clbumId);
+    void deleteKlassById(String klassId);
 
-    public void addRound(String courseId);
-
-    /**
-     * @author lyf
-     */
-    public boolean createSeminar(Seminar seminar);
+    void addRound(String courseId);
 
     /**
      * @author lyf
      */
-    public boolean updateSeminar(Seminar seminar);
+    boolean createSeminar(Seminar seminar);
 
     /**
      * @author lyf
      */
-    public void deleteSeminarByRoundId(String courseId);
+    boolean updateSeminar(Seminar seminar);
+
+    /**
+     * @author lyf
+     */
+    void deleteSeminarByRoundId(String courseId);
 
     /**
      * Create a new TeamShareMsg
@@ -121,24 +119,7 @@ public interface TeacherService {
      * @return success or fail
      * @author SWJ
      */
-    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg);
-
-    /**
-     * Create a new teamShare when accept TeamShareMsg
-     *
-     * @param teamShare refer gist
-     * @return success or fail
-     * @author SWJ
-     */
-    public boolean createTeamShare(TeamShare teamShare);
-
-    /**
-     * Delete the teamShare when cancel a teamShare
-     *
-     * @param id refer gist. principal_course_id or subordinate_course_id
-     * @author SWJ
-     */
-    public void deleteTeamShare(String id);
+    boolean createTeamShareMsg(TeamShareMsg teamShareMsg);
 
     /**
      * Check teacher's own groupValidityMsg
@@ -147,7 +128,7 @@ public interface TeacherService {
      * @return This teacher's all groupValidityMsg
      * @author SWJ
      */
-    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
+    List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
 
     /**
      * Agree this team's invalid state, update this team's valid
@@ -156,7 +137,7 @@ public interface TeacherService {
      * @return success or fail
      * @author SWJ
      */
-    public boolean updateTeam(String teamId);
+    boolean updateTeam(String teamId);
 
     /**
      * Create a new seminarShareMsg
@@ -165,32 +146,15 @@ public interface TeacherService {
      * @return success or fail
      * @author SWJ
      */
-    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
-
-    /**
-     * Create a new seminarShare when accept seminarShareMsg
-     *
-     * @param seminarShare refer gist
-     * @return success or fail
-     * @author SWJ
-     */
-    public boolean createSeminarShare(SeminarShare seminarShare);
-
-    /**
-     * Delete the seminarShare when cancel a seminarShare
-     *
-     * @param courseId refer gist. principal_course_id or subordinate_course_id
-     * @author SWJ
-     */
-    public void deleteSeminarShare(String courseId);
+    boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
 
     /**
      * Updete the report score when teacher give score
      *
      * @param reportScore    refer gist.
-     * @param clbumSeminarId refer gist
+     * @param klassSeminarId refer gist
      * @return success of fail
      * @author SWJ
      */
-    public boolean updateReportScore(int reportScore, String clbumSeminarId);
+    boolean updateReportScore(int reportScore, String klassSeminarId);
 }

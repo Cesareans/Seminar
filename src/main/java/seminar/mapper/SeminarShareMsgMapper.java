@@ -9,7 +9,7 @@ import java.util.List;
  * An automatic generated mapper for the entity SeminarShareMsg.
  * This mapper is for a increment primary key table.
  *
- * @author SWJ
+ * @author Cesare
  */
 @Mapper
 public interface SeminarShareMsgMapper {
@@ -24,7 +24,7 @@ public interface SeminarShareMsgMapper {
     /**
      * Update a SeminarShareMsg entity's information
      *
-     * @param seminarShareMsg the SeminarShareMsg entity that will be updated via the private java.lang.String seminar.entity.SeminarShareMsg.id
+     * @param seminarShareMsg the SeminarShareMsg entity that will be updated via the id
      */
     @Update("update seminar_share_msg set content=#{content}, teacher_id=#{teacherId}, principal_course_id=#{principalCourseId}, subordinate_course_id=#{subordinateCourseId} where id=#{id}")
     void updateSeminarShareMsg(SeminarShareMsg seminarShareMsg);
@@ -109,7 +109,7 @@ public interface SeminarShareMsgMapper {
     List<SeminarShareMsg> selectSeminarShareMsgById(String id);
 
     /**
-     * Delete a SeminarShareMsg entity via private java.lang.String seminar.entity.SeminarShareMsg.teacherId
+     * Delete a SeminarShareMsg entity via teacherId
      *
      * @param teacherId the select gist
      */
@@ -117,7 +117,7 @@ public interface SeminarShareMsgMapper {
     void deleteSeminarShareMsgByTeacherId(String teacherId);
 
     /**
-     * Delete a SeminarShareMsg entity via private java.lang.String seminar.entity.SeminarShareMsg.principalCourseId
+     * Delete a SeminarShareMsg entity via principalCourseId
      *
      * @param principalCourseId the select gist
      */
@@ -125,7 +125,7 @@ public interface SeminarShareMsgMapper {
     void deleteSeminarShareMsgByPrincipalCourseId(String principalCourseId);
 
     /**
-     * Delete a SeminarShareMsg entity via private java.lang.String seminar.entity.SeminarShareMsg.subordinateCourseId
+     * Delete a SeminarShareMsg entity via subordinateCourseId
      *
      * @param subordinateCourseId the select gist
      */
@@ -133,7 +133,7 @@ public interface SeminarShareMsgMapper {
     void deleteSeminarShareMsgBySubordinateCourseId(String subordinateCourseId);
 
     /**
-     * Delete a SeminarShareMsg entity via private java.lang.String seminar.entity.SeminarShareMsg.id
+     * Delete a SeminarShareMsg entity via id
      *
      * @param id the select gist
      */

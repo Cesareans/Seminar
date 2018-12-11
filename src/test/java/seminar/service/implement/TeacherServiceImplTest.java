@@ -44,15 +44,15 @@ public class TeacherServiceImplTest {
     }
 
     @Test
-    public void createClbum() {
+    public void createKlass() {
     }
 
     @Test
-    public void updateClbum() {
+    public void updateKlass() {
     }
 
     @Test
-    public void deleteClbumById() {
+    public void deleteKlassById() {
     }
 
     @Test

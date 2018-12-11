@@ -1,6 +1,6 @@
 package seminar.pojo.vo;
 
-public class ClbumStudent {
+public class KlassStudent {
     /**
      * @author Xinyu Shi
      */

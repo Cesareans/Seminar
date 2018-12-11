@@ -8,10 +8,10 @@ import cesare.mybatis.annotations.TargetPackage;
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
-public class Clbum {
+public class Klass {
     @ID(isIncrement = true)
     private String id;
-    private String clbumName;
+    private String klassName;
     private String time;
     private String location;
 
@@ -26,12 +26,12 @@ public class Clbum {
         this.id = id;
     }
 
-    public String getClbumName() {
-        return clbumName;
+    public String getKlassName() {
+        return klassName;
     }
 
-    public void setClbumName(String clbumName) {
-        this.clbumName = clbumName;
+    public void setKlassName(String klassName) {
+        this.klassName = klassName;
     }
 
     public String getTime() {

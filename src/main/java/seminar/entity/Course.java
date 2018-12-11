@@ -24,6 +24,9 @@ public class Course {
     private Date teamEndDate;
     @Gist
     private String teacherId;
+    @Gist
+    private String mainTeamCourseId;
+    private String mainSeminarCourseId;
 
     @Block
     private RegulationComposition regulationComposition;
@@ -106,5 +109,21 @@ public class Course {
 
     public void setRegulationComposition(RegulationComposition regulationComposition) {
         this.regulationComposition = regulationComposition;
+    }
+
+    public String getMainTeamCourseId() {
+        return mainTeamCourseId;
+    }
+
+    public void setMainTeamCourseId(String mainTeamCourseId) {
+        this.mainTeamCourseId = mainTeamCourseId;
+    }
+
+    public String getMainSeminarCourseId() {
+        return mainSeminarCourseId;
+    }
+
+    public void setMainSeminarCourseId(String mainSeminarCourseId) {
+        this.mainSeminarCourseId = mainSeminarCourseId;
     }
 }

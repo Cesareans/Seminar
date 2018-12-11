@@ -19,7 +19,7 @@ public class AttendanceMapperTest {
     AttendanceMapper mapper;
 
     @Test
-    public void selectAttendanceByClbumSeminarId() throws JsonProcessingException {
-        DebugLogger.logJson(mapper.selectAttendanceByClbumSeminarId("1"));
+    public void selectAttendanceByKlassSeminarId() throws JsonProcessingException {
+        DebugLogger.logJson(mapper.selectAttendanceByKlassSeminarId("1"));
     }
 }
