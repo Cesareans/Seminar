@@ -26,6 +26,7 @@ public class Course {
     private String teacherId;
     @Gist
     private String mainTeamCourseId;
+    @Gist
     private String mainSeminarCourseId;
 
     @Block

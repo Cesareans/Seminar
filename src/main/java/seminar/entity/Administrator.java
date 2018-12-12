@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -12,6 +13,7 @@ public class Administrator {
     @ID(isIncrement = true)
     private String id;
     @Gist
+    @SqlMap("account")
     private String adminName;
     private String password;
 

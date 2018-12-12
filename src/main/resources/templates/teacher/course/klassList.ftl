@@ -48,8 +48,8 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
-    <#if klasss?size == 0>
+<div class="main main-raised no-footer">
+    <#if klasses?size == 0>
         <div class="empty-tag">
             <div class="info">
                 <div class="icon icon-rose flex-center">
@@ -61,7 +61,7 @@
     <#else >
         <div class="container">
             <div class="row">
-                <#list klasss as klass>
+                <#list klasses as klass>
                 <div class="col-lg-4 col-md-6">
                     <div class="card content-card">
                         <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
@@ -85,16 +85,15 @@
                     </div>
                 </div>
                 </#list>
+                <div class="col-lg-4 col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
+                       style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
+                </div>
             </div>
         </div>
     </#if>
-</div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/klass/create'" class="btn btn-dark btn-round bg-dark"
-            style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建班级
-    </button>
 </div>
 
 <div class="modal fade" id="klassModal">

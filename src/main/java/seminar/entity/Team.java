@@ -23,7 +23,7 @@ public class Team {
 
     @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
     private Student leader;
-    @Link(gist = "id", select = "seminar.mapper.TeamStudentMapper.selectStudentsByTeamId")
+    @Link(gist = "id", select = "seminar.mapper.StudentRelationMapper.selectStudentsByTeamId")
     private List<Student> students;
 
     public String getId() {

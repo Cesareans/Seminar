@@ -20,11 +20,10 @@ public class SeminarServiceImpl implements SeminarService {
     private final SeminarDAO seminarDAO;
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
-    private final TeamStudentDAO teamStudentDAO;
     private final StudentDAO studentDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, TeamStudentDAO teamStudentDAO, StudentDAO studentDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO) {
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
@@ -32,7 +31,6 @@ public class SeminarServiceImpl implements SeminarService {
         this.seminarDAO = seminarDAO;
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
-        this.teamStudentDAO = teamStudentDAO;
         this.studentDAO = studentDAO;
     }
 

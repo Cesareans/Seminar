@@ -1,10 +1,7 @@
 package seminar;
 
 import cesare.mybatis.EntityGenerator;
-import seminar.entity.Klass;
-import seminar.entity.KlassSeminar;
 import seminar.entity.Round;
-import seminar.entity.relation.TeamStudent;
 
 /**
  * @author Cesare

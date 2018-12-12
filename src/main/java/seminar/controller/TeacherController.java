@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import seminar.entity.*;
 import seminar.pojo.vo.KlassCreateVO;
 import seminar.service.*;
@@ -43,12 +44,8 @@ public class TeacherController {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
-        if (teacher.isActivated()) {
-            model.addAttribute("teacher", teacher);
-            return "teacher/index";
-        } else {
-            return "redirect:/teacher/activation";
-        }
+        model.addAttribute("teacher", teacher);
+        return "teacher/index";
     }
 
     @PostMapping("/captcha/{type}")
@@ -164,7 +161,7 @@ public class TeacherController {
         } else {
             session.setAttribute("courseId", courseId);
         }
-        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
+        model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
         return "teacher/course/klassList";
     }
 
@@ -202,7 +199,7 @@ public class TeacherController {
         }
         model.addAttribute("courseId", courseId);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
-        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
+        model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
@@ -215,16 +212,13 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize, Priority
+     * Todo[Priority]: Remain to be realize,
      */
     @GetMapping("/course/seminar/create")
     public String seminarCreate() {
         return "teacher/course/seminar/create";
     }
 
-    /**
-     * TODO:May need change url here to be /course/klassSeminar/info
-     */
     @GetMapping("/course/seminar/info")
     public String seminarInfo(String klassId, String seminarId, Model model, HttpSession session) {
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
@@ -276,7 +270,7 @@ public class TeacherController {
     }
 
     @GetMapping("/course/teamList")
-    public String team(String courseId, Model model) {
+    public String teamList(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         return "teacher/course/teamList";
     }
