@@ -50,7 +50,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised" id="main" data-csId="${csId}">
+<div class="main main-raised" id="main" data-ksId="${ksId}">
     <form class="form" id="loginForm">
         <div class="container">
             <div class="row" style="margin-top: 30px;">

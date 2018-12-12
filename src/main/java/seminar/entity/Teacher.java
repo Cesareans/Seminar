@@ -1,10 +1,7 @@
 package seminar.entity;
 
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
 import java.util.List;
 
@@ -21,7 +18,6 @@ public class Teacher {
     private String teacherNum;
     private String password;
     private String email;
-    private int msgInterval;
     private boolean activated;
 
     @Link(gist = "id", select = "seminar.mapper.CourseMapper.selectCourseByTeacherId")
@@ -65,14 +61,6 @@ public class Teacher {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getMsgInterval() {
-        return msgInterval;
-    }
-
-    public void setMsgInterval(int msgInterval) {
-        this.msgInterval = msgInterval;
     }
 
     public boolean isActivated() {

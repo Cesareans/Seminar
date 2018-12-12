@@ -24,7 +24,7 @@ public interface AdministratorMapper {
     /**
      * Update a Administrator entity's information
      *
-     * @param administrator the Administrator entity that will be updated via the private java.lang.String seminar.entity.Administrator.id
+     * @param administrator the Administrator entity that will be updated via the id
      */
     @Update("update administrator set admin_name=#{adminName}, password=#{password} where id=#{id}")
     void updateAdministrator(Administrator administrator);
@@ -71,7 +71,7 @@ public interface AdministratorMapper {
     List<Administrator> selectAdministratorById(String id);
 
     /**
-     * Delete a Administrator entity via private java.lang.String seminar.entity.Administrator.adminName
+     * Delete a Administrator entity via adminName
      *
      * @param adminName the select gist
      */
@@ -79,7 +79,7 @@ public interface AdministratorMapper {
     void deleteAdministratorByAdminName(String adminName);
 
     /**
-     * Delete a Administrator entity via private java.lang.String seminar.entity.Administrator.id
+     * Delete a Administrator entity via id
      *
      * @param id the select gist
      */

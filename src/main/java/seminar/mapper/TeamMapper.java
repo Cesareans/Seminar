@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Team;
 
 import java.util.List;
@@ -18,15 +19,15 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be inserted
      */
-    @Insert("insert into team(serial, team_name, is_valid, clbum_id, leader_id) values(#{serial}, #{teamName}, #{valid}, #{clbumId}, #{leaderId})")
+    @Insert("insert into team(serial, team_name, is_valid, klass_id, leader_id) values(#{serial}, #{teamName}, #{valid}, #{klassId}, #{leaderId})")
     void insertTeam(Team team);
 
     /**
      * Update a Team entity's information
      *
-     * @param team the Team entity that will be updated via the private java.lang.String seminar.entity.Team.id
+     * @param team the Team entity that will be updated via the id
      */
-    @Update("update team set serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, clbum_id=#{clbumId}, leader_id=#{leaderId} where id=#{id}")
+    @Update("update team set serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, klass_id=#{klassId}, leader_id=#{leaderId} where id=#{id}")
     void updateTeam(Team team);
 
     /**
@@ -40,27 +41,31 @@ public interface TeamMapper {
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "leaderId", column = "leader_id")
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.TeamStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectAllTeam();
 
     /**
-     * Select a Team entity via clbumId
+     * Select a Team entity via klassId
      *
-     * @param clbumId the select gist
+     * @param klassId the select gist
      * @return List<team> the selected Team entity as list
      */
-    @Select("select * from team where clbum_id=#{clbumId}")
+    @Select("select * from team where klass_id=#{klassId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "leaderId", column = "leader_id")
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.TeamStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
-    List<Team> selectTeamByClbumId(String clbumId);
+    List<Team> selectTeamByKlassId(String klassId);
 
     /**
      * Select a Team entity via id
@@ -74,21 +79,23 @@ public interface TeamMapper {
             @Result(property = "serial", column = "serial"),
             @Result(property = "teamName", column = "team_name"),
             @Result(property = "valid", column = "is_valid"),
-            @Result(property = "clbumId", column = "clbum_id"),
-            @Result(property = "leaderId", column = "leader_id")
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.TeamStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectTeamById(String id);
 
     /**
-     * Delete a Team entity via private java.lang.String seminar.entity.Team.clbumId
+     * Delete a Team entity via klassId
      *
-     * @param clbumId the select gist
+     * @param klassId the select gist
      */
-    @Delete("delete from team where clbum_id=#{clbumId}")
-    void deleteTeamByClbumId(String clbumId);
+    @Delete("delete from team where klass_id=#{klassId}")
+    void deleteTeamByKlassId(String klassId);
 
     /**
-     * Delete a Team entity via private java.lang.String seminar.entity.Team.id
+     * Delete a Team entity via id
      *
      * @param id the select gist
      */

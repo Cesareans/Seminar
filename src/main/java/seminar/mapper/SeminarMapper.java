@@ -24,7 +24,7 @@ public interface SeminarMapper {
     /**
      * Update a Seminar entity's information
      *
-     * @param seminar the Seminar entity that will be updated via the private java.lang.String seminar.entity.Seminar.id
+     * @param seminar the Seminar entity that will be updated via the id
      */
     @Update("update seminar set theme=#{theme}, content=#{content}, serial=#{serial}, max_team=#{maxTeam}, is_ordered=#{ordered}, is_visible=#{visible}, enroll_start_date=#{enrollStartDate}, enroll_end_date=#{enrollEndDate}, round_id=#{roundId} where id=#{id}")
     void updateSeminar(Seminar seminar);
@@ -92,7 +92,7 @@ public interface SeminarMapper {
     List<Seminar> selectSeminarById(String id);
 
     /**
-     * Delete a Seminar entity via private java.lang.String seminar.entity.Seminar.roundId
+     * Delete a Seminar entity via roundId
      *
      * @param roundId the select gist
      */
@@ -100,7 +100,7 @@ public interface SeminarMapper {
     void deleteSeminarByRoundId(String roundId);
 
     /**
-     * Delete a Seminar entity via private java.lang.String seminar.entity.Seminar.id
+     * Delete a Seminar entity via id
      *
      * @param id the select gist
      */

@@ -3,8 +3,8 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Student;
-import seminar.entity.vo.StudentFilter;
 import seminar.mapper.StudentMapper;
+import seminar.pojo.vo.StudentFilter;
 
 import java.util.List;
 
@@ -22,17 +22,19 @@ public class StudentDAO {
 
     public boolean create(Student student) {
         List<Student> students = studentMapper.selectStudentByStudentNum(student.getStudentNum());
-        if(students.isEmpty()){
+        if (students.isEmpty()) {
             studentMapper.insertStudent(student);
             return true;
+        } else {
+            return false;
         }
-        else return false;
     }
 
     public boolean update(Student student) {
         List<Student> students = studentMapper.selectStudentById(student.getId());
-        if(students.isEmpty()) return false;
-        else {
+        if (students.isEmpty()) {
+            return false;
+        } else {
             studentMapper.updateStudent(student);
             return true;
         }
@@ -42,8 +44,12 @@ public class StudentDAO {
         return studentMapper.selectAllStudent();
     }
 
-    public List<Student> getBySN(String studentNum) {
-        return studentMapper.selectStudentByStudentNum(studentNum);
+    public List<Student> getById(String id) {
+        return studentMapper.selectStudentById(id);
+    }
+
+    public List<Student> getBySN(String sn) {
+        return studentMapper.selectStudentByStudentNum(sn);
     }
 
     public List<Student> getByFilter(StudentFilter filter) {
@@ -58,8 +64,14 @@ public class StudentDAO {
         return students;
     }
 
-    public void deleteBySN(String studentNum) {
-        studentMapper.deleteStudentByStudentNum(studentNum);
+    public void deleteBySN(String sn) {
+        studentMapper.deleteStudentByStudentNum(sn);
     }
 
+    /**
+     * @author SWJ
+     */
+    public List<Student> getStudentWithoutTeamByCourseId(String courseId) {
+        return studentMapper.selectStudentWithoutTeamByCourseId(courseId);
+    }
 }

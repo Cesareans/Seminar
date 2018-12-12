@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -17,7 +18,6 @@ public class Student {
     private String studentNum;
     private String password;
     private String email;
-    private int msgInterval;
     private boolean activated;
 
     public String getId() {
@@ -58,14 +58,6 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getMsgInterval() {
-        return msgInterval;
-    }
-
-    public void setMsgInterval(int msgInterval) {
-        this.msgInterval = msgInterval;
     }
 
     public boolean isActivated() {

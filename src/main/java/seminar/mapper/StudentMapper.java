@@ -18,24 +18,16 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be inserted
      */
-    @Insert("insert into student(student_name, student_num, password, email, msg_interval, is_activated) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{msgInterval}, #{activated})")
+    @Insert("insert into student(student_name, student_num, password, email, is_activated) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{activated})")
     void insertStudent(Student student);
 
     /**
      * Update a Student entity's information
      *
-     * @param student the Student entity that will be updated via the private java.lang.String seminar.entity.Student.id
+     * @param student the Student entity that will be updated via the id
      */
-    @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, msg_interval=#{msgInterval}, is_activated=#{activated} where id=#{id}")
+    @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
     void updateStudent(Student student);
-
-    /**
-     * Update a Student entity's password
-     *
-     * @param student the Student entity's password that will be updated via the private java.lang.String seminar.entity.Student.id
-     */
-    @Update("update student set password=#{password} where id=#{id}")
-    void updatePasswordByStudentId(Student student, String password, String id);
 
     /**
      * Select all Student entities
@@ -49,7 +41,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectAllStudent();
@@ -67,7 +58,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentByStudentName(String studentName);
@@ -85,7 +75,6 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentByStudentNum(String studentNum);
@@ -103,13 +92,12 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "msgInterval", column = "msg_interval"),
             @Result(property = "activated", column = "is_activated")
     })
     List<Student> selectStudentById(String id);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.studentName
+     * Delete a Student entity via studentName
      *
      * @param studentName the select gist
      */
@@ -117,7 +105,7 @@ public interface StudentMapper {
     void deleteStudentByStudentName(String studentName);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.studentNum
+     * Delete a Student entity via studentNum
      *
      * @param studentNum the select gist
      */
@@ -125,11 +113,29 @@ public interface StudentMapper {
     void deleteStudentByStudentNum(String studentNum);
 
     /**
-     * Delete a Student entity via private java.lang.String seminar.entity.Student.id
+     * Delete a Student entity via id
      *
      * @param id the select gist
      */
     @Delete("delete from student where id=#{id}")
     void deleteStudentById(String id);
+
+    /**
+     * Select all student entities which not join in any teams of the course via courseId
+     *
+     * @param courseId the select gist
+     * @return List<Student> the selected Student entity as list
+     * @author SWJ
+     */
+    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where klass_id in(select id from klass where course_id=#{courseId})))")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_activated")
+    })
+    List<Student> selectStudentWithoutTeamByCourseId(String courseId);
 
 }

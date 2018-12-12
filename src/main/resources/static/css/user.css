@@ -1,4 +1,8 @@
 /****** Direct style ******/
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
 .flex-center {
     display: flex;
     align-items: center;
@@ -35,6 +39,9 @@
 .color-red{
     color: #ff0000 !important;
 }
+.color-dark{
+    color:#343a40;
+}
 .bg-red{
     background-color: #ff0000 !important;
     color: #FFFFFF;
@@ -53,6 +60,11 @@
     height: 40%;
 }
 /****** Component Style ******/
+/*Button*/
+.captcha-btn{
+    height: 31px;
+    width: 100px;
+}
 
 /*Alert*/
 .alert-area {
@@ -89,10 +101,18 @@
     padding-bottom: 5px;
 }
 
+.form-row .btn-inline{
+    margin-top: 27px;
+}
+
 /*Card*/
 .card {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.card-dark{
+    background: linear-gradient(60deg, #333333, #23272b) !important;
 }
 
 .card-body .body-header {
@@ -301,7 +321,7 @@
     padding-top: 0;
 }
 
-.seminar-modal .tab-col .clbum-btn{
+.seminar-modal .tab-col .klass-btn{
     width: 100%;
 }
 

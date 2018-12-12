@@ -1,7 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
-import seminar.entity.MaxMinRegulation;
+import seminar.entity.regulation.MaxMinRegulation;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface MaxMinRegulationMapper {
     /**
      * Update a MaxMinRegulation entity's information
      *
-     * @param maxMinRegulation the MaxMinRegulation entity that will be updated via the private java.lang.String seminar.entity.MaxMinRegulation.id
+     * @param maxMinRegulation the MaxMinRegulation entity that will be updated via the id
      */
     @Update("update max_min_regulation set min=#{min}, max=#{max}, course_id=#{courseId} where id=#{id}")
     void updateMaxMinRegulation(MaxMinRegulation maxMinRegulation);
@@ -74,7 +74,7 @@ public interface MaxMinRegulationMapper {
     List<MaxMinRegulation> selectMaxMinRegulationById(String id);
 
     /**
-     * Delete a MaxMinRegulation entity via private java.lang.String seminar.entity.MaxMinRegulation.courseId
+     * Delete a MaxMinRegulation entity via courseId
      *
      * @param courseId the select gist
      */
@@ -82,7 +82,7 @@ public interface MaxMinRegulationMapper {
     void deleteMaxMinRegulationByCourseId(String courseId);
 
     /**
-     * Delete a MaxMinRegulation entity via private java.lang.String seminar.entity.MaxMinRegulation.id
+     * Delete a MaxMinRegulation entity via id
      *
      * @param id the select gist
      */

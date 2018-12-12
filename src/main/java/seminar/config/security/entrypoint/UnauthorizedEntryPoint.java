@@ -21,9 +21,9 @@ public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
         String url = request.getRequestURI();
         if (ajaxFlag.equals(request.getHeader(typeHeader))) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-        } else if(url.startsWith(adminPrefix)) {
+        } else if (url.startsWith(adminPrefix)) {
             response.sendRedirect("/admin/login");
-        }else{
+        } else {
             response.sendRedirect("/login");
         }
 

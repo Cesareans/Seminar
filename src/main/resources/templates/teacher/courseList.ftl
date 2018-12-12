@@ -79,7 +79,7 @@
                                                 讨论课
                                             </a>
                                         </li>
-                                        <li class="nav-item clbum-nav">
+                                        <li class="nav-item klass-nav">
                                             <a class="nav-link">
                                                 <i class="material-icons">class</i>
                                                 班级
@@ -109,9 +109,7 @@
         创建课程
     </button>
 </div>
-<form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId" title="">
-</form>
+
 <div class="modal fade" id="courseModal" data-courseID="">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -162,6 +160,9 @@
         </div>
     </div>
 </div>
+<form hidden id="courseIdForm">
+    <input id="courseIdInput" name="courseId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

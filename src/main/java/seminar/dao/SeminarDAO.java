@@ -3,8 +3,6 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Seminar;
-import seminar.entity.Round;
-import seminar.mapper.ClbumSeminarMapper;
 import seminar.mapper.RoundMapper;
 import seminar.mapper.SeminarMapper;
 
@@ -24,10 +22,13 @@ public class SeminarDAO {
         this.roundMapper = roundMapper;
     }
 
-    public List<Seminar> getByRoundId(String roundId){
+    public List<Seminar> getByRoundId(String roundId) {
         return seminarMapper.selectSeminarByRoundId(roundId);
     }
-    public List<Seminar> getBySeminarId(String seminarId){return seminarMapper.selectSeminarById(seminarId);}
+
+    public List<Seminar> getBySeminarId(String seminarId) {
+        return seminarMapper.selectSeminarById(seminarId);
+    }
 
     /**
      * @author lyf
@@ -41,9 +42,9 @@ public class SeminarDAO {
      * @author lyf
      */
     public boolean update(Seminar seminar) {
-        if(seminarMapper.selectSeminarById(seminar.getId()).isEmpty())
+        if (seminarMapper.selectSeminarById(seminar.getId()).isEmpty()) {
             return false;
-        else{
+        } else {
             seminarMapper.updateSeminar(seminar);
             return true;
         }

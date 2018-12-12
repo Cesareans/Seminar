@@ -19,23 +19,27 @@ public class RoundDAO {
         this.roundMapper = roundMapper;
     }
 
-    public List<Round> getByCourseId(String courseId){
+    public List<Round> getByCourseId(String courseId) {
         return roundMapper.selectRoundByCourseId(courseId);
     }
 
+    public void addRound(String courseId){
+        roundMapper.addRound(courseId);
+    }
     /**
      * @author lyf
      */
-    public boolean create(Round round){
+    public boolean create(Round round) {
         List<Round> rounds = roundMapper.selectRoundByCourseId(round.getCourseId());
-        if(rounds.isEmpty()) {
+        if (rounds.isEmpty()) {
             roundMapper.insertRound(round);
             return true;
         }
 
-        for(Round r:rounds){
-            if(r.getRoundNum().equals(round.getRoundNum()))
+        for (Round r : rounds) {
+            if (r.getRoundNum().equals(round.getRoundNum())) {
                 return false;
+            }
         }
         roundMapper.insertRound(round);
         return true;
@@ -44,10 +48,11 @@ public class RoundDAO {
     /**
      * @author lyf
      */
-    public boolean update(Round round){
+    public boolean update(Round round) {
         List<Round> rounds = roundMapper.selectRoundById(round.getId());
-        if(rounds.isEmpty()) return false;
-        else{
+        if (rounds.isEmpty()) {
+            return false;
+        } else {
             roundMapper.updateRound(round);
             return true;
         }
@@ -56,14 +61,14 @@ public class RoundDAO {
     /**
      * @author lyf
      */
-    public void deleteByCourseId(String courseId){
+    public void deleteByCourseId(String courseId) {
         roundMapper.deleteRoundByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
-    public void deleteById(String roundId){
+    public void deleteById(String roundId) {
         roundMapper.deleteRoundById(roundId);
     }
 }

@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Round;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface RoundMapper {
     /**
      * Update a Round entity's information
      *
-     * @param round the Round entity that will be updated via the private java.lang.String seminar.entity.Round.id
+     * @param round the Round entity that will be updated via the id
      */
     @Update("update round set round_num=#{roundNum}, course_id=#{courseId} where id=#{id}")
     void updateRound(Round round);
@@ -38,7 +39,8 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_num"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
     })
     List<Round> selectAllRound();
 
@@ -52,7 +54,8 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_num"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
     })
     List<Round> selectRoundByCourseId(String courseId);
 
@@ -66,12 +69,13 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_num"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
     })
     List<Round> selectRoundById(String id);
 
     /**
-     * Delete a Round entity via private java.lang.String seminar.entity.Round.courseId
+     * Delete a Round entity via courseId
      *
      * @param courseId the select gist
      */
@@ -79,11 +83,18 @@ public interface RoundMapper {
     void deleteRoundByCourseId(String courseId);
 
     /**
-     * Delete a Round entity via private java.lang.String seminar.entity.Round.id
+     * Delete a Round entity via id
      *
      * @param id the select gist
      */
     @Delete("delete from round where id=#{id}")
     void deleteRoundById(String id);
 
+    /**
+     * Insert a new Round into a course.
+     *
+     * @param courseId the Course refer gist
+     */
+    @Insert("insert into round(round_num, course_id) select max(round_num) + 1,course_id from round where course_id = #{courseId}")
+    void addRound(String courseId);
 }

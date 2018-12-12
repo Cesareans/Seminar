@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.vo.StudentFilter;
-import seminar.entity.vo.TeacherFilter;
+import seminar.pojo.vo.StudentFilter;
+import seminar.pojo.vo.TeacherFilter;
 import seminar.service.AccountManageService;
 
 import java.util.List;
@@ -28,6 +28,10 @@ public class AdminController {
         this.accountManageService = accountManageService;
     }
 
+    @RequestMapping(value = {"/", "/login"})
+    public String adminLogin() {
+        return "admin/login";
+    }
 
     @GetMapping("/index")
     public String index() {
@@ -38,6 +42,8 @@ public class AdminController {
     public String teacherManage() {
         return "admin/teacherManage";
     }
+
+    //TODO:Many Method need @valid for entity check.
 
     @PostMapping("/teacherList")
     public String teacherList(Model model, TeacherFilter filter) {
@@ -50,7 +56,7 @@ public class AdminController {
 
         //Using this converter to make this declaration recognizable for freemarker template.
         Boolean mNewFilter = filter.isNewFilter();
-        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        Number mFromIndex = fromIndex, mSumPage = sumPage, mPage = page;
         model.addAttribute("newFilter", mNewFilter);
         model.addAttribute("fromIndex", mFromIndex);
         model.addAttribute("sumPage", mSumPage);
@@ -61,26 +67,23 @@ public class AdminController {
 
     @PutMapping("/teacher")
     public @ResponseBody
-    ResponseEntity<Object> addTeacher(Teacher teacher) {
-        if (teacher.getTeacherName().length() == 0 || teacher.getTeacherNum().length() == 0 || teacher.getEmail().length() == 0) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
+    ResponseEntity<Object> addTeacher(@RequestBody Teacher teacher) {
         teacher.setPassword(SeminarConfig.DEFAULT_PASSWORD);
         teacher.setActivated(false);
         if (accountManageService.addTeacher(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
-    @PatchMapping("/teacher")
+    @PatchMapping(value = "/teacher")
     public @ResponseBody
-    ResponseEntity<Object> updateTeacher(Teacher teacher) {
+    ResponseEntity<Object> updateTeacher(@RequestBody Teacher teacher) {
         if (accountManageService.updateTeacher(teacher)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -90,26 +93,26 @@ public class AdminController {
         if (accountManageService.teacherResetPassword(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
     @DeleteMapping("/teacher/{teacherNum}")
     public @ResponseBody
     ResponseEntity<Object> deleteTeacher(@PathVariable String teacherNum) {
-        if (accountManageService.deleteByTeacherNum(teacherNum)) {
+        if (accountManageService.deleteTeacherByTN(teacherNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
     @DeleteMapping("/teacher")
     public @ResponseBody
-    ResponseEntity<Object> deleteTeacher(String[] teacherNum) {
+    ResponseEntity<Object> deleteTeacher(@RequestBody String[] teacherNum) {
         for (String s : teacherNum) {
-            if (!accountManageService.deleteByTeacherNum(s)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
+            if (!accountManageService.deleteTeacherByTN(s)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(s);
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -132,7 +135,7 @@ public class AdminController {
 
         //Using this converter to make this declaration recognizable for freemarker template.
         Boolean mNewFilter = filter.isNewFilter();
-        Number mFromIndex = fromIndex,mSumPage = sumPage,mPage = page;
+        Number mFromIndex = fromIndex, mSumPage = sumPage, mPage = page;
         model.addAttribute("newFilter", mNewFilter);
         model.addAttribute("fromIndex", mFromIndex);
         model.addAttribute("sumPage", mSumPage);
@@ -143,26 +146,21 @@ public class AdminController {
 
     @PutMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> addStudent(Student student) {
-        if (student.getStudentName().length() == 0 || student.getStudentNum().length() == 0 || student.getEmail().length() == 0) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
-        student.setActivated(false);
+    ResponseEntity<Object> addStudent(@RequestBody Student student) {
         if (accountManageService.addStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
     @PatchMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> updateStudent(Student student) {
+    ResponseEntity<Object> updateStudent(@RequestBody Student student) {
         if (accountManageService.updateStudent(student)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -179,7 +177,7 @@ public class AdminController {
     @DeleteMapping("/student/{studentNum}")
     public @ResponseBody
     ResponseEntity<Object> deleteStudent(@PathVariable String studentNum) {
-        if (accountManageService.deleteStudentByStuNum(studentNum)) {
+        if (accountManageService.deleteStudentBySN(studentNum)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -188,9 +186,9 @@ public class AdminController {
 
     @DeleteMapping("/student")
     public @ResponseBody
-    ResponseEntity<Object> deleteStudent(String[] studentNum) {
+    ResponseEntity<Object> deleteStudent(@RequestBody String[] studentNum) {
         for (String s : studentNum) {
-            if (!accountManageService.deleteStudentByStuNum(s)) {
+            if (!accountManageService.deleteStudentBySN(s)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(s);
             }
         }

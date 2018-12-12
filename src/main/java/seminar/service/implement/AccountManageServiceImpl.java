@@ -7,8 +7,8 @@ import seminar.dao.StudentDAO;
 import seminar.dao.TeacherDAO;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.entity.vo.StudentFilter;
-import seminar.entity.vo.TeacherFilter;
+import seminar.pojo.vo.StudentFilter;
+import seminar.pojo.vo.TeacherFilter;
 import seminar.service.AccountManageService;
 
 import java.util.List;
@@ -20,12 +20,12 @@ import java.util.List;
 public class AccountManageServiceImpl implements AccountManageService {
     private final StudentDAO studentDAO;
     private final TeacherDAO teacherDAO;
+
     @Autowired
     public AccountManageServiceImpl(StudentDAO studentDAO, TeacherDAO teacherDAO) {
         this.studentDAO = studentDAO;
         this.teacherDAO = teacherDAO;
     }
-
 
     @Override
     public List<Student> getStudentsByFilter(StudentFilter filter) {
@@ -33,8 +33,20 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
+    public List<Student> getStudentBySN(String sn) {
+        return studentDAO.getBySN(sn);
+    }
+
+    @Override
+    public List<Student> getStudentById(String id) {
+        return studentDAO.getById(id);
+    }
+
+    @Override
     public boolean addStudent(Student student) {
         if (studentDAO.getBySN(student.getStudentNum()).size() == 0) {
+            student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
+            student.setActivated(false);
             studentDAO.create(student);
             return true;
         } else {
@@ -57,18 +69,18 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
-    public boolean deleteStudentByStuNum(String stuNum) {
-        if (studentDAO.getBySN(stuNum).size() == 0) {
+    public boolean deleteStudentBySN(String sn) {
+        if (studentDAO.getBySN(sn).size() == 0) {
             return false;
         } else {
-            studentDAO.deleteBySN(stuNum);
+            studentDAO.deleteBySN(sn);
             return true;
         }
     }
 
     @Override
-    public boolean studentResetPassword(String stuNum) {
-        List<Student> students = studentDAO.getBySN(stuNum);
+    public boolean studentResetPassword(String sn) {
+        List<Student> students = studentDAO.getBySN(sn);
         if (students.size() == 0) {
             return false;
         }
@@ -82,6 +94,15 @@ public class AccountManageServiceImpl implements AccountManageService {
         return teacherDAO.getByFilter(filter);
     }
 
+    @Override
+    public List<Teacher> getTeacherByTN(String tn) {
+        return teacherDAO.getByTN(tn);
+    }
+
+    @Override
+    public List<Teacher> getTeacherById(String id) {
+        return teacherDAO.getById(id);
+    }
 
     @Override
     public boolean addTeacher(Teacher teacher) {
@@ -108,18 +129,18 @@ public class AccountManageServiceImpl implements AccountManageService {
     }
 
     @Override
-    public boolean deleteByTeacherNum(String teacherNum) {
-        if (teacherDAO.getByTN(teacherNum).size() == 0) {
+    public boolean deleteTeacherByTN(String tn) {
+        if (teacherDAO.getByTN(tn).size() == 0) {
             return false;
         } else {
-            teacherDAO.deleteByTN(teacherNum);
+            teacherDAO.deleteByTN(tn);
             return true;
         }
     }
 
     @Override
-    public boolean teacherResetPassword(String teacherNum) {
-        List<Teacher> teachers = teacherDAO.getByTN(teacherNum);
+    public boolean teacherResetPassword(String tn) {
+        List<Teacher> teachers = teacherDAO.getByTN(tn);
         if (teachers.size() == 0) {
             return false;
         }

@@ -9,22 +9,22 @@ var deleteItemsModal;
 var pagination;
 var countChoice;
 var defaultFilter = {
-    newFilter:false,
-    name:"",
-    teacherNum:"",
-    page:1,
-    count:20
+    newFilter: false,
+    name: "",
+    teacherNum: "",
+    page: 1,
+    count: 20
 };
 
 var tns = [];
 $(function () {
-    teacherFilter ={
+    teacherFilter = {
         form: $("#teacherFilter"),
-        newFilter:$("#newFilter"),
+        newFilter: $("#newFilter"),
         name: $("#nameFilter"),
-        teacherNum:$("#tnFilter"),
-        page:$("#pageFilter"),
-        count:$("#countFilter")
+        teacherNum: $("#tnFilter"),
+        page: $("#pageFilter"),
+        count: $("#countFilter")
     };
     filterChoice = $("#filter-choice");
     filterContent = $("#filter-content");
@@ -36,74 +36,36 @@ $(function () {
     pagination = $("#pagination");
     countChoice = $("#countChoice");
     sendDataRequest({
-        newFilter:true,
-        count:$(countChoice.find("#pageCount")).attr("data-count")
+        newFilter: true,
+        count: $(countChoice.find("#pageCount")).attr("data-count")
     });
 
-    clearBtn.click(function () {
-        filterContent.val("");
-        sendDataRequest({
-            newFilter:true,
-            name:"",
-            teacherNum:"",
-            page:1
-        });
-        $(this).hide();
-    });
 
-    deleteItemsModal.on("show.bs.modal",function () {
-        tns = [];
-        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .teacherNum");
-        for(var i = 0; i < chosenBadgeNums.length ; ++i ){
-            tns.push($(chosenBadgeNums[i]).html());
-        }
-    });
-    deleteItemsModal.find(".confirm").click(function () {
-        $.ajax({
-            type:"delete",
-            url:"/admin/teacher",
-            traditional:true,
-            data:{
-                teacherNum:tns
-            },
-            success:function () {
-                deleteItemsModal.modal("hide");
-                if (groupCheck.hasClass("groupChecked")) {
-                    groupCheck.trigger("click");
-                }
-                $(document).trigger("showNotification", ["删除成功", "success"]);
-                sendDataRequest(defaultFilter);
-            },
-            error:function () {
-                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
-            }
-        });
-    });
     groupCheck.click(function () {
         var check = $(this);
-        if(check.hasClass("groupChecked")){
+        if (check.hasClass("groupChecked")) {
             tableIframe.contents().find(".single .form-check-sign.checked").trigger("click");
             check.removeClass("groupChecked");
-        }else{
+        } else {
             tableIframe.contents().find(".single .form-check-sign:not(.checked)").trigger("click");
             check.addClass("groupChecked");
         }
     });
     $("#filter-choice-name").click(function () {
         filterChoice.html($(this).html());
-        filterChoice.attr("data-filter",$(this).attr("data-filter"));
+        filterChoice.attr("data-filter", $(this).attr("data-filter"));
     });
     $("#filter-choice-tn").click(function () {
         var choice = $(this).html();
         filterChoice.html(choice);
-        filterChoice.attr("data-filter",$(this).attr("data-filter"));
+        filterChoice.attr("data-filter", $(this).attr("data-filter"));
     });
     $("#searchBtn").click(function () {
         var filter = {
-            newFilter:true,
-            page:1
+            newFilter: true,
+            page: 1
         };
-        if(filterContent.val().length > 0) {
+        if (filterContent.val().length > 0) {
             if (filterChoice.attr("data-filter") === "name") {
                 $.extend(filter, {
                     name: filterContent.val(),
@@ -124,24 +86,35 @@ $(function () {
             clearBtn.show();
         }
     });
+    clearBtn.click(function () {
+        filterContent.val("");
+        sendDataRequest({
+            newFilter: true,
+            name: "",
+            teacherNum: "",
+            page: 1
+        });
+        $(this).hide();
+    });
+
     $(".previous-item").click(function () {
         var curPage = parseInt(pagination.find(".page-item.active").children("a").html());
-        if(curPage !== 1){
+        if (curPage !== 1) {
             refreshPageState(curPage - 1);
             sendDataRequest({
-                newFilter:false,
-                page:curPage - 1
+                newFilter: false,
+                page: curPage - 1
             });
         }
     });
     $(".next-item").click(function () {
         var curPage = parseInt(pagination.find(".page-item.active").children("a").html());
         var pageNum = parseInt(pagination.attr("data-pages"));
-        if(curPage !== pageNum){
+        if (curPage !== pageNum) {
             refreshPageState(curPage + 1);
             sendDataRequest({
-                newFilter:false,
-                page:curPage + 1
+                newFilter: false,
+                page: curPage + 1
             });
         }
     });
@@ -150,36 +123,67 @@ $(function () {
         pageCount.attr("data-count", $(this).attr("data-count"));
         pageCount.html($(this).html());
         sendDataRequest({
-            newFilter:true,
-            page:1,
-            count:pageCount.attr("data-count")
+            newFilter: true,
+            page: 1,
+            count: pageCount.attr("data-count")
+        });
+    });
+
+    deleteItemsModal.on("show.bs.modal", function () {
+        tns = [];
+        var chosenBadgeNums = $("#tableIframe").contents().find(".chosen .teacherNum");
+        for (var i = 0; i < chosenBadgeNums.length; ++i) {
+            tns.push($(chosenBadgeNums[i]).html());
+        }
+    });
+    deleteItemsModal.find(".confirm").click(function () {
+        $.ajax({
+            type: "delete",
+            url: "/admin/teacher",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(tns),
+            success: function () {
+                deleteItemsModal.modal("hide");
+                if (groupCheck.hasClass("groupChecked")) {
+                    groupCheck.trigger("click");
+                }
+                $(document).trigger("showNotification", ["删除成功", "success"]);
+                sendDataRequest(defaultFilter);
+            },
+            error: function () {
+                $(deleteItemsModal.find(".confirm")).delayedPop("删除失败", 3);
+            }
         });
     });
     $(createModal.find(".confirm")).click(function () {
         var btn = $(this);
         var form = createModal.find(".form");
-        if(util.verify(form)) {
+        if (util.verifyWithPop(form)) {
             $.ajax({
                 type: "put",
                 url: "/admin/teacher",
-                data: form.serialize(),
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(form.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         createModal.modal("hide");
                         $(document).trigger("showNotification", ["创建成功", "success"]);
                         sendDataRequest(defaultFilter);
-                    } else if (xhr.status === 204) {
-                        util.popWithDelay(btn, "创建失败，工号已存在", 3);
+                        form.get(0).reset();
                     }
                 },
                 error: function () {
-                    util.popWithDelay(btn, "创建失败，未知错误", 3);
+                    if (xhr.status === 409) {
+                        btn.delayedPop("创建失败，工号已存在", 3);
+                    } else {
+                        btn.delayedPop("创建失败，未知错误", 3);
+                    }
                 }
             });
-            form.get(0).reset();
         }
     });
-    $(document).bind("pageReset",function (event,pageNum,page) {
+
+    $(document).bind("pageReset", function (event, pageNum, page) {
         pagination.attr("data-pages", pageNum);
         refreshPageState(page);
         pagination.show();
@@ -196,7 +200,7 @@ $(function () {
 
 //Data Request
 function sendDataRequest(filter) {
-    if(filter!==undefined){
+    if (filter !== undefined) {
         $.extend(defaultFilter, filter);
     }
     teacherFilter.newFilter.val(defaultFilter.newFilter);
@@ -213,11 +217,11 @@ function refreshPageState(page) {
     pagination.find(".page-item:not(.action-item)").remove();
     var pageNum = parseInt(pagination.attr("data-pages"));
     var next = pagination.find(".next-item");
-    for(var i = 1 ; i <= pageNum;){
-        if(i === 1 || i === pageNum || (i>=page-1 && i<=page+1)) {
+    for (var i = 1; i <= pageNum;) {
+        if (i === 1 || i === pageNum || (i >= page - 1 && i <= page + 1)) {
             next.before(getPageDom(i));
             ++i;
-        }else{
+        } else {
             next.before(getPageDom("..."));
             while (!(i === 1 || i === pageNum || (i >= page - 1 && i <= page + 1))) {
                 ++i;
@@ -226,6 +230,7 @@ function refreshPageState(page) {
     }
     setPageActive(page);
 }
+
 function getPageDom(pageIndex) {
     var aDom = $("<a></a>");
     aDom.addClass("page-link");
@@ -233,24 +238,25 @@ function getPageDom(pageIndex) {
     var liDom = $("<li></li>");
     liDom.addClass("page-item");
     liDom.append(aDom);
-    if(pageIndex !== '...') {
+    if (pageIndex !== '...') {
         liDom.click(function () {
             var page = parseInt(liDom.find("a").html());
             refreshPageState(page);
             sendDataRequest({
-                newFilter:false,
-                page:page
+                newFilter: false,
+                page: page
             });
         });
     }
     return liDom;
 }
+
 function setPageActive(page) {
     page = "" + page;
     pagination.find('.active').removeClass('active');
     var pages = pagination.find(".page-item:not(.action-item)");
-    for(var i = 0 ; i < pages.length; ++i){
-        if(page === $(pages.get(i)).find("a").html()){
+    for (var i = 0; i < pages.length; ++i) {
+        if (page === $(pages.get(i)).find("a").html()) {
             $(pages.get(i)).addClass('active');
             break;
         }

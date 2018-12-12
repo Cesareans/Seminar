@@ -10,11 +10,11 @@ $(function () {
         courseModal.attr("data-courseID", item.attr("data-courseID"));
         $(courseModal.find(".modal-title")).html($(item.find(".body-title")).html());
     });
-    $(".clbum-nav").click({url:'/teacher/course/clbumList'},courseCardNavClick);
+    $(".klass-nav").click({url:'/teacher/course/klassList'},courseCardNavClick);
     $(".team-nav").click({url:'/teacher/course/teamList'},courseCardNavClick);
     $(".seminar-nav").click({url:'/teacher/course/seminarList'},courseCardNavClick);
     $("#gradeNav");
-    $("#infoNav");
+    $("#infoNav").click({url:'/teacher/course/info'},modalCardNavClick);
     $("#optionNav");
     $("#shareNav");
 
@@ -30,7 +30,6 @@ function modalCardNavClick(e) {
     postCourseId(e.data.url,courseModal.attr("data-courseID"));
 }
 function postCourseId(url,id) {
-    console.log(url);
     courseIdForm.form.attr("action", url);
     courseIdForm.courseIdInput.val(id);
     courseIdForm.form.submit();

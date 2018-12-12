@@ -1,6 +1,7 @@
 package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -8,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seminar.entity.*;
-import seminar.entity.hso.ClbumSeminarHso;
-import seminar.service.SeminarService;
-import seminar.service.TeacherService;
+import seminar.pojo.vo.KlassCreateVO;
+import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 /**
@@ -22,37 +23,104 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    private final AccountManageService accountManageService;
     private final TeacherService teacherService;
     private final SeminarService seminarService;
+    private final CaptchaService captchaService;
+    private final MailService mailService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, SeminarService seminarService) {
+    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService) {
+        this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.seminarService = seminarService;
+        this.captchaService = captchaService;
+        this.mailService = mailService;
     }
 
     @GetMapping(value = {"", "/index"})
-    public String index(Model model,HttpSession session) {
+    public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
-        model.addAttribute("teacher", teacher);
-        return "teacher/index";
+        if (teacher.isActivated()) {
+            model.addAttribute("teacher", teacher);
+            return "teacher/index";
+        } else {
+            return "redirect:/teacher/activation";
+        }
     }
 
+    @PostMapping("/captcha/{type}")
+    public @ResponseBody
+    ResponseEntity<Object> getCaptcha(@PathVariable String type, String email, HttpSession session) {
+        String captcha = captchaService.generateCaptcha();
+        session.setAttribute(type + "Captcha", captcha);
+        mailService.sendCaptcha(captcha, email);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @GetMapping("/activation")
+    public String activation() {
+        return "teacher/activation";
+    }
+
+    @PostMapping("/activation")
+    public @ResponseBody
+    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
+        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
+
+        if (captcha.equals(senderCaptcha)) {
+            teacherService.activate(((String) session.getAttribute("teacherId")), password, email);
+            session.removeAttribute("activationCaptcha");
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+    }
+
+
     @GetMapping("/option")
-    public String info(Model model) {
+    public String option(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = teacherService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
 
         return "teacher/option";
     }
 
+    @GetMapping("/modifyEmail")
+    public String modifyEmail() {
+        return "teacher/modifyEmail";
+    }
+
+    @PostMapping("/modifyEmail")
+    public @ResponseBody
+    ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
+        String senderCaptcha = ((String) session.getAttribute("modifyEmailCaptcha"));
+        if (captcha.equals(senderCaptcha)) {
+            teacherService.modifyEmail(((String) session.getAttribute("teacherId")), email);
+            session.removeAttribute("modifyEmailCaptcha");
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+    }
+
+    @GetMapping("/modifyPassword")
+    public String modifyPassword() {
+        return "teacher/modifyPassword";
+    }
+
+    @PostMapping("/modifyPassword")
+    public @ResponseBody
+    ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
+        teacherService.modifyPasswordViaId(((String) session.getAttribute("teacherId")), password);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
     /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
+     * Todo: Remain to be realized
      */
     @GetMapping("/notification")
     public String notification() {
@@ -66,77 +134,86 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize
-     *
-     * @return ViewName
+     * Todo: Remains to be deepen designed
      */
     @GetMapping("/course/info")
-    public String courseInfo() {
+    public String courseInfo(String courseId, Model model) {
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "teacher/course/info";
     }
 
-    /**
-     * Todo: Page finished. Remain to be realize Post
-     *
-     * @return ViewName
-     */
+
     @GetMapping("/course/create")
     public String courseCreate() {
         return "teacher/course/create";
     }
 
-    @PostMapping("/course/create")
+    /**
+     * Todo[cesare]: Remain to br realized
+     */
+    @PutMapping("/course")
     public @ResponseBody
-    ResponseEntity<Object> courseCreate(Course course){
+    ResponseEntity<Object> courseCreate(Course course) {
         return null;
     }
 
-    @GetMapping("/course/clbumList")
-    public String clbum(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
+    @GetMapping("/course/klassList")
+    public String klassList(String courseId, Model model, HttpSession session) {
+        if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
-        }else{
+        } else {
             session.setAttribute("courseId", courseId);
         }
-        model.addAttribute("clbums", seminarService.getClbumByCourseId(courseId));
-        return "teacher/course/clbumList";
+        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
+        return "teacher/course/klassList";
     }
 
-    @GetMapping("/course/clbum/create")
-    public String clbumCreate() {
-        return "teacher/course/createClbum";
+    @GetMapping("/course/klass/create")
+    public String klassCreate(Model model, HttpSession session) {
+        model.addAttribute("courseId", session.getAttribute("courseId"));
+        return "teacher/course/createKlass";
+    }
+
+    @PutMapping("/course/klass")
+    public @ResponseBody
+    ResponseEntity<Object> createKlass(@RequestBody KlassCreateVO vo) {
+        Klass klass = vo.getKlass();
+        if (teacherService.createKlass(klass)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+    }
+
+    @DeleteMapping("/course/klass/{klassId}")
+    public @ResponseBody
+    ResponseEntity<Object> deleteKlass(@PathVariable String klassId) {
+        teacherService.deleteKlassById(klassId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 
     @GetMapping("/course/seminarList")
     public String seminarList(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
+        if (courseId == null) {
             courseId = ((String) session.getAttribute("courseId"));
-        }else{
+        } else {
             session.setAttribute("courseId", courseId);
         }
-        List<Map<String,Object>> root = new LinkedList<>();
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        for (Round round : rounds) {
-            Map<String, Object> roundSeminar = new HashMap<>(4);
-            roundSeminar.put("roundIns", round);
-            roundSeminar.put("seminars", seminarService.getSeminarsByRoundId(round.getId()));
-            root.add(roundSeminar);
-        }
-        model.addAttribute("rounds", root);
-
-        List<Clbum> clbums = seminarService.getClbumByCourseId(courseId);
-        model.addAttribute("clbums", clbums);
+        model.addAttribute("courseId", courseId);
+        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
+        model.addAttribute("klasss", seminarService.getKlassByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
 
-    @PutMapping("/course/round")
+    @PostMapping("/course/round/add")
     public @ResponseBody
-    ResponseEntity<Object> createRound(String courseId){
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        return null;
+    ResponseEntity<Object> addRound(String courseId) {
+        teacherService.addRound(courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
     /**
      * Todo: Remain to be realize, Priority
      */
@@ -146,39 +223,28 @@ public class TeacherController {
     }
 
     /**
-     * TODO:May need change url here to be /course/clbumSeminar/info
+     * TODO:May need change url here to be /course/klassSeminar/info
      */
     @GetMapping("/course/seminar/info")
-    public String seminarInfo(String clbumId, String seminarId, Model model, HttpSession session) {
-        String sessionKey = "clbumSeminarHso";
-        ClbumSeminarHso clbumSeminarHso;
-        if(clbumId == null||seminarId==null){
-            clbumSeminarHso = ((ClbumSeminarHso) session.getAttribute(sessionKey));
-        }else{
-            clbumSeminarHso = new ClbumSeminarHso(clbumId,seminarId);
-            session.setAttribute(sessionKey,clbumSeminarHso);
-        }
-        List<ClbumSeminar> clbumSeminar = seminarService.getClbumSeminarByClbumIdAndSeminarId(clbumSeminarHso.getClbumId(),clbumSeminarHso.getSeminarId());
-        if(clbumSeminar.size() == 0){
+    public String seminarInfo(String klassId, String seminarId, Model model, HttpSession session) {
+        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        if (klassSeminar.size() == 0) {
             //TODO:need better code here.
-            throw new RuntimeException("No clbum seminar");
+            throw new RuntimeException("No klass seminar");
         }
-        model.addAttribute("clbumSeminar", clbumSeminar.get(0));
-        model.addAttribute("attendances", seminarService.getAttendancesByClbumSeminarId(clbumSeminar.get(0).getId()));
+        model.addAttribute("klassSeminar", klassSeminar.get(0));
         return "teacher/course/seminar/info";
     }
 
     @GetMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String clbumSeminarId, Model model) {
+    public String seminarEnrollList(String klassSeminarId, Model model) {
         //TODO:need exceptions handling here
-        ClbumSeminar clbumSeminar = seminarService.getClbumSeminarByClbumSeminarId(clbumSeminarId).get(0);
-        Seminar seminar = seminarService.getSeminarBySeminarId(clbumSeminar.getSeminarId()).get(0);
-        List<Attendance> attendances = seminarService.getAttendancesByClbumSeminarId(clbumSeminarId);
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
         List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1,seminar.getMaxTeam()+1).forEach(i->{
+        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
             boolean isEnrolled = false;
-            for (Attendance attendance : attendances) {
-                if(attendance.getSn() == i){
+            for (Attendance attendance : klassSeminar.getAttendances()) {
+                if (attendance.getSn() == i) {
                     isEnrolled = true;
                     enrollList.add(attendance);
                     break;
@@ -188,15 +254,12 @@ public class TeacherController {
                 enrollList.add(null);
             }
         });
-        model.addAttribute("seminar", seminar);
         model.addAttribute("enrollList", enrollList);
         return "teacher/course/seminar/enrollList";
     }
 
     /**
      * Todo: Remain to be realize
-     *
-     * @return ViewName
      */
     @GetMapping("/course/seminar/grade")
     public String seminarGrade() {
@@ -204,37 +267,22 @@ public class TeacherController {
     }
 
     /**
-     * Todo: Remain to be realize, Priority
-     *
-     * @return ViewName
+     * Todo[Priority]: Remain to be realize
      */
     @GetMapping("/course/seminar/progressing")
-    public String seminarProgressing(String clbumSeminarId, Model model) {
-        model.addAttribute("csId",clbumSeminarId);
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
         return "teacher/course/seminar/progressing";
     }
 
-    /**
-     * TODO:Need better design [Inferiority]
-     * @param courseId
-     * @param model
-     * @param session
-     * @return
-     */
     @GetMapping("/course/teamList")
-    public String team(String courseId, Model model, HttpSession session) {
-        if(courseId == null){
-            courseId = ((String) session.getAttribute("courseId"));
-        }else{
-            session.setAttribute("courseId", courseId);
-        }
+    public String team(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         return "teacher/course/teamList";
     }
+
     /**
      * Todo: Remain to be realize
-     *
-     * @return ViewName
      */
     @GetMapping("/course/grade")
     public String grade() {
