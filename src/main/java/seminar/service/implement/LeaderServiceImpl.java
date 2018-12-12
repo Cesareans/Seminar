@@ -7,6 +7,7 @@ import seminar.dao.StudentDAO;
 import seminar.dao.TeamDAO;
 import seminar.dao.TeamStudentDAO;
 import seminar.entity.Course;
+import seminar.entity.Student;
 import seminar.entity.Team;
 import seminar.entity.relation.TeamStudent;
 import seminar.service.LeaderService;
@@ -34,8 +35,9 @@ public class LeaderServiceImpl implements LeaderService {
     @Override
     public boolean addGroupMember(String courseId, String teamId, String studentSn)
     {
-        List<TeamStudent> teamAndStudent = teamStudentDAO.getByStudentId(studentSn);
-        if(!teamAndStudent.isEmpty())
+        List<Student> studentWithoutTeamInCourse = studentDAO.getStudentWithoutTeamByCourseId(courseId);
+        Student student = studentDAO.getBySN(studentSn).get(0);
+        if(!studentWithoutTeamInCourse.contains(student))
             return false;
         else
         {

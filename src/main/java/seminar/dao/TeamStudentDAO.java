@@ -2,6 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Student;
 import seminar.entity.Team;
 import seminar.entity.relation.TeamStudent;
 import seminar.mapper.TeamStudentMapper;
@@ -14,15 +15,28 @@ import java.util.List;
 @Component
 public class TeamStudentDAO {
     private final TeamStudentMapper teamStudentMapper;
+    private final TeamDAO teamDAO;
 
     /**
      * @author Xinyu Shi
      */
     @Autowired
-    public TeamStudentDAO(TeamStudentMapper teamStudentMapper) {
+    public TeamStudentDAO(TeamStudentMapper teamStudentMapper, TeamDAO teamDAO) {
 
         this.teamStudentMapper = teamStudentMapper;
+        this.teamDAO = teamDAO;
+
     }
+
+    /**
+     * @author Xinyu Shi
+     */
+
+    public List<Student> getAllStudentByTeamId(String teamId)
+    {
+        return teamStudentMapper.selectStudentsByTeamId(teamId);
+    }
+
 
     /**
      * @author Xinyu Shi
@@ -79,6 +93,11 @@ public class TeamStudentDAO {
     public void update(TeamStudent teamStudent) {
 
         teamStudentMapper.updateTeamStudent(teamStudent);
+    }
+
+    public void updateTeamByTeamStudent(TeamStudent teamStudent)
+    {
+
     }
 
     /**
