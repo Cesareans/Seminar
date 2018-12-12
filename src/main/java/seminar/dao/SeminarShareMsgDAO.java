@@ -2,11 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Course;
 import seminar.entity.message.SeminarShareMsg;
-import seminar.entity.share.SeminarShare;
-import seminar.mapper.CourseMapper;
-import seminar.mapper.SeminarShareMapper;
 import seminar.mapper.SeminarShareMsgMapper;
 
 import java.util.List;
@@ -17,14 +13,10 @@ import java.util.List;
 @Component
 public class SeminarShareMsgDAO {
     private final SeminarShareMsgMapper seminarShareMsgMapper;
-    private final SeminarShareMapper seminarShareMapper;
-    private final CourseMapper courseMapper;
 
     @Autowired
-    public SeminarShareMsgDAO(SeminarShareMsgMapper seminarShareMsgMapper, SeminarShareMapper seminarShareMapper, CourseMapper courseMapper) {
+    public SeminarShareMsgDAO(SeminarShareMsgMapper seminarShareMsgMapper) {
         this.seminarShareMsgMapper = seminarShareMsgMapper;
-        this.seminarShareMapper = seminarShareMapper;
-        this.courseMapper = courseMapper;
     }
 
     /**
@@ -32,17 +24,6 @@ public class SeminarShareMsgDAO {
      * Two courses must have same name
      */
     public boolean create(SeminarShareMsg seminarShareMsg) {
-        List<SeminarShare> seminarShares = seminarShareMapper.selectAllSeminarShare();
-        for (SeminarShare s : seminarShares) {
-            if (s.getSubordinateCourseId().equals(seminarShareMsg.getPrincipalCourseId())) {
-                return false;
-            }
-            Course course1 = courseMapper.selectCourseById(seminarShareMsg.getPrincipalCourseId()).get(0);
-            Course course2 = courseMapper.selectCourseById(seminarShareMsg.getSubordinateCourseId()).get(0);
-            if (!course1.getCourseName().equals(course2.getCourseName())) {
-                return false;
-            }
-        }
         seminarShareMsgMapper.insertSeminarShareMsg(seminarShareMsg);
         return true;
     }

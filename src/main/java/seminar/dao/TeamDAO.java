@@ -30,24 +30,11 @@ public class TeamDAO {
         return teamMapper.selectTeamById(id);
     }
 
-    public List<Team> getByKlassId(String klassId) {
-        return teamMapper.selectTeamByKlassId(klassId);
-    }
-
     /**
-     * Team belongs to klass. So here are necessary
-     * TODO:May use redundant courseId here.
-     *
-     * @param courseId
-     * @return
+     * @author Cesare
      */
-    public List<Team> getByCourseId(String courseId) {
-        List<Klass> klasses = klassDao.getByCourseId(courseId);
-        List<Team> teams = new LinkedList<>();
-        klasses.forEach(klass -> {
-            teams.addAll(getByKlassId(klass.getId()));
-        });
-        return teams;
+    public List<Team> getCourseTeamsByCourseId(String courseId) {
+        return teamMapper.selectTeamByCourseId(courseId);
     }
 
     /**

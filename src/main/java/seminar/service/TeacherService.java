@@ -95,6 +95,12 @@ public interface TeacherService {
      */
     void deleteKlassById(String klassId);
 
+    /**
+     * Add a course's round.
+     *
+     * @author cesare
+     * @param courseId refer gist
+     */
     void addRound(String courseId);
 
     /**

@@ -25,7 +25,7 @@ $(function () {
             data: courseIdForm.serialize(),
             success: function (result, status, xhr) {
                 if (xhr.status === 200) {
-                    window.location = "/teacher/course/courseList";
+                    window.location = "/teacher/course/seminarList";
                 }
             },
             error: function () {

@@ -3,14 +3,9 @@ package seminar.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.StudentDAO;
-import seminar.dao.TeamDAO;
-import seminar.dao.TeamStudentDAO;
 import seminar.entity.Student;
-import seminar.entity.Team;
-import seminar.entity.relation.TeamStudent;
 import seminar.service.StudentService;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,17 +13,15 @@ import java.util.List;
  */
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final TeamStudentDAO teamStudentDAO;
-    private final TeamDAO teamDAO;
     private StudentDAO studentDAO;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, TeamStudentDAO teamStudentDAO, TeamDAO teamDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
-        this.teamStudentDAO = teamStudentDAO;
-        this.teamDAO = teamDAO;
     }
-
+    /**
+     * @author Cesare
+     */
     @Override
     public boolean modifyPasswordViaSn(String sn, String password) {
         List<Student> students = studentDAO.getBySN(sn);
@@ -42,45 +35,4 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    /**
-     * @author SWJ
-     */
-    @Override
-    public boolean createTeam(Team team, String courseId) {
-        List<Team> teams = teamDAO.getByCourseId(courseId);
-        List<TeamStudent> teamStudents = new LinkedList<>();
-        for(Team t:teams){
-            teamStudents.addAll(teamStudentDAO.getByTeamId(t.getId()));
-            if(team.getLeaderId().equals(t.getLeaderId())){
-                return false;
-            }
-        }
-        for (TeamStudent ts : teamStudents) {
-            if (team.getLeaderId().equals(ts.getStudentId())) {
-                return false;
-            }
-        }
-        teamDAO.create(team);
-        return true;
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public void leaveTeam(String studentId, String courseId) {
-        List<Team> teams = teamDAO.getByCourseId(courseId);
-        List<TeamStudent> teamStudents = new LinkedList<>();
-        for(Team t:teams){
-            teamStudents.addAll(teamStudentDAO.getByTeamId(t.getId()));
-        }
-        for(Team t:teams){
-            if(t.getLeaderId().equals(studentId)){
-                teamStudentDAO.deleteByTeamId(t.getId());
-                teamDAO.deleteById(t.getId());
-                return;
-            }
-        }
-        teamStudentDAO.deleteByStudentId(studentId);
-    }
 }

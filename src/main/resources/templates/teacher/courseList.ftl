@@ -48,7 +48,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised no-footer">
     <#if courses?size ==0>
         <div class="empty-tag">
             <div class="info">
@@ -99,17 +99,15 @@
                 </div>
             </div>
             </#list>
+            <div class="col-md-6">
+                <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/create'">
+                    <i class="material-icons add-icon">add_circle</i>
+                </a>
+            </div>
             </div>
         </div>
     </#if>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/create'" class="btn btn-dark btn-round bg-dark" style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建课程
-    </button>
-</div>
-
 <div class="modal fade" id="courseModal" data-courseID="">
     <div class="modal-dialog">
         <div class="modal-content">

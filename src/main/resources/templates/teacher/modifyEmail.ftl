@@ -57,7 +57,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/teacher/option'">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/teacher/setting'">
                             <i class="material-icons">chevron_left</i>
                         </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">
