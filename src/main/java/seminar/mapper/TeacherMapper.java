@@ -43,7 +43,7 @@ public interface TeacherMapper {
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
             @Result(property = "activated", column = "is_activated"),
-            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "blectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectAllTeacher();
 
