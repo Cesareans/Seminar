@@ -80,23 +80,6 @@
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-6 ml-auto mr-auto">
-                            <div class="line">
-                                <label>轮次</label>
-                                <div class="sep"></div>
-                            <#--TODO:{}-->
-                                <div class="content">｛第二轮｝</div>
-                            </div>
-                            <div class="line">
-                                <label>班级</label>
-                                <div class="sep"></div>
-                            <#--TODO:{}-->
-                                <div class="content">｛2016(1)｝</div>
-                            </div>
-                            <div class="line">
-                                <label>课次序号</label>
-                                <div class="sep"></div>
-                                <div class="content" style="margin-left: 10px">${klassSeminar.seminar.serial}</div>
-                            </div>
                             <div class="line content-line">
                                 <label>课程要求</label>
                                 <div class="sep"></div>

@@ -77,13 +77,13 @@ public class TeacherController {
     }
 
 
-    @GetMapping("/option")
+    @GetMapping("/setting")
     public String option(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
 
-        return "teacher/option";
+        return "teacher/setting";
     }
 
     @GetMapping("/modifyEmail")
@@ -168,7 +168,7 @@ public class TeacherController {
     @GetMapping("/course/klass/create")
     public String klassCreate(Model model, HttpSession session) {
         model.addAttribute("courseId", session.getAttribute("courseId"));
-        return "teacher/course/createKlass";
+        return "teacher/course/klass/create";
     }
 
     @PutMapping("/course/klass")
@@ -220,8 +220,13 @@ public class TeacherController {
     }
 
     @GetMapping("/course/seminar/info")
-    public String seminarInfo(String klassId, String seminarId, Model model, HttpSession session) {
-        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+    public String seminarInfo(String klassId, String seminarId, String klassSeminarId, Model model) {
+        List<KlassSeminar> klassSeminar;
+        if(klassSeminarId == null) {
+            klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        }else{
+            klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        }
         if (klassSeminar.size() == 0) {
             //TODO:need better code here.
             throw new RuntimeException("No klass seminar");

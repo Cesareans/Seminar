@@ -1,9 +1,6 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
 import java.util.List;
 
@@ -14,16 +11,19 @@ import java.util.List;
 public class Team {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("team_serial")
     private String serial;
     private String teamName;
     private boolean valid;
+    @Gist
+    private String courseId;
     @Gist
     private String klassId;
     private String leaderId;
 
     @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
     private Student leader;
-    @Link(gist = "id", select = "seminar.mapper.StudentRelationMapper.selectStudentsByTeamId")
+    @Link(gist = "id", select = "seminar.mapper.KlassStudentMapper.selectStudentsByTeamId")
     private List<Student> students;
 
     public String getId() {
@@ -56,6 +56,14 @@ public class Team {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getKlassId() {

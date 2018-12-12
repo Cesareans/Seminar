@@ -41,7 +41,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Team> getTeamsByCourseId(String courseId) {
-        return teamDAO.getByCourseId(courseId);
+        return teamDAO.getCourseTeamsByCourseId(courseId);
     }
 
     @Override
