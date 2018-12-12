@@ -51,4 +51,11 @@ public class StudentController {
     public String courses() {
         return "student/course";
     }
+
+    @GetMapping("/gradesList")
+    public String grades() { return "student/grades";}
+
+    @GetMapping("/group")
+    public String group() { return "student/group"; }
+
 }

@@ -63,13 +63,13 @@
                                     <div class="col-md-12 ml-auto mr-auto">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                             <li class="nav-item seminar-nav">
-                                                <a class="nav-link" onclick="window.location='/student/grades'">
+                                                <a class="nav-link">
                                                     <i class="material-icons">event_note</i>
                                                     我的成绩
                                                 </a>
                                             </li>
                                             <li class="nav-item team-nav">
-                                                <a class="nav-link" onclick="window.location='/student/group'">
+                                                <a class="nav-link">
                                                     <i class="material-icons">group</i>
                                                     我的组队
                                                 </a>
