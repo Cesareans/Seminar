@@ -1,11 +1,21 @@
 package seminar.service;
 
+import seminar.entity.Student;
 import seminar.entity.Team;
 
 /**
  * @author Cesare
  */
 public interface StudentService {
+
+    /**
+     * @author lyf
+     * @param studentId    the student id
+     * @param password     the new password
+     * @param email        the new email
+     * @return success or fail
+     */
+    boolean activate(String studentId, String password, String email);
 
     /**
      * Modify a student's password when he/she forget his/her password
@@ -16,6 +26,13 @@ public interface StudentService {
      * @author cesare
      */
     boolean modifyPasswordViaSn(String sn, String password);
+
+    /**
+     * Modify a student's email
+     * @return whether the operation is success
+     */
+    boolean modifyEmailViaSn();
+
     /**
      * Create a new team
      *

@@ -39,14 +39,8 @@ public class AdminDAO {
     /**
      * @author lyf
      */
-    public boolean deleteByName(String adminName) {
-        if (adminMapper.selectAdministratorByAdminName(adminName).isEmpty()) {
-            return false;
-        } else {
+    public void deleteByName(String adminName) {
             adminMapper.deleteAdministratorByAdminName(adminName);
-            return true;
-        }
-
     }
 
     /**

@@ -6,6 +6,7 @@ import seminar.dao.StudentDAO;
 import seminar.dao.TeamDAO;
 import seminar.dao.TeamStudentDAO;
 import seminar.entity.Student;
+import seminar.entity.Teacher;
 import seminar.entity.Team;
 import seminar.entity.relation.TeamStudent;
 import seminar.service.StudentService;
@@ -29,6 +30,22 @@ public class StudentServiceImpl implements StudentService {
         this.teamDAO = teamDAO;
     }
 
+    /**
+     * @author lyf
+     */
+    @Override
+    public boolean activate(String studentId, String password, String email){
+        List<Student> students = studentDAO.getById(studentId);
+        if (students.size() == 0) {
+            return false;
+        }
+        Student student = students.get(0);
+        student.setPassword(password);
+        student.setEmail(email);
+        student.setActivated(true);
+        return studentDAO.update(student);
+    }
+
     @Override
     public boolean modifyPasswordViaSn(String sn, String password) {
         List<Student> students = studentDAO.getBySN(sn);
@@ -40,6 +57,14 @@ public class StudentServiceImpl implements StudentService {
             studentDAO.update(targetStudent);
             return true;
         }
+    }
+
+    /**
+     * @author lyf
+     */
+    @Override
+    public boolean modifyEmailViaSn() {
+        return true;
     }
 
     /**

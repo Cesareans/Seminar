@@ -63,23 +63,17 @@ public class CourseDAO {
      */
     public void deleteByCourseId(String courseId) {
         courseMapper.deleteCourseById(courseId);
-        maxMinRegulationMapper.deleteMaxMinRegulationByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
-    public boolean update(Course course, MaxMinRegulation maxMinRegulation) {
+    public boolean update(Course course) {
         if (!courseMapper.selectCourseById(course.getId()).isEmpty()) {
             courseMapper.updateCourse(course);
-            List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(course.getId());
-            if (!maxMinRegulations.isEmpty()) {
-                maxMinRegulationMapper.updateMaxMinRegulation(maxMinRegulation);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+            return true;
+        }
+        else {
             return false;
         }
     }

@@ -122,8 +122,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation) {
-        return courseDAO.update(course, maxMinRegulation);
+    public boolean updateCourse(Course course) {
+        return courseDAO.update(course);
     }
 
     /**
@@ -150,9 +150,13 @@ public class TeacherServiceImpl implements TeacherService {
         klassDAO.deleteById(klassId);
     }
 
+    /**
+     *
+    @author lyf
+     */
     @Override
-    public void addRound(String courseId) {
-        roundDAO.addRound(courseId);
+    public boolean addRound(Round round) {
+        return roundDAO.addRound(round);
     }
 
     /**
@@ -177,6 +181,14 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void deleteSeminarByRoundId(String roundId) {
         seminarDAO.deleteByRoundId(roundId);
+    }
+
+    /**
+     * @author lyf
+     */
+    @Override
+    public void deleteSeminarById(String seminarId){
+        seminarDAO.deleteById(seminarId);
     }
 
     /**
