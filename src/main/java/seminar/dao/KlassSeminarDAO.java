@@ -96,7 +96,7 @@ public class KlassSeminarDAO {
     /**
      * @author Cesare
      */
-    public List<Attendance> getEnrollList(String ksId){
+    public List<Attendance> getEnrollList(String ksId) {
         KlassSeminar klassSeminar = getByKlassSeminarId(ksId).get(0);
         List<Attendance> enrollList = new LinkedList<>();
         IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {

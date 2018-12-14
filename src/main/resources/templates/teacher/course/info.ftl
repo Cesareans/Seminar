@@ -79,12 +79,12 @@
                             <div class="line content-line">
                                 <label>组队开始时间</label>
                                 <div class="sep"></div>
-                                <div class="content">${course.teamStartDate?date}</div>
+                                <div class="content">${course.teamStartDate?datetime}</div>
                             </div>
                             <div class="line content-line">
                                 <label>组队结束时间</label>
                                 <div class="sep"></div>
-                                <div class="content">${course.teamEndDate?date}</div>
+                                <div class="content">${course.teamEndDate?datetime}</div>
                             </div>
                         </div>
                     </div>

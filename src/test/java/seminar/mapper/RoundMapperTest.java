@@ -20,7 +20,7 @@ public class RoundMapperTest {
     RoundMapper roundMapper;
 
     @Test
-    public void selectRoundByCourseId() throws JsonProcessingException {
+    public void selectRoundByCourseId() {
         List<Round> rounds = roundMapper.selectRoundByCourseId("112");
         DebugLogger.logJson(rounds);
     }

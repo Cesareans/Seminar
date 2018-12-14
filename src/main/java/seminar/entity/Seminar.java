@@ -16,6 +16,7 @@ public class Seminar {
     private String theme;
     @SqlMap("introduction")
     private String content;
+    @SqlMap("seminar_serial")
     private String serial;
     private int maxTeam;
     private boolean visible;
@@ -25,6 +26,8 @@ public class Seminar {
     private String enrollEndDate;
     @Gist
     private String roundId;
+    @Gist
+    private String courseId;
 
     public String getId() {
         return id;
@@ -96,5 +99,13 @@ public class Seminar {
 
     public void setRoundId(String roundId) {
         this.roundId = roundId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 }

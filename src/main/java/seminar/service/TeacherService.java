@@ -1,13 +1,11 @@
 package seminar.service;
 
-import seminar.entity.Klass;
 import seminar.entity.Course;
-import seminar.entity.Round;
+import seminar.entity.Klass;
 import seminar.entity.Seminar;
 import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
 import seminar.entity.message.TeamShareMsg;
-import seminar.entity.regulation.MaxMinRegulation;
 
 import java.util.List;
 
@@ -97,11 +95,12 @@ public interface TeacherService {
     void deleteKlassById(String klassId);
 
     /**
-     * Add a course's round.
-     *modified by lyf
+     * Direct add a new round to a course
+     *
+     * @param courseId the refer gist
      * @author cesare
      */
-    boolean addRound(Round round);
+    void addRound(String courseId);
 
     /**
      * @author lyf

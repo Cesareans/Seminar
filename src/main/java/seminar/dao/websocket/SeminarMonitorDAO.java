@@ -17,7 +17,7 @@ public class SeminarMonitorDAO {
         this.klassSeminarDAO = klassSeminarDAO;
     }
 
-    public SeminarMonitor getByKsId(String ksId){
+    public SeminarMonitor getByKsId(String ksId) {
         SeminarMonitor seminarMonitor = new SeminarMonitor();
         seminarMonitor.setEnrollList(klassSeminarDAO.getEnrollList(ksId));
         seminarMonitor.init();

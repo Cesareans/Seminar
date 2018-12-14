@@ -10,5 +10,5 @@ public interface CaptchaService {
      * @return a random captcha with 6 digits.
      * @author cesare
      */
-    public String generateCaptcha();
+    String generateCaptcha();
 }

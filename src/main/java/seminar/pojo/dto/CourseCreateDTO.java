@@ -1,4 +1,4 @@
-package seminar.pojo.vo;
+package seminar.pojo.dto;
 
 import seminar.entity.Course;
 import seminar.entity.regulation.MaxMinRegulation;
@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author Cesare
  */
-public class CourseCreateVO {
+public class CourseCreateDTO {
     private String courseName;
     private String intro;
     private Integer prePer;

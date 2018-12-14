@@ -3,7 +3,6 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Course;
-import seminar.entity.regulation.MaxMinRegulation;
 import seminar.mapper.CourseMapper;
 import seminar.mapper.MaxMinRegulationMapper;
 
@@ -72,8 +71,7 @@ public class CourseDAO {
         if (!courseMapper.selectCourseById(course.getId()).isEmpty()) {
             courseMapper.updateCourse(course);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Teacher;
 import seminar.mapper.TeacherMapper;
-import seminar.pojo.vo.TeacherFilter;
+import seminar.pojo.dto.TeacherFilter;
 
 import java.util.List;
 
@@ -22,12 +22,13 @@ public class TeacherDAO {
 
     /**
      * modified by lyf
+     *
      * @param teacher
      * @return boolean
      */
     public boolean create(Teacher teacher) {
         List<Teacher> teachers = teacherMapper.selectTeacherByTeacherNum(teacher.getTeacherNum());
-        for(Teacher t:teachers) {
+        for (Teacher t : teachers) {
             if (t.getTeacherNum().equals(teacher.getTeacherNum())) {
                 return false;
             }
@@ -38,12 +39,13 @@ public class TeacherDAO {
 
     /**
      * modified by lyf
+     *
      * @param teacher
      * @return boolean
      */
     public boolean update(Teacher teacher) {
         List<Teacher> teachers = teacherMapper.selectTeacherByTeacherNum(teacher.getTeacherNum());
-        for(Teacher t:teachers) {
+        for (Teacher t : teachers) {
             if (t.getTeacherNum().equals(teacher.getTeacherNum())) {
                 teacherMapper.updateTeacher(teacher);
                 return false;

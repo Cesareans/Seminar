@@ -9,12 +9,15 @@ import java.util.List;
  */
 @TargetPackage(value = "seminar.mapper")
 public class Team {
+    @Block
+    private static String[] teamStatus = new String[]{"不合法", "合法", "审核中"};
+
     @ID(isIncrement = true)
     private String id;
     @SqlMap("team_serial")
     private String serial;
     private String teamName;
-    private boolean valid;
+    private int status;
     @Gist
     private String courseId;
     @Gist
@@ -50,12 +53,12 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public boolean isValid() {
-        return valid;
+    public String getStatus() {
+        return teamStatus[status];
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getCourseId() {

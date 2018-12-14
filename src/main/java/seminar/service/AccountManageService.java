@@ -2,8 +2,8 @@ package seminar.service;
 
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.pojo.vo.StudentFilter;
-import seminar.pojo.vo.TeacherFilter;
+import seminar.pojo.dto.StudentFilter;
+import seminar.pojo.dto.TeacherFilter;
 
 import java.util.List;
 

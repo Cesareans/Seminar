@@ -6,7 +6,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import seminar.entity.Team;
 import seminar.logger.DebugLogger;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -18,11 +21,15 @@ public class TeamMapperTest {
 
     @Test
     public void selectTeamById() {
-        DebugLogger.logJson(teamMapper.selectTeamById("111").get(0));
+        Team team = teamMapper.selectTeamById("111").get(0);
+        DebugLogger.logJson(team);
+        DebugLogger.logJson(team.getStudents().size());
     }
 
     @Test
     public void selectTeamByCourseId() {
-        DebugLogger.logJson(teamMapper.selectTeamByCourseId("112"));
+        List<Team> teams = teamMapper.selectTeamByCourseId("112");
+        DebugLogger.logJson(teams);
+        DebugLogger.logJson(teams.get(0).getStudents().size());
     }
 }

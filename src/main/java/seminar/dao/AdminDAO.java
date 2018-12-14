@@ -40,7 +40,7 @@ public class AdminDAO {
      * @author lyf
      */
     public void deleteByName(String adminName) {
-            adminMapper.deleteAdministratorByAdminName(adminName);
+        adminMapper.deleteAdministratorByAdminName(adminName);
     }
 
     /**

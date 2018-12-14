@@ -2,11 +2,9 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Klass;
 import seminar.entity.Team;
 import seminar.mapper.TeamMapper;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

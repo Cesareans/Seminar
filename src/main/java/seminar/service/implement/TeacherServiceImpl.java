@@ -7,7 +7,6 @@ import seminar.entity.*;
 import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
 import seminar.entity.message.TeamShareMsg;
-import seminar.entity.regulation.MaxMinRegulation;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -26,8 +25,8 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeamDAO teamDAO;
     private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final AttendanceDAO attendanceDAO;
-    private TeacherDAO teacherDAO;
     private final RoundDAO roundDAO;
+    private TeacherDAO teacherDAO;
 
     @Autowired
     public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
@@ -151,11 +150,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     /**
-     *@author lyf
+     * @author lyf
      */
     @Override
-    public boolean addRound(Round round) {
-        return roundDAO.addRound(round);
+    public void addRound(String courseId) {
+        roundDAO.addRound(courseId);
     }
 
     /**
@@ -186,7 +185,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public void deleteSeminarById(String seminarId){
+    public void deleteSeminarById(String seminarId) {
         seminarDAO.deleteById(seminarId);
     }
 
@@ -212,7 +211,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean updateTeam(String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
-        team.setValid(true);
         return teamDAO.update(team);
     }
 
@@ -231,7 +229,6 @@ public class TeacherServiceImpl implements TeacherService {
     public boolean updateReportScore(int reportScore, String klassSeminarId) {
         List<Attendance> attendances = attendanceDAO.getByKlassSeminarId(klassSeminarId);
         for (Attendance a : attendances) {
-            a.setReportScore(reportScore);
             boolean flag = attendanceDAO.update(a);
             if (!flag) {
                 return false;

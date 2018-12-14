@@ -1,20 +1,21 @@
-package seminar.pojo.vo;
+package seminar.pojo.dto;
 
 import seminar.entity.Klass;
 
 /**
  * @author Cesare
  */
-public class KlassCreateVO {
-    private String gradeNum;
-    private String klassNum;
+public class KlassCreateDTO {
+    private Integer gradeNum;
+    private Integer klassNum;
     private String klassTime;
     private String location;
     private String courseId;
 
     public Klass getKlass() {
         Klass klass = new Klass();
-        klass.setKlassName(gradeNum + "-" + klassNum);
+        klass.setGrade(gradeNum);
+        klass.setSerial(klassNum);
         klass.setTime(klassTime);
         klass.setLocation(location);
         klass.setCourseId(courseId);
@@ -27,19 +28,19 @@ public class KlassCreateVO {
                 + " location:" + location + " courseId:" + courseId;
     }
 
-    public String getGradeNum() {
+    public Integer getGradeNum() {
         return gradeNum;
     }
 
-    public void setGradeNum(String gradeNum) {
+    public void setGradeNum(Integer gradeNum) {
         this.gradeNum = gradeNum;
     }
 
-    public String getKlassNum() {
+    public Integer getKlassNum() {
         return klassNum;
     }
 
-    public void setKlassNum(String klassNum) {
+    public void setKlassNum(Integer klassNum) {
         this.klassNum = klassNum;
     }
 

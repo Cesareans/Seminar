@@ -6,9 +6,7 @@ import seminar.dao.*;
 import seminar.entity.*;
 import seminar.service.SeminarService;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * @author Cesare

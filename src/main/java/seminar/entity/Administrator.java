@@ -9,6 +9,7 @@ import cesare.mybatis.annotations.TargetPackage;
  * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper")
+@SqlMap("admin")
 public class Administrator {
     @ID(isIncrement = true)
     private String id;

@@ -1,9 +1,5 @@
 package seminar.controller;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +17,6 @@ import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -119,11 +114,12 @@ public class IndexController {
     }
 
     @GetMapping("/upload")
-    public String upload(){
+    public String upload() {
         return "upload";
     }
+
     @PostMapping("/upload")
-    public ResponseEntity<Object> fileUpload(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<Object> fileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
             XSSFSheet sheet = workbook.getSheetAt(i);

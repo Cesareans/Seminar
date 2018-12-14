@@ -1,8 +1,5 @@
 package seminar.logger;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -11,9 +8,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 public class DebugLogger {
     private static ObjectMapper objectMapper = new ObjectMapper();
+
     static {
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
+
     public static void log(String message) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + message);
@@ -38,7 +37,7 @@ public class DebugLogger {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
         try {
             System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }

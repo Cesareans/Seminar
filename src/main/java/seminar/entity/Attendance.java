@@ -1,9 +1,6 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
 /**
  * @author Cesare
@@ -12,12 +9,15 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Attendance {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("team_order")
     private int sn;
-    private String preFile;
+    @SqlMap("is_present")
     private boolean presenting;
+    @SqlMap("ppt_name")
+    private String preFile;
+    @SqlMap("report_name")
     private String reportFile;
-    private int preScore;
-    private int reportScore;
+
     @Gist
     private String teamId;
     @Gist
@@ -33,7 +33,7 @@ public class Attendance {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Attendance)) {
+        if (!(obj instanceof Attendance)) {
             return false;
         }
         return id.equals(((Attendance) obj).id);
@@ -77,22 +77,6 @@ public class Attendance {
 
     public void setReportFile(String reportFile) {
         this.reportFile = reportFile;
-    }
-
-    public int getPreScore() {
-        return preScore;
-    }
-
-    public void setPreScore(int preScore) {
-        this.preScore = preScore;
-    }
-
-    public int getReportScore() {
-        return reportScore;
-    }
-
-    public void setReportScore(int reportScore) {
-        this.reportScore = reportScore;
     }
 
     public String getTeamId() {

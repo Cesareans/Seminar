@@ -8,8 +8,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import seminar.entity.*;
-import seminar.pojo.vo.KlassCreateVO;
+import seminar.entity.Course;
+import seminar.entity.Klass;
+import seminar.entity.KlassSeminar;
+import seminar.entity.Teacher;
+import seminar.pojo.dto.KlassCreateDTO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -41,10 +44,10 @@ public class TeacherController {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
-        if(teacher.isActivated()) {
+        if (teacher.isActivated()) {
             model.addAttribute("teacher", teacher);
             return "teacher/index";
-        }else{
+        } else {
             return "redirect:/teacher/activation";
         }
     }
@@ -150,7 +153,8 @@ public class TeacherController {
      * Todo[cesare]: Remain to br realized
      */
     @PutMapping("/course")
-    public @ResponseBody ResponseEntity<Object> courseCreate(Course course) {
+    public @ResponseBody
+    ResponseEntity<Object> courseCreate(Course course) {
         return null;
     }
 
@@ -164,7 +168,8 @@ public class TeacherController {
     }
 
     @PostMapping("/course/round/add")
-    public @ResponseBody ResponseEntity<Object> addRound(String courseId) {
+    public @ResponseBody
+    ResponseEntity<Object> addRound(String courseId) {
         teacherService.addRound(courseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -197,10 +202,19 @@ public class TeacherController {
     /**
      * Todo: Remain to be realize
      */
-    @GetMapping("/course/seminar/grade")
+    @PostMapping("/course/seminar/grade")
     public String seminarGrade() {
         return "teacher/course/seminar/grade";
     }
+
+    /**
+     * Todo: Remain to be realize
+     */
+    @PostMapping("/course/share")
+    public String seminarShare(String courseId) {
+        return "teacher/course/seminar/share";
+    }
+
 
     @PostMapping("/course/seminar/progressing")
     public String seminarProgressing(String klassSeminarId, Model model) {
@@ -208,7 +222,6 @@ public class TeacherController {
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
         return "teacher/course/seminar/progressing";
     }
-
 
     @PostMapping("/course/klassList")
     public String klassList(String courseId, Model model, HttpSession session) {
@@ -223,7 +236,7 @@ public class TeacherController {
 
     @PutMapping("/course/klass")
     public @ResponseBody
-    ResponseEntity<Object> createKlass(@RequestBody KlassCreateVO vo) {
+    ResponseEntity<Object> createKlass(@RequestBody KlassCreateDTO vo) {
         Klass klass = vo.getKlass();
         if (teacherService.createKlass(klass)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -248,8 +261,8 @@ public class TeacherController {
     /**
      * Todo: Remain to be realize
      */
-    @GetMapping("/course/grade")
-    public String grade() {
+    @PostMapping("/course/grade")
+    public String grade(String courseId) {
         return "teacher/course/grade";
     }
 }

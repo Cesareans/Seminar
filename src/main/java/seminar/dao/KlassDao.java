@@ -2,10 +2,10 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Klass;
 import seminar.entity.Course;
-import seminar.mapper.KlassMapper;
+import seminar.entity.Klass;
 import seminar.mapper.CourseMapper;
+import seminar.mapper.KlassMapper;
 
 import java.util.List;
 
@@ -49,8 +49,7 @@ public class KlassDao {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(klass.getCourseId());
         if (klasses.isEmpty()) {
             return false;
-        }
-        else {
+        } else {
             for (Klass c : klasses) {
                 if (c.getKlassName().equals(klass.getKlassName())) {
                     klassMapper.updateKlass(klass);

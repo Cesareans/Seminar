@@ -19,9 +19,9 @@ public class SeminarMonitor {
     private Map<Attendance, List<QuestionScore>> askedQuestion;
     private QuestionPool questionPool;
 
-    private Map<String , Team> studentNumTeamMap;
+    private Map<String, Team> studentNumTeamMap;
 
-    public void init(){
+    public void init() {
         questionPool = new QuestionPool();
         studentNumTeamMap = new HashMap<>(teams.size() * 5);
         teams.forEach(team -> {
