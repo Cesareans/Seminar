@@ -2,7 +2,6 @@ package seminar.service;
 
 import seminar.entity.Klass;
 import seminar.entity.Course;
-import seminar.entity.Round;
 import seminar.entity.Seminar;
 import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
@@ -79,7 +78,7 @@ public interface TeacherService {
     /**
      * @author lyf
      */
-    boolean updateCourse(Course course);
+    boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation);
 
     /**
      * @author lyf
@@ -97,12 +96,12 @@ public interface TeacherService {
     void deleteKlassById(String klassId);
 
     /**
-     * create a new round in a course
-     * @author lyf
-     * @param round
-     * @return true or false
+     * Add a course's round.
+     *
+     * @author cesare
+     * @param courseId refer gist
      */
-    boolean addRound(Round round);
+    void addRound(String courseId);
 
     /**
      * @author lyf
@@ -118,12 +117,6 @@ public interface TeacherService {
      * @author lyf
      */
     void deleteSeminarByRoundId(String courseId);
-
-    /**
-     * @author lyf
-     * @param seminarId  the seminar id
-     */
-    public void deleteSeminarById(String seminarId);
 
     /**
      * Create a new TeamShareMsg

@@ -15,6 +15,7 @@ public class Student {
     @Gist
     private String studentName;
     @Gist
+    @SqlMap("account")
     private String studentNum;
     private String password;
     private String email;

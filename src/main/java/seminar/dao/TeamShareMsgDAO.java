@@ -3,8 +3,6 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.message.TeamShareMsg;
-import seminar.entity.share.TeamShare;
-import seminar.mapper.TeamShareMapper;
 import seminar.mapper.TeamShareMsgMapper;
 
 import java.util.List;
@@ -15,26 +13,16 @@ import java.util.List;
 @Component
 public class TeamShareMsgDAO {
     private final TeamShareMsgMapper teamShareMsgMapper;
-    private final TeamShareMapper teamShareMapper;
 
     @Autowired
-    private TeamShareMsgDAO(TeamShareMsgMapper teamShareMsgMapper, TeamShareMapper teamShareMapper) {
+    private TeamShareMsgDAO(TeamShareMsgMapper teamShareMsgMapper) {
         this.teamShareMsgMapper = teamShareMsgMapper;
-        this.teamShareMapper = teamShareMapper;
     }
 
     /**
      * The course which is a subordinateCourse can't send and receive a seminar share message
      */
     public boolean create(TeamShareMsg teamShareMsg) {
-        List<TeamShare> teamShares = teamShareMapper.selectAllTeamShare();
-        for (TeamShare t : teamShares) {
-            if (t.getSubordinateCourseId().equals(teamShareMsg.getPrincipalCourseId())) {
-                return false;
-            } else if (t.getSubordinateCourseId().equals(teamShareMsg.getSubordinateCourseId())) {
-                return false;
-            }
-        }
         teamShareMsgMapper.insertTeamShareMsg(teamShareMsg);
         return true;
     }

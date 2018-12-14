@@ -52,7 +52,7 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row flex-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <form class="form" id="createKlassForm">
                     <input hidden name="courseId" value="${courseId}" title="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
@@ -68,41 +68,18 @@
                                    class="form-control empty-verify" data-emptyMessage="请输入班级">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="introCard" class="card form-card dropdown-card">
-                                <div class="card-body">
-                                    <div class="body-header">
-                                        <div class="body-title">班级简介</div>
-                                        <div class="flex-center">
-                                            <div class="triangle downward"></div>
-                                        </div>
-                                    </div>
-                                    <div class="body-content">
-                                        <hr>
-                                        <div class="line">
-                                            <label for="klassTime">讨论课时间</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="klassTime" name="klassTime" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="line">
-                                            <label for="location">讨论课地点</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="location" name="location" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div class="container">
+                        <div class="form-group bmd-form-group">
+                            <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="讨论课时间"
+                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="form-group bmd-form-group">
+                            <input id="location" name="location" type="text" autocomplete="off" placeholder="讨论课地点"
+                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
                         </div>
                     </div>
                     <div class="row">
@@ -130,7 +107,8 @@
         </button>
     </div>
     <div class="right-button">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/klass'" style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/klassList'"
+                style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>

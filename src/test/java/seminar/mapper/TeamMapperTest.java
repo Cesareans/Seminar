@@ -20,4 +20,9 @@ public class TeamMapperTest {
     public void selectTeamById() {
         DebugLogger.logJson(teamMapper.selectTeamById("111").get(0));
     }
+
+    @Test
+    public void selectTeamByCourseId() {
+        DebugLogger.logJson(teamMapper.selectTeamByCourseId("112"));
+    }
 }

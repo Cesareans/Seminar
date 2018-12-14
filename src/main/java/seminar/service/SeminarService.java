@@ -9,10 +9,10 @@ import java.util.List;
  */
 public interface SeminarService {
     /**
-     * Get a course's klasss via courseId
+     * Get a course's klass via courseId
      *
      * @param courseId refer gist
-     * @return list of course's klasss
+     * @return list of course's klass
      * @author cesare
      */
     public List<Klass> getKlassByCourseId(String courseId);

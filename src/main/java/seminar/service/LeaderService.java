@@ -10,25 +10,4 @@ import java.util.List;
  */
 public interface LeaderService {
 
-    /**
-     *
-     * @author Xinyu Shi
-     * @param teamId
-     * @param studentId
-     * @return
-     */
-    public boolean addGroupMember(String courseId, String teamId, String studentId);
-
-    /**
-     * @author Xinyu Shi
-     * @param teamId
-     */
-    public void submitReviewRequest(String teamId);
-
-    /**
-     * @author Xinyu Shi
-     * @param teamId
-     * @param studentId
-     */
-    public void deleteGroupMember(String courseId, String teamId, String studentId);
 }
