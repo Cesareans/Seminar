@@ -33,8 +33,9 @@ public class KlassDao {
     public boolean create(Klass klass) {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(klass.getCourseId());
         for (Klass c : klasses) {
-            if (c.getKlassName().equals(klass.getKlassName()))
+            if (c.getKlassName().equals(klass.getKlassName())) {
                 return false;
+            }
         }
 
         klassMapper.insertKlass(klass);
@@ -46,7 +47,9 @@ public class KlassDao {
      */
     public boolean update(Klass klass) {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(klass.getCourseId());
-        if (klasses.isEmpty()) return false;
+        if (klasses.isEmpty()) {
+            return false;
+        }
         else {
             for (Klass c : klasses) {
                 if (c.getKlassName().equals(klass.getKlassName())) {

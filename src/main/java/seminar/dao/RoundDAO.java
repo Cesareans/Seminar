@@ -23,21 +23,15 @@ public class RoundDAO {
         return roundMapper.selectRoundByCourseId(courseId);
     }
 
-    public void addRound(String courseId){
-        roundMapper.addRound(courseId);
-    }
     /**
      * @author lyf
+     * @param round
+     * @return boolean
      */
-    public boolean create(Round round) {
+    public boolean addRound(Round round){
         List<Round> rounds = roundMapper.selectRoundByCourseId(round.getCourseId());
-        if (rounds.isEmpty()) {
-            roundMapper.insertRound(round);
-            return true;
-        }
-
-        for (Round r : rounds) {
-            if (r.getRoundNum().equals(round.getRoundNum())) {
+        for(Round r:rounds){
+            if(r.getRoundNum().equals(round.getRoundNum())) {
                 return false;
             }
         }
@@ -52,7 +46,8 @@ public class RoundDAO {
         List<Round> rounds = roundMapper.selectRoundById(round.getId());
         if (rounds.isEmpty()) {
             return false;
-        } else {
+        }
+        else {
             roundMapper.updateRound(round);
             return true;
         }

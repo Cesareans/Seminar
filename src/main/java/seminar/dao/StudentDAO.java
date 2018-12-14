@@ -25,7 +25,8 @@ public class StudentDAO {
         if (students.isEmpty()) {
             studentMapper.insertStudent(student);
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -34,7 +35,8 @@ public class StudentDAO {
         List<Student> students = studentMapper.selectStudentById(student.getId());
         if (students.isEmpty()) {
             return false;
-        } else {
+        }
+        else {
             studentMapper.updateStudent(student);
             return true;
         }
