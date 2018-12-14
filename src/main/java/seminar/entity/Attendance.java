@@ -26,6 +26,19 @@ public class Attendance {
     @Link(gist = "teamId", select = "seminar.mapper.TeamMapper.selectTeamById", lazy = false)
     private Team team;
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Attendance)) {
+            return false;
+        }
+        return id.equals(((Attendance) obj).id);
+    }
+
     public String getId() {
         return id;
     }

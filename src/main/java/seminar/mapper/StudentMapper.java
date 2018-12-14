@@ -18,7 +18,7 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be inserted
      */
-    @Insert("insert into student(student_name, student_num, password, email, is_activated) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{activated})")
+    @Insert("insert into student(student_name, account, password, email, is_active) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{activated})")
     void insertStudent(Student student);
 
     /**
@@ -26,7 +26,7 @@ public interface StudentMapper {
      *
      * @param student the Student entity that will be updated via the id
      */
-    @Update("update student set student_name=#{studentName}, student_num=#{studentNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
+    @Update("update student set student_name=#{studentName}, account=#{studentNum}, password=#{password}, email=#{email}, is_active=#{activated} where id=#{id}")
     void updateStudent(Student student);
 
     /**
@@ -38,10 +38,10 @@ public interface StudentMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
+            @Result(property = "activated", column = "is_active")
     })
     List<Student> selectAllStudent();
 
@@ -55,10 +55,10 @@ public interface StudentMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
+            @Result(property = "activated", column = "is_active")
     })
     List<Student> selectStudentByStudentName(String studentName);
 
@@ -68,14 +68,14 @@ public interface StudentMapper {
      * @param studentNum the select gist
      * @return List<student> the selected Student entity as list
      */
-    @Select("select * from student where student_num=#{studentNum}")
+    @Select("select * from student where account=#{studentNum}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
+            @Result(property = "activated", column = "is_active")
     })
     List<Student> selectStudentByStudentNum(String studentNum);
 
@@ -89,10 +89,10 @@ public interface StudentMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
+            @Result(property = "activated", column = "is_active")
     })
     List<Student> selectStudentById(String id);
 
@@ -109,7 +109,7 @@ public interface StudentMapper {
      *
      * @param studentNum the select gist
      */
-    @Delete("delete from student where student_num=#{studentNum}")
+    @Delete("delete from student where account=#{studentNum}")
     void deleteStudentByStudentNum(String studentNum);
 
     /**
@@ -119,23 +119,5 @@ public interface StudentMapper {
      */
     @Delete("delete from student where id=#{id}")
     void deleteStudentById(String id);
-
-    /**
-     * Select all student entities which not join in any teams of the course via courseId
-     *
-     * @param courseId the select gist
-     * @return List<Student> the selected Student entity as list
-     * @author SWJ
-     */
-    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where klass_id in(select id from klass where course_id=#{courseId})))")
-    @Results({
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
-    })
-    List<Student> selectStudentWithoutTeamByCourseId(String courseId);
 
 }

@@ -6,7 +6,9 @@ import seminar.dao.*;
 import seminar.entity.*;
 import seminar.service.SeminarService;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Cesare
@@ -50,6 +52,11 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Attendance> getEnrollListByKsId(String ksId) {
+        return klassSeminarDAO.getEnrollList(ksId);
+    }
+
+    @Override
     public List<Seminar> getSeminarsByRoundId(String roundId) {
         return seminarDAO.getByRoundId(roundId);
     }
@@ -61,7 +68,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId) {
-        return klassSeminarDAO.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        return klassSeminarDAO.getByKlassSeminarId(klassSeminarId);
     }
 
     @Override
@@ -77,13 +84,5 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Course> getCourseByCourseId(String courseId) {
         return courseDAO.getByCourseId(courseId);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public List<Student> getStudentWithoutTeam(String courseId) {
-        return studentDAO.getStudentWithoutTeamByCourseId(courseId);
     }
 }

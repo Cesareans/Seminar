@@ -19,7 +19,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/klassList'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">创建班级</div>
@@ -54,7 +54,7 @@
         <div class="row flex-center">
             <div class="col-md-8">
                 <form class="form" id="createKlassForm">
-                    <input hidden name="courseId" value="${courseId}" title="">
+                    <input hidden id="courseId" name="courseId" title="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
@@ -107,13 +107,16 @@
         </button>
     </div>
     <div class="right-button">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/klassList'"
-                style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>
     </div>
 </div>
+
+<form id="returnForm" action="/teacher/course/klassList" method="post">
+    <input id="returnCourseId" name="courseId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

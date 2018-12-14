@@ -67,11 +67,4 @@ public class StudentDAO {
     public void deleteBySN(String sn) {
         studentMapper.deleteStudentByStudentNum(sn);
     }
-
-    /**
-     * @author SWJ
-     */
-    public List<Student> getStudentWithoutTeamByCourseId(String courseId) {
-        return studentMapper.selectStudentWithoutTeamByCourseId(courseId);
-    }
 }

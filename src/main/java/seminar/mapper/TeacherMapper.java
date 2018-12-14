@@ -19,7 +19,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be inserted
      */
-    @Insert("insert into teacher(teacher_name, teacher_num, password, email, is_activated) values(#{teacherName}, #{teacherNum}, #{password}, #{email}, #{activated})")
+    @Insert("insert into teacher(teacher_name, account, password, email, is_active) values(#{teacherName}, #{teacherNum}, #{password}, #{email}, #{activated})")
     void insertTeacher(Teacher teacher);
 
     /**
@@ -27,7 +27,7 @@ public interface TeacherMapper {
      *
      * @param teacher the Teacher entity that will be updated via the id
      */
-    @Update("update teacher set teacher_name=#{teacherName}, teacher_num=#{teacherNum}, password=#{password}, email=#{email}, is_activated=#{activated} where id=#{id}")
+    @Update("update teacher set teacher_name=#{teacherName}, account=#{teacherNum}, password=#{password}, email=#{email}, is_active=#{activated} where id=#{id}")
     void updateTeacher(Teacher teacher);
 
     /**
@@ -39,10 +39,10 @@ public interface TeacherMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "teacherName", column = "teacher_name"),
-            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "teacherNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "activated", column = "is_active"),
             @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectAllTeacher();
@@ -57,10 +57,10 @@ public interface TeacherMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "teacherName", column = "teacher_name"),
-            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "teacherNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "activated", column = "is_active"),
             @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectTeacherByTeacherName(String teacherName);
@@ -71,14 +71,14 @@ public interface TeacherMapper {
      * @param teacherNum the select gist
      * @return List<teacher> the selected Teacher entity as list
      */
-    @Select("select * from teacher where teacher_num=#{teacherNum}")
+    @Select("select * from teacher where account=#{teacherNum}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "teacherName", column = "teacher_name"),
-            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "teacherNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "activated", column = "is_active"),
             @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectTeacherByTeacherNum(String teacherNum);
@@ -93,10 +93,10 @@ public interface TeacherMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "teacherName", column = "teacher_name"),
-            @Result(property = "teacherNum", column = "teacher_num"),
+            @Result(property = "teacherNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated"),
+            @Result(property = "activated", column = "is_active"),
             @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.CourseMapper.selectCourseByTeacherId", fetchType = FetchType.LAZY))
     })
     List<Teacher> selectTeacherById(String id);
@@ -114,7 +114,7 @@ public interface TeacherMapper {
      *
      * @param teacherNum the select gist
      */
-    @Delete("delete from teacher where teacher_num=#{teacherNum}")
+    @Delete("delete from teacher where account=#{teacherNum}")
     void deleteTeacherByTeacherNum(String teacherNum);
 
     /**

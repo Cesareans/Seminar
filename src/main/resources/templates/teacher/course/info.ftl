@@ -11,20 +11,6 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script>
-        var ksIdForm;
-        $(function () {
-            ksIdForm = $("#ksIdForm");
-            $("#enrollBtn").click(function () {
-                ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
-                ksIdForm.submit();
-            });
-            $("#enterSeminar").click(function () {
-                ksIdForm.attr("action", "/teacher/course/seminar/progressing");
-                ksIdForm.submit();
-            })
-        });
-    </script>
     <title>课程信息</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -64,7 +50,7 @@
 <div class="container" style="margin-top: 40px">
     <div class="row">
         <div class="col-md-10 ml-auto mr-auto">
-            <div class="card seminar-card">
+            <div class="card seminar-card" style="height: 77%;">
                 <div class="card-header">
                     <div class="container flex-center">
                         <h4 class="card-title">${course.courseName}</h4>

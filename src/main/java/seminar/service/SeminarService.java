@@ -36,6 +36,14 @@ public interface SeminarService {
     public List<Round> getRoundsByCourseId(String courseId);
 
     /**
+     * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
+     * @param ksId the refer gist
+     * @return the class seminar's enroll list.
+     * @author cesare
+     */
+    public List<Attendance> getEnrollListByKsId(String ksId);
+
+    /**
      * @param roundId
      * @return
      * @author Xinyu Shi
@@ -57,15 +65,4 @@ public interface SeminarService {
      * @author lyf
      */
     public List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId);
-
-    /**
-     * Get all student without team in the same course which belong to same teacher
-     *
-     * @param courseId refer gist
-     * @return List of student entity
-     * @author SWJ
-     */
-    public List<Student> getStudentWithoutTeam(String courseId);
-
-
 }

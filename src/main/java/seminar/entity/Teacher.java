@@ -15,9 +15,11 @@ public class Teacher {
     @Gist
     private String teacherName;
     @Gist
+    @SqlMap("account")
     private String teacherNum;
     private String password;
     private String email;
+    @SqlMap("is_active")
     private boolean activated;
 
     @Link(gist = "id", select = "seminar.mapper.CourseMapper.selectCourseByTeacherId")

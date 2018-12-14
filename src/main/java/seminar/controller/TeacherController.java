@@ -8,15 +8,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import seminar.entity.*;
 import seminar.pojo.vo.KlassCreateVO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * @author Cesare
@@ -44,8 +41,12 @@ public class TeacherController {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute("teacherId", teacher.getId());
-        model.addAttribute("teacher", teacher);
-        return "teacher/index";
+        if(teacher.isActivated()) {
+            model.addAttribute("teacher", teacher);
+            return "teacher/index";
+        }else{
+            return "redirect:/teacher/activation";
+        }
     }
 
     @PostMapping("/captcha/{type}")
@@ -78,7 +79,7 @@ public class TeacherController {
 
 
     @GetMapping("/setting")
-    public String option(Model model) {
+    public String setting(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
@@ -133,7 +134,7 @@ public class TeacherController {
     /**
      * Todo: Remains to be deepen designed
      */
-    @GetMapping("/course/info")
+    @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "teacher/course/info";
@@ -149,25 +150,74 @@ public class TeacherController {
      * Todo[cesare]: Remain to br realized
      */
     @PutMapping("/course")
-    public @ResponseBody
-    ResponseEntity<Object> courseCreate(Course course) {
+    public @ResponseBody ResponseEntity<Object> courseCreate(Course course) {
         return null;
     }
 
-    @GetMapping("/course/klassList")
-    public String klassList(String courseId, Model model, HttpSession session) {
-        if (courseId == null) {
-            courseId = ((String) session.getAttribute("courseId"));
-        } else {
-            session.setAttribute("courseId", courseId);
+
+    @PostMapping("/course/seminarList")
+    public String seminarList(String courseId, Model model) {
+        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
+        model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
+
+        return "teacher/course/seminarList";
+    }
+
+    @PostMapping("/course/round/add")
+    public @ResponseBody ResponseEntity<Object> addRound(String courseId) {
+        teacherService.addRound(courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    /**
+     * Todo[Priority]: Remain to be realize,
+     */
+    @GetMapping("/course/seminar/create")
+    public String seminarCreate() {
+        return "teacher/course/seminar/create";
+    }
+
+    @PostMapping("/course/seminar/info")
+    public String seminarInfo(String klassId, String seminarId, Model model) {
+        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        if (klassSeminar.size() == 0) {
+            //TODO:need better code here.
+            throw new RuntimeException("No klass seminar");
         }
+        model.addAttribute("klassSeminar", klassSeminar.get(0));
+        return "teacher/course/seminar/info";
+    }
+
+    @PostMapping("/course/seminar/enrollList")
+    public String seminarEnrollList(String klassSeminarId, Model model) {
+        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
+        return "teacher/course/seminar/enrollList";
+    }
+
+    /**
+     * Todo: Remain to be realize
+     */
+    @GetMapping("/course/seminar/grade")
+    public String seminarGrade() {
+        return "teacher/course/seminar/grade";
+    }
+
+    @PostMapping("/course/seminar/progressing")
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
+        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
+        return "teacher/course/seminar/progressing";
+    }
+
+
+    @PostMapping("/course/klassList")
+    public String klassList(String courseId, Model model, HttpSession session) {
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
         return "teacher/course/klassList";
     }
 
     @GetMapping("/course/klass/create")
-    public String klassCreate(Model model, HttpSession session) {
-        model.addAttribute("courseId", session.getAttribute("courseId"));
+    public String klassCreate() {
         return "teacher/course/klass/create";
     }
 
@@ -189,92 +239,7 @@ public class TeacherController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-
-    @GetMapping("/course/seminarList")
-    public String seminarList(String courseId, Model model, HttpSession session) {
-        if (courseId == null) {
-            courseId = ((String) session.getAttribute("courseId"));
-        } else {
-            session.setAttribute("courseId", courseId);
-        }
-        model.addAttribute("courseId", courseId);
-        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
-        model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
-
-        return "teacher/course/seminarList";
-    }
-
-    @PostMapping("/course/round/add")
-    public @ResponseBody
-    ResponseEntity<Object> addRound(String courseId) {
-        teacherService.addRound(courseId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
-
-    /**
-     * Todo[Priority]: Remain to be realize,
-     */
-    @GetMapping("/course/seminar/create")
-    public String seminarCreate() {
-        return "teacher/course/seminar/create";
-    }
-
-    @GetMapping("/course/seminar/info")
-    public String seminarInfo(String klassId, String seminarId, String klassSeminarId, Model model) {
-        List<KlassSeminar> klassSeminar;
-        if(klassSeminarId == null) {
-            klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-        }else{
-            klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
-        }
-        if (klassSeminar.size() == 0) {
-            //TODO:need better code here.
-            throw new RuntimeException("No klass seminar");
-        }
-        model.addAttribute("klassSeminar", klassSeminar.get(0));
-        return "teacher/course/seminar/info";
-    }
-
-    @GetMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String klassSeminarId, Model model) {
-        //TODO:need exceptions handling here
-        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
-        List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
-            boolean isEnrolled = false;
-            for (Attendance attendance : klassSeminar.getAttendances()) {
-                if (attendance.getSn() == i) {
-                    isEnrolled = true;
-                    enrollList.add(attendance);
-                    break;
-                }
-            }
-            if (!isEnrolled) {
-                enrollList.add(null);
-            }
-        });
-        model.addAttribute("enrollList", enrollList);
-        return "teacher/course/seminar/enrollList";
-    }
-
-    /**
-     * Todo: Remain to be realize
-     */
-    @GetMapping("/course/seminar/grade")
-    public String seminarGrade() {
-        return "teacher/course/seminar/grade";
-    }
-
-    /**
-     * Todo[Priority]: Remain to be realize
-     */
-    @GetMapping("/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
-        model.addAttribute("ksId", klassSeminarId);
-        return "teacher/course/seminar/progressing";
-    }
-
-    @GetMapping("/course/teamList")
+    @PostMapping("/course/teamList")
     public String teamList(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         return "teacher/course/teamList";

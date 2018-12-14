@@ -15,6 +15,7 @@
         var ksIdForm;
         $(function () {
             ksIdForm=$("#ksIdForm");
+            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
             $("#enrollBtn").click(function () {
                 ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
                 ksIdForm.submit();
@@ -22,6 +23,9 @@
             $("#enterSeminar").click(function () {
                 ksIdForm.attr("action", "/teacher/course/seminar/progressing");
                 ksIdForm.submit();
+            });
+            $("#backBtn").click(function () {
+                $("#courseIdForm").submit();
             })
         });
     </script>
@@ -31,7 +35,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/teacher/course/seminarList'">
+            <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课信息</div>
@@ -113,8 +117,11 @@
     </div>
 </div>
 
-<form hidden id="ksIdForm" method="get">
+<form hidden id="ksIdForm" method="post">
     <input id="ksIdInput" name="klassSeminarId" title="" value="${klassSeminar.id}">
+</form>
+<form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
+    <input id="courseIdInput" name="courseId" title="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
