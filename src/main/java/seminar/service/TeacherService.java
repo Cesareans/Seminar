@@ -1,5 +1,6 @@
 package seminar.service;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.entity.Seminar;
@@ -80,9 +81,23 @@ public interface TeacherService {
     boolean updateCourse(Course course);
 
     /**
+     * Create a klass with given klass info.
+     *
+     * @param klass the klass entity
+     * @return whether the create is successful.
      * @author lyf
      */
     boolean createKlass(Klass klass);
+
+    /**
+     * Insert students into klass with given workbook.
+     * The klass's property-id is required.
+     *
+     * @param klass The klass that we will insert students into
+     * @param workbook the students workbook.
+     * @author cesare
+     */
+    void insertKlassStudent(Klass klass, Workbook workbook);
 
     /**
      * @author lyf

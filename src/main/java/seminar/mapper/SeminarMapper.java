@@ -19,6 +19,7 @@ public interface SeminarMapper {
      * @param seminar the Seminar entity that will be inserted
      */
     @Insert("insert into seminar(seminar_name, introduction, seminar_serial, max_team, is_visible, enroll_start_time, enroll_end_time, round_id, course_id) values(#{theme}, #{content}, #{serial}, #{maxTeam}, #{visible}, #{enrollStartDate}, #{enrollEndDate}, #{roundId}, #{courseId})")
+    @Options(useGeneratedKeys = true)
     void insertSeminar(Seminar seminar);
 
     /**

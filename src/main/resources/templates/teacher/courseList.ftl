@@ -133,7 +133,7 @@
     </#if>
 </div>
 <form hidden id="courseIdForm" method="post">
-    <input id="courseIdInput" name="courseId" title="">
+    <input id="courseIdInput" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

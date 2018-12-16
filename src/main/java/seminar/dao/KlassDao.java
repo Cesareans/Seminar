@@ -6,6 +6,7 @@ import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.mapper.CourseMapper;
 import seminar.mapper.KlassMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 
 import java.util.List;
 
@@ -16,11 +17,13 @@ import java.util.List;
 public class KlassDao {
     private final KlassMapper klassMapper;
     private final CourseMapper courseMapper;
+    private final KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public KlassDao(KlassMapper klassMapper, CourseMapper courseMapper) {
+    public KlassDao(KlassMapper klassMapper, CourseMapper courseMapper, KlassStudentMapper klassStudentMapper) {
         this.klassMapper = klassMapper;
         this.courseMapper = courseMapper;
+        this.klassStudentMapper = klassStudentMapper;
     }
 
     public List<Klass> getByCourseId(String courseId) {
@@ -61,6 +64,13 @@ public class KlassDao {
     }
 
     /**
+     * @author cesare
+     */
+    public List<Klass> getById(String id) {
+        return klassMapper.selectKlassById(id);
+    }
+
+    /**
      * @author lyf
      */
     public boolean deleteById(String klassId) {
@@ -68,6 +78,7 @@ public class KlassDao {
         if (klasses.isEmpty()) {
             return false;
         } else {
+            klassStudentMapper.deleteKlassStudents(klassId);
             klassMapper.deleteKlassById(klassId);
             return true;
         }
@@ -84,6 +95,22 @@ public class KlassDao {
             klassMapper.deleteKlassByCourseId(courseId);
             return true;
         }
+    }
+
+    /**
+     * TODO: Here we just delete all students previously in the klass, ignoring the team. May lead bugs afterwards.
+     *
+     * @author cesare
+     */
+    public void deleteStudents(String klassId) {
+        klassStudentMapper.deleteKlassStudents(klassId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public void insertStudent(String studentId, String courseId, String klassId) {
+        klassStudentMapper.insertStudentIntoKlass(courseId, klassId, studentId);
     }
 
 }

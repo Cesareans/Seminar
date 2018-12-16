@@ -20,6 +20,7 @@ public interface RoundMapper {
      * @param round the Round entity that will be inserted
      */
     @Insert("insert into round(round_serial, presentation_score_method, report_score_method, question_score_method, course_id) values(#{roundNum}, #{presentationScoreMethod}, #{reportScoreMethod}, #{questionScoreMethod}, #{courseId})")
+    @Options(useGeneratedKeys = true)
     void insertRound(Round round);
 
     /**
@@ -106,4 +107,5 @@ public interface RoundMapper {
      */
     @Insert("insert into round(round_num, course_id) select max(round_num) + 1,course_id from round where course_id = #{courseId}")
     void addRound(String courseId);
+
 }

@@ -1,5 +1,8 @@
 package seminar.controller;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import seminar.config.SeminarConfig;
 import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.entity.KlassSeminar;
@@ -16,6 +21,7 @@ import seminar.pojo.dto.KlassCreateDTO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,14 +35,16 @@ public class TeacherController {
     private final SeminarService seminarService;
     private final CaptchaService captchaService;
     private final MailService mailService;
+    private final FileService fileService;
 
     @Autowired
-    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService) {
+    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService) {
         this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
         this.mailService = mailService;
+        this.fileService = fileService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -150,7 +158,7 @@ public class TeacherController {
     }
 
     /**
-     * Todo[cesare]: Remain to br realized
+     * Todo[cesare]: Remain to be realized
      */
     @PutMapping("/course")
     public @ResponseBody
@@ -236,13 +244,36 @@ public class TeacherController {
 
     @PutMapping("/course/klass")
     public @ResponseBody
-    ResponseEntity<Object> createKlass(@RequestBody KlassCreateDTO vo) {
+    ResponseEntity<Object> createKlass(KlassCreateDTO vo, @RequestParam("file") MultipartFile multipartFile) throws IOException {
         Klass klass = vo.getKlass();
+        Workbook workbook;
+        String type = fileService.getFileType(multipartFile);
+        if (type.equals(SeminarConfig.WorkBookType.HSSF.getType())) {
+            workbook = new HSSFWorkbook(multipartFile.getInputStream());
+        } else if (type.equals(SeminarConfig.WorkBookType.XSSF.getType())) {
+            workbook = new XSSFWorkbook(multipartFile.getInputStream());
+        } else {
+            //TODO:Exception handling here
+            throw new RuntimeException();
+        }
         if (teacherService.createKlass(klass)) {
+            teacherService.insertKlassStudent(klass, workbook);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
+    }
+
+    @PostMapping("/course/klass/insertStudents")
+    public ResponseEntity<Object> insertStudents(@RequestParam("file") MultipartFile multipartFile, String klassId) throws IOException {
+        String type = fileService.getFileType(multipartFile);
+        Klass klass = seminarService.getKlassById(klassId).get(0);
+        if (type.equals(SeminarConfig.WorkBookType.HSSF.getType())) {
+            teacherService.insertKlassStudent(klass, new HSSFWorkbook(multipartFile.getInputStream()));
+        } else if (type.equals(SeminarConfig.WorkBookType.XSSF.getType())) {
+            teacherService.insertKlassStudent(klass, new XSSFWorkbook(multipartFile.getInputStream()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @DeleteMapping("/course/klass/{klassId}")

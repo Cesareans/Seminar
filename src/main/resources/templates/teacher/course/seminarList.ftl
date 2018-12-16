@@ -167,11 +167,11 @@
 </div>
 </#list>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId" title="">
-    <input id="klassIdInput" name="klassId" title="">
+    <input id="seminarIdInput" name="seminarId">
+    <input id="klassIdInput" name="klassId">
 </form>
 <form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId" title="">
+    <input id="courseIdInput" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

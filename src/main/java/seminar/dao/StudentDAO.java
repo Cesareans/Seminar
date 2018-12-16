@@ -2,6 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.mapper.StudentMapper;
 import seminar.pojo.dto.StudentFilter;
@@ -18,6 +19,22 @@ public class StudentDAO {
     @Autowired
     public StudentDAO(StudentMapper studentMapper) {
         this.studentMapper = studentMapper;
+    }
+
+    /**
+     * Need previously check if the student is new.
+     * Only need two attr here:studentNum and studentName
+     *
+     * @param student
+     */
+    public void insertNewStudent(Student student) {
+        student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
+        student.setActivated(false);
+        studentMapper.insertStudent(student);
+    }
+
+    public boolean existStudent(Student student) {
+        return !studentMapper.selectStudentByStudentNum(student.getStudentNum()).isEmpty();
     }
 
     public boolean create(Student student) {

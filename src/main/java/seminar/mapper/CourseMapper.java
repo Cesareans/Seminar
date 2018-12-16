@@ -19,6 +19,7 @@ public interface CourseMapper {
      * @param course the Course entity that will be inserted
      */
     @Insert("insert into course(course_name, introduction, presentation_percentage, report_percentage, question_percentage, team_start_time, team_end_time, teacher_id, team_main_course_id, seminar_main_course_id) values(#{courseName}, #{introduction}, #{prePercentage}, #{reportPercentage}, #{quesPercentage}, #{teamStartDate}, #{teamEndDate}, #{teacherId}, #{teamMainCourseId}, #{seminarMainCourseId})")
+    @Options(useGeneratedKeys = true)
     void insertCourse(Course course);
 
     /**

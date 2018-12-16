@@ -19,6 +19,7 @@ public interface AdministratorMapper {
      * @param administrator the Administrator entity that will be inserted
      */
     @Insert("insert into admin(account, password) values(#{adminName}, #{password})")
+    @Options(useGeneratedKeys = true)
     void insertAdministrator(Administrator administrator);
 
     /**

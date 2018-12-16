@@ -18,6 +18,15 @@ public interface SeminarService {
     List<Klass> getKlassByCourseId(String courseId);
 
     /**
+     * Get a course's klass via klassId
+     *
+     * @param klassId refer gist
+     * @return list of course's klass
+     * @author cesare
+     */
+    List<Klass> getKlassById(String klassId);
+
+    /**
      * Get a course's teams via courseId
      *
      * @param courseId refer gist

@@ -20,6 +20,7 @@ public interface KlassSeminarMapper {
      * @param klassSeminar the KlassSeminar entity that will be inserted
      */
     @Insert("insert into klass_seminar(seminar_status, report_ddl, klass_id, seminar_id) values(#{state}, #{reportDeadline}, #{klassId}, #{seminarId})")
+    @Options(useGeneratedKeys = true)
     void insertKlassSeminar(KlassSeminar klassSeminar);
 
     /**

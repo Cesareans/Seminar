@@ -19,6 +19,7 @@ public interface KlassMapper {
      * @param klass the Klass entity that will be inserted
      */
     @Insert("insert into klass(grade, klass_serial, klass_time, klass_location, course_id) values(#{grade}, #{serial}, #{time}, #{location}, #{courseId})")
+    @Options(useGeneratedKeys = true)
     void insertKlass(Klass klass);
 
     /**

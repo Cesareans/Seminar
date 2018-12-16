@@ -1,18 +1,37 @@
-package seminar.mapper;
+package seminar.mapper.relation;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import seminar.entity.Student;
 
 import java.util.List;
 
 /**
+ * The mapper is for klass student relation mapper.
+ * The relation table's fields is listed below.
+ * {courseId, klassId, teamId, studentId}
+ *
  * @author Cesare
  */
 @Mapper
 public interface KlassStudentMapper {
+    /**
+     * Insert a student into klass without team
+     *
+     * @param courseId  the redundant courseId information
+     * @param klassId   the klass's id, which the student will be inserted into
+     * @param studentId the student's id
+     */
+    @Insert("insert into klass_student(course_id, klass_id, team_id, student_id) values(#{courseId}, #{klassId}, 0, #{studentId})")
+    void insertStudentIntoKlass(@Param("courseId") String courseId,
+                                @Param("klassId") String klassId,
+                                @Param("studentId") String studentId);
+
+    /**
+     * Delete all students in a klass
+     */
+    @Delete("delete from klass_student where klass_id=#{klassId}")
+    void deleteKlassStudents(String klassId);
+
     /**
      * Select a Team's all students via teamId
      *
@@ -48,4 +67,5 @@ public interface KlassStudentMapper {
             @Result(property = "activated", column = "is_active")
     })
     List<Student> selectNotTeamedStudentsByCourseId(String courseId);
+
 }

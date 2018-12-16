@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -52,5 +53,16 @@ public class FileServiceImpl implements FileService {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public String getFileType(MultipartFile file) {
+        String fileName = Objects.requireNonNull(file.getOriginalFilename());
+        int typeIdx = fileName.lastIndexOf('.') + 1;
+        if (typeIdx <= 0) {
+            //TODO:Exception handling here
+            throw new RuntimeException();
+        }
+        return fileName.substring(typeIdx).toLowerCase();
     }
 }

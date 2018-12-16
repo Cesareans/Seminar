@@ -147,7 +147,7 @@
 </div>
 
 <form hidden id="returnForm" action="/teacher/course/seminarList" method="post">
-    <input id="returnCourseId" name="courseId" title="">
+    <input id="returnCourseId" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

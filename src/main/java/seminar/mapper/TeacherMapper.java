@@ -20,6 +20,7 @@ public interface TeacherMapper {
      * @param teacher the Teacher entity that will be inserted
      */
     @Insert("insert into teacher(teacher_name, account, password, email, is_active) values(#{teacherName}, #{teacherNum}, #{password}, #{email}, #{activated})")
+    @Options(useGeneratedKeys = true)
     void insertTeacher(Teacher teacher);
 
     /**

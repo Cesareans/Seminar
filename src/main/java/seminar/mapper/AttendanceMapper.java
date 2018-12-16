@@ -20,6 +20,7 @@ public interface AttendanceMapper {
      * @param attendance the Attendance entity that will be inserted
      */
     @Insert("insert into attendance(team_order, is_present, ppt_name, report_name, team_id, klass_seminar_id) values(#{sn}, #{presenting}, #{preFile}, #{reportFile}, #{teamId}, #{klassSeminarId})")
+    @Options(useGeneratedKeys = true)
     void insertAttendance(Attendance attendance);
 
     /**

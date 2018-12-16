@@ -40,6 +40,11 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Klass> getKlassById(String klassId) {
+        return klassDao.getById(klassId);
+    }
+
+    @Override
     public List<Team> getTeamsByCourseId(String courseId) {
         return teamDAO.getCourseTeamsByCourseId(courseId);
     }

@@ -53,4 +53,12 @@ public interface FileService {
      * @author Cesare
      */
     void deleteAll();
+
+    /**
+     * Get the file type of a multipart file.
+     *
+     * @param file the multipart file
+     * @return the type of the multipart file
+     */
+    String getFileType(MultipartFile file);
 }

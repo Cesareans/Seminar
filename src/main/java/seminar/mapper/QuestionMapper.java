@@ -19,6 +19,7 @@ public interface QuestionMapper {
      * @param question the Question entity that will be inserted
      */
     @Insert("insert into question(score, team_id, student_id, attendance_id, klass_seminar_id) values(#{score}, #{teamId}, #{studentId}, #{attendanceId}, #{klassSeminarId})")
+    @Options(useGeneratedKeys = true)
     void insertQuestion(Question question);
 
     /**

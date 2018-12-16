@@ -19,6 +19,7 @@ public interface StudentMapper {
      * @param student the Student entity that will be inserted
      */
     @Insert("insert into student(student_name, account, password, email, is_active) values(#{studentName}, #{studentNum}, #{password}, #{email}, #{activated})")
+    @Options(useGeneratedKeys = true)
     void insertStudent(Student student);
 
     /**

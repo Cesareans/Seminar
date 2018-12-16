@@ -19,6 +19,7 @@ public interface MaxMinRegulationMapper {
      * @param maxMinRegulation the MaxMinRegulation entity that will be inserted
      */
     @Insert("insert into max_min_regulation(min, max, course_id) values(#{min}, #{max}, #{courseId})")
+    @Options(useGeneratedKeys = true)
     void insertMaxMinRegulation(MaxMinRegulation maxMinRegulation);
 
     /**

@@ -1,5 +1,8 @@
 package seminar.service.implement;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
@@ -26,10 +29,11 @@ public class TeacherServiceImpl implements TeacherService {
     private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final AttendanceDAO attendanceDAO;
     private final RoundDAO roundDAO;
-    private TeacherDAO teacherDAO;
+    private final TeacherDAO teacherDAO;
+    private final StudentDAO studentDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -41,6 +45,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.seminarShareMsgDAO = seminarShareMsgDAO;
         this.attendanceDAO = attendanceDAO;
         this.roundDAO = roundDAO;
+        this.studentDAO = studentDAO;
     }
 
     @Override
@@ -131,6 +136,31 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean createKlass(Klass klass) {
         return klassDAO.create(klass);
+    }
+
+    /**
+     * @author Cesare
+     */
+    @Override
+    public void insertKlassStudent(Klass klass, Workbook workbook) {
+        Student student = new Student();
+        klassDAO.deleteStudents(klass.getId());
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
+                Row row = sheet.getRow(j);
+                if (row.getCell(0).getStringCellValue().length() == 0) {
+                    continue;
+                }
+                student.setStudentNum(row.getCell(0).getStringCellValue().trim());
+                student.setStudentName(row.getCell(1).getStringCellValue().trim());
+                if (!studentDAO.existStudent(student)) {
+                    studentDAO.insertNewStudent(student);
+                }
+                student = studentDAO.getBySN(student.getStudentNum()).get(0);
+                klassDAO.insertStudent(student.getId(), klass.getCourseId(), klass.getId());
+            }
+        }
     }
 
     /**
