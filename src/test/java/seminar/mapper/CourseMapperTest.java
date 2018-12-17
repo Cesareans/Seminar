@@ -19,6 +19,10 @@ public class CourseMapperTest {
     private CourseMapper courseMapper;
 
     @Test
+    public void selectCourseById(){
+        DebugLogger.logJson(courseMapper.selectCourseById(null));
+    }
+    @Test
     public void selectCourseByTeacherNumTest(){
         List<Course> courses = courseMapper.selectCourseByTeacherId("1234");
         DebugLogger.logJson(courses);

@@ -215,11 +215,10 @@ public class TeacherController {
         return "teacher/course/seminar/grade";
     }
 
-    /**
-     * Todo: Remain to be realize
-     */
     @PostMapping("/course/share")
-    public String seminarShare(String courseId) {
+    public String seminarShare(String courseId, Model model) {
+        model.addAttribute("mainCourse", seminarService.getMainCourses(courseId));
+        model.addAttribute("subCourse", seminarService.getSubCourses(courseId));
         return "teacher/course/seminar/share";
     }
 
@@ -232,7 +231,7 @@ public class TeacherController {
     }
 
     @PostMapping("/course/klassList")
-    public String klassList(String courseId, Model model, HttpSession session) {
+    public String klassList(String courseId, Model model) {
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
         return "teacher/course/klassList";
     }

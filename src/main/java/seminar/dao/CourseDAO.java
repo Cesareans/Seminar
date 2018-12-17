@@ -22,13 +22,34 @@ public class CourseDAO {
         this.maxMinRegulationMapper = maxMinRegulationMapper;
     }
 
+    /**
+     * @author cesare
+     */
     public List<Course> getByCourseId(String courseId) {
         return courseMapper.selectCourseById(courseId);
     }
 
+    /**
+     * @author cesare
+     */
     public List<Course> getByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
+
+    /**
+     * @author cesare
+     */
+    public List<Course> getBySeminarMainCourseId(String seminarMainCourseId){
+        return courseMapper.selectCourseBySeminarMainCourseId(seminarMainCourseId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public List<Course> getByTeamMainCourseId(String teamMainCourseId){
+        return courseMapper.selectCourseByTeamMainCourseId(teamMainCourseId);
+    }
+
 
     /**
      * @author lyf

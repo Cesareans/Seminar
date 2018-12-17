@@ -3,11 +3,57 @@ package seminar.service;
 import seminar.entity.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cesare
  */
 public interface SeminarService {
+    /**
+     * Get a course via course ID
+     * @param courseId the refer gist
+     * @return the course
+     */
+    List<Course> getCourseByCourseId(String courseId);
+
+    /**
+     * Get the main courses of a course via its courseId
+     * @param courseId the refer gist
+     * @return the main courses' map
+     * - team:team share main courses
+     * - seminar:seminar share main courses.
+     */
+    Map<String, List<Course>> getMainCourses(String courseId);
+
+    /**
+     * Get the sub courses of a course via its courseId
+     * @param courseId the refer gist
+     * @return the main courses' map
+     * - team:team share sub courses
+     * - seminar:seminar share sub courses.
+     */
+    Map<String, List<Course>> getSubCourses(String courseId);
+
+    /**
+     * [Shared]
+     * Get a course's teams via courseId
+     *
+     * @param courseId refer gist
+     * @return list of course's teams
+     * @author cesare
+     */
+    List<Team> getTeamsByCourseId(String courseId);
+
+    /**
+     * [Shared]
+     * Get a course's rounds via courseId
+     *
+     * @param courseId refer gist
+     * @return list of course's rounds
+     * @author cesare
+     */
+    List<Round> getRoundsByCourseId(String courseId);
+
     /**
      * Get a course's klass via courseId
      *
@@ -25,24 +71,6 @@ public interface SeminarService {
      * @author cesare
      */
     List<Klass> getKlassById(String klassId);
-
-    /**
-     * Get a course's teams via courseId
-     *
-     * @param courseId refer gist
-     * @return list of course's teams
-     * @author cesare
-     */
-    List<Team> getTeamsByCourseId(String courseId);
-
-    /**
-     * Get a course's rounds via courseId
-     *
-     * @param courseId refer gist
-     * @return list of course's rounds
-     * @author cesare
-     */
-    List<Round> getRoundsByCourseId(String courseId);
 
     /**
      * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
@@ -64,7 +92,6 @@ public interface SeminarService {
 
     List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId);
 
-    List<Course> getCourseByCourseId(String courseId);
 
     /**
      * @author lyf

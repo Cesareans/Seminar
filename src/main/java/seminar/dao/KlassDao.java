@@ -78,7 +78,9 @@ public class KlassDao {
         if (klasses.isEmpty()) {
             return false;
         } else {
+            //先删除班级成员
             klassStudentMapper.deleteKlassStudents(klassId);
+            //再删除班级对象
             klassMapper.deleteKlassById(klassId);
             return true;
         }

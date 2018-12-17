@@ -150,10 +150,21 @@
                                 </#list>
                             </div>
                             <div class="container">
-                                <#list klasses as klass>
-                                <button type="button" class="btn btn-round bg-dark klass-btn"
+                                <#if klasses?size == 0>
+                                    <div class="empty-tag" style="height: 200px;padding-top: 20px;">
+                                        <div class="info">
+                                            <div class="icon icon-rose flex-center">
+                                                <i class="material-icons color-grey">portable_wifi_off</i>
+                                            </div>
+                                            <h4 class="info-title">这里空荡荡的</h4>
+                                        </div>
+                                    </div>
+                                <#else >
+                                    <#list klasses as klass>
+                                        <button type="button" class="btn btn-round bg-dark klass-btn"
                                         data-klassId="${klass.id}">${klass.klassName}</button>
-                                </#list>
+                                    </#list>
+                                </#if>
                                 <hr>
                                 <button type="button" class="btn btn-round bg-dark" style="width: 100%">设置</button>
                             </div>
