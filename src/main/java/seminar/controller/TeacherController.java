@@ -13,16 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
-import seminar.entity.Course;
-import seminar.entity.Klass;
-import seminar.entity.KlassSeminar;
-import seminar.entity.Teacher;
+import seminar.entity.*;
+import seminar.entity.relation.KlassRound;
 import seminar.pojo.dto.KlassCreateDTO;
+import seminar.pojo.dto.RoundSettingDTO;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cesare
@@ -36,6 +37,8 @@ public class TeacherController {
     private final CaptchaService captchaService;
     private final MailService mailService;
     private final FileService fileService;
+
+    private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
     public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService) {
@@ -51,7 +54,7 @@ public class TeacherController {
     public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
-        session.setAttribute("teacherId", teacher.getId());
+        session.setAttribute(TEACHER_ID_GIST, teacher.getId());
         if (teacher.isActivated()) {
             model.addAttribute("teacher", teacher);
             return "teacher/index";
@@ -78,13 +81,15 @@ public class TeacherController {
     public @ResponseBody
     ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
         String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
-
         if (captcha.equals(senderCaptcha)) {
-            teacherService.activate(((String) session.getAttribute("teacherId")), password, email);
-            session.removeAttribute("activationCaptcha");
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            if(teacherService.activate(((String) session.getAttribute(TEACHER_ID_GIST)), password, email)){
+                session.removeAttribute("activationCaptcha");
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            }else{
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("教师不存在");
+            }
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("验证码错误");
         }
     }
 
@@ -175,19 +180,75 @@ public class TeacherController {
         return "teacher/course/seminarList";
     }
 
-    @PostMapping("/course/round/add")
-    public @ResponseBody
-    ResponseEntity<Object> addRound(String courseId) {
-        teacherService.addRound(courseId);
+    @PostMapping("/course/round/setting")
+    public String roundSetting(String roundId, Model model){
+        Round round = seminarService.getRoundByRoundId(roundId).get(0);
+        Map<String, Klass> klassMap = new HashMap<>(5);
+        round.getKlassRounds().forEach(klassRound -> {
+            klassMap.put(klassRound.getKlassId(), seminarService.getKlassById(klassRound.getKlassId()).get(0));
+        });
+        model.addAttribute("klassMap", klassMap);
+        model.addAttribute("round", round);
+        return "teacher/course/roundSetting";
+    }
+
+    @PostMapping("/course/round/setting/update")
+    public @ResponseBody ResponseEntity<Object> updateRoundSetting(@RequestBody RoundSettingDTO roundSettingDTO){
+        Round round = roundSettingDTO.getRound();
+        List<KlassRound> klassRounds = roundSettingDTO.getKlassRounds();
+
+        teacherService.updateRoundScoreType(round);
+        klassRounds.forEach(teacherService::updateKlassRound);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PostMapping("/course/seminar/create")
+    public String seminarCreate(String courseId, Model model) {
+        Integer maxSerial = seminarService.getMaxSeminarSerialByCourseId(courseId);
+        model.addAttribute("maxSerial", maxSerial);
+        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
+        return "teacher/course/seminar/create";
+    }
+
+    @PutMapping("/course/seminar")
+    public ResponseEntity<Object> createSeminar(@RequestBody Seminar seminar){
+        Round round = new Round();
+        round.setCourseId(seminar.getCourseId());
+        if(seminar.getRoundId().length() == 0){
+            teacherService.addRound(round);
+            seminar.setRoundId(round.getId());
+        }
+        teacherService.createSeminar(seminar);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PostMapping("/course/seminar/option")
+    public String seminarOption(String seminarId, Model model){
+        Seminar seminar = seminarService.getSeminarBySeminarId(seminarId).get(0);
+        model.addAttribute("seminar", seminar);
+        model.addAttribute("rounds", seminarService.getRoundsByCourseId(seminar.getCourseId()));
+        return "teacher/course/seminar/option";
+    }
+
+    @PatchMapping("/course/seminar")
+    public ResponseEntity<Object> updateSeminar(@RequestBody Seminar seminar){
+        Round round = new Round();
+        if(seminar.getRoundId().length() == 0){
+            round.setCourseId(seminar.getCourseId());
+            teacherService.addRound(round);
+            seminar.setRoundId(round.getId());
+        }
+        teacherService.updateSeminar(seminar);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
-     * Todo[Priority]: Remain to be realize,
+     * TODO:Should delete the klass seminar
      */
-    @GetMapping("/course/seminar/create")
-    public String seminarCreate() {
-        return "teacher/course/seminar/create";
+    @DeleteMapping("/course/seminar/{seminarId}")
+    public ResponseEntity<Object> deleteSeminar(@PathVariable String seminarId){
+        teacherService.deleteSeminarById(seminarId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/seminar/info")
@@ -214,14 +275,6 @@ public class TeacherController {
     public String seminarGrade() {
         return "teacher/course/seminar/grade";
     }
-
-    @PostMapping("/course/share")
-    public String seminarShare(String courseId, Model model) {
-        model.addAttribute("mainCourse", seminarService.getMainCourses(courseId));
-        model.addAttribute("subCourse", seminarService.getSubCourses(courseId));
-        return "teacher/course/seminar/share";
-    }
-
 
     @PostMapping("/course/seminar/progressing")
     public String seminarProgressing(String klassSeminarId, Model model) {
@@ -294,5 +347,13 @@ public class TeacherController {
     @PostMapping("/course/grade")
     public String grade(String courseId) {
         return "teacher/course/grade";
+    }
+
+
+    @PostMapping("/course/share")
+    public String seminarShare(String courseId, Model model) {
+        model.addAttribute("mainCourse", seminarService.getMainCoursesByCourseId(courseId));
+        model.addAttribute("subCourse", seminarService.getSubCoursesByCourseId(courseId));
+        return "teacher/course/seminar/share";
     }
 }

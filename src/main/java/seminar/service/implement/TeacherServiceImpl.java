@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
-import seminar.entity.message.GroupValidityMsg;
-import seminar.entity.message.SeminarShareMsg;
-import seminar.entity.message.TeamShareMsg;
+import seminar.entity.application.ShareSeminarApplication;
+import seminar.entity.application.ShareTeamApplication;
+import seminar.entity.application.TeamValidApplication;
+import seminar.entity.relation.KlassRound;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -31,9 +32,10 @@ public class TeacherServiceImpl implements TeacherService {
     private final RoundDAO roundDAO;
     private final TeacherDAO teacherDAO;
     private final StudentDAO studentDAO;
+    private final KlassRoundDAO klassRoundDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -46,6 +48,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.attendanceDAO = attendanceDAO;
         this.roundDAO = roundDAO;
         this.studentDAO = studentDAO;
+        this.klassRoundDAO = klassRoundDAO;
     }
 
     @Override
@@ -183,8 +186,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public void addRound(String courseId) {
-        roundDAO.addRound(courseId);
+    public void addRound(Round round) {
+        roundDAO.addRound(round);
     }
 
     /**
@@ -201,6 +204,20 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean updateSeminar(Seminar seminar) {
         return seminarDAO.update(seminar);
+    }
+
+    @Override
+    public boolean updateRoundScoreType(Round typeRound) {
+        Round round = roundDAO.getByRoundId(typeRound.getId()).get(0);
+        round.setPreScoreType(typeRound.getPreScoreType());
+        round.setQuesScoreType(typeRound.getQuesScoreType());
+        round.setReportScoreType(typeRound.getReportScoreType());
+        return roundDAO.update(round);
+    }
+
+    @Override
+    public boolean updateKlassRound(KlassRound klassRound) {
+        return klassRoundDAO.update(klassRound);
     }
 
     /**
@@ -223,15 +240,15 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createTeamShareMsg(TeamShareMsg teamShareMsg) {
-        return teamShareMsgDAO.create(teamShareMsg);
+    public boolean createTeamShareMsg(ShareTeamApplication shareTeamApplication) {
+        return teamShareMsgDAO.create(shareTeamApplication);
     }
 
     /**
      * @author SWJ
      */
     @Override
-    public List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId) {
+    public List<TeamValidApplication> getGroupValidityMsgByTeacherId(String teacherId) {
         return groupValidityMsgDAO.getByTeacherId(teacherId);
     }
 
@@ -248,8 +265,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg) {
-        return seminarShareMsgDAO.create(seminarShareMsg);
+    public boolean createSeminarShareMsg(ShareSeminarApplication shareSeminarApplication) {
+        return seminarShareMsgDAO.create(shareSeminarApplication);
     }
 
     /**

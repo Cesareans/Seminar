@@ -154,8 +154,13 @@
     width: 100%;
 }
 
-.card-body .line label {
+.card-body .line label:not(.form-check-label) {
     width: 100px; /*fixation of the course card*/
+    margin-bottom: 0;
+}
+
+.card-body .line label.form-check-label {
+    width: 70px; /*fixation of the course card*/
     margin-bottom: 0;
 }
 
@@ -301,7 +306,7 @@
 
 /*Modal*/
 .modal .modal-dialog {
-    margin-top: 24%;
+    margin-top: 24vh;
 }
 
 .modal .modal-header {

@@ -11,6 +11,7 @@ import java.util.Map;
 public interface SeminarService {
     /**
      * Get a course via course ID
+     *
      * @param courseId the refer gist
      * @return the course
      */
@@ -18,21 +19,62 @@ public interface SeminarService {
 
     /**
      * Get the main courses of a course via its courseId
+     *
      * @param courseId the refer gist
      * @return the main courses' map
      * - team:team share main courses
      * - seminar:seminar share main courses.
      */
-    Map<String, List<Course>> getMainCourses(String courseId);
+    Map<String, List<Course>> getMainCoursesByCourseId(String courseId);
 
     /**
      * Get the sub courses of a course via its courseId
+     *
      * @param courseId the refer gist
      * @return the main courses' map
      * - team:team share sub courses
      * - seminar:seminar share sub courses.
      */
-    Map<String, List<Course>> getSubCourses(String courseId);
+    Map<String, List<Course>> getSubCoursesByCourseId(String courseId);
+
+
+    /**
+     * [Shared]
+     * Get a course's rounds via courseId
+     *
+     * @param courseId refer gist
+     * @return list of course's rounds
+     * @author cesare
+     */
+    List<Round> getRoundsByCourseId(String courseId);
+
+    /**
+     * Get a round via roundId
+     *
+     * @param roundId the refer gist
+     * @return the round with the roundId
+     * @author cesare
+     */
+    List<Round> getRoundByRoundId(String roundId);
+
+
+
+    /**
+     * Get the max seminar serial of a course
+     *
+     * @param courseId the refer gist
+     * @return the max seminar serial
+     */
+    int getMaxSeminarSerialByCourseId(String courseId);
+
+    /**
+     * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
+     *
+     * @param ksId the refer gist
+     * @return the class seminar's enroll list.
+     * @author cesare
+     */
+    List<Attendance> getEnrollListByKsId(String ksId);
 
     /**
      * [Shared]
@@ -44,15 +86,6 @@ public interface SeminarService {
      */
     List<Team> getTeamsByCourseId(String courseId);
 
-    /**
-     * [Shared]
-     * Get a course's rounds via courseId
-     *
-     * @param courseId refer gist
-     * @return list of course's rounds
-     * @author cesare
-     */
-    List<Round> getRoundsByCourseId(String courseId);
 
     /**
      * Get a course's klass via courseId
@@ -72,34 +105,55 @@ public interface SeminarService {
      */
     List<Klass> getKlassById(String klassId);
 
+
     /**
-     * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
+     * Get the seminar via seminar id
      *
-     * @param ksId the refer gist
-     * @return the class seminar's enroll list.
+     * @param seminarId the refer gist
+     * @return the seminar with the seminar id
      * @author cesare
      */
-    List<Attendance> getEnrollListByKsId(String ksId);
+    List<Seminar> getSeminarBySeminarId(String seminarId);
 
     /**
-     * @param roundId
-     * @return
-     * @author Xinyu Shi
+     * Get the klassSeminar via klassSeminar id
+     *
+     * @param klassSeminarId the refer gist
+     * @return the klassSeminar with the id
+     * @author cesare
      */
-    List<Seminar> getSeminarsByRoundId(String roundId);
-
-    List<Seminar> getSeminarBySeminarId(String klassSeminarId);
-
     List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId);
 
 
     /**
+     * Get the klass seminar via klass id and seminar id.
+     *
+     * @param klassId   the first refer gist
+     * @param seminarId the second refer gist
+     * @return the klassSeminar with the union gist.
      * @author lyf
      */
     List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
 
     /**
+     * Get the attendance at the klassSeminar with given klassSeminarId
+     *
+     * @param klassSeminarId the refer gist
+     * @return the attendance at the klassSeminar.
      * @author lyf
+     * @deprecated the attendances are fetched at the KlassSeminar.
      */
+    @Deprecated
     List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId);
+
+    /**
+     * Get the seminar of a round.
+     *
+     * @param roundId the refer gist
+     * @return the seminar of the round
+     * @author Xinyu Shi
+     * @deprecated Because the seminars are fetched in the round entity.
+     */
+    @Deprecated
+    List<Seminar> getSeminarsByRoundId(String roundId);
 }

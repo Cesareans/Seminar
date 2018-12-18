@@ -3,10 +3,12 @@ package seminar.service;
 import org.apache.poi.ss.usermodel.Workbook;
 import seminar.entity.Course;
 import seminar.entity.Klass;
+import seminar.entity.Round;
 import seminar.entity.Seminar;
-import seminar.entity.message.GroupValidityMsg;
-import seminar.entity.message.SeminarShareMsg;
-import seminar.entity.message.TeamShareMsg;
+import seminar.entity.application.ShareTeamApplication;
+import seminar.entity.application.TeamValidApplication;
+import seminar.entity.application.ShareSeminarApplication;
+import seminar.entity.relation.KlassRound;
 
 import java.util.List;
 
@@ -34,7 +36,6 @@ public interface TeacherService {
      * @author cesare
      */
     boolean modifyEmail(String teacherId, String email);
-
 
     /**
      * Modify a teacher's password when he/she forget his/her password
@@ -93,7 +94,7 @@ public interface TeacherService {
      * Insert students into klass with given workbook.
      * The klass's property-id is required.
      *
-     * @param klass The klass that we will insert students into
+     * @param klass    The klass that we will insert students into
      * @param workbook the students workbook.
      * @author cesare
      */
@@ -111,11 +112,12 @@ public interface TeacherService {
 
     /**
      * Direct add a new round to a course
+     * Only the courseId is used.
      *
-     * @param courseId the refer gist
+     * @param round the round
      * @author cesare
      */
-    void addRound(String courseId);
+    void addRound(Round round);
 
     /**
      * @author lyf
@@ -128,6 +130,22 @@ public interface TeacherService {
     boolean updateSeminar(Seminar seminar);
 
     /**
+     * Update score types of a round
+     * @param typeRound the new round. Round id and three score type is required.
+     * @return whether the operation is successful.
+     * @author cesare
+     */
+    boolean updateRoundScoreType(Round typeRound);
+
+    /**
+     * Update enroll limit of a round
+     * @param klassRound the new klassRound. Klass id and round id is referred. And new enroll limit is required.
+     * @return whether the operation is successful.
+     * @author cesare
+     */
+    boolean updateKlassRound(KlassRound klassRound);
+
+    /**
      * @author lyf
      */
     void deleteSeminarById(String seminarId);
@@ -138,13 +156,13 @@ public interface TeacherService {
     void deleteSeminarByRoundId(String courseId);
 
     /**
-     * Create a new TeamShareMsg
+     * Create a new ShareTeamApplication
      *
-     * @param teamShareMsg refer gist
+     * @param shareTeamApplication refer gist
      * @return success or fail
      * @author SWJ
      */
-    boolean createTeamShareMsg(TeamShareMsg teamShareMsg);
+    boolean createTeamShareMsg(ShareTeamApplication shareTeamApplication);
 
     /**
      * Check teacher's own groupValidityMsg
@@ -153,7 +171,7 @@ public interface TeacherService {
      * @return This teacher's all groupValidityMsg
      * @author SWJ
      */
-    List<GroupValidityMsg> getGroupValidityMsgByTeacherId(String teacherId);
+    List<TeamValidApplication> getGroupValidityMsgByTeacherId(String teacherId);
 
     /**
      * Agree this team's invalid state, update this team's valid
@@ -165,13 +183,13 @@ public interface TeacherService {
     boolean updateTeam(String teamId);
 
     /**
-     * Create a new seminarShareMsg
+     * Create a new shareSeminarApplication
      *
-     * @param seminarShareMsg refer gist
+     * @param shareSeminarApplication refer gist
      * @return success or fail
      * @author SWJ
      */
-    boolean createSeminarShareMsg(SeminarShareMsg seminarShareMsg);
+    boolean createSeminarShareMsg(ShareSeminarApplication shareSeminarApplication);
 
     /**
      * Updete the report score when teacher give score

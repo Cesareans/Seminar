@@ -42,7 +42,7 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public Map<String, List<Course>> getMainCourses(String courseId) {
+    public Map<String, List<Course>> getMainCoursesByCourseId(String courseId) {
         Course course = courseDAO.getByCourseId(courseId).get(0);
         Map<String, List<Course>> mainCourses = new HashMap<>(2);
         mainCourses.put("team", courseDAO.getByCourseId(course.getTeamMainCourseId()));
@@ -51,7 +51,7 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public Map<String, List<Course>> getSubCourses(String courseId) {
+    public Map<String, List<Course>> getSubCoursesByCourseId(String courseId) {
         Map<String, List<Course>> mainCourses = new HashMap<>(2);
         mainCourses.put("team", courseDAO.getByTeamMainCourseId(courseId));
         mainCourses.put("seminar", courseDAO.getBySeminarMainCourseId(courseId));
@@ -78,6 +78,15 @@ public class SeminarServiceImpl implements SeminarService {
         }
     }
 
+    @Override
+    public List<Round> getRoundByRoundId(String roundId) {
+        return roundDAO.getByRoundId(roundId);
+    }
+
+    @Override
+    public int getMaxSeminarSerialByCourseId(String courseId) {
+        return seminarDAO.getMaxSeminarSerial(courseId);
+    }
 
     @Override
     public List<Klass> getKlassByCourseId(String courseId) {

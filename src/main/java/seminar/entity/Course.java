@@ -1,6 +1,8 @@
 package seminar.entity;
 
 import cesare.mybatis.annotations.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import seminar.entity.regulation.RegulationComposition;
 
 import java.util.Date;
@@ -21,8 +23,10 @@ public class Course {
     @SqlMap("question_percentage")
     private int quesPercentage;
     @SqlMap("team_start_time")
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
     @SqlMap("team_end_time")
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
     @Gist
     private String teacherId;

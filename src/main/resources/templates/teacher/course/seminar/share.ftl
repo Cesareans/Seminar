@@ -53,26 +53,26 @@
         <div class="row">
             <#list subCourse.team as teamCourse>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">${teamCourse.courseName}</div>
-                            </div>
-                            <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>共享类型</label>
-                                <div class="sep"></div>
-                                <div class="content">共享分组</div>
-                            </div>
-                            <div class="line">
-                                <label>共享情况</label>
-                                <div class="sep"></div>
-                                <div class="content">主课程</div>
-                            </div>
-                        </div>
-                        </div>
+                <div class="card content-card">
+                <div class="card-body">
+                <div class="body-header">
+                <div class="body-title">${teamCourse.courseName}</div>
+                </div>
+                <div class="body-content">
+                    <hr>
+                    <div class="line">
+                        <label>共享类型</label>
+                        <div class="sep"></div>
+                        <div class="content">共享分组</div>
                     </div>
+                    <div class="line">
+                        <label>共享情况</label>
+                        <div class="sep"></div>
+                        <div class="content">主课程</div>
+                    </div>
+                </div>
+                </div>
+                </div>
                 </div>
             </#list>
             <#list subCourse.seminar as seminarCourse>
@@ -147,8 +147,8 @@
                 </div>
                 </div>
             </#list>
-            <div class="col-md-6">
-                <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-top: 10px;margin-bottom: 10px;">
+            <div class="col-lg-4 col-md-6">
+                <a class="btn bg-transparent add-card-btn" id="addRound" style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
                     <i class="material-icons add-icon">add_circle</i>
                 </a>
             </div>

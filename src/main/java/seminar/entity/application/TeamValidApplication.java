@@ -1,4 +1,4 @@
-package seminar.entity.message;
+package seminar.entity.application;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
@@ -7,8 +7,8 @@ import cesare.mybatis.annotations.TargetPackage;
 /**
  * @author SWJ
  */
-@TargetPackage(value = "seminar.mapper")
-public class GroupValidityMsg {
+@TargetPackage(value = "seminar.mapper.application")
+public class TeamValidApplication {
     @ID(isIncrement = true)
     private String id;
     private String content;

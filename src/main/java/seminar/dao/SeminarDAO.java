@@ -65,4 +65,7 @@ public class SeminarDAO {
     }
 
 
+    public int getMaxSeminarSerial(String courseId){
+        return seminarMapper.selectMaxSeminarSerial(courseId);
+    }
 }

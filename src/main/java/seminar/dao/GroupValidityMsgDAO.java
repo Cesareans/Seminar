@@ -2,8 +2,8 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.message.GroupValidityMsg;
-import seminar.mapper.GroupValidityMsgMapper;
+import seminar.entity.application.TeamValidApplication;
+import seminar.mapper.application.TeamValidApplicationMapper;
 
 import java.util.List;
 
@@ -12,50 +12,50 @@ import java.util.List;
  */
 @Component
 public class GroupValidityMsgDAO {
-    private final GroupValidityMsgMapper groupValidityMsgMapper;
+    private final TeamValidApplicationMapper teamValidApplicationMapper;
 
     @Autowired
-    public GroupValidityMsgDAO(GroupValidityMsgMapper groupValidityMsgMapper) {
-        this.groupValidityMsgMapper = groupValidityMsgMapper;
+    public GroupValidityMsgDAO(TeamValidApplicationMapper teamValidApplicationMapper) {
+        this.teamValidApplicationMapper = teamValidApplicationMapper;
     }
 
-    public void create(GroupValidityMsg groupValidityMsg) {
-        groupValidityMsgMapper.insertGroupValidityMsg(groupValidityMsg);
+    public void create(TeamValidApplication teamValidApplication) {
+        teamValidApplicationMapper.insertGroupValidityMsg(teamValidApplication);
     }
 
-    public boolean update(GroupValidityMsg groupValidityMsg) {
-        if (!groupValidityMsgMapper.selectGroupValidityMsgById(groupValidityMsg.getId()).isEmpty()) {
-            groupValidityMsgMapper.updateGroupValidityMsg(groupValidityMsg);
+    public boolean update(TeamValidApplication teamValidApplication) {
+        if (!teamValidApplicationMapper.selectGroupValidityMsgById(teamValidApplication.getId()).isEmpty()) {
+            teamValidApplicationMapper.updateGroupValidityMsg(teamValidApplication);
             return true;
         }
         return false;
     }
 
-    public List<GroupValidityMsg> getAll() {
-        return groupValidityMsgMapper.selectAllGroupValidityMsg();
+    public List<TeamValidApplication> getAll() {
+        return teamValidApplicationMapper.selectAllGroupValidityMsg();
     }
 
-    public List<GroupValidityMsg> getById(String id) {
-        return groupValidityMsgMapper.selectGroupValidityMsgById(id);
+    public List<TeamValidApplication> getById(String id) {
+        return teamValidApplicationMapper.selectGroupValidityMsgById(id);
     }
 
-    public List<GroupValidityMsg> getByTeacherId(String teacherId) {
-        return groupValidityMsgMapper.selectGroupValidityMsgByTeacherId(teacherId);
+    public List<TeamValidApplication> getByTeacherId(String teacherId) {
+        return teamValidApplicationMapper.selectGroupValidityMsgByTeacherId(teacherId);
     }
 
-    public List<GroupValidityMsg> getByTeamId(String teamId) {
-        return groupValidityMsgMapper.selectGroupValidityMsgByTeamId(teamId);
+    public List<TeamValidApplication> getByTeamId(String teamId) {
+        return teamValidApplicationMapper.selectGroupValidityMsgByTeamId(teamId);
     }
 
     public void deleteById(String id) {
-        groupValidityMsgMapper.deleteGroupValidityMsgById(id);
+        teamValidApplicationMapper.deleteGroupValidityMsgById(id);
     }
 
     public void deleteByTeacherId(String teacherId) {
-        groupValidityMsgMapper.deleteGroupValidityMsgByTeacherId(teacherId);
+        teamValidApplicationMapper.deleteGroupValidityMsgByTeacherId(teacherId);
     }
 
     public void deleteByTeamId(String teamId) {
-        groupValidityMsgMapper.deleteGroupValidityMsgByTeamId(teamId);
+        teamValidApplicationMapper.deleteGroupValidityMsgByTeamId(teamId);
     }
 }

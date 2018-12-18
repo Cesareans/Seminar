@@ -137,4 +137,11 @@ public interface SeminarMapper {
     @Delete("delete from seminar where id=#{id}")
     void deleteSeminarById(String id);
 
+    /**
+     * Get the max seminar serial of a course
+     * @param courseId the refer gist
+     * @return the max seminar serial
+     */
+    @Select("select max(seminar_serial) from seminar where course_id = #{courseId}")
+    int selectMaxSeminarSerial(String courseId);
 }

@@ -2,8 +2,8 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.message.SeminarShareMsg;
-import seminar.mapper.SeminarShareMsgMapper;
+import seminar.entity.application.ShareSeminarApplication;
+import seminar.mapper.application.ShareSeminarApplicationMapper;
 
 import java.util.List;
 
@@ -12,63 +12,63 @@ import java.util.List;
  */
 @Component
 public class SeminarShareMsgDAO {
-    private final SeminarShareMsgMapper seminarShareMsgMapper;
+    private final ShareSeminarApplicationMapper shareSeminarApplicationMapper;
 
     @Autowired
-    public SeminarShareMsgDAO(SeminarShareMsgMapper seminarShareMsgMapper) {
-        this.seminarShareMsgMapper = seminarShareMsgMapper;
+    public SeminarShareMsgDAO(ShareSeminarApplicationMapper shareSeminarApplicationMapper) {
+        this.shareSeminarApplicationMapper = shareSeminarApplicationMapper;
     }
 
     /**
      * The course which is a subordinateCourse can't send a seminar share message
      * Two courses must have same name
      */
-    public boolean create(SeminarShareMsg seminarShareMsg) {
-        seminarShareMsgMapper.insertSeminarShareMsg(seminarShareMsg);
+    public boolean create(ShareSeminarApplication shareSeminarApplication) {
+        shareSeminarApplicationMapper.insertSeminarShareMsg(shareSeminarApplication);
         return true;
     }
 
-    public boolean update(SeminarShareMsg seminarShareMsg) {
-        if (!seminarShareMsgMapper.selectSeminarShareMsgById(seminarShareMsg.getId()).isEmpty()) {
-            seminarShareMsgMapper.updateSeminarShareMsg(seminarShareMsg);
+    public boolean update(ShareSeminarApplication shareSeminarApplication) {
+        if (!shareSeminarApplicationMapper.selectSeminarShareMsgById(shareSeminarApplication.getId()).isEmpty()) {
+            shareSeminarApplicationMapper.updateSeminarShareMsg(shareSeminarApplication);
             return true;
         }
         return false;
     }
 
-    public List<SeminarShareMsg> getAll() {
-        return seminarShareMsgMapper.selectAllSeminarShareMsg();
+    public List<ShareSeminarApplication> getAll() {
+        return shareSeminarApplicationMapper.selectAllSeminarShareMsg();
     }
 
-    public List<SeminarShareMsg> getById(String id) {
-        return seminarShareMsgMapper.selectSeminarShareMsgById(id);
+    public List<ShareSeminarApplication> getById(String id) {
+        return shareSeminarApplicationMapper.selectSeminarShareMsgById(id);
     }
 
-    public List<SeminarShareMsg> getByPCourseId(String principalCourseId) {
-        return seminarShareMsgMapper.selectSeminarShareMsgByPrincipalCourseId(principalCourseId);
+    public List<ShareSeminarApplication> getByPCourseId(String principalCourseId) {
+        return shareSeminarApplicationMapper.selectSeminarShareMsgByPrincipalCourseId(principalCourseId);
     }
 
-    public List<SeminarShareMsg> getBySubCourseId(String subordinateCourseId) {
-        return seminarShareMsgMapper.selectSeminarShareMsgBySubordinateCourseId(subordinateCourseId);
+    public List<ShareSeminarApplication> getBySubCourseId(String subordinateCourseId) {
+        return shareSeminarApplicationMapper.selectSeminarShareMsgBySubordinateCourseId(subordinateCourseId);
     }
 
-    public List<SeminarShareMsg> getByTeacherId(String teacherId) {
-        return seminarShareMsgMapper.selectSeminarShareMsgByTeacherId(teacherId);
+    public List<ShareSeminarApplication> getByTeacherId(String teacherId) {
+        return shareSeminarApplicationMapper.selectSeminarShareMsgByTeacherId(teacherId);
     }
 
     public void deleteById(String id) {
-        seminarShareMsgMapper.deleteSeminarShareMsgById(id);
+        shareSeminarApplicationMapper.deleteSeminarShareMsgById(id);
     }
 
     public void deleteByPCourseId(String principalCourseId) {
-        seminarShareMsgMapper.deleteSeminarShareMsgByPrincipalCourseId(principalCourseId);
+        shareSeminarApplicationMapper.deleteSeminarShareMsgByPrincipalCourseId(principalCourseId);
     }
 
     public void deleteBySubCourseId(String subordinateCourseId) {
-        seminarShareMsgMapper.deleteSeminarShareMsgBySubordinateCourseId(subordinateCourseId);
+        shareSeminarApplicationMapper.deleteSeminarShareMsgBySubordinateCourseId(subordinateCourseId);
     }
 
     public void deleteByTeacherId(String teacherId) {
-        seminarShareMsgMapper.deleteSeminarShareMsgByTeacherId(teacherId);
+        shareSeminarApplicationMapper.deleteSeminarShareMsgByTeacherId(teacherId);
     }
 }

@@ -1,10 +1,10 @@
-var createSeminarForm;
+var updateSeminarForm;
 var datetimepicker;
 var roundIdInput;
 var roundNum;
 $(function () {
     datetimepicker = $(".datetimepicker");
-    createSeminarForm = $("#createSeminarForm");
+    updateSeminarForm = $("#updateSeminarForm");
     roundIdInput = $("#roundId");
     roundNum = $("#roundNum");
     datetimepicker.datetimepicker({
@@ -22,9 +22,7 @@ $(function () {
         }
     });
 
-    var courseId = sessionStorage.getItem("courseId");
-    $("#courseId").val(courseId);
-    $("#returnCourseId").val(courseId);
+    $("#returnCourseId").val(sessionStorage.getItem("courseId"));
 
     $(".cancel").click(back);
     $("#backBtn").click(back);
@@ -32,10 +30,10 @@ $(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
             $.ajax({
-                type: "put",
+                type: "patch",
                 url: "/teacher/course/seminar",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(createSeminarForm.serializeObject()),
+                data: JSON.stringify(updateSeminarForm.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
                         back();
@@ -54,8 +52,21 @@ $(function () {
         roundNum.html(item.html());
         roundIdInput.val(item.attr("data-roundId"))
     });
+    $("#deleteBtn").click(function () {
+        $.ajax({
+            type: "delete",
+            url: "/teacher/course/seminar/" + $("#id").val(),
+            success: function (result, status, xhr) {
+                if (xhr.status === 200) {
+                    back();
+                }
+            },
+            error: function () {
+                util.showAlert("danger", " 删除失败，未知错误", 3);
+            }
+        })
+    });
     datetimepicker.bind("focus",function () {
-        console.log($(this).parent());
         $(this).parent().addClass("on-date")
     });
     datetimepicker.bind("blur",function () {

@@ -51,37 +51,49 @@
     </div>
 </nav>
 <div class="left-side side-raised">
-<#list enrollList as enroll>
-    <#if enroll??>
-    <button class="btn btn-fab btn-round bg-dark btn-team">
-        ${enroll.team.serial}
-    </button>
-    </#if>
-</#list>
+    <#list enrollList as enroll>
+        <#if enroll??>
+            <button class="btn btn-fab btn-round bg-dark btn-team">
+            ${enroll.team.serial}
+            </button>
+        </#if>
+    </#list>
 </div>
 <div class="right-upper-side side-raised">
     <button class="btn btn-fab btn-round bg-dark btn-team" disabled>
-    5
+        5
     </button>
 </div>
 <div class="right-downer-side side-raised">
-<#list enrollList as enroll>
-    <#if enroll??>
-    <i>${enroll.team.teamName}</i>
-    </#if>
-</#list>
+    <#list enrollList as enroll>
+        <#if enroll??>
+            <i>${enroll.team.teamName}</i>
+        </#if>
+    </#list>
 </div>
-<div class="container foot-operation">
-    <button class="btn btn-fab btn-round bg-dark next-team">
+<div class="container foot-operation flex-space-between">
+    <button class="btn bg-dark btn-round">
         <i class="material-icons">
-            arrow_forward_ios
+            toll
         </i>
+        抽取提问
+    </button>
+    <button class="btn bg-dark btn-fab btn-round">
+        <i class="material-icons">
+            adjust
+        </i>
+    </button>
+    <button class="btn bg-dark btn-round">
+        <i class="material-icons">
+            arrow_forward
+        </i>
+        切换小组
     </button>
 </div>
 
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId">
-    <input id="klassIdInput" name="klassId">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

@@ -54,7 +54,7 @@
         <div class="row flex-center">
             <div class="col-md-8">
                 <form class="form" id="createKlassForm" enctype="multipart/form-data">
-                    <input hidden id="courseId" name="courseId">
+                    <input hidden id="courseId" name="courseId" placeholder="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
