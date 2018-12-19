@@ -36,6 +36,8 @@ public class Course {
     private String seminarMainCourseId;
 
     @Block
+    private Teacher teacher;
+    @Block
     private RegulationComposition regulationComposition;
 
     public String getId() {
@@ -110,14 +112,6 @@ public class Course {
         this.teacherId = teacherId;
     }
 
-    public RegulationComposition getRegulationComposition() {
-        return regulationComposition;
-    }
-
-    public void setRegulationComposition(RegulationComposition regulationComposition) {
-        this.regulationComposition = regulationComposition;
-    }
-
     public String getTeamMainCourseId() {
         return teamMainCourseId;
     }
@@ -132,5 +126,21 @@ public class Course {
 
     public void setSeminarMainCourseId(String seminarMainCourseId) {
         this.seminarMainCourseId = seminarMainCourseId;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public RegulationComposition getRegulationComposition() {
+        return regulationComposition;
+    }
+
+    public void setRegulationComposition(RegulationComposition regulationComposition) {
+        this.regulationComposition = regulationComposition;
     }
 }

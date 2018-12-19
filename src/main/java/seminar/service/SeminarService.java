@@ -18,6 +18,14 @@ public interface SeminarService {
     List<Course> getCourseByCourseId(String courseId);
 
     /**
+     * Get a course's other course via course id
+     *
+     * @param courseId the refer gist
+     * @return the other course of the course.
+     */
+    List<Course> getOtherCoursesByCourseId(String courseId);
+
+    /**
      * Get the main courses of a course via its courseId
      *
      * @param courseId the refer gist

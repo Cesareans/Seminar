@@ -1,12 +1,11 @@
 package seminar.entity.application;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.SqlMap;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
+import seminar.entity.Course;
+import seminar.entity.Teacher;
 
 /**
- * @author SWJ
+ * @author Cesare
  */
 @TargetPackage(value = "seminar.mapper.application")
 public class ShareTeamApplication {
@@ -15,11 +14,17 @@ public class ShareTeamApplication {
     @Gist
     @SqlMap("sub_course_teacher_id")
     private String teacherId;
-    @Gist
+    @Gist(unions = "subCourseId")
     private String mainCourseId;
     @Gist
     private String subCourseId;
-    private int status;
+
+    @Link(gist = "mainCourseId", select = "seminar.mapper.CourseMapper.selectCourseById")
+    private Course mainCourse;
+    @Link(gist = "subCourseId", select = "seminar.mapper.CourseMapper.selectCourseById")
+    private Course subCourse;
+    @Block
+    private Teacher mainTeacher;
 
     public String getId() {
         return id;
@@ -53,11 +58,27 @@ public class ShareTeamApplication {
         this.subCourseId = subCourseId;
     }
 
-    public int getStatus() {
-        return status;
+    public Course getMainCourse() {
+        return mainCourse;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setMainCourse(Course mainCourse) {
+        this.mainCourse = mainCourse;
+    }
+
+    public Course getSubCourse() {
+        return subCourse;
+    }
+
+    public void setSubCourse(Course subCourse) {
+        this.subCourse = subCourse;
+    }
+
+    public Teacher getMainTeacher() {
+        return mainTeacher;
+    }
+
+    public void setMainTeacher(Teacher mainTeacher) {
+        this.mainTeacher = mainTeacher;
     }
 }

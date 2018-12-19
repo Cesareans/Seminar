@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/notification'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -54,7 +54,7 @@
                 <div class="col-md-6 ml-auto mr-auto">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
+                            <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid" alt="">
                         </div>
                         <div class="name">
                             <h3 class="title">${teacher.teacherName}</h3>

@@ -42,6 +42,11 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Course> getOtherCoursesByCourseId(String courseId) {
+        return courseDAO.getOtherCoursesByCourseId(courseId);
+    }
+
+    @Override
     public Map<String, List<Course>> getMainCoursesByCourseId(String courseId) {
         Course course = courseDAO.getByCourseId(courseId).get(0);
         Map<String, List<Course>> mainCourses = new HashMap<>(2);

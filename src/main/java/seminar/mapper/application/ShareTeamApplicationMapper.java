@@ -1,6 +1,7 @@
 package seminar.mapper.application;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.application.ShareTeamApplication;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface ShareTeamApplicationMapper {
      *
      * @param shareTeamApplication the ShareTeamApplication entity that will be inserted
      */
-    @Insert("insert into share_team_application(sub_course_teacher_id, main_course_id, sub_course_id, status) values(#{teacherId}, #{mainCourseId}, #{subCourseId}, #{status})")
+    @Insert("insert into share_team_application(sub_course_teacher_id, main_course_id, sub_course_id) values(#{teacherId}, #{mainCourseId}, #{subCourseId})")
     @Options(useGeneratedKeys = true)
     void insertShareTeamApplication(ShareTeamApplication shareTeamApplication);
 
@@ -27,7 +28,7 @@ public interface ShareTeamApplicationMapper {
      *
      * @param shareTeamApplication the ShareTeamApplication entity that will be updated via the id
      */
-    @Update("update share_team_application set sub_course_teacher_id=#{teacherId}, main_course_id=#{mainCourseId}, sub_course_id=#{subCourseId}, status=#{status} where id=#{id}")
+    @Update("update share_team_application set sub_course_teacher_id=#{teacherId}, main_course_id=#{mainCourseId}, sub_course_id=#{subCourseId} where id=#{id}")
     void updateShareTeamApplication(ShareTeamApplication shareTeamApplication);
 
     /**
@@ -41,7 +42,8 @@ public interface ShareTeamApplicationMapper {
             @Result(property = "teacherId", column = "sub_course_teacher_id"),
             @Result(property = "mainCourseId", column = "main_course_id"),
             @Result(property = "subCourseId", column = "sub_course_id"),
-            @Result(property = "status", column = "status")
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<ShareTeamApplication> selectAllShareTeamApplication();
 
@@ -57,7 +59,8 @@ public interface ShareTeamApplicationMapper {
             @Result(property = "teacherId", column = "sub_course_teacher_id"),
             @Result(property = "mainCourseId", column = "main_course_id"),
             @Result(property = "subCourseId", column = "sub_course_id"),
-            @Result(property = "status", column = "status")
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<ShareTeamApplication> selectShareTeamApplicationByTeacherId(String teacherId);
 
@@ -73,7 +76,8 @@ public interface ShareTeamApplicationMapper {
             @Result(property = "teacherId", column = "sub_course_teacher_id"),
             @Result(property = "mainCourseId", column = "main_course_id"),
             @Result(property = "subCourseId", column = "sub_course_id"),
-            @Result(property = "status", column = "status")
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<ShareTeamApplication> selectShareTeamApplicationByMainCourseId(String mainCourseId);
 
@@ -89,7 +93,8 @@ public interface ShareTeamApplicationMapper {
             @Result(property = "teacherId", column = "sub_course_teacher_id"),
             @Result(property = "mainCourseId", column = "main_course_id"),
             @Result(property = "subCourseId", column = "sub_course_id"),
-            @Result(property = "status", column = "status")
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<ShareTeamApplication> selectShareTeamApplicationBySubCourseId(String subCourseId);
 
@@ -105,9 +110,28 @@ public interface ShareTeamApplicationMapper {
             @Result(property = "teacherId", column = "sub_course_teacher_id"),
             @Result(property = "mainCourseId", column = "main_course_id"),
             @Result(property = "subCourseId", column = "sub_course_id"),
-            @Result(property = "status", column = "status")
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<ShareTeamApplication> selectShareTeamApplicationById(String id);
+
+    /**
+     * Select a ShareTeamApplication entity via union
+     *
+     * @param mainCourseId the select gist
+     * @param subCourseId  the union gist
+     * @return List<shareTeamApplication> the selected ShareTeamApplication entity as list
+     */
+    @Select("select * from share_team_application where main_course_id=#{mainCourseId} and sub_course_id=#{subCourseId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "teacherId", column = "sub_course_teacher_id"),
+            @Result(property = "mainCourseId", column = "main_course_id"),
+            @Result(property = "subCourseId", column = "sub_course_id"),
+            @Result(property = "mainCourse", column = "main_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY)),
+            @Result(property = "subCourse", column = "sub_course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
+    })
+    List<ShareTeamApplication> selectShareTeamApplicationByMainCourseIdAndSubCourseId(@Param("mainCourseId") String mainCourseId, @Param("subCourseId") String subCourseId);
 
     /**
      * Delete a ShareTeamApplication entity via teacherId

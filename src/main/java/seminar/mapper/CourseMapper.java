@@ -171,4 +171,27 @@ public interface CourseMapper {
     @Delete("delete from course where id=#{id}")
     void deleteCourseById(String id);
 
+    /**
+     * Get a course's other course via course id
+     *
+     * @param id the select gist
+     * @param teamMainCourseId the select gist
+     * @param seminarMainCourseId the  select gist
+     * @return List<course> the selected Course's other courses as list
+     */
+    @Select("select * from course where id != #{id} and (#{tmId} is null or id!=#{tmId}) and (#{smId} is null or id!=#{smId}) and (team_main_course_id is null or seminar_main_course_id is null)")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "courseName", column = "course_name"),
+            @Result(property = "introduction", column = "introduction"),
+            @Result(property = "prePercentage", column = "presentation_percentage"),
+            @Result(property = "reportPercentage", column = "report_percentage"),
+            @Result(property = "quesPercentage", column = "question_percentage"),
+            @Result(property = "teamStartDate", column = "team_start_time"),
+            @Result(property = "teamEndDate", column = "team_end_time"),
+            @Result(property = "teacherId", column = "teacher_id"),
+            @Result(property = "teamMainCourseId", column = "team_main_course_id"),
+            @Result(property = "seminarMainCourseId", column = "seminar_main_course_id")
+    })
+    List<Course> selectOtherCoursesById(@Param("id")String id, @Param("tmId")String teamMainCourseId, @Param("smId")String seminarMainCourseId);
 }

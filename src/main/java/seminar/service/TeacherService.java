@@ -156,22 +156,14 @@ public interface TeacherService {
     void deleteSeminarByRoundId(String courseId);
 
     /**
-     * Create a new ShareTeamApplication
+     * Updete the report score when teacher give score
      *
-     * @param shareTeamApplication refer gist
-     * @return success or fail
+     * @param reportScore    refer gist.
+     * @param klassSeminarId refer gist
+     * @return success of fail
      * @author SWJ
      */
-    boolean createTeamShareMsg(ShareTeamApplication shareTeamApplication);
-
-    /**
-     * Check teacher's own groupValidityMsg
-     *
-     * @param teacherId refer gist.
-     * @return This teacher's all groupValidityMsg
-     * @author SWJ
-     */
-    List<TeamValidApplication> getGroupValidityMsgByTeacherId(String teacherId);
+    boolean updateReportScore(int reportScore, String klassSeminarId);
 
     /**
      * Agree this team's invalid state, update this team's valid
@@ -181,23 +173,4 @@ public interface TeacherService {
      * @author SWJ
      */
     boolean updateTeam(String teamId);
-
-    /**
-     * Create a new shareSeminarApplication
-     *
-     * @param shareSeminarApplication refer gist
-     * @return success or fail
-     * @author SWJ
-     */
-    boolean createSeminarShareMsg(ShareSeminarApplication shareSeminarApplication);
-
-    /**
-     * Updete the report score when teacher give score
-     *
-     * @param reportScore    refer gist.
-     * @param klassSeminarId refer gist
-     * @return success of fail
-     * @author SWJ
-     */
-    boolean updateReportScore(int reportScore, String klassSeminarId);
 }

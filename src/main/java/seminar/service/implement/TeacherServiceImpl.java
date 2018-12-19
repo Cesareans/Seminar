@@ -6,6 +6,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
+import seminar.dao.application.ShareSeminarApplicationDAO;
+import seminar.dao.application.ShareTeamApplicationDAO;
 import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
@@ -22,12 +24,8 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService {
     private final SeminarDAO seminarDAO;
     private final KlassDao klassDAO;
-    private final MaxMinRegulationDAO maxMinRegulationDAO;
     private final CourseDAO courseDAO;
-    private final TeamShareMsgDAO teamShareMsgDAO;
-    private final GroupValidityMsgDAO groupValidityMsgDAO;
     private final TeamDAO teamDAO;
-    private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final AttendanceDAO attendanceDAO;
     private final RoundDAO roundDAO;
     private final TeacherDAO teacherDAO;
@@ -35,16 +33,12 @@ public class TeacherServiceImpl implements TeacherService {
     private final KlassRoundDAO klassRoundDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, ShareTeamApplicationDAO shareTeamApplicationDAO, TeamDAO teamDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
         this.klassDAO = klassDAO;
-        this.maxMinRegulationDAO = maxMinRegulationDAO;
-        this.teamShareMsgDAO = teamShareMsgDAO;
-        this.groupValidityMsgDAO = groupValidityMsgDAO;
         this.teamDAO = teamDAO;
-        this.seminarShareMsgDAO = seminarShareMsgDAO;
         this.attendanceDAO = attendanceDAO;
         this.roundDAO = roundDAO;
         this.studentDAO = studentDAO;
@@ -53,11 +47,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean activate(String teacherId, String password, String email) {
-        List<Teacher> teachers = teacherDAO.getById(teacherId);
-        if (teachers.size() == 0) {
-            return false;
-        }
-        Teacher teacher = teachers.get(0);
+        Teacher teacher = teacherDAO.getById(teacherId).get(0);
         teacher.setPassword(password);
         teacher.setEmail(email);
         teacher.setActivated(true);
@@ -240,34 +230,11 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean createTeamShareMsg(ShareTeamApplication shareTeamApplication) {
-        return teamShareMsgDAO.create(shareTeamApplication);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public List<TeamValidApplication> getGroupValidityMsgByTeacherId(String teacherId) {
-        return groupValidityMsgDAO.getByTeacherId(teacherId);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
     public boolean updateTeam(String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
         return teamDAO.update(team);
     }
 
-    /**
-     * @author SWJ
-     */
-    @Override
-    public boolean createSeminarShareMsg(ShareSeminarApplication shareSeminarApplication) {
-        return seminarShareMsgDAO.create(shareSeminarApplication);
-    }
 
     /**
      * @author SWJ
