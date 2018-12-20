@@ -60,32 +60,40 @@ public interface TeacherService {
     /**
      * Get a teacher's courses via teacherId
      *
-     * @param teacherId refer gist
+     * @param teacherId the refer gist
      * @return list of teacher's courses
      * @author cesare
      */
     List<Course> getCoursesByTeacherId(String teacherId);
 
     /**
+     * Create a course
+     *
+     * @param course the Course entity
+     * @return whether creating course successfully
      * @author lyf
      */
     boolean createCourse(Course course);
 
     /**
+     * Delete a course by courseId
+     * @param courseId the refer gist
      * @author lyf
      */
     void deleteCourseById(String courseId);
 
     /**
+     * Update the information of a course
+     * @param course the Course entity
+     * @return whether updating course successfully
      * @author lyf
      */
     boolean updateCourse(Course course);
 
     /**
      * Create a klass with given klass info.
-     *
      * @param klass the klass entity
-     * @return whether the create is successful.
+     * @return whether creating klass successfully
      * @author lyf
      */
     boolean createKlass(Klass klass);
@@ -101,11 +109,16 @@ public interface TeacherService {
     void insertKlassStudent(Klass klass, Workbook workbook);
 
     /**
+     * Update the information of a klass
+     * @param klass the Klass entity
+     * @return whether updating klass successfully
      * @author lyf
      */
     boolean updateKlass(Klass klass);
 
     /**
+     * Delete a klass by its id
+     * @param klassId the refer gist
      * @author lyf
      */
     void deleteKlassById(String klassId);
@@ -120,11 +133,19 @@ public interface TeacherService {
     void addRound(Round round);
 
     /**
+     * Create a seminar
+     *
+     * @param seminar the Seminar entity
+     * @return whether creating seminar successfully
      * @author lyf
      */
     boolean createSeminar(Seminar seminar);
 
     /**
+     * Update the information of a seminar
+     *
+     * @param seminar the Seminar entity
+     * @return whether updating seminar successfully
      * @author lyf
      */
     boolean updateSeminar(Seminar seminar);
@@ -146,14 +167,20 @@ public interface TeacherService {
     boolean updateKlassRound(KlassRound klassRound);
 
     /**
+     * Delete a seminar via seminarId
+
+     * @param seminarId the refer gist
      * @author lyf
      */
     void deleteSeminarById(String seminarId);
 
     /**
+     * Delete a seminar via roundId
+     *
+     * @param roundId the refer gist
      * @author lyf
      */
-    void deleteSeminarByRoundId(String courseId);
+    void deleteSeminarByRoundId(String roundId);
 
     /**
      * Updete the report score when teacher give score
