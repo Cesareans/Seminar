@@ -19,7 +19,7 @@ public interface RoundMapper {
      *
      * @param round the Round entity that will be inserted
      */
-    @Insert("insert into round(round_serial, presentation_score_method, report_score_method, question_score_method, course_id) values(#{roundNum}, #{presentationScoreMethod}, #{reportScoreMethod}, #{questionScoreMethod}, #{courseId})")
+    @Insert("insert into round(round_serial, presentation_score_method, report_score_method, question_score_method, course_id) values(#{roundNum}, #{preScoreType}, #{reportScoreType}, #{quesScoreType}, #{courseId})")
     @Options(useGeneratedKeys = true)
     void insertRound(Round round);
 
@@ -28,7 +28,7 @@ public interface RoundMapper {
      *
      * @param round the Round entity that will be updated via the id
      */
-    @Update("update round set round_serial=#{roundNum}, presentation_score_method=#{presentationScoreMethod}, report_score_method=#{reportScoreMethod}, question_score_method=#{questionScoreMethod}, course_id=#{courseId} where id=#{id}")
+    @Update("update round set round_serial=#{roundNum}, presentation_score_method=#{preScoreType}, report_score_method=#{reportScoreType}, question_score_method=#{quesScoreType}, course_id=#{courseId} where id=#{id}")
     void updateRound(Round round);
 
     /**
@@ -40,11 +40,12 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_serial"),
-            @Result(property = "presentationScoreMethod", column = "presentation_score_method"),
-            @Result(property = "reportScoreMethod", column = "report_score_method"),
-            @Result(property = "questionScoreMethod", column = "question_score_method"),
+            @Result(property = "preScoreType", column = "presentation_score_method"),
+            @Result(property = "reportScoreType", column = "report_score_method"),
+            @Result(property = "quesScoreType", column = "question_score_method"),
             @Result(property = "courseId", column = "course_id"),
-            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.LAZY)),
+            @Result(property = "klassRounds", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassRoundMapper.selectKlassRoundByRoundId", fetchType = FetchType.LAZY))
     })
     List<Round> selectAllRound();
 
@@ -58,11 +59,12 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_serial"),
-            @Result(property = "presentationScoreMethod", column = "presentation_score_method"),
-            @Result(property = "reportScoreMethod", column = "report_score_method"),
-            @Result(property = "questionScoreMethod", column = "question_score_method"),
+            @Result(property = "preScoreType", column = "presentation_score_method"),
+            @Result(property = "reportScoreType", column = "report_score_method"),
+            @Result(property = "quesScoreType", column = "question_score_method"),
             @Result(property = "courseId", column = "course_id"),
-            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.LAZY)),
+            @Result(property = "klassRounds", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassRoundMapper.selectKlassRoundByRoundId", fetchType = FetchType.LAZY))
     })
     List<Round> selectRoundByCourseId(String courseId);
 
@@ -76,11 +78,12 @@ public interface RoundMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "roundNum", column = "round_serial"),
-            @Result(property = "presentationScoreMethod", column = "presentation_score_method"),
-            @Result(property = "reportScoreMethod", column = "report_score_method"),
-            @Result(property = "questionScoreMethod", column = "question_score_method"),
+            @Result(property = "preScoreType", column = "presentation_score_method"),
+            @Result(property = "reportScoreType", column = "report_score_method"),
+            @Result(property = "quesScoreType", column = "question_score_method"),
             @Result(property = "courseId", column = "course_id"),
-            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.EAGER))
+            @Result(property = "seminars", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", fetchType = FetchType.LAZY)),
+            @Result(property = "klassRounds", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassRoundMapper.selectKlassRoundByRoundId", fetchType = FetchType.LAZY))
     })
     List<Round> selectRoundById(String id);
 
@@ -102,10 +105,11 @@ public interface RoundMapper {
 
     /**
      * Insert a new Round into a course.
+     * Only the courseId is used.
      *
-     * @param courseId the Course refer gist
+     * @param round the wanted round
      */
-    @Insert("insert into round(round_num, course_id) select max(round_num) + 1,course_id from round where course_id = #{courseId}")
-    void addRound(String courseId);
-
+    @Insert("insert into round(round_serial, course_id, presentation_score_method, report_score_method, question_score_method) select max(round_serial) + 1,course_id, 0, 0, 0 from round where course_id = #{courseId}")
+    @Options(useGeneratedKeys = true)
+    void addRound(Round round);
 }

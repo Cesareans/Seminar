@@ -1,6 +1,26 @@
-var createKlassForm;
+var createSeminarForm;
+var datetimepicker;
+var roundIdInput;
+var roundNum;
 $(function () {
-    createKlassForm = $("#createKlassForm");
+    datetimepicker = $(".datetimepicker");
+    createSeminarForm = $("#createSeminarForm");
+    roundIdInput = $("#roundId");
+    roundNum = $("#roundNum");
+    datetimepicker.datetimepicker({
+        format: 'YYYY-MM-D H:mm',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
 
     var courseId = sessionStorage.getItem("courseId");
     $("#courseId").val(courseId);
@@ -11,28 +31,35 @@ $(function () {
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
-            console.log(createKlassForm.serialize());
             $.ajax({
                 type: "put",
-                url: "/teacher/course/klass",
+                url: "/teacher/course/seminar",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(createKlassForm.serializeObject()),
+                data: JSON.stringify(createSeminarForm.serializeObject()),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
-                        window.location = "/teacher/course/klassList";
+                        back();
                     }
                 },
-                error: function (xhr) {//xhr, textStatus, errorThrown
-                    if (xhr.status === 400) {
-                        util.showAlert("danger", "创建失败，班级相同", 3);
-                    }else{
-                        util.showAlert("danger", "创建失败，未知错误", 3);
-                    }
+                error: function () {
+                    util.showAlert("danger", "创建失败，未知错误", 3);
                 }
             })
         }else{
             verify.registerDanger();
         }
+    });
+    $(".round-num").click(function () {
+        var item = $(this);
+        roundNum.html(item.html());
+        roundIdInput.val(item.attr("data-roundId"))
+    });
+    datetimepicker.bind("focus",function () {
+        console.log($(this).parent());
+        $(this).parent().addClass("on-date")
+    });
+    datetimepicker.bind("blur",function () {
+        $(this).parent().removeClass("on-date")
     });
 });
 

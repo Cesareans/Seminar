@@ -79,7 +79,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons">settings</i>
+                                            <i class="material-icons round-setting" data-roundId="${round.id}">settings</i>
                                             轮次设置
                                         </a>
                                     </li>
@@ -90,7 +90,7 @@
                 </div>
             </#list>
                 <div class="col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-top: 10px;margin-bottom: 10px;">
+                    <a class="btn bg-transparent add-card-btn" id="createButton" style="margin-top: 10px;margin-bottom: 10px;">
                         <i class="material-icons add-icon">add_circle</i>
                     </a>
                 </div>
@@ -166,7 +166,7 @@
                                     </#list>
                                 </#if>
                                 <hr>
-                                <button type="button" class="btn btn-round bg-dark" style="width: 100%">设置</button>
+                                <button type="button" class="btn btn-round bg-dark option-btn" style="width: 100%">设置</button>
                             </div>
                         </div>
                     </div>
@@ -178,11 +178,17 @@
 </div>
 </#list>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId">
-    <input id="klassIdInput" name="klassId">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
 </form>
-<form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId">
+<form hidden id="seminarOptionForm" action="/teacher/course/seminar/option" method="post">
+    <input id="seminarIdOptionInput" name="seminarId" placeholder="">
+</form>
+<form hidden id="roundSettingForm" action="/teacher/course/round/setting" method="post">
+    <input id="roundIdInput" name="roundId" placeholder="">
+</form>
+<form hidden id="courseIdForm" action="/teacher/course/seminar/create" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

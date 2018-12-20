@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/seminar.js"></script>
+    <script src="/static/js/teacher/course/share.js"></script>
     <title>讨论课</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -53,34 +53,48 @@
         <div class="row">
             <#list subCourse.team as teamCourse>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">${teamCourse.courseName}</div>
-                            </div>
-                            <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>共享类型</label>
-                                <div class="sep"></div>
-                                <div class="content">共享分组</div>
-                            </div>
-                            <div class="line">
-                                <label>共享情况</label>
-                                <div class="sep"></div>
-                                <div class="content">主课程</div>
-                            </div>
-                        </div>
+                <div class="card content-card dropdown-card">
+                <div class="card-body">
+                <div class="body-header">
+                <div class="body-title">${teamCourse.courseName}</div>
+                <div class="flex-center">
+                    <i class="material-icons">more_vert</i>
+                </div>
+                </div>
+                <div class="body-content">
+                    <hr>
+                    <div class="line">
+                        <label>共享类型</label>
+                        <div class="sep"></div>
+                        <div class="content">共享分组</div>
+                    </div>
+                    <div class="line">
+                        <label>共享情况</label>
+                        <div class="sep"></div>
+                        <div class="content">主课程</div>
+                    </div>
+                    <div class="operation-div" style="display: none">
+                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                            <button class="btn btn-primary bg-red" style="margin: 0;width: 100%;">
+                                <i class="material-icons">close</i>
+                                取消共享
+                            </button>
                         </div>
                     </div>
+                </div>
+                </div>
+                </div>
                 </div>
             </#list>
             <#list subCourse.seminar as seminarCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
+                <div class="card content-card dropdown-card">
                 <div class="card-body">
                 <div class="body-header">
                 <div class="body-title">${seminarCourse.courseName}</div>
+                <div class="flex-center">
+                    <i class="material-icons">more_vert</i>
+                </div>
                 </div>
                 <div class="body-content">
                     <hr>
@@ -94,6 +108,14 @@
                         <div class="sep"></div>
                         <div class="content">主课程</div>
                     </div>
+                    <div class="operation-div" style="display: none">
+                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                                <i class="material-icons">close</i>
+                                取消共享
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 </div>
                 </div>
@@ -101,10 +123,13 @@
             </#list>
             <#list mainCourse.team as teamCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
+                <div class="card content-card dropdown-card">
                 <div class="card-body">
                 <div class="body-header">
                 <div class="body-title">${teamCourse.courseName}</div>
+                <div class="flex-center">
+                    <i class="material-icons">more_vert</i>
+                </div>
                 </div>
                 <div class="body-content">
                     <hr>
@@ -118,6 +143,14 @@
                         <div class="sep"></div>
                         <div class="content">从课程</div>
                     </div>
+                    <div class="operation-div" style="display: none">
+                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                                <i class="material-icons">close</i>
+                                取消共享
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 </div>
                 </div>
@@ -125,10 +158,13 @@
             </#list>
             <#list mainCourse.seminar as seminarCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
+                <div class="card content-card dropdown-card">
                 <div class="card-body">
                 <div class="body-header">
                 <div class="body-title">${seminarCourse.courseName}</div>
+                <div class="flex-center">
+                    <i class="material-icons">more_vert</i>
+                </div>
                 </div>
                 <div class="body-content">
                     <hr>
@@ -142,19 +178,31 @@
                         <div class="sep"></div>
                         <div class="content">从课程</div>
                     </div>
+                    <div class="operation-div" style="display: none">
+                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                                <i class="material-icons">close</i>
+                                取消共享
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 </div>
                 </div>
                 </div>
             </#list>
-            <div class="col-md-6">
-                <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-top: 10px;margin-bottom: 10px;">
+            <div class="col-lg-4 col-md-6">
+                <a class="btn bg-transparent add-card-btn" id="addShare" style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
                     <i class="material-icons add-icon">add_circle</i>
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<form hidden id="createShareForm" action="/teacher/course/share/create" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

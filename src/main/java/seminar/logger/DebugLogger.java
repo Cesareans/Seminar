@@ -13,6 +13,15 @@ public class DebugLogger {
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
 
+    public static String toJsonString(Object object){
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return "";
+    }
+
     public static void log(String message) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + message);

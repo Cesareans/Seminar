@@ -40,8 +40,19 @@ ${KlassStudentMapper}
 ${RoundMapper}
     /**
      * Insert a new Round into a course.
+     * Only the courseId is used.
      *
-     * @param courseId the Course refer gist
+     * @param round the wanted round
      */
-    @Insert("insert into round(round_num, course_id) select max(round_num) + 1,course_id from round where course_id = #{courseId}")
-    void addRound(String courseId);
+    @Insert("insert into round(round_serial, course_id, presentation_score_method, report_score_method, question_score_method) select max(round_serial) + 1,course_id, 0, 0, 0 from round where course_id = #{courseId}")
+    @Options(useGeneratedKeys = true)
+    void addRound(Round round);
+
+${SeminarMapper}
+    /**
+     * Get the max seminar serial of a course
+     * @param courseId the refer gist
+     * @return the max seminar serial
+     */
+    @Select("select max(seminar_serial) from seminar where course_id = #{courseId}")
+    int selectMaxSerialOfCourse(String courseId);

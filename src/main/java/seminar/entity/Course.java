@@ -1,6 +1,8 @@
 package seminar.entity;
 
 import cesare.mybatis.annotations.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import seminar.entity.regulation.RegulationComposition;
 
 import java.util.Date;
@@ -21,8 +23,10 @@ public class Course {
     @SqlMap("question_percentage")
     private int quesPercentage;
     @SqlMap("team_start_time")
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
     @SqlMap("team_end_time")
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
     @Gist
     private String teacherId;
@@ -31,6 +35,8 @@ public class Course {
     @Gist
     private String seminarMainCourseId;
 
+    @Block
+    private Teacher teacher;
     @Block
     private RegulationComposition regulationComposition;
 
@@ -106,14 +112,6 @@ public class Course {
         this.teacherId = teacherId;
     }
 
-    public RegulationComposition getRegulationComposition() {
-        return regulationComposition;
-    }
-
-    public void setRegulationComposition(RegulationComposition regulationComposition) {
-        this.regulationComposition = regulationComposition;
-    }
-
     public String getTeamMainCourseId() {
         return teamMainCourseId;
     }
@@ -128,5 +126,21 @@ public class Course {
 
     public void setSeminarMainCourseId(String seminarMainCourseId) {
         this.seminarMainCourseId = seminarMainCourseId;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public RegulationComposition getRegulationComposition() {
+        return regulationComposition;
+    }
+
+    public void setRegulationComposition(RegulationComposition regulationComposition) {
+        this.regulationComposition = regulationComposition;
     }
 }

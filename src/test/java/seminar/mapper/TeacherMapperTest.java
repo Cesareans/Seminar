@@ -16,7 +16,7 @@ public class TeacherMapperTest {
     private TeacherMapper teacherMapper;
 
     @Test
-    public void selectTeacherByBadgeNumTest() throws JsonProcessingException {
+    public void selectTeacherByBadgeNumTest() {
         Teacher teacher = teacherMapper.selectTeacherByTeacherNum("1037").get(0);
         DebugLogger.logJson(teacher);
     }

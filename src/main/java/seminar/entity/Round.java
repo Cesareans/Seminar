@@ -1,6 +1,7 @@
 package seminar.entity;
 
 import cesare.mybatis.annotations.*;
+import seminar.entity.relation.KlassRound;
 
 import java.util.List;
 
@@ -15,14 +16,19 @@ public class Round {
     private String id;
     @SqlMap("round_serial")
     private String roundNum;
-    private int presentationScoreMethod;
-    private int reportScoreMethod;
-    private int questionScoreMethod;
+    @SqlMap("presentation_score_method")
+    private int preScoreType;
+    @SqlMap("report_score_method")
+    private int reportScoreType;
+    @SqlMap("question_score_method")
+    private int quesScoreType;
     @Gist
     private String courseId;
 
-    @Link(gist = "id", select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId", lazy = false)
+    @Link(gist = "id", select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId")
     private List<Seminar> seminars;
+    @Link(gist = "id", select = "seminar.mapper.relation.KlassRoundMapper.selectKlassRoundByRoundId")
+    private List<KlassRound> klassRounds;
 
     public String getId() {
         return id;
@@ -40,28 +46,28 @@ public class Round {
         this.roundNum = roundNum;
     }
 
-    public int getPresentationScoreMethod() {
-        return presentationScoreMethod;
+    public int getPreScoreType() {
+        return preScoreType;
     }
 
-    public void setPresentationScoreMethod(int presentationScoreMethod) {
-        this.presentationScoreMethod = presentationScoreMethod;
+    public void setPreScoreType(int preScoreType) {
+        this.preScoreType = preScoreType;
     }
 
-    public int getReportScoreMethod() {
-        return reportScoreMethod;
+    public int getReportScoreType() {
+        return reportScoreType;
     }
 
-    public void setReportScoreMethod(int reportScoreMethod) {
-        this.reportScoreMethod = reportScoreMethod;
+    public void setReportScoreType(int reportScoreType) {
+        this.reportScoreType = reportScoreType;
     }
 
-    public int getQuestionScoreMethod() {
-        return questionScoreMethod;
+    public int getQuesScoreType() {
+        return quesScoreType;
     }
 
-    public void setQuestionScoreMethod(int questionScoreMethod) {
-        this.questionScoreMethod = questionScoreMethod;
+    public void setQuesScoreType(int quesScoreType) {
+        this.quesScoreType = quesScoreType;
     }
 
     public String getCourseId() {
@@ -78,5 +84,13 @@ public class Round {
 
     public void setSeminars(List<Seminar> seminars) {
         this.seminars = seminars;
+    }
+
+    public List<KlassRound> getKlassRounds() {
+        return klassRounds;
+    }
+
+    public void setKlassRounds(List<KlassRound> klassRounds) {
+        this.klassRounds = klassRounds;
     }
 }

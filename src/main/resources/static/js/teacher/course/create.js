@@ -4,6 +4,7 @@ $(function () {
     datetimepicker = $(".datetimepicker");
     createCourseForm = $("#createCourseForm");
     datetimepicker.datetimepicker({
+        format: 'YYYY-MM-D H:mm',
         icons: {
             time: "fa fa-clock-o",
             date: "fa fa-calendar",
@@ -39,7 +40,6 @@ $(function () {
         }
     });
     datetimepicker.bind("focus",function () {
-        console.log($(this).parent());
         $(this).parent().addClass("on-date")
     });
     datetimepicker.bind("blur",function () {

@@ -7,7 +7,7 @@ import cesare.mybatis.PackageGenerator;
  */
 public class MultiGenerator {
     public static void main(String[] args) {
-        PackageGenerator generator = new PackageGenerator("Cesare", "seminar.entity");
+        PackageGenerator generator = new PackageGenerator("Cesare", "seminar.entity.application");
         generator.generateMapper();
     }
 }

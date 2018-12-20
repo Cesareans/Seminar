@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Course;
 import seminar.mapper.CourseMapper;
-import seminar.mapper.MaxMinRegulationMapper;
+import seminar.mapper.TeacherMapper;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
 @Component
 public class CourseDAO {
     private final CourseMapper courseMapper;
-    private final MaxMinRegulationMapper maxMinRegulationMapper;
+    private final TeacherMapper teacherMapper;
 
     @Autowired
-    public CourseDAO(CourseMapper courseMapper, MaxMinRegulationMapper maxMinRegulationMapper) {
+    public CourseDAO(CourseMapper courseMapper, TeacherMapper teacherMapper) {
         this.courseMapper = courseMapper;
-        this.maxMinRegulationMapper = maxMinRegulationMapper;
+        this.teacherMapper = teacherMapper;
     }
 
     /**
@@ -48,6 +48,23 @@ public class CourseDAO {
      */
     public List<Course> getByTeamMainCourseId(String teamMainCourseId){
         return courseMapper.selectCourseByTeamMainCourseId(teamMainCourseId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public List<Course> getOtherCoursesByCourseId(String courseId){
+        Course course = courseMapper.selectCourseById(courseId).get(0);
+        List<Course> otherCourses = courseMapper.selectOtherCoursesById(course.getId(), course.getTeamMainCourseId(), course.getSeminarMainCourseId());
+        otherCourses.forEach(this::setTeacher);
+        return otherCourses;
+    }
+
+    /**
+     * @author Cesare
+     */
+    public void setTeacher(Course course){
+        course.setTeacher(teacherMapper.selectTeacherById(course.getTeacherId()).get(0));
     }
 
 

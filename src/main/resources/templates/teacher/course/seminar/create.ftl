@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/create.js"></script>
@@ -54,52 +55,46 @@
         <div class="row flex-center">
             <div class="col-md-8">
                 <form class="form" id="createSeminarForm">
+                    <input hidden id="courseId" name="courseId" placeholder="">
                     <div class="container" style="margin-top: 20px">
                         <div class="form-row" style="margin-top: 20px;">
                             <div class="form-group col-2" style="padding-left: 0;">
                                 <label for="serial">序号</label>
-                                <input id="serial" name="serial" type="text" autocomplete="off"
+                                <input id="serial" name="serial" type="text" autocomplete="off" value="${maxSerial + 1}"
                                        class="form-control empty-verify" data-emptyMessage="请输入讨论课序号">
                             </div>
                             <div class="form-group col-10">
-                                <label for="courseName" style="padding-left: 5px;">讨论课主题</label>
-                                <input id="courseName" name="courseName" type="text" autocomplete="off"
+                                <label for="theme" style="padding-left: 5px;">讨论课主题</label>
+                                <input id="theme" name="theme" type="text" autocomplete="off"
                                        class="form-control empty-verify" data-emptyMessage="请输入讨论课主题">
                             </div>
                         </div>
                         <div class="form-group bmd-form-group">
-                            <label for="intro" class="bmd-label">讨论课主要内容</label>
-                            <textarea id="intro" name="intro" type="text" rows="4" autocomplete="off"
+                            <label for="content" class="bmd-label">讨论课主要内容</label>
+                            <textarea id="content" name="content" type="text" rows="4" autocomplete="off"
                                       class="form-control empty-verify" data-emptyMessage="请输入讨论课主要内容"></textarea>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>报名组数</label>
-                                    <ul class="nav nav-pills">
-                                        <li class="nav-item dropdown" style="width: 100%">
-                                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">1</a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item">1</a>
-                                                <a class="dropdown-item">2</a>
-                                                <a class="dropdown-item">3</a>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <label for="maxTeam">报名组数</label>
+                                    <input id="maxTeam" name="maxTeam" type="text" autocomplete="off"
+                                           class="form-control empty-verify" data-emptyMessage="请输入报名组数" style="margin-top: 5px">
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-group">
-                                    <label>所属Round</label>
+                                <div class="form-group" style="padding-top: 5px">
+                                    <label for="roundId">所属Round</label>
+                                    <input hidden id="roundId" name="roundId">
                                     <ul class="nav nav-pills">
                                         <li class="nav-item dropdown" style="width: 100%">
-                                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">1</a>
+                                            <a id="roundNum" class="nav-link dropdown-toggle" data-toggle="dropdown" style="padding-top: 5px">新建</a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item">1</a>
-                                                <a class="dropdown-item">2</a>
-                                                <a class="dropdown-item">3</a>
+                                                <#list rounds as round>
+                                                    <a class="dropdown-item round-num" data-roundId="${round.id}">${round.roundNum}</a>
+                                                </#list>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item">新建</a>
+                                                <a class="dropdown-item round-num">新建</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -111,14 +106,14 @@
                             <input id="enrollStartDate" name="enrollStartDate" type="text" autocomplete="off"
                                    class="form-control datetimepicker empty-verify" data-emptyMessage="请输入报名开始时间">
                         </div>
-                        <div class="form-group bmd-form-group">
+                        <div class="form-group">
                             <label for="enrollEndDate">报名结束时间</label>
                             <input id="enrollEndDate" name="enrollEndDate" type="text" autocomplete="off"
                                    class="form-control datetimepicker empty-verify" data-emptyMessage="请输入报名结束时间">
                         </div>
                         <div class="form-check" style="margin-top: 30px">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
+                                <input class="form-check-input" type="checkbox" name="visible" value="true">
                                 讨论课是否可见
                                 <span class="form-check-sign">
                                     <span class="check"></span>
@@ -147,7 +142,7 @@
 </div>
 
 <form hidden id="returnForm" action="/teacher/course/seminarList" method="post">
-    <input id="returnCourseId" name="courseId">
+    <input id="returnCourseId" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
