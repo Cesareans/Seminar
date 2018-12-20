@@ -19,7 +19,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/klassList'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">创建班级</div>
@@ -53,8 +53,8 @@
     <div class="container">
         <div class="row flex-center">
             <div class="col-md-8">
-                <form class="form" id="createKlassForm">
-                    <input hidden name="courseId" value="${courseId}" title="">
+                <form class="form" id="createKlassForm" enctype="multipart/form-data">
+                    <input hidden id="courseId" name="courseId">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
@@ -84,11 +84,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 ml-auto mr-auto">
+                            <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请上传名单">
                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                <li class="nav-item">
+                                <li class="nav-item" id="fileProxy">
                                     <a class="nav-link">
                                         <i class="material-icons">save_alt</i>
-                                        导入名单
+                                        上传名单
                                     </a>
                                 </li>
                             </ul>
@@ -107,13 +108,16 @@
         </button>
     </div>
     <div class="right-button">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/klassList'"
-                style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>
     </div>
 </div>
+
+<form id="returnForm" action="/teacher/course/klassList" method="post">
+    <input id="returnCourseId" name="courseId">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

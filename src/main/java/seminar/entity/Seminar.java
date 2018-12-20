@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -11,16 +12,22 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Seminar {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("seminar_name")
     private String theme;
+    @SqlMap("introduction")
     private String content;
+    @SqlMap("seminar_serial")
     private String serial;
     private int maxTeam;
-    private boolean ordered;
     private boolean visible;
+    @SqlMap("enroll_start_time")
     private String enrollStartDate;
+    @SqlMap("enroll_end_time")
     private String enrollEndDate;
     @Gist
     private String roundId;
+    @Gist
+    private String courseId;
 
     public String getId() {
         return id;
@@ -62,14 +69,6 @@ public class Seminar {
         this.maxTeam = maxTeam;
     }
 
-    public boolean isOrdered() {
-        return ordered;
-    }
-
-    public void setOrdered(boolean ordered) {
-        this.ordered = ordered;
-    }
-
     public boolean isVisible() {
         return visible;
     }
@@ -100,5 +99,13 @@ public class Seminar {
 
     public void setRoundId(String roundId) {
         this.roundId = roundId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 }

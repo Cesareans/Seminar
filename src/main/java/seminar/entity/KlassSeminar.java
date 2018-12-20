@@ -1,10 +1,8 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +12,10 @@ import java.util.List;
 public class KlassSeminar {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("seminar_status")
     private int state;
+    @SqlMap("report_ddl")
+    private Date reportDeadline;
     @Gist(unions = {"seminarId"})
     private String klassId;
     @Gist
@@ -40,6 +41,14 @@ public class KlassSeminar {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public Date getReportDeadline() {
+        return reportDeadline;
+    }
+
+    public void setReportDeadline(Date reportDeadline) {
+        this.reportDeadline = reportDeadline;
     }
 
     public String getKlassId() {

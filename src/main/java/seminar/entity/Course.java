@@ -1,9 +1,6 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Block;
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 import seminar.entity.regulation.RegulationComposition;
 
 import java.util.Date;
@@ -17,17 +14,22 @@ public class Course {
     private String id;
     private String courseName;
     private String introduction;
+    @SqlMap("presentation_percentage")
     private int prePercentage;
+    @SqlMap("report_percentage")
     private int reportPercentage;
+    @SqlMap("question_percentage")
     private int quesPercentage;
+    @SqlMap("team_start_time")
     private Date teamStartDate;
+    @SqlMap("team_end_time")
     private Date teamEndDate;
     @Gist
     private String teacherId;
     @Gist
-    private String mainTeamCourseId;
+    private String teamMainCourseId;
     @Gist
-    private String mainSeminarCourseId;
+    private String seminarMainCourseId;
 
     @Block
     private RegulationComposition regulationComposition;
@@ -112,19 +114,19 @@ public class Course {
         this.regulationComposition = regulationComposition;
     }
 
-    public String getMainTeamCourseId() {
-        return mainTeamCourseId;
+    public String getTeamMainCourseId() {
+        return teamMainCourseId;
     }
 
-    public void setMainTeamCourseId(String mainTeamCourseId) {
-        this.mainTeamCourseId = mainTeamCourseId;
+    public void setTeamMainCourseId(String teamMainCourseId) {
+        this.teamMainCourseId = teamMainCourseId;
     }
 
-    public String getMainSeminarCourseId() {
-        return mainSeminarCourseId;
+    public String getSeminarMainCourseId() {
+        return seminarMainCourseId;
     }
 
-    public void setMainSeminarCourseId(String mainSeminarCourseId) {
-        this.mainSeminarCourseId = mainSeminarCourseId;
+    public void setSeminarMainCourseId(String seminarMainCourseId) {
+        this.seminarMainCourseId = seminarMainCourseId;
     }
 }

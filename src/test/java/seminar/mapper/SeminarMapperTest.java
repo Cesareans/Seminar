@@ -16,7 +16,7 @@ public class SeminarMapperTest {
     @Autowired
     SeminarMapper seminarMapper;
     @Test
-    public void selectSeminarByRoundId() throws JsonProcessingException {
+    public void selectSeminarByRoundId() {
         DebugLogger.logJson(seminarMapper.selectSeminarByRoundId("111"));
     }
 }

@@ -19,6 +19,7 @@ public interface SeminarShareMsgMapper {
      * @param seminarShareMsg the SeminarShareMsg entity that will be inserted
      */
     @Insert("insert into seminar_share_msg(content, teacher_id, principal_course_id, subordinate_course_id) values(#{content}, #{teacherId}, #{principalCourseId}, #{subordinateCourseId})")
+    @Options(useGeneratedKeys = true)
     void insertSeminarShareMsg(SeminarShareMsg seminarShareMsg);
 
     /**

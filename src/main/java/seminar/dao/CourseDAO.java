@@ -3,7 +3,6 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Course;
-import seminar.entity.regulation.MaxMinRegulation;
 import seminar.mapper.CourseMapper;
 import seminar.mapper.MaxMinRegulationMapper;
 
@@ -23,13 +22,34 @@ public class CourseDAO {
         this.maxMinRegulationMapper = maxMinRegulationMapper;
     }
 
+    /**
+     * @author cesare
+     */
     public List<Course> getByCourseId(String courseId) {
         return courseMapper.selectCourseById(courseId);
     }
 
+    /**
+     * @author cesare
+     */
     public List<Course> getByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
+
+    /**
+     * @author cesare
+     */
+    public List<Course> getBySeminarMainCourseId(String seminarMainCourseId){
+        return courseMapper.selectCourseBySeminarMainCourseId(seminarMainCourseId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public List<Course> getByTeamMainCourseId(String teamMainCourseId){
+        return courseMapper.selectCourseByTeamMainCourseId(teamMainCourseId);
+    }
+
 
     /**
      * @author lyf
@@ -63,22 +83,15 @@ public class CourseDAO {
      */
     public void deleteByCourseId(String courseId) {
         courseMapper.deleteCourseById(courseId);
-        maxMinRegulationMapper.deleteMaxMinRegulationByCourseId(courseId);
     }
 
     /**
      * @author lyf
      */
-    public boolean update(Course course, MaxMinRegulation maxMinRegulation) {
+    public boolean update(Course course) {
         if (!courseMapper.selectCourseById(course.getId()).isEmpty()) {
             courseMapper.updateCourse(course);
-            List<MaxMinRegulation> maxMinRegulations = maxMinRegulationMapper.selectMaxMinRegulationByCourseId(course.getId());
-            if (!maxMinRegulations.isEmpty()) {
-                maxMinRegulationMapper.updateMaxMinRegulation(maxMinRegulation);
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         } else {
             return false;
         }

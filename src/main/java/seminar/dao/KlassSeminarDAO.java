@@ -2,10 +2,13 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Attendance;
 import seminar.entity.KlassSeminar;
 import seminar.mapper.KlassSeminarMapper;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Cesare
@@ -18,20 +21,6 @@ public class KlassSeminarDAO {
     @Autowired
     public KlassSeminarDAO(KlassSeminarMapper klassSeminarMapper) {
         this.klassSeminarMapper = klassSeminarMapper;
-    }
-
-    /**
-     * TODO: Delete here.
-     */
-    public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId) {
-        return klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-    }
-
-    /**
-     * TODO: Delete here.
-     */
-    public List<KlassSeminar> getKlassSeminarByKlassSeminarId(String klassSeminarId) {
-        return klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
     }
 
     /**
@@ -104,4 +93,25 @@ public class KlassSeminarDAO {
         return klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
     }
 
+    /**
+     * @author Cesare
+     */
+    public List<Attendance> getEnrollList(String ksId) {
+        KlassSeminar klassSeminar = getByKlassSeminarId(ksId).get(0);
+        List<Attendance> enrollList = new LinkedList<>();
+        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
+            boolean isEnrolled = false;
+            for (Attendance attendance : klassSeminar.getAttendances()) {
+                if (attendance.getSn() == i) {
+                    isEnrolled = true;
+                    enrollList.add(attendance);
+                    break;
+                }
+            }
+            if (!isEnrolled) {
+                enrollList.add(null);
+            }
+        });
+        return enrollList;
+    }
 }

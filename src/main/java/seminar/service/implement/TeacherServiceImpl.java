@@ -1,5 +1,8 @@
 package seminar.service.implement;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
@@ -7,7 +10,6 @@ import seminar.entity.*;
 import seminar.entity.message.GroupValidityMsg;
 import seminar.entity.message.SeminarShareMsg;
 import seminar.entity.message.TeamShareMsg;
-import seminar.entity.regulation.MaxMinRegulation;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -26,11 +28,12 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeamDAO teamDAO;
     private final SeminarShareMsgDAO seminarShareMsgDAO;
     private final AttendanceDAO attendanceDAO;
-    private TeacherDAO teacherDAO;
     private final RoundDAO roundDAO;
+    private final TeacherDAO teacherDAO;
+    private final StudentDAO studentDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, TeamShareMsgDAO teamShareMsgDAO, GroupValidityMsgDAO groupValidityMsgDAO, TeamDAO teamDAO, SeminarShareMsgDAO seminarShareMsgDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -42,6 +45,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.seminarShareMsgDAO = seminarShareMsgDAO;
         this.attendanceDAO = attendanceDAO;
         this.roundDAO = roundDAO;
+        this.studentDAO = studentDAO;
     }
 
     @Override
@@ -122,8 +126,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean updateCourse(Course course, MaxMinRegulation maxMinRegulation) {
-        return courseDAO.update(course, maxMinRegulation);
+    public boolean updateCourse(Course course) {
+        return courseDAO.update(course);
     }
 
     /**
@@ -132,6 +136,31 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean createKlass(Klass klass) {
         return klassDAO.create(klass);
+    }
+
+    /**
+     * @author Cesare
+     */
+    @Override
+    public void insertKlassStudent(Klass klass, Workbook workbook) {
+        Student student = new Student();
+        klassDAO.deleteStudents(klass.getId());
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
+                Row row = sheet.getRow(j);
+                if (row.getCell(0).getStringCellValue().length() == 0) {
+                    continue;
+                }
+                student.setStudentNum(row.getCell(0).getStringCellValue().trim());
+                student.setStudentName(row.getCell(1).getStringCellValue().trim());
+                if (!studentDAO.existStudent(student)) {
+                    studentDAO.insertNewStudent(student);
+                }
+                student = studentDAO.getBySN(student.getStudentNum()).get(0);
+                klassDAO.insertStudent(student.getId(), klass.getCourseId(), klass.getId());
+            }
+        }
     }
 
     /**
@@ -150,6 +179,9 @@ public class TeacherServiceImpl implements TeacherService {
         klassDAO.deleteById(klassId);
     }
 
+    /**
+     * @author lyf
+     */
     @Override
     public void addRound(String courseId) {
         roundDAO.addRound(courseId);
@@ -180,6 +212,14 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     /**
+     * @author lyf
+     */
+    @Override
+    public void deleteSeminarById(String seminarId) {
+        seminarDAO.deleteById(seminarId);
+    }
+
+    /**
      * @author SWJ
      */
     @Override
@@ -201,7 +241,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean updateTeam(String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
-        team.setValid(true);
         return teamDAO.update(team);
     }
 
@@ -220,7 +259,6 @@ public class TeacherServiceImpl implements TeacherService {
     public boolean updateReportScore(int reportScore, String klassSeminarId) {
         List<Attendance> attendances = attendanceDAO.getByKlassSeminarId(klassSeminarId);
         for (Attendance a : attendances) {
-            a.setReportScore(reportScore);
             boolean flag = attendanceDAO.update(a);
             if (!flag) {
                 return false;

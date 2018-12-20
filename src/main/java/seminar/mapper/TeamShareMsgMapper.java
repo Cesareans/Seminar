@@ -19,6 +19,7 @@ public interface TeamShareMsgMapper {
      * @param teamShareMsg the TeamShareMsg entity that will be inserted
      */
     @Insert("insert into team_share_msg(content, teacher_id, principal_course_id, subordinate_course_id) values(#{content}, #{teacherId}, #{principalCourseId}, #{subordinateCourseId})")
+    @Options(useGeneratedKeys = true)
     void insertTeamShareMsg(TeamShareMsg teamShareMsg);
 
     /**

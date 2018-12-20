@@ -1,7 +1,6 @@
 package seminar;
 
 import cesare.mybatis.EntityGenerator;
-import seminar.entity.Round;
 import seminar.entity.Team;
 
 /**

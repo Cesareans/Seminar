@@ -19,7 +19,8 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be inserted
      */
-    @Insert("insert into team(team_serial, team_name, is_valid, course_id, klass_id, leader_id) values(#{serial}, #{teamName}, #{valid}, #{courseId}, #{klassId}, #{leaderId})")
+    @Insert("insert into team(team_serial, team_name, status, course_id, klass_id, leader_id) values(#{serial}, #{teamName}, #{status}, #{courseId}, #{klassId}, #{leaderId})")
+    @Options(useGeneratedKeys = true)
     void insertTeam(Team team);
 
     /**
@@ -27,7 +28,7 @@ public interface TeamMapper {
      *
      * @param team the Team entity that will be updated via the id
      */
-    @Update("update team set team_serial=#{serial}, team_name=#{teamName}, is_valid=#{valid}, course_id=#{courseId}, klass_id=#{klassId}, leader_id=#{leaderId} where id=#{id}")
+    @Update("update team set team_serial=#{serial}, team_name=#{teamName}, status=#{status}, course_id=#{courseId}, klass_id=#{klassId}, leader_id=#{leaderId} where id=#{id}")
     void updateTeam(Team team);
 
     /**
@@ -40,12 +41,12 @@ public interface TeamMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "team_serial"),
             @Result(property = "teamName", column = "team_name"),
-            @Result(property = "valid", column = "is_valid"),
+            @Result(property = "status", column = "status"),
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectAllTeam();
 
@@ -60,12 +61,12 @@ public interface TeamMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "team_serial"),
             @Result(property = "teamName", column = "team_name"),
-            @Result(property = "valid", column = "is_valid"),
+            @Result(property = "status", column = "status"),
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectTeamByCourseId(String courseId);
 
@@ -80,12 +81,12 @@ public interface TeamMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "team_serial"),
             @Result(property = "teamName", column = "team_name"),
-            @Result(property = "valid", column = "is_valid"),
+            @Result(property = "status", column = "status"),
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectTeamByKlassId(String klassId);
 
@@ -100,12 +101,12 @@ public interface TeamMapper {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "team_serial"),
             @Result(property = "teamName", column = "team_name"),
-            @Result(property = "valid", column = "is_valid"),
+            @Result(property = "status", column = "status"),
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
     List<Team> selectTeamById(String id);
 

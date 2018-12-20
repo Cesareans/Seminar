@@ -11,7 +11,6 @@ import cesare.mybatis.annotations.TargetPackage;
 public class SeminarShareMsg {
     @ID(isIncrement = true)
     private String id;
-    private String content;
     @Gist
     private String teacherId;
     @Gist
@@ -25,14 +24,6 @@ public class SeminarShareMsg {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getTeacherId() {

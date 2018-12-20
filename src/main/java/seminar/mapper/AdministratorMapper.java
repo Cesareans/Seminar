@@ -18,7 +18,8 @@ public interface AdministratorMapper {
      *
      * @param administrator the Administrator entity that will be inserted
      */
-    @Insert("insert into administrator(admin_name, password) values(#{adminName}, #{password})")
+    @Insert("insert into admin(account, password) values(#{adminName}, #{password})")
+    @Options(useGeneratedKeys = true)
     void insertAdministrator(Administrator administrator);
 
     /**
@@ -26,7 +27,7 @@ public interface AdministratorMapper {
      *
      * @param administrator the Administrator entity that will be updated via the id
      */
-    @Update("update administrator set admin_name=#{adminName}, password=#{password} where id=#{id}")
+    @Update("update admin set account=#{adminName}, password=#{password} where id=#{id}")
     void updateAdministrator(Administrator administrator);
 
     /**
@@ -34,10 +35,10 @@ public interface AdministratorMapper {
      *
      * @return List<administrator> the selected Administrator entities list
      */
-    @Select("select * from administrator")
+    @Select("select * from admin")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "adminName", column = "admin_name"),
+            @Result(property = "adminName", column = "account"),
             @Result(property = "password", column = "password")
     })
     List<Administrator> selectAllAdministrator();
@@ -48,10 +49,10 @@ public interface AdministratorMapper {
      * @param adminName the select gist
      * @return List<administrator> the selected Administrator entity as list
      */
-    @Select("select * from administrator where admin_name=#{adminName}")
+    @Select("select * from admin where account=#{adminName}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "adminName", column = "admin_name"),
+            @Result(property = "adminName", column = "account"),
             @Result(property = "password", column = "password")
     })
     List<Administrator> selectAdministratorByAdminName(String adminName);
@@ -62,10 +63,10 @@ public interface AdministratorMapper {
      * @param id the select gist
      * @return List<administrator> the selected Administrator entity as list
      */
-    @Select("select * from administrator where id=#{id}")
+    @Select("select * from admin where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "adminName", column = "admin_name"),
+            @Result(property = "adminName", column = "account"),
             @Result(property = "password", column = "password")
     })
     List<Administrator> selectAdministratorById(String id);
@@ -75,7 +76,7 @@ public interface AdministratorMapper {
      *
      * @param adminName the select gist
      */
-    @Delete("delete from administrator where admin_name=#{adminName}")
+    @Delete("delete from admin where account=#{adminName}")
     void deleteAdministratorByAdminName(String adminName);
 
     /**
@@ -83,7 +84,7 @@ public interface AdministratorMapper {
      *
      * @param id the select gist
      */
-    @Delete("delete from administrator where id=#{id}")
+    @Delete("delete from admin where id=#{id}")
     void deleteAdministratorById(String id);
 
 }

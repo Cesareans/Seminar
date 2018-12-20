@@ -1,14 +1,14 @@
-package seminar.pojo.vo;
+package seminar.pojo.dto;
 
 /**
  * @author Cesare
  */
-public class TeacherFilter {
+public class StudentFilter {
     private boolean newFilter = false;
     private int page = 0;
     private int count = 0;
     private String name = null;
-    private String teacherNum = null;
+    private String studentNum = null;
 
     public boolean isNewFilter() {
         return newFilter;
@@ -42,11 +42,11 @@ public class TeacherFilter {
         this.name = name;
     }
 
-    public String getTeacherNum() {
-        return teacherNum;
+    public String getStudentNum() {
+        return studentNum;
     }
 
-    public void setTeacherNum(String teacherNum) {
-        this.teacherNum = teacherNum;
+    public void setStudentNum(String studentNum) {
+        this.studentNum = studentNum;
     }
 }

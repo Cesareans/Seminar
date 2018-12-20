@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.pojo.vo.StudentFilter;
-import seminar.pojo.vo.TeacherFilter;
+import seminar.pojo.dto.StudentFilter;
+import seminar.pojo.dto.TeacherFilter;
 import seminar.service.AccountManageService;
 
 import java.util.List;

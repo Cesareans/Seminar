@@ -2,6 +2,7 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 
 /**
@@ -11,12 +12,20 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Klass {
     @ID(isIncrement = true)
     private String id;
-    private String klassName;
+    private int grade;
+    @SqlMap("klass_serial")
+    private int serial;
+    @SqlMap("klass_time")
     private String time;
+    @SqlMap("klass_location")
     private String location;
 
     @Gist
     private String courseId;
+
+    public String getKlassName() {
+        return grade + "-" + serial + "班";
+    }
 
     public String getId() {
         return id;
@@ -26,12 +35,20 @@ public class Klass {
         this.id = id;
     }
 
-    public String getKlassName() {
-        return klassName;
+    public int getGrade() {
+        return grade;
     }
 
-    public void setKlassName(String klassName) {
-        this.klassName = klassName;
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public int getSerial() {
+        return serial;
+    }
+
+    public void setSerial(int serial) {
+        this.serial = serial;
     }
 
     public String getTime() {

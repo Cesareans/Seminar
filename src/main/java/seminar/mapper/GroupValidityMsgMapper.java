@@ -19,6 +19,7 @@ public interface GroupValidityMsgMapper {
      * @param groupValidityMsg the GroupValidityMsg entity that will be inserted
      */
     @Insert("insert into group_validity_msg(content, teacher_id, team_id) values(#{content}, #{teacherId}, #{teamId})")
+    @Options(useGeneratedKeys = true)
     void insertGroupValidityMsg(GroupValidityMsg groupValidityMsg);
 
     /**

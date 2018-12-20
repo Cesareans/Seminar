@@ -12,7 +12,7 @@ public interface MailService {
      * @param targetEmail the target user's email
      * @author cesare
      */
-    public void sendCaptcha(String captcha, String targetEmail);
+    void sendCaptcha(String captcha, String targetEmail);
 
     /**
      * Send a email with content as text to target email.
@@ -21,5 +21,5 @@ public interface MailService {
      * @param targetEmail the target user's email
      * @author cesare
      */
-    public void sendMail(String content, String targetEmail);
+    void sendMail(String content, String targetEmail);
 }

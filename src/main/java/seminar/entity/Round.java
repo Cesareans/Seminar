@@ -1,9 +1,6 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
 import java.util.List;
 
@@ -16,7 +13,11 @@ import java.util.List;
 public class Round {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("round_serial")
     private String roundNum;
+    private int presentationScoreMethod;
+    private int reportScoreMethod;
+    private int questionScoreMethod;
     @Gist
     private String courseId;
 
@@ -37,6 +38,30 @@ public class Round {
 
     public void setRoundNum(String roundNum) {
         this.roundNum = roundNum;
+    }
+
+    public int getPresentationScoreMethod() {
+        return presentationScoreMethod;
+    }
+
+    public void setPresentationScoreMethod(int presentationScoreMethod) {
+        this.presentationScoreMethod = presentationScoreMethod;
+    }
+
+    public int getReportScoreMethod() {
+        return reportScoreMethod;
+    }
+
+    public void setReportScoreMethod(int reportScoreMethod) {
+        this.reportScoreMethod = reportScoreMethod;
+    }
+
+    public int getQuestionScoreMethod() {
+        return questionScoreMethod;
+    }
+
+    public void setQuestionScoreMethod(int questionScoreMethod) {
+        this.questionScoreMethod = questionScoreMethod;
     }
 
     public String getCourseId() {

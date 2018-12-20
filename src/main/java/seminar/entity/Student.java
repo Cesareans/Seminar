@@ -19,6 +19,7 @@ public class Student {
     private String studentNum;
     private String password;
     private String email;
+    @SqlMap("is_active")
     private boolean activated;
 
     public String getId() {

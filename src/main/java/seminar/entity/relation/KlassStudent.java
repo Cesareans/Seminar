@@ -1,14 +1,5 @@
 package seminar.entity.relation;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-
-import java.util.List;
-
 /**
  * @author Cesare
  */

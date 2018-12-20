@@ -25,8 +25,16 @@ public class SeminarConfig {
         return mailSender;
     }
 
-    @Bean
-    public MultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
+    public enum WorkBookType {
+        HSSF("xls"), XSSF("xlsx");
+        String type;
+
+        WorkBookType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 }

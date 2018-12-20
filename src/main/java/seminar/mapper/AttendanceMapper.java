@@ -19,7 +19,8 @@ public interface AttendanceMapper {
      *
      * @param attendance the Attendance entity that will be inserted
      */
-    @Insert("insert into attendance(sn, pre_file, is_presenting, report_file, pre_score, report_score, team_id, klass_seminar_id) values(#{sn}, #{preFile}, #{presenting}, #{reportFile}, #{preScore}, #{reportScore}, #{teamId}, #{klassSeminarId})")
+    @Insert("insert into attendance(team_order, is_present, ppt_name, report_name, team_id, klass_seminar_id) values(#{sn}, #{presenting}, #{preFile}, #{reportFile}, #{teamId}, #{klassSeminarId})")
+    @Options(useGeneratedKeys = true)
     void insertAttendance(Attendance attendance);
 
     /**
@@ -27,7 +28,7 @@ public interface AttendanceMapper {
      *
      * @param attendance the Attendance entity that will be updated via the id
      */
-    @Update("update attendance set sn=#{sn}, pre_file=#{preFile}, is_presenting=#{presenting}, report_file=#{reportFile}, pre_score=#{preScore}, report_score=#{reportScore}, team_id=#{teamId}, klass_seminar_id=#{klassSeminarId} where id=#{id}")
+    @Update("update attendance set team_order=#{sn}, is_present=#{presenting}, ppt_name=#{preFile}, report_name=#{reportFile}, team_id=#{teamId}, klass_seminar_id=#{klassSeminarId} where id=#{id}")
     void updateAttendance(Attendance attendance);
 
     /**
@@ -38,12 +39,10 @@ public interface AttendanceMapper {
     @Select("select * from attendance")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "sn", column = "sn"),
-            @Result(property = "preFile", column = "pre_file"),
-            @Result(property = "presenting", column = "is_presenting"),
-            @Result(property = "reportFile", column = "report_file"),
-            @Result(property = "preScore", column = "pre_score"),
-            @Result(property = "reportScore", column = "report_score"),
+            @Result(property = "sn", column = "team_order"),
+            @Result(property = "presenting", column = "is_present"),
+            @Result(property = "preFile", column = "ppt_name"),
+            @Result(property = "reportFile", column = "report_name"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
@@ -59,12 +58,10 @@ public interface AttendanceMapper {
     @Select("select * from attendance where team_id=#{teamId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "sn", column = "sn"),
-            @Result(property = "preFile", column = "pre_file"),
-            @Result(property = "presenting", column = "is_presenting"),
-            @Result(property = "reportFile", column = "report_file"),
-            @Result(property = "preScore", column = "pre_score"),
-            @Result(property = "reportScore", column = "report_score"),
+            @Result(property = "sn", column = "team_order"),
+            @Result(property = "presenting", column = "is_present"),
+            @Result(property = "preFile", column = "ppt_name"),
+            @Result(property = "reportFile", column = "report_name"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
@@ -80,12 +77,10 @@ public interface AttendanceMapper {
     @Select("select * from attendance where klass_seminar_id=#{klassSeminarId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "sn", column = "sn"),
-            @Result(property = "preFile", column = "pre_file"),
-            @Result(property = "presenting", column = "is_presenting"),
-            @Result(property = "reportFile", column = "report_file"),
-            @Result(property = "preScore", column = "pre_score"),
-            @Result(property = "reportScore", column = "report_score"),
+            @Result(property = "sn", column = "team_order"),
+            @Result(property = "presenting", column = "is_present"),
+            @Result(property = "preFile", column = "ppt_name"),
+            @Result(property = "reportFile", column = "report_name"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
@@ -101,12 +96,10 @@ public interface AttendanceMapper {
     @Select("select * from attendance where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "sn", column = "sn"),
-            @Result(property = "preFile", column = "pre_file"),
-            @Result(property = "presenting", column = "is_presenting"),
-            @Result(property = "reportFile", column = "report_file"),
-            @Result(property = "preScore", column = "pre_score"),
-            @Result(property = "reportScore", column = "report_score"),
+            @Result(property = "sn", column = "team_order"),
+            @Result(property = "presenting", column = "is_present"),
+            @Result(property = "preFile", column = "ppt_name"),
+            @Result(property = "reportFile", column = "report_name"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "klassSeminarId", column = "klass_seminar_id"),
             @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))

@@ -11,13 +11,18 @@ import cesare.mybatis.annotations.TargetPackage;
 public class Question {
     @ID(isIncrement = true)
     private String id;
-    private int queScore;
+    private int score;
     @Gist
     private String teamId;
     @Gist
     private String studentId;
     @Gist
     private String attendanceId;
+    /**
+     * TODO:This field is a totally redundant field.
+     */
+    @Gist
+    private String klassSeminarId;
 
     public String getId() {
         return id;
@@ -27,12 +32,12 @@ public class Question {
         this.id = id;
     }
 
-    public int getQueScore() {
-        return queScore;
+    public int getScore() {
+        return score;
     }
 
-    public void setQueScore(int queScore) {
-        this.queScore = queScore;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getTeamId() {
@@ -57,5 +62,13 @@ public class Question {
 
     public void setAttendanceId(String attendanceId) {
         this.attendanceId = attendanceId;
+    }
+
+    public String getKlassSeminarId() {
+        return klassSeminarId;
+    }
+
+    public void setKlassSeminarId(String klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
     }
 }

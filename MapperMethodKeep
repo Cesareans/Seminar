@@ -1,24 +1,5 @@
-@SWJ
-${StudentMapper}
-    /**
-     * Select all student entities which not join in any teams of the course via courseId
-     * @author SWJ
-     * @param courseId the select gist
-     * @return List<Student> the selected Student entity as list
-     */
-    @Select("select * from student where id not in(select student_id from team_student where team_id in (select id from team where klass_id in(select id from klass where course_id=#{courseId})))")
-    @Results({
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "studentName", column = "student_name"),
-            @Result(property = "studentNum", column = "student_num"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
-    })
-    List<Student> selectStudentWithoutTeamByCourseId(String courseId);
-
 @Cesare
-${TeamStudentMapper}
+${KlassStudentMapper}
     /**
      * Select a Team's all students via teamId
      *
@@ -26,16 +7,34 @@ ${TeamStudentMapper}
      * @param teamId the select gist
      * @return List<Student> the selected Team's all students as list
      */
-    @Select("select student.id,student_name,student_num,password,email,is_activated from team_student left join student on team_student.student_id = student.id where team_id=#{teamId}")
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where team_id=#{teamId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
             @Result(property = "studentNum", column = "student_num"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_activated")
+            @Result(property = "activated", column = "is_active")
     })
     List<Student> selectStudentsByTeamId(String teamId);
+
+    /**
+     * Select all not teamed students in a course via course id
+     *
+     * @author Cesare
+     * @param courseId the select gist
+     * @return List<Student> the not teamed students in the course
+     */
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where course_id=#{courseId} and team_id = 0")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "student_num"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_active")
+    })
+    List<Student> selectNotTeamedStudentsByCourseId(String courseId);
 
 @Cesare
 ${RoundMapper}

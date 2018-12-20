@@ -23,19 +23,17 @@ public class RoundDAO {
         return roundMapper.selectRoundByCourseId(courseId);
     }
 
-    public void addRound(String courseId){
+    public void addRound(String courseId) {
         roundMapper.addRound(courseId);
     }
+
     /**
+     * @param round
+     * @return boolean
      * @author lyf
      */
     public boolean create(Round round) {
         List<Round> rounds = roundMapper.selectRoundByCourseId(round.getCourseId());
-        if (rounds.isEmpty()) {
-            roundMapper.insertRound(round);
-            return true;
-        }
-
         for (Round r : rounds) {
             if (r.getRoundNum().equals(round.getRoundNum())) {
                 return false;
