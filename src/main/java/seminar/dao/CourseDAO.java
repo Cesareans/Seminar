@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import seminar.entity.Course;
 import seminar.mapper.CourseMapper;
 import seminar.mapper.TeacherMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 
 import java.util.List;
 
@@ -15,11 +16,13 @@ import java.util.List;
 public class CourseDAO {
     private final CourseMapper courseMapper;
     private final TeacherMapper teacherMapper;
+    private final KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public CourseDAO(CourseMapper courseMapper, TeacherMapper teacherMapper) {
+    public CourseDAO(CourseMapper courseMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper) {
         this.courseMapper = courseMapper;
         this.teacherMapper = teacherMapper;
+        this.klassStudentMapper = klassStudentMapper;
     }
 
     /**
@@ -36,6 +39,12 @@ public class CourseDAO {
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
 
+    /**
+     * @author cesare
+     */
+    public List<Course> getByStudentId(String studentId){
+        return klassStudentMapper.selectCourseByStudentId(studentId);
+    }
     /**
      * @author cesare
      */

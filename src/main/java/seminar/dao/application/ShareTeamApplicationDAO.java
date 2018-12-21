@@ -49,4 +49,8 @@ public class ShareTeamApplicationDAO {
         });
         return shareTeamApplications;
     }
+
+    public void deleteById(String id){
+        shareTeamApplicationMapper.deleteShareTeamApplicationById(id);
+    }
 }

@@ -16,13 +16,11 @@ import java.util.List;
 @Component
 public class KlassDao {
     private final KlassMapper klassMapper;
-    private final CourseMapper courseMapper;
     private final KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public KlassDao(KlassMapper klassMapper, CourseMapper courseMapper, KlassStudentMapper klassStudentMapper) {
+    public KlassDao(KlassMapper klassMapper, KlassStudentMapper klassStudentMapper) {
         this.klassMapper = klassMapper;
-        this.courseMapper = courseMapper;
         this.klassStudentMapper = klassStudentMapper;
     }
 
@@ -71,6 +69,13 @@ public class KlassDao {
     }
 
     /**
+     * @author cesare
+     */
+    public List<Klass> getByStudentId(String studentId){
+        return klassStudentMapper.selectKlassByStudentId(studentId);
+    }
+
+    /**
      * @author lyf
      */
     public boolean deleteById(String klassId) {
@@ -87,16 +92,12 @@ public class KlassDao {
     }
 
     /**
+     * FIXME:May be used in delete cascade
      * @author lyf
      */
     public boolean deleteByCourseId(String courseId) {
-        List<Course> courses = courseMapper.selectCourseById(courseId);
-        if (courses.isEmpty()) {
-            return false;
-        } else {
-            klassMapper.deleteKlassByCourseId(courseId);
-            return true;
-        }
+        klassMapper.deleteKlassByCourseId(courseId);
+        return true;
     }
 
     /**

@@ -54,4 +54,11 @@ public class ShareSeminarApplicationDAO {
         });
         return shareSeminarApplications;
     }
+
+    /**
+     * @author Cesare
+     */
+    public void deleteById(String id){
+        shareSeminarApplicationMapper.deleteShareSeminarApplicationById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Klass;
 
 import java.util.List;
@@ -42,7 +43,8 @@ public interface KlassMapper {
             @Result(property = "serial", column = "klass_serial"),
             @Result(property = "time", column = "klass_time"),
             @Result(property = "location", column = "klass_location"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "course", column = "course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<Klass> selectAllKlass();
 
@@ -59,7 +61,8 @@ public interface KlassMapper {
             @Result(property = "serial", column = "klass_serial"),
             @Result(property = "time", column = "klass_time"),
             @Result(property = "location", column = "klass_location"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "course", column = "course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<Klass> selectKlassByCourseId(String courseId);
 
@@ -76,7 +79,8 @@ public interface KlassMapper {
             @Result(property = "serial", column = "klass_serial"),
             @Result(property = "time", column = "klass_time"),
             @Result(property = "location", column = "klass_location"),
-            @Result(property = "courseId", column = "course_id")
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "course", column = "course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<Klass> selectKlassById(String id);
 

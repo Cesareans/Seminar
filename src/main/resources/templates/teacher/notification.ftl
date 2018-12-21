@@ -78,10 +78,14 @@
                 <div class="sep"></div>
                 <div class="content">${SSApp.subCourse.courseName}</div>
                 </div>
-                <div class="operation-div" style="display: none">
+                <div class="operation-div" data-appId="${SSApp.id}"
+                data-mainCourseId="${SSApp.mainCourseId}"
+                data-subCourseId="${SSApp.subCourseId}"
+                data-appType="0"
+                style="display: none">
                 <ul class="nav nav-pills nav-pills-icons flex-space-around">
                     <li class="nav-item">
-                        <a class="nav-link" style="padding-bottom: 0;">
+                        <a class="nav-link accept" style="padding-bottom: 0;">
                             <div class="icon icon-success">
                             <i class="material-icons">check</i>
                             </div>
@@ -89,7 +93,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" style="padding-bottom: 0;">
+                        <a class="nav-link reject" style="padding-bottom: 0;">
                             <div class="icon icon-danger">
                             <i class="material-icons round-setting">close</i>
                             </div>
@@ -130,10 +134,13 @@
                 <div class="sep"></div>
                 <div class="content">${STApp.subCourse.courseName}</div>
                 </div>
-                <div class="operation-div" style="display: none">
+                <div class="operation-div"  data-appId="${STApp.id}"
+                data-mainCourseId="${STApp.mainCourseId}"
+                data-subCourseId="${STApp.subCourseId}"
+                data-appType="1" style="display: none">
                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                         <li class="nav-item">
-                            <a class="nav-link" style="padding-bottom: 0;">
+                            <a class="nav-link accept" style="padding-bottom: 0;">
                                 <div class="icon icon-success">
                                 <i class="material-icons">check</i>
                                 </div>
@@ -141,7 +148,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="padding-bottom: 0;">
+                            <a class="nav-link reject" style="padding-bottom: 0;">
                                 <div class="icon icon-danger">
                                 <i class="material-icons round-setting">close</i>
                                 </div>
@@ -158,7 +165,14 @@
         </div>
     </div>
 </div>
-
+<form hidden id="appHandleForm">
+    <input name="appId" id="appIdInput" placeholder="">
+    <input name="mainCourseId" id="mainCourseIdInput" placeholder="">
+    <input name="subCourseId" id="subCourseIdInput" placeholder="">
+    <input name="teamId" id="teamIdInput" placeholder="">
+    <input name="appType" id="appTypeInput" placeholder="">
+    <input name="operationType" id="operationTypeInput" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

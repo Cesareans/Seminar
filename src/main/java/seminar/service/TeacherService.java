@@ -156,7 +156,7 @@ public interface TeacherService {
     void deleteSeminarByRoundId(String courseId);
 
     /**
-     * Updete the report score when teacher give score
+     * Update the report score when teacher give score
      *
      * @param reportScore    refer gist.
      * @param klassSeminarId refer gist

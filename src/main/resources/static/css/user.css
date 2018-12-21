@@ -122,6 +122,11 @@
     margin-top: 27px;
 }
 
+/*File Frame*/
+.file-frame{
+    border: 2px dashed #eee;
+}
+
 /*Card*/
 .card {
     margin-top: 10px;
@@ -135,7 +140,6 @@
 .card-body .body-header {
     display: flex;
 }
-
 
 .card-body .body-header .body-title {
     color: #333333;
@@ -311,7 +315,7 @@
 
 /*Modal*/
 .modal .modal-dialog {
-    margin-top: 24vh;
+    margin-top: 20vh;
 }
 
 .modal .modal-header {
@@ -364,6 +368,19 @@
     display: none;
 }
 
+/*Table*/
+.team-table{
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+.team-table .name{
+    text-align: center;
+    width: 48%;
+    line-height: 21px;
+}
+.team-table .num{
+    line-height: 21px;
+}
 
 
 
@@ -409,6 +426,95 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+
+/*Loading*/
+.loading {
+    z-index: 2000;
+    pointer-events: all;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate3d(-50%, -50%, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.sk-double-bounce {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 40px auto;
+}
+
+.sk-double-bounce::before {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.sk-double-bounce:before {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+}
+
+.sk-double-bounce:after {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+}
+
+.sk-double-bounce .sk-child {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
+    animation: sk-doubleBounce 2s infinite ease-in-out;
+}
+
+.sk-double-bounce .sk-double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-doubleBounce {
+    0%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    50% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes sk-doubleBounce {
+    0%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    50% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
 
 /****** Page Style ******/
 /*Login page*/

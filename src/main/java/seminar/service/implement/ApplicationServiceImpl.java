@@ -57,10 +57,13 @@ public class ApplicationServiceImpl implements ApplicationService {
                     return false;
                 }else{
                     course.setTeamMainCourseId(applicationHandleDTO.getMainCourseId());
+                    courseDAO.update(course);
+                    shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
                     return true;
                 }
             case 0:
-
+                shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
+                return true;
             default:
                 return false;
         }
@@ -84,6 +87,22 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean handleShareSeminarApplication(ApplicationHandleDTO applicationHandleDTO) {
-        return false;
+        switch (applicationHandleDTO.getOperationType()){
+            case 1:
+                Course course = courseDAO.getByCourseId(applicationHandleDTO.getSubCourseId()).get(0);
+                if(course.getSeminarMainCourseId()!=null){
+                    return false;
+                }else{
+                    course.setSeminarMainCourseId(applicationHandleDTO.getMainCourseId());
+                    courseDAO.update(course);
+                    shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
+                    return true;
+                }
+            case 0:
+                shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
+                return true;
+            default:
+                return false;
+        }
     }
 }
