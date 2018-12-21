@@ -145,8 +145,8 @@ public class TeacherServiceImpl implements TeacherService {
                 if (row.getCell(0).getStringCellValue().length() == 0) {
                     continue;
                 }
-                student.setStudentNum(row.getCell(0).getStringCellValue().trim());
-                student.setStudentName(row.getCell(1).getStringCellValue().trim());
+                student.setStudentNum(row.getCell(0).getStringCellValue().replace((char)160, (char)32).trim());
+                student.setStudentName(row.getCell(1).getStringCellValue().replace((char)160, (char)32).trim());
                 if (!studentDAO.existStudent(student)) {
                     studentDAO.insertNewStudent(student);
                 }

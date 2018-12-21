@@ -1,5 +1,6 @@
 package seminar.controller;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,6 +18,7 @@ import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.relation.KlassRound;
+import seminar.logger.DebugLogger;
 import seminar.pojo.dto.ApplicationHandleDTO;
 import seminar.pojo.dto.KlassCreateDTO;
 import seminar.pojo.dto.RoundSettingDTO;
@@ -79,7 +81,10 @@ public class TeacherController {
     }
 
     @GetMapping("/activation")
-    public String activation() {
+    public String activation(Model model) {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
+        model.addAttribute("teacher", teacher);
         return "teacher/activation";
     }
 
@@ -119,7 +124,7 @@ public class TeacherController {
     ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
         String senderCaptcha = ((String) session.getAttribute("modifyEmailCaptcha"));
         if (captcha.equals(senderCaptcha)) {
-            teacherService.modifyEmail(((String) session.getAttribute("teacherId")), email);
+            teacherService.modifyEmail(((String) session.getAttribute(TEACHER_ID_GIST)), email);
             session.removeAttribute("modifyEmailCaptcha");
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
@@ -151,7 +156,8 @@ public class TeacherController {
     }
 
     @PostMapping("/notification/handle")
-    public @ResponseBody ResponseEntity<Object> handleApplication(ApplicationHandleDTO applicationHandleDTO){
+    public @ResponseBody ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO){
+        DebugLogger.logJson(applicationHandleDTO);
         switch (applicationHandleDTO.getAppType()){
             case 0:
                 if(applicationService.handleShareSeminarApplication(applicationHandleDTO)){

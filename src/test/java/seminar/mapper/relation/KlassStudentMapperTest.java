@@ -43,4 +43,14 @@ public class KlassStudentMapperTest {
         DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("112"));
 
     }
+
+    @Test
+    public void selectCourseByStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
+    }
+
+    @Test
+    public void selectKlassByStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectKlassByStudentId("1234"));
+    }
 }

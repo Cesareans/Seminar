@@ -3,8 +3,11 @@ package seminar.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.CourseDAO;
+import seminar.dao.KlassDao;
 import seminar.dao.KlassStudentDAO;
 import seminar.dao.StudentDAO;
+import seminar.entity.Course;
+import seminar.entity.Klass;
 import seminar.dao.TeamDAO;
 import seminar.entity.Student;
 import seminar.entity.Team;
@@ -19,17 +22,41 @@ import java.util.List;
  */
 @Service
 public class StudentServiceImpl implements StudentService {
-    private StudentDAO studentDAO;
-    private CourseDAO courseDAO;
-    private TeamDAO teamDAO;
-    private KlassStudentDAO klassStudentDAO;
+    private final StudentDAO studentDAO;
+    private final CourseDAO courseDAO;
+    private final KlassDao klassDao;
+    private final TeamDAO teamDAO;
+    private final KlassStudentDAO klassStudentDAO;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, TeamDAO teamDAO, KlassStudentDAO klassStudentDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassStudentDAO klassStudentDAO) {
         this.studentDAO = studentDAO;
         this.courseDAO = courseDAO;
+        this.klassDao = klassDao;
         this.teamDAO = teamDAO;
         this.klassStudentDAO = klassStudentDAO;
+    }
+
+    @Override
+    public boolean activate(String studentId, String password, String email) {
+        Student student = studentDAO.getById(studentId).get(0);
+        student.setPassword(password);
+        student.setEmail(email);
+        student.setActivated(true);
+        studentDAO.update(student);
+        return true;
+    }
+
+    @Override
+    public boolean modifyEmail(String studentId, String email) {
+        List<Student> students = studentDAO.getById(studentId);
+        if(students.isEmpty()){
+            return false;
+        }
+        Student student = students.get(0);
+        student.setEmail(email);
+        studentDAO.update(student);
+        return true;
     }
 
     /**
@@ -49,6 +76,30 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * @author Cesare
+     */
+    @Override
+    public boolean modifyPasswordViaId(String studentId, String password) {
+        List<Student> students = studentDAO.getById(studentId);
+        if (students.isEmpty()) {
+            return false;
+        }
+        Student student = students.get(0);
+        student.setPassword(password);
+        studentDAO.update(student);
+        return true;
+    }
+
+    @Override
+    public List<Course> getCoursesByStudentId(String studentId) {
+        return courseDAO.getByStudentId(studentId);
+    }
+
+    @Override
+    public List<Klass> getKlassesByStudentId(String studentId) {
+        return klassDao.getByStudentId(studentId);
+    }
+    /**
      * @author Xinyu Shi
      */
     @Override
@@ -56,8 +107,9 @@ public class StudentServiceImpl implements StudentService {
     {
         Date today = new Date();
         Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
-        if(today.getTime() > teamEndDate.getTime())
+        if(today.getTime() > teamEndDate.getTime()) {
             return false;
+        }
 
         Team team = new Team();
         team.setCourseId(courseId);
@@ -86,7 +138,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getAllUnteamedStudentsByCourseId(String courseId)
+    public List<Student> getAllUnTeamedStudentsByCourseId(String courseId)
     {
         return studentDAO.studentsUnTeamed(courseId);
     }

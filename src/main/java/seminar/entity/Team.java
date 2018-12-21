@@ -28,6 +28,8 @@ public class Team {
     private Student leader;
     @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId")
     private List<Student> students;
+    @Link(gist = "klassId", select = "seminar.mapper.KlassMapper.selectKlassById")
+    private Klass klass;
 
     public String getId() {
         return id;
@@ -53,18 +55,10 @@ public class Team {
         this.teamName = teamName;
     }
 
-    /**
-     * TODO: modify
-     * @return
-     */
     public String getTeamStatus() {
         return teamStatus[status];
     }
 
-    /**
-     * TODO: modify
-     * @return
-     */
     public int getStatus() {
         return status;
     }
@@ -111,5 +105,13 @@ public class Team {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public Klass getKlass() {
+        return klass;
+    }
+
+    public void setKlass(Klass klass) {
+        this.klass = klass;
     }
 }
