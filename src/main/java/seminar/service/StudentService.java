@@ -5,6 +5,11 @@ import seminar.entity.Klass;
 
 import java.util.List;
 
+import seminar.entity.Student;
+import seminar.entity.Team;
+
+import java.util.List;
+
 /**
  * @author Cesare
  */
@@ -67,4 +72,22 @@ public interface StudentService {
      * @author cesare
      */
     List<Klass> getKlassesByStudentId(String studentId);
+
+    /**
+     * Create a team by a student who is without a team.
+     * @author Xinyu Shi
+     * @param studentId
+     * @param courseId
+     * @param klassId
+     * @param teamName
+     * @return
+     */
+    boolean createTeam(String studentId, String courseId, String klassId, String teamName);
+
+    List<Team> getAllTeamInformation(String courseId);
+
+    List<Student> getAllUnTeamedStudentsByCourseId(String courseId);
+
+    void exitTeam(String studentId, String teamId);
+
 }

@@ -44,6 +44,10 @@ public class DebugLogger {
 
     public static void logJson(Object object) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
+        if(object == null){
+            System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]: null");
+            return;
+        }
         try {
             System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
         } catch (Exception ex) {

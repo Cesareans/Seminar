@@ -55,7 +55,7 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public String getTeamStatus(){
+    public String getTeamStatus() {
         return teamStatus[status];
     }
 

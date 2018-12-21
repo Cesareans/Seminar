@@ -5,4 +5,6 @@ package seminar.service;
  */
 public interface LeaderService {
 
+    public boolean addGroupMember(String studentId, String courseId, String teamId);
+
 }

@@ -36,12 +36,12 @@ public class TeamDAO {
     }
 
     /**
-     * @author lyf
+     * @author Xinyu Shi
      */
     public boolean create(Team team) {
         List<Team> teams = teamMapper.selectTeamById(team.getId());
         if (teams.isEmpty()) {
-            teamMapper.insertTeam(team);
+            teamMapper.addTeam(team);
             return true;
         } else {
             return false;
@@ -73,6 +73,14 @@ public class TeamDAO {
             teamMapper.updateTeam(team);
             return true;
         }
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    public List<Team> getByLeaderId(String leaderId)
+    {
+        return teamMapper.selectTeamByLeaderId(leaderId);
     }
 
 }
