@@ -53,8 +53,20 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public String getStatus() {
+    /**
+     * TODO: modify
+     * @return
+     */
+    public String getTeamStatus() {
         return teamStatus[status];
+    }
+
+    /**
+     * TODO: modify
+     * @return
+     */
+    public int getStatus() {
+        return status;
     }
 
     public void setStatus(int status) {

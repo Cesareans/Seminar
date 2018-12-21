@@ -2,6 +2,7 @@ package seminar.mapper.relation;
 
 import org.apache.ibatis.annotations.*;
 import seminar.entity.Student;
+import seminar.entity.relation.KlassStudent;
 
 import java.util.List;
 
@@ -68,4 +69,42 @@ public interface KlassStudentMapper {
     })
     List<Student> selectNotTeamedStudentsByCourseId(String courseId);
 
+    /**
+     * Select a Team's all students via teamId
+     *
+     * @param
+     * @return
+     * @author Xinyu Shi
+     */
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId} and course_id =#{courseId}")
+    @Results({
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+    })
+    List<KlassStudent> selectByStudentIdAndCourseId(@Param("studentId") String studentId, @Param("courseId") String courseId);
+
+    /**
+     * @author Xinyu Shi
+     * update team_id by studentId and courseId.
+     */
+    @Update("update klass_student set team_id=#{teamId} where student_id=#{studentId} and course_id=#{courseId}")
+    void update(KlassStudent klassStudent);
+
+    /**
+     * TODO
+     *
+     * @param
+     * @return
+     * @author Xinyu Shi
+     */
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId}")
+    @Results({
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+    })
+    List<KlassStudent> selectByStudentId(String studentId);
 }

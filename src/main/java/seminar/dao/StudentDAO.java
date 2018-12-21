@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.mapper.StudentMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
 @Component
 public class StudentDAO {
     private StudentMapper studentMapper;
+    private KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public StudentDAO(StudentMapper studentMapper) {
+    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper) {
         this.studentMapper = studentMapper;
+        this.klassStudentMapper = klassStudentMapper;
     }
 
     /**
@@ -83,5 +86,33 @@ public class StudentDAO {
 
     public void deleteBySN(String sn) {
         studentMapper.deleteStudentByStudentNum(sn);
+    }
+
+    /**
+     * Judge a student is teamed or not.
+     * @author Xinyu Shi
+     * @param studentId
+     * @param courseId
+     * @return
+     */
+    public boolean studentHasNotTeamed(String studentId, String courseId)
+    {
+        List<Student> studentHasNotTeamed = klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
+        Student student = studentMapper.selectStudentById(studentId).get(0);
+        if(studentHasNotTeamed.contains(student))
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * Get all students is not teamed
+     * @author Xinyu Shi
+     * @param courseId
+     * @return
+     */
+    public List<Student> studentsUnTeamed(String courseId)
+    {
+        return klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
     }
 }
