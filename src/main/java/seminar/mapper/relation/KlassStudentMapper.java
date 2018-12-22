@@ -32,6 +32,7 @@ public interface KlassStudentMapper {
 
     /**
      * Delete all students in a klass
+     *
      * @param klassId the refer gist
      */
     @Delete("delete from klass_student where klass_id=#{klassId}")
@@ -75,6 +76,7 @@ public interface KlassStudentMapper {
 
     /**
      * Select courses of students via studentId
+     *
      * @param studentId the refer gist
      * @return List<Course> list of course.
      */
@@ -96,6 +98,7 @@ public interface KlassStudentMapper {
 
     /**
      * Select klasses of students via studentId
+     *
      * @param studentId the refer gist
      * @return List<Course> list of course.
      */
@@ -110,6 +113,7 @@ public interface KlassStudentMapper {
             @Result(property = "course", column = "course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<Klass> selectKlassByStudentId(String studentId);
+
     /**
      * Select a Team's all students via teamId
      *
@@ -117,7 +121,7 @@ public interface KlassStudentMapper {
      * @return
      * @author Xinyu Shi
      */
-    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId} and course_id =#{courseId}")
+    @Select("select * from klass_student where student_id=#{studentId} and course_id =#{courseId}")
     @Results({
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
@@ -140,12 +144,30 @@ public interface KlassStudentMapper {
      * @return
      * @author Xinyu Shi
      */
-    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId}")
+    @Select("select * from klass_student where student_id=#{studentId} and klass_id=#{klassId}")
     @Results({
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
     })
-    List<KlassStudent> selectByStudentId(String studentId);
+    List<KlassStudent> selectByStudentIdAndKlassId(@Param("studentId") String studentId, @Param("klassId") String klassId);
+
+
+    /**
+     * Select a Team's all students via teamId
+     *
+     * @param
+     * @return
+     * @author Xinyu Shi
+     */
+    @Select("select * from klass_student where student_id=#{studentId} and team_id=#{teamId}")
+    @Results({
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+    })
+    List<KlassStudent> selectByStudentIdAndTeamId(@Param("studentId") String studentId, @Param("teamId") String teamId);
+
 }

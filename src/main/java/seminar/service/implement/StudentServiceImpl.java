@@ -17,6 +17,8 @@ import seminar.service.StudentService;
 import java.util.Date;
 import java.util.List;
 
+import static sun.misc.Version.println;
+
 /**
  * @author Cesare
  */
@@ -124,7 +126,7 @@ public class StudentServiceImpl implements StudentService {
         KlassStudent klassStudent = new KlassStudent();
         klassStudent.setKlassId(klassId);
         klassStudent.setCourseId(courseId);
-        klassStudent.setTeamId(teamCreated.getSerial());
+        klassStudent.setTeamId(teamCreated.getId());
         klassStudent.setStudentId(studentId);
         klassStudentDAO.update(klassStudent);
 
@@ -146,25 +148,31 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void exitTeam(String studentId, String teamId)
     {
-        Team team = teamDAO.getById(teamId).get(0);
+        KlassStudent klassStudent = klassStudentDAO.getByStudentIdAndTeamId(studentId,teamId).get(0);
+        Team team = teamDAO.getByKlassIdAndTeamId(klassStudent.getKlassId(),klassStudent.getTeamId()).get(0);
         if((team.getLeaderId()).equals(studentId))
         {
+            // delete all students' team information in table klass_student in this team.
             List<Student> students = team.getStudents();
             for(Student student : students)
             {
-                KlassStudent klassStudent = klassStudentDAO.getByStudentId(student.getId()).get(0);
-                klassStudent.setTeamId("0");
-                klassStudentDAO.update(klassStudent);
+                KlassStudent klassStudentMember = klassStudentDAO.getByStudentIdAndTeamId(student.getId(),teamId).get(0);
+                klassStudentMember.setTeamId("0");
+                klassStudentDAO.update(klassStudentMember);
             }
+            //delete this team.
             teamDAO.deleteById(teamId);
         }
         else
         {
-            KlassStudent klassStudent = klassStudentDAO.getByStudentId(studentId).get(0);
             klassStudent.setTeamId("0");
             klassStudentDAO.update(klassStudent);
             team = teamDAO.getById(teamId).get(0);
             teamDAO.update(team);
         }
+
+        /**
+         * TODO: judge whether the team id valid or not.
+         */
     }
 }
