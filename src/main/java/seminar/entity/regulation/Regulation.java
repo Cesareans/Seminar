@@ -17,7 +17,7 @@ public interface Regulation {
     /**
      * Get the regulation's msg if validation does not pass.
      *
-     * @return the error message.
+     * @return the error handler.
      */
     String getErrorMsg();
 }

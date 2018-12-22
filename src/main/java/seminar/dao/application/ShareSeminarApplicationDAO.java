@@ -22,7 +22,7 @@ public class ShareSeminarApplicationDAO {
     }
 
     /**
-     * The course which is a subordinateCourse can't send a seminar share message
+     * The course which is a subordinateCourse can't send a seminar share handler
      * @author Cesare
      */
     public boolean create(ShareSeminarApplication shareSeminarApplication) {

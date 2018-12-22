@@ -9,12 +9,28 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="/static/css/countup.css">
     <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
     <script src="/static/lib/stomp.js"></script>
     <script src="/static/lib/jquery-3.3.1.js"></script>
+    <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/progressing.js"></script>
     <title>讨论课报名</title>
+    <style>
+        input::-ms-input-placeholder {
+            text-align: center;
+        }
+
+        input::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        #score {
+            text-align: center;
+            width: 100px;
+        }
+    </style>
 </head>
 <body class="card-page sidebar-collapse" data-ksId="${ksId}">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -54,7 +70,7 @@
     <#list enrollList as enroll>
         <#if enroll??>
             <button class="btn btn-fab btn-round bg-dark btn-team">
-            ${enroll.team.serial}
+                ${enroll.team.serial}
             </button>
         </#if>
     </#list>
@@ -65,30 +81,55 @@
     </button>
 </div>
 <div class="right-downer-side side-raised">
-    <#list enrollList as enroll>
-        <#if enroll??>
-            <i>${enroll.team.teamName}</i>
-        </#if>
-    </#list>
+
 </div>
-<div class="container foot-operation flex-space-between">
-    <button class="btn bg-dark btn-round">
-        <i class="material-icons">
-            toll
-        </i>
-        抽取提问
-    </button>
-    <button class="btn bg-dark btn-fab btn-round">
-        <i class="material-icons">
-            adjust
-        </i>
-    </button>
-    <button class="btn bg-dark btn-round">
-        <i class="material-icons">
-            arrow_forward
-        </i>
-        切换小组
-    </button>
+<div class="flex-center" style="width: 100%;height: 100%;">
+    <div class="container">
+        <div class="row">
+            <div id="countdown"></div>
+        </div>
+        <div class="row" style="margin-bottom: 100px">
+            <div class="col-6 col-md-4 ml-auto mr-auto">
+                <div id="operation" class="flex-space-around" style="width: 100%;">
+                    <button id="start" class="btn bg-dark btn-fab btn-lg btn-round">
+                        <i class="material-icons">play_arrow</i>
+                    </button>
+                    <button id="pause" class="btn bg-dark btn-fab btn-lg btn-round" style="display: none">
+                        <i class="material-icons">pause</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container foot-operation">
+    <div class="row  flex-space-around">
+        <form class="form" id="scoreForm">
+            <div class="form-group bmd-form-group">
+                <input id="score" name="score" type="text" placeholder="分数" autocomplete="off"
+                       class="form-control empty-verify" data-emptyMessage="请输入分数">
+            </div>
+        </form>
+    </div>
+    <div class="row  flex-space-between">
+        <button class="btn bg-dark btn-round">
+            <i class="material-icons">
+                toll
+            </i>
+            抽取提问
+        </button>
+        <button class="btn bg-dark btn-fab btn-round">
+            <i class="material-icons">
+                adjust
+            </i>
+        </button>
+        <button class="btn bg-dark btn-round">
+            <i class="material-icons">
+                arrow_forward
+            </i>
+            切换小组
+        </button>
+    </div>
 </div>
 
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">

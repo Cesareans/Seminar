@@ -3,6 +3,7 @@ package seminar;
 import cesare.mybatis.EntityGenerator;
 import seminar.entity.Klass;
 import seminar.entity.Round;
+import seminar.entity.SeminarScore;
 import seminar.entity.Team;
 import seminar.entity.relation.KlassRound;
 
@@ -11,7 +12,7 @@ import seminar.entity.relation.KlassRound;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("Cesare", Team.class);
+        EntityGenerator generator = new EntityGenerator("Cesare", SeminarScore.class);
         generator.generateMapper();
     }
 }

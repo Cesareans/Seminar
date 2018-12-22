@@ -94,7 +94,6 @@ public interface SeminarService {
      */
     List<Team> getTeamsByCourseId(String courseId);
 
-
     /**
      * Get a course's klass via courseId
      *

@@ -24,7 +24,7 @@ public class ShareTeamApplicationDAO {
     }
 
     /**
-     * The course which is a subordinateCourse can't send and receive a seminar share message
+     * The course which is a subordinateCourse can't send and receive a seminar share handler
      */
     public boolean create(ShareTeamApplication shareTeamApplication) {
         if(!shareTeamApplicationMapper.selectShareTeamApplicationByMainCourseIdAndSubCourseId(shareTeamApplication.getMainCourseId(), shareTeamApplication.getSubCourseId()).isEmpty()){

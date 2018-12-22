@@ -165,6 +165,7 @@ public class StudentController {
     @PostMapping("/course/team")
     public String teamList(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
+        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(courseId));
         return "student/course/teamList";
     }
     @PostMapping("/course/info")

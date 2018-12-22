@@ -1,5 +1,6 @@
 package seminar.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;

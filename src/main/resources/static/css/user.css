@@ -373,6 +373,11 @@
     margin-top: 20px;
     margin-bottom: 0;
 }
+.team-table .serial{
+    text-align: center;
+    width: 5%;
+    line-height: 21px;
+}
 .team-table .name{
     text-align: center;
     width: 48%;

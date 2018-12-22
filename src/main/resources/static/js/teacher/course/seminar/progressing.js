@@ -4,7 +4,15 @@ var socketAddr = "/seminar-socket";
 var clientAddr = '/topic/client/';
 var serverAddr = "/app/teacher/klassSeminar/";
 var ksId;
+var countDown;
+var startBtn;
+var pauseBtn;
 $(function () {
+    countDown = $("#countdown");
+    startBtn = $("#start");
+    pauseBtn = $("#pause");
+    countDown.create();
+
     msgList = $("#msgList");
     ksId = $("body").attr("data-ksId");
     serverAddr += ksId;
@@ -52,4 +60,17 @@ $(function () {
     })
 });
 
+
+$(function () {
+    startBtn.click(function () {
+        countDown.start();
+        startBtn.hide();
+        pauseBtn.show();
+    });
+    pauseBtn.click(function () {
+        countDown.pause();
+        pauseBtn.hide();
+        startBtn.show();
+    });
+});
 
