@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.core.parameters.P;
 import seminar.entity.SeminarScore;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface SeminarScoreMapper {
      *
      * @param seminarScore the SeminarScore entity that will be updated via the id
      */
-    @Update("update seminar_score set total_score=#{totalScore}, presentation_score=#{presentationScore}, question_score=#{questionScore}, report_score=#{reportScore}, klass_seminar_id=#{klassSeminarId}, team_id=#{teamId} where id=#{id}")
+    @Update("update seminar_score set total_score=#{totalScore}, presentation_score=#{presentationScore}, question_score=#{questionScore}, report_score=#{reportScore}, klass_seminar_id=#{klassSeminarId}, team_id=#{teamId} where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}")
     void updateSeminarScore(SeminarScore seminarScore);
 
     /**
@@ -124,5 +125,23 @@ public interface SeminarScoreMapper {
      */
     @Delete("delete from seminar_score where id=#{id}")
     void deleteSeminarScoreById(String id);
+
+    /**
+     * Select a SeminarScore entity via teamId and klassSeminarId
+     * @author Xinyu Shi
+     * @param id the select gist
+     * @return List<seminarScore> the selected SeminarScore entity as list
+     */
+    @Select("select * from seminar_score where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "totalScore", column = "total_score"),
+            @Result(property = "presentationScore", column = "presentation_score"),
+            @Result(property = "questionScore", column = "question_score"),
+            @Result(property = "reportScore", column = "report_score"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
+            @Result(property = "teamId", column = "team_id")
+    })
+    List<SeminarScore> selectSeminarScoreByTeamIdAndKlassSeminarId(@Param("teamId") String teamId, @Param("klassSeminarId") String klassSeminarId);
 
 }

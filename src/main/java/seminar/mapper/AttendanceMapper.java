@@ -130,4 +130,23 @@ public interface AttendanceMapper {
     @Delete("delete from attendance where id=#{id}")
     void deleteAttendanceById(String id);
 
+    /**
+     * Select a Attendance entity via teamId
+     * @author Xinyu Shi
+     * @param teamId the select gist
+     * @return List<attendance> the selected Attendance entity as list
+     */
+    @Select("select * from attendance where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "sn", column = "team_order"),
+            @Result(property = "presenting", column = "is_present"),
+            @Result(property = "preFile", column = "ppt_name"),
+            @Result(property = "reportFile", column = "report_name"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id"),
+            @Result(property = "team", column = "team_id", one = @One(select = "seminar.mapper.TeamMapper.selectTeamById", fetchType = FetchType.EAGER))
+    })
+    List<Attendance> selectAttendanceByTeamIdAndKlassSeminarId(@Param("teamId") String teamId, @Param("klassSeminarId") String klassSeminarId);
+
 }

@@ -100,5 +100,13 @@ public class QuestionDAO {
         questionMapper.updateQuestion(question);
     }
 
+    /**
+     * @author Xinyu Shi
+     */
+    public List<Question> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
+    {
+        return questionMapper.selectQuestionByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+    }
+
 
 }

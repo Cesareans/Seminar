@@ -4,14 +4,17 @@ import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
 
+import java.math.BigDecimal;
+
 /**
  * @author Cesare
+ * modify by Xinyu Shi
  */
 @TargetPackage(value = "seminar.mapper")
 public class Question {
     @ID(isIncrement = true)
     private String id;
-    private int score;
+    private BigDecimal score;
     @Gist
     private String teamId;
     @Gist
@@ -32,11 +35,11 @@ public class Question {
         this.id = id;
     }
 
-    public int getScore() {
+    public BigDecimal getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(BigDecimal score) {
         this.score = score;
     }
 

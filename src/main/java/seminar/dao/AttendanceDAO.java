@@ -92,5 +92,15 @@ public class AttendanceDAO {
         return false;
     }
 
+    /**
+     * @author Xinyu Shi
+     *
+     *
+     */
+    public List<Attendance> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
+    {
+        return attendanceMapper.selectAttendanceByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+    }
+
 
 }

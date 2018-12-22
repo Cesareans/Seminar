@@ -149,7 +149,7 @@ public class StudentServiceImpl implements StudentService {
     public void exitTeam(String studentId, String teamId)
     {
         KlassStudent klassStudent = klassStudentDAO.getByStudentIdAndTeamId(studentId,teamId).get(0);
-        Team team = teamDAO.getByKlassIdAndTeamId(klassStudent.getKlassId(),klassStudent.getTeamId()).get(0);
+        Team team = teamDAO.getById(klassStudent.getTeamId()).get(0);
         if((team.getLeaderId()).equals(studentId))
         {
             // delete all students' team information in table klass_student in this team.
