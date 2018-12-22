@@ -144,14 +144,14 @@ public interface KlassStudentMapper {
      * @return
      * @author Xinyu Shi
      */
-    @Select("select * from klass_student where student_id=#{studentId}")
+    @Select("select * from klass_student where student_id=#{studentId} and klass_id=#{klassId}")
     @Results({
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
     })
-    List<KlassStudent> selectByStudentId(String studentId);
+    List<KlassStudent> selectByStudentIdAndKlassId(@Param("studentId") String studentId, @Param("klassId") String klassId);
 
 
     /**
@@ -161,13 +161,13 @@ public interface KlassStudentMapper {
      * @return
      * @author Xinyu Shi
      */
-    @Select("select * from klass_student where team_id=#{teamId}")
+    @Select("select * from klass_student where student_id=#{studentId} and team_id=#{teamId}")
     @Results({
             @Result(property = "courseId", column = "course_id"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
     })
-    List<KlassStudent> selectByTeamId(String teamId);
+    List<KlassStudent> selectByStudentIdAndTeamId(@Param("studentId") String studentId, @Param("teamId") String teamId);
 
 }

@@ -148,8 +148,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void exitTeam(String studentId, String teamId)
     {
-        KlassStudent klassStudent = klassStudentDAO.getByTeamId(teamId).get(0);
-
+        KlassStudent klassStudent = klassStudentDAO.getByStudentIdAndTeamId(studentId,teamId).get(0);
         Team team = teamDAO.getByKlassIdAndTeamId(klassStudent.getKlassId(),klassStudent.getTeamId()).get(0);
         if((team.getLeaderId()).equals(studentId))
         {
@@ -157,7 +156,7 @@ public class StudentServiceImpl implements StudentService {
             List<Student> students = team.getStudents();
             for(Student student : students)
             {
-                KlassStudent klassStudentMember = klassStudentDAO.getByStudentId(student.getId()).get(0);
+                KlassStudent klassStudentMember = klassStudentDAO.getByStudentIdAndTeamId(student.getId(),teamId).get(0);
                 klassStudentMember.setTeamId("0");
                 klassStudentDAO.update(klassStudentMember);
             }
@@ -166,11 +165,14 @@ public class StudentServiceImpl implements StudentService {
         }
         else
         {
-            KlassStudent klassStudentMember = klassStudentDAO.getByStudentId(studentId).get(0);
             klassStudent.setTeamId("0");
-            klassStudentDAO.update(klassStudentMember);
+            klassStudentDAO.update(klassStudent);
             team = teamDAO.getById(teamId).get(0);
             teamDAO.update(team);
         }
+
+        /**
+         * TODO: judge whether the team id valid or not.
+         */
     }
 }

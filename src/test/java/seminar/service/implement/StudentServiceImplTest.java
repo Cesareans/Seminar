@@ -16,6 +16,7 @@ public class StudentServiceImplTest {
 
     @Autowired
     StudentService studentService;
+    @Autowired
     TeamDAO teamDAO;
 
     @Test
@@ -40,7 +41,10 @@ public class StudentServiceImplTest {
     @Test
     public void exitTeam()
     {
-        studentService.exitTeam("1239","130");
+        studentService.exitTeam("1239","131");
+        DebugLogger.logJson(teamDAO.getById("131").get(0));
     }
+
+
 
 }

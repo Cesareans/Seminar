@@ -28,13 +28,18 @@ public class KlassStudentDAO {
 
     }
 
-    public List<KlassStudent> getByStudentId(String studentId)
+    public List<KlassStudent> getByStudentIdAndKlassId(String studentId, String klassId)
     {
-        return klassStudentMapper.selectByStudentId(studentId);
+        return klassStudentMapper.selectByStudentIdAndKlassId(studentId,klassId);
     }
 
-    public List<KlassStudent> getByTeamId(String teamId)
+    public List<KlassStudent> getByStudentIdAndTeamId(String studentId, String teamId)
     {
-        return klassStudentMapper.selectByTeamId(teamId);
+        return klassStudentMapper.selectByStudentIdAndTeamId(studentId, teamId);
+    }
+
+    public List<KlassStudent> getByStudentIdAndCourseId(String studentId, String courseId)
+    {
+        return klassStudentMapper.selectByStudentIdAndCourseId(studentId,courseId);
     }
 }
