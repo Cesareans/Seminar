@@ -40,8 +40,7 @@ public class StudentServiceImplTest {
     @Test
     public void exitTeam()
     {
-        studentService.exitTeam("1239","128");
-        DebugLogger.logJson(teamDAO.getById("128"));
+        studentService.exitTeam("1239","130");
     }
 
 }

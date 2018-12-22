@@ -168,4 +168,25 @@ public interface TeamMapper {
     })
     List<Team> selectTeamByLeaderId(String leaderId);
 
+    /**
+     * Select a Team entity via leaderId
+     * @author Xinyu Shi
+     * @param
+     * @return
+     */
+    @Select("select * from team where klass_id=#{klassId} and id=#{teamId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "serial", column = "team_serial"),
+            @Result(property = "teamName", column = "team_name"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+    })
+    List<Team> selectTeamByKlassIdAndTeamId(@Param("klassId") String klassId, @Param("teamId") String teamId);
+
+
 }

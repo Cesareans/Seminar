@@ -32,4 +32,9 @@ public class KlassStudentDAO {
     {
         return klassStudentMapper.selectByStudentId(studentId);
     }
+
+    public List<KlassStudent> getByTeamId(String teamId)
+    {
+        return klassStudentMapper.selectByTeamId(teamId);
+    }
 }

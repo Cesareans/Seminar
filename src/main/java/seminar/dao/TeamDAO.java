@@ -83,4 +83,12 @@ public class TeamDAO {
         return teamMapper.selectTeamByLeaderId(leaderId);
     }
 
+    /**
+     * @author Xinyu Shi
+     */
+    public List<Team> getByKlassIdAndTeamId(String klassId, String teamId)
+    {
+        return teamMapper.selectTeamByKlassIdAndTeamId(klassId,teamId);
+    }
+
 }
