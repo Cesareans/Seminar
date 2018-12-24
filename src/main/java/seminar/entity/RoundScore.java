@@ -2,16 +2,15 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
 
 import java.math.BigDecimal;
 
 /**
- * @author Cesare
+ * @author Xinyu Shi
  */
 @TargetPackage(value = "seminar.mapper")
-public class SeminarScore {
+public class RoundScore {
     @ID(isIncrement = true)
     private String id;
 
@@ -21,7 +20,7 @@ public class SeminarScore {
     private BigDecimal reportScore;
 
     @Gist
-    private String klassSeminarId;
+    private String roundId;
     @Gist
     private String teamId;
 
@@ -65,12 +64,12 @@ public class SeminarScore {
         this.reportScore = reportScore;
     }
 
-    public String getKlassSeminarId() {
-        return klassSeminarId;
+    public String getRoundId() {
+        return roundId;
     }
 
-    public void setKlassSeminarId(String klassSeminarId) {
-        this.klassSeminarId = klassSeminarId;
+    public void setRoundId(String roundId) {
+        this.roundId = roundId;
     }
 
     public String getTeamId() {
