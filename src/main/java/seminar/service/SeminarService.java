@@ -142,25 +142,4 @@ public interface SeminarService {
      */
     List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
 
-    /**
-     * Get the attendance at the klassSeminar with given klassSeminarId
-     *
-     * @param klassSeminarId the refer gist
-     * @return the attendance at the klassSeminar.
-     * @author lyf
-     * @deprecated the attendances are fetched at the KlassSeminar.
-     */
-    @Deprecated
-    List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId);
-
-    /**
-     * Get the seminar of a round.
-     *
-     * @param roundId the refer gist
-     * @return the seminar of the round
-     * @author Xinyu Shi
-     * @deprecated Because the seminars are fetched in the round entity.
-     */
-    @Deprecated
-    List<Seminar> getSeminarsByRoundId(String roundId);
 }

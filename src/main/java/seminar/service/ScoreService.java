@@ -10,7 +10,7 @@ import seminar.entity.SeminarScore;
 
 public interface ScoreService {
 
-    SeminarScore calculateScoreOfOneSeminar(String teamId, String klassSemimarId);
+    SeminarScore calculateScoreOfOneSeminar(String teamId, String klassSeminarId);
 
     RoundScore calculateScoreOfOneRound(String teamId, String roundId);
 

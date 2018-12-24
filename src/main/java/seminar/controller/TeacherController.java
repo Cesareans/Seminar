@@ -1,6 +1,5 @@
 package seminar.controller;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,6 +27,7 @@ import seminar.service.*;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,11 +44,12 @@ public class TeacherController {
     private final MailService mailService;
     private final FileService fileService;
     private final ApplicationService applicationService;
+    private final ScoreService scoreService;
 
     private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
-    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService) {
+    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService) {
         this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.seminarService = seminarService;
@@ -56,6 +57,7 @@ public class TeacherController {
         this.mailService = mailService;
         this.fileService = fileService;
         this.applicationService = applicationService;
+        this.scoreService = scoreService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -309,7 +311,9 @@ public class TeacherController {
      * Todo: Remain to be realize
      */
     @PostMapping("/course/seminar/grade")
-    public String seminarGrade() {
+    public String seminarGrade(String courseId, Model model) {
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        List<RoundScore> roundScores = new LinkedList<>();
         return "teacher/course/seminar/grade";
     }
 

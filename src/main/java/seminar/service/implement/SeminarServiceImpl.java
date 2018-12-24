@@ -109,11 +109,6 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Seminar> getSeminarsByRoundId(String roundId) {
-        return seminarDAO.getByRoundId(roundId);
-    }
-
-    @Override
     public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId) {
         return klassSeminarDAO.getByKlassIdAndSeminarId(klassId, seminarId);
     }
@@ -126,11 +121,6 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Seminar> getSeminarBySeminarId(String seminarId) {
         return seminarDAO.getBySeminarId(seminarId);
-    }
-
-    @Override
-    public List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId) {
-        return attendanceDAO.getAttendanceByKlassSeminarId(klassSeminarId);
     }
 
 }
