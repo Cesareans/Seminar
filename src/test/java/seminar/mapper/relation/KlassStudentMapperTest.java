@@ -51,6 +51,6 @@ public class KlassStudentMapperTest {
 
     @Test
     public void selectKlassByStudentId(){
-        DebugLogger.logJson(klassStudentMapper.selectKlassByStudentId("1234"));
+        DebugLogger.logJson(klassStudentMapper.selectKlassByStudentId("1"));
     }
 }

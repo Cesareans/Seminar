@@ -157,11 +157,6 @@ public class StudentController {
         return "student/course/seminar/report";
     }
 
-    @PostMapping("/course/seminar/processing")
-    public String seminarProcessing(String klassId, String seminarId, Model model){
-        return "student/course/seminar/processing";
-    }
-
     @PostMapping("/course/team")
     public String teamList(String courseId, Model model) {
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));

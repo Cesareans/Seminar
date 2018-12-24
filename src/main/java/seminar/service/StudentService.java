@@ -74,6 +74,13 @@ public interface StudentService {
     List<Klass> getKlassesByStudentId(String studentId);
 
     /**
+     * Get the team via studentId and teamId
+     * @param studentId the refer gist
+     * @param klassId the refer gist
+     * @return the team
+     */
+    List<Team> getTeamByKlassIdAndStudentId(String klassId, String studentId);
+    /**
      * Create a team by a student who is without a team.
      * @author Xinyu Shi
      * @param studentId

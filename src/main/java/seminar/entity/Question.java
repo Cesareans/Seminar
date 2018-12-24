@@ -18,9 +18,7 @@ public class Question {
     private String studentId;
     @Gist
     private String attendanceId;
-    /**
-     * TODO:This field is a totally redundant field.
-     */
+
     @Gist
     private String klassSeminarId;
 

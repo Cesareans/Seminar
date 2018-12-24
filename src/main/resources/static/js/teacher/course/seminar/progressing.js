@@ -1,76 +1,247 @@
-var client = null;
-var msgList;
+var client = null, ksId, timer, startBtn, pauseBtn, stopBtn, scoreInput, giveScoreBtn, patchScoreBtn;
+
+var questionCount, teams, questions, teamName, teamOperation;
+
+var preTimeStamp;
+
+var tabContent,curActive,curOnfocus,curAttendanceIdx;
+$(function () {
+    timer = $("#timer");
+    startBtn = $("#start");
+    pauseBtn = $("#pause");
+    stopBtn = $("#stopQuestion");
+    scoreInput = $("#score");
+    giveScoreBtn = $("#giveScore");
+    patchScoreBtn = $("#patchScore");
+    questionCount = $("#questionCount");
+    teams = $(".btn-team:not(.question)");
+    questions = $(".btn-team.question");
+    teamName = $("#teamName");
+    teamOperation = $("#teamOperation");
+    tabContent = $("#tabContent");
+    curActive = curOnfocus = $(".active-team");
+    curAttendanceIdx = curActive.data("idx");
+    timer.create();
+
+    teams.click(function () {
+        var team = $(this);
+        if(parseInt(team.data("idx")) > curAttendanceIdx){
+            return;
+        }
+        changeFocus(team);
+    });
+    questions.click(function () {
+        changeFocus($(this));
+    });
+    ksId = $("body").attr("data-ksId");
+    changeScore(parseInt(curActive.data("score")));
+});
+
+function changeFocus(target, none) {
+    if (curOnfocus !== undefined) {
+        curOnfocus.removeClass("cur-focus");
+    }
+    curOnfocus = target;
+    if (none === undefined) {
+        curOnfocus.addClass("cur-focus");
+    }
+
+    var tab = curOnfocus.data("tab");
+    if (tab !== undefined) {
+        tabContent.children(".tab-pane").hide();
+        $(tab).show();
+    }
+    changeScore(parseInt(curOnfocus.data("score")));
+}
+
+function changeActive(target) {
+    if (curActive !== undefined) {
+        curActive.removeClass("active-team");
+    }
+    curActive = target;
+    curActive.addClass("active-team");
+    changeFocus(curActive, 0);
+}
+
 var socketAddr = "/seminar-socket";
 var clientAddr = '/topic/client/';
 var serverAddr = "/app/teacher/klassSeminar/";
-var ksId;
-var countDown;
-var startBtn;
-var pauseBtn;
+var socket;
 $(function () {
-    countDown = $("#countdown");
-    startBtn = $("#start");
-    pauseBtn = $("#pause");
-    countDown.create();
-
-    msgList = $("#msgList");
-    ksId = $("body").attr("data-ksId");
     serverAddr += ksId;
     clientAddr += ksId;
-    $("#connect").click(function () {
-        var socket = new SockJS(socketAddr);
-        client = Stomp.over(socket);
-        client.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            client.subscribe(clientAddr, function (m) {
-                var json = JSON.parse(m.body);
-                appendMessage(json["user"],json["message"]);
-            });
-        });
+    connect();
+    startBtn.click(function () {
+        timer.start();
+        startBtn.hide();
+        pauseBtn.show();
+        teamOperation.text("进行中...");
+        sendRequest("SeminarStateRequest", {request: "START", timeStamp: timer.getTime()});
     });
-    $("#disconnect").click(function () {
-        if(client!=null){
-            client.connect()
+    pauseBtn.click(function () {
+        timer.pause();
+        pauseBtn.hide();
+        startBtn.show();
+        teamOperation.text("暂停中...");
+        sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
+    });
+    $("#switchTeam").click(function () {
+        sendRequest("SwitchTeamRequest", {});
+    });
+    $("#pullQuestion").click(function () {
+        if (parseInt(questionCount.text()) <= 0) {
+            util.showAlert("warning", "当前提问数为零", 3);
+            return;
         }
-        console.log("disconnect");
+        sendRequest("PullQuestionRequest", {});
     });
-    $("#send").click(function () {
-        var toServer = $("#toServer");
-        var msg = JSON.stringify(toServer.val());
-        client.send(serverAddr, {}, msg.substring(1,msg.length - 1));
-        toServer.val("");
+    $([giveScoreBtn, patchScoreBtn]).each(function () {
+        this.click(function () {
+                var score = parseFloat(scoreInput.val());
+                if(isNaN(score)){
+                    util.showAlert("warning", "请输入分数", 3);
+                    return;
+                }
+                curOnfocus.attr("data-score", score);
+                if(curOnfocus.hasClass("question")){
+                    sendRequest("ScoreRequest", {
+                        score:score,
+                        type:"Question",
+                        attendanceIdx:curAttendanceIdx,
+                        questionIdx:curOnfocus.data("idx")
+                    });
+                }else{
+                    sendRequest("ScoreRequest", {
+                        score:score,
+                        type:"Attendance",
+                        attendanceIdx:curAttendanceIdx
+                    });
+                }
+            });
+    });
+    stopBtn.click(function () {
+        sendRequest("EndQuestionRequest", {});
     });
 });
 
-function appendMessage(user, msg) {
-    var dom = $("<h6 style='margin: 0 20px 0 0;'>"+user+":</h6><h5 style='margin: 0;text-wrap: unrestricted '>" + msg + "</h5>");
-    var line = $("<div style='display: flex;align-items: center;justify-content: flex-start'></div>");
-    line.append(dom);
-    console.log(line);
-    msgList.append(line);
-    msgList.append($("<hr>"));
+function connect() {
+    socket = new SockJS(socketAddr);
+    client = Stomp.over(socket);
+    client.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
+        client.subscribe(clientAddr, function (m) {
+            handleResponse(JSON.parse(m.body));
+        });
+    });
 }
 
+function sendRequest(type, request) {
+    var requestOnSend = {
+        type: type,
+        content: JSON.stringify(request)
+    };
+    client.send(serverAddr, {}, JSON.stringify(requestOnSend));
+}
+
+function handleResponse(response) {
+    eval("handle" + response.type + "(" + response.content + ")");
+}
+
+var SeminarStateResponse = {state: {progressState: null, timeStamp: null}};
+function handleSeminarStateResponse(content) {}
+
+var RaiseQuestionResponse = {questionNum: null};
+function handleRaiseQuestionResponse(content) {
+    setQuestionCount(content.questionNum);
+}
+
+var SwitchTeamResponse = {attendanceIndex: null, state: null};
+function handleSwitchTeamResponse(content) {
+    curActive.removeClass("active-team").addClass("passed-team");
+    if (content.attendanceIndex < teams.length) {
+        var onTeam = teams.eq(content.attendanceIndex);
+        curAttendanceIdx = content.attendanceIndex;
+        onTeam.removeClass("preparatory-team");
+        teamName.text(onTeam.attr("data-teamName"));
+        changeActive(onTeam);
+    }
+    setQuestionCount(0);
+    pauseAt(content.state.timeStamp);
+}
+
+var PullQuestionResponse = {teamSerial: null, teamName: null, questionCount: null};
+function handlePullQuestionResponse(content) {
+    preTimeStamp = timer.getTime();
+
+    teamName.text(content.teamName);
+    questionCount.text(content.questionCount);
+    startAt(0);
+    stopBtn.show();
+    addQuestion(content.teamSerial);
+}
+
+function handleEndQuestionResponse(content) {
+    stopBtn.hide();
+    pauseAt(preTimeStamp);
+    changeActive(teams.eq(curAttendanceIdx));
+}
+function handleScoreResponse(content) {
+
+}
+
+function setQuestionCount(count) {
+    questionCount.removeClass("static-question").addClass("active-question");
+    setTimeout(function () {
+        questionCount.removeClass("active-question").addClass("static-question");
+    }, 1000);
+    questionCount.text(count);
+}
+
+function pauseAt(timeStamp) {
+    timer.setTime(timeStamp);
+    timer.pause();
+    pauseBtn.hide();
+    startBtn.show();
+    teamOperation.text("暂停中...");
+}
+
+function startAt(timeStamp) {
+    timer.setTime(timeStamp);
+    timer.start();
+    startBtn.hide();
+    pauseBtn.show();
+    teamOperation.text("进行中...");
+}
+
+function addQuestion(teamSerial) {
+    var tab = $(curActive.data("tab"));
+    var btn = $("<button class='btn btn-fab btn-round btn-team question'>" + teamSerial + "</button>");
+    btn.attr("data-idx", tab.children("button").length);
+    btn.attr("data-score", -1);
+    tab.append(btn);
+    btn.click(function () {
+        changeFocus($(this));
+    });
+    changeActive(btn);
+}
+
+function changeScore(score){
+    if(score !== -1){
+        scoreInput.val(score);
+        giveScoreBtn.hide();
+        patchScoreBtn.show();
+    }else{
+        scoreInput.val("");
+        giveScoreBtn.show();
+        patchScoreBtn.hide();
+    }
+}
 
 $(function () {
     $("#seminarIdInput").val(sessionStorage.getItem("seminarId"));
     $("#klassIdInput").val(sessionStorage.getItem("klassId"));
     $("#backBtn").click(function () {
         $("#seminarForm").submit();
-    })
-});
-
-
-$(function () {
-    startBtn.click(function () {
-        countDown.start();
-        startBtn.hide();
-        pauseBtn.show();
-    });
-    pauseBtn.click(function () {
-        countDown.pause();
-        pauseBtn.hide();
-        startBtn.show();
     });
 });
-

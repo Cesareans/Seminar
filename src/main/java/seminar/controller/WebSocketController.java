@@ -8,53 +8,78 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import seminar.entity.KlassSeminar;
+import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.RawMessage;
+import seminar.pojo.websocket.monitor.SeminarMonitor;
+import seminar.service.SeminarService;
+import seminar.service.StudentService;
 import seminar.service.WebSocketService;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.security.Principal;
 
 /**
  * @author Cesare
  */
 @Controller
 public class WebSocketController {
-    private final WebSocketService service;
+    private final WebSocketService webSocketService;
+    private final SeminarService seminarService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public WebSocketController(WebSocketService service, ObjectMapper objectMapper) {
-        this.service = service;
+    public WebSocketController(WebSocketService webSocketService, SeminarService seminarService, ObjectMapper objectMapper) {
+        this.webSocketService = webSocketService;
+        this.seminarService = seminarService;
         this.objectMapper = objectMapper;
+    }
+
+
+    @PostMapping("/teacher/course/seminar/progressing")
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
+        model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        return "teacher/course/seminar/progressing";
     }
 
     @MessageMapping("/teacher/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
-    public RawMessage teacherMessage(@DestinationVariable String ksId, RawMessage message, HttpSession session) {
-        String teacherId = ((String) session.getAttribute("teacherId"));
+    public RawMessage teacherMessage(@DestinationVariable String ksId, RawMessage message, Principal principal) {
         try{
-            JsonNode jsonContent = objectMapper.readTree(message.getJsonContent());
-            ((ObjectNode) jsonContent).put("teacherId", teacherId);
-            message.setJsonContent(jsonContent.toString());
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            ((ObjectNode) jsonContent).put("teacherNum", principal.getName());
+            message.setContent(jsonContent.toString());
+            return webSocketService.handleMessage(ksId, message);
         }catch (Exception ex){
+            ex.printStackTrace();
             return null;
         }
-        return service.handleMessage(ksId, message);
+    }
+
+
+    @PostMapping("/student/course/seminar/processing")
+    public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
+        SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+        model.addAttribute("studentNum", principal.getName());
+        model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
+        model.addAttribute("ksId", klassSeminar.getId());
+        model.addAttribute("monitor", monitor);
+        return "student/course/seminar/progressing";
     }
 
     @MessageMapping("/student/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
-    public RawMessage studentMessage(@DestinationVariable String ksId, RawMessage message, HttpSession session) {
-        String studentId = ((String) session.getAttribute("studentId"));
-        try{
-            JsonNode jsonContent = objectMapper.readTree(message.getJsonContent());
-            ((ObjectNode) jsonContent).put("studentId", studentId);
-            message.setJsonContent(jsonContent.toString());
-        }catch (Exception ex){
-            return null;
-        }
-        return service.handleMessage(ksId, message);
+    public RawMessage studentMessage(@DestinationVariable String ksId, RawMessage message, Principal principal) throws IOException {
+            DebugLogger.logJson(message);
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            ((ObjectNode) jsonContent).put("studentNum", principal.getName());
+            message.setContent(jsonContent.toString());
+            return webSocketService.handleMessage(ksId, message);
+
     }
 }

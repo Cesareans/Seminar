@@ -1,6 +1,5 @@
 package seminar.pojo.websocket.request;
 
-import org.springframework.security.core.parameters.P;
 import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.response.SeminarStateResponse;
@@ -11,14 +10,15 @@ import seminar.pojo.websocket.response.SeminarStateResponse;
 @BindResponse(response = SeminarStateResponse.class)
 public class SeminarStateRequest implements Request{
     private StateRequest request;
+    private Integer timeStamp;
     @Override
     public void execute(SeminarMonitor monitor) {
         switch (request){
             case PAUSE:
-                monitor.pause();
+                monitor.pauseAt(timeStamp);
                 break;
             case START:
-                monitor.start();
+                monitor.startAt(timeStamp);
                 break;
             default:
                 break;
@@ -31,6 +31,14 @@ public class SeminarStateRequest implements Request{
 
     public void setRequest(StateRequest request) {
         this.request = request;
+    }
+
+    public Integer getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Integer timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
 

@@ -1,7 +1,5 @@
 package seminar.pojo.websocket.request;
 
-import seminar.entity.Student;
-import seminar.entity.Team;
 import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.response.RaiseQuestionResponse;
@@ -11,34 +9,16 @@ import seminar.pojo.websocket.response.RaiseQuestionResponse;
  */
 @BindResponse(response = RaiseQuestionResponse.class)
 public class RaiseQuestionRequest implements Request {
-    private String attendanceId;
-    private String studentId;
+    private String studentNum;
     @Override
     public void execute(SeminarMonitor monitor) {
-        if(!monitor.getOnPreAttendance().getId().equals(attendanceId)){
-            throw new RuntimeException();
-        }
-        Team team = monitor.getStudentNumTeamMap().get(studentId);
-        for (Student student : team.getStudents()) {
-            if(student.getId().equals(studentId)){
-                monitor.getQuestionPool().putRequest(monitor.getOnPreAttendance(), student,team);
-            }
-        }
+        monitor.putQuestion(studentNum);
+    }
+    public String getStudentNum() {
+        return studentNum;
     }
 
-    public String getAttendanceId() {
-        return attendanceId;
-    }
-
-    public void setAttendanceId(String attendanceId) {
-        this.attendanceId = attendanceId;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudentNum(String studentNum) {
+        this.studentNum = studentNum;
     }
 }

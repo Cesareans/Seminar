@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RawMessage {
     private String type;
-    private String jsonContent;
+    private String content;
 
     public String getType() {
         return type;
@@ -18,12 +18,12 @@ public class RawMessage {
         this.type = type;
     }
 
-    public String getJsonContent() {
-        return jsonContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setJsonContent(String jsonContent) {
-        this.jsonContent = jsonContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
 }

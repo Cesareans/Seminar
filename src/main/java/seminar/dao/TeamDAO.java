@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Team;
 import seminar.mapper.TeamMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 
 import java.util.List;
 
@@ -14,11 +15,13 @@ import java.util.List;
 public class TeamDAO {
     private final KlassDao klassDao;
     private final TeamMapper teamMapper;
+    private final KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public TeamDAO(KlassDao klassDao, TeamMapper teamMapper) {
+    public TeamDAO(KlassDao klassDao, TeamMapper teamMapper, KlassStudentMapper klassStudentMapper) {
         this.klassDao = klassDao;
         this.teamMapper = teamMapper;
+        this.klassStudentMapper = klassStudentMapper;
     }
 
     /**
@@ -75,6 +78,12 @@ public class TeamDAO {
         }
     }
 
+    /**
+     * @author cesare
+     */
+    public List<Team> getByKlassIdAndStudentId(String klassId, String studentId){
+        return klassStudentMapper.selectTeamByStudentIdAndKlassId(klassId, studentId);
+    }
     /**
      * @author Xinyu Shi
      */

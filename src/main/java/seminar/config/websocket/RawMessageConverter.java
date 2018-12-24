@@ -17,9 +17,9 @@ public class RawMessageConverter {
     public Request convertToRequest(RawMessage rawMessage){
         try {
             Class<? extends Request> messageClass = Class.forName(MESSAGE_PACKAGE_PREFIX + rawMessage.getType()).asSubclass(Request.class);
-            return objectMapper.readValue(rawMessage.getJsonContent(), messageClass);
+            return objectMapper.readValue(rawMessage.getContent(), messageClass);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -28,10 +28,10 @@ public class RawMessageConverter {
         try {
             RawMessage message = new RawMessage();
             message.setType(response.getClass().getSimpleName());
-            message.setJsonContent(objectMapper.writeValueAsString(response));
+            message.setContent(objectMapper.writeValueAsString(response));
             return message;
         }catch (Exception ex){
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return null;
         }
     }

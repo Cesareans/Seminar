@@ -5,6 +5,7 @@ import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.entity.Student;
+import seminar.entity.Team;
 import seminar.entity.relation.KlassStudent;
 
 import java.util.List;
@@ -153,6 +154,25 @@ public interface KlassStudentMapper {
     })
     List<KlassStudent> selectByStudentIdAndKlassId(@Param("studentId") String studentId, @Param("klassId") String klassId);
 
+    /**
+     * Get the team via studentId and teamId
+     * @param studentId the refer gist
+     * @param klassId the refer gist
+     * @return the team
+     */
+    @Select("select team.* from klass_student left join team on klass_student.klass_id = team.klass_id  where student_id=#{studentId} and klass_student.klass_id=#{klassId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "serial", column = "team_serial"),
+            @Result(property = "teamName", column = "team_name"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+    })
+    List<Team> selectTeamByStudentIdAndKlassId(@Param("klassId") String klassId, @Param("studentId") String studentId);
 
     /**
      * Select a Team's all students via teamId

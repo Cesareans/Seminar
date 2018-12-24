@@ -15,7 +15,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/seminar/progressing.js"></script>
+    <script src="/static/js/student/course/seminar/progressing.js"></script>
     <title>讨论课报名</title>
     <style>
         input::-ms-input-placeholder {
@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body class="card-page sidebar-collapse" data-ksId="${ksId}">
+<body class="card-page sidebar-collapse" data-ksId="${ksId}" data-studentNum="${studentNum}" data-teamId="${team.id}">
 <div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
@@ -41,7 +41,8 @@
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -52,14 +53,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/notification'">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
@@ -69,9 +64,7 @@
 <div class="left-side side-raised">
     <#list monitor.enrollList as enroll>
         <#if enroll??>
-            <button data-score="${monitor.preScoreMap[enroll.id]}" data-idx="${enroll?index}"
-                    data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}"
-                    class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
+            <button data-idx="${enroll?index}" data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}" class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
                 ${enroll.team.serial}
             </button>
         </#if>
@@ -86,11 +79,9 @@
     <div id="tabContent">
         <#list monitor.enrollList as enroll>
             <#if enroll??>
-                <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
-                     <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>
+                <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}" <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>
                     <#list monitor.askedQuestion[enroll.id] as question>
-                        <button data-idx="${question?index}" data-score="${question.score}"
-                                class="btn btn-fab btn-round btn-team question">${question.team.serial}</button>
+                        <button class="btn btn-fab btn-round btn-team question">${question.team.serial}</button>
                     </#list>
                 </div>
             </#if>
@@ -101,8 +92,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
-                <h3 id="teamName"
-                    style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
+                <h3 id="teamName" style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
                 <hr>
                 <h4 id="teamOperation" style="text-align: center">
                     暂停中...
@@ -112,65 +102,26 @@
         <div class="row">
             <div id="timer"></div>
         </div>
-        <div class="row" style="margin-bottom: 43px">
-            <div class="col-6 col-md-4 ml-auto mr-auto">
-                <div id="operation" class="flex-space-around" style="width: 100%;">
-                    <button id="start" class="btn bg-dark btn-fab btn-lg btn-round control-btn">
-                        <i class="material-icons">play_arrow</i>
-                    </button>
-                    <button id="pause" class="btn bg-dark btn-fab btn-lg btn-round control-btn" style="display: none">
-                        <i class="material-icons">pause</i>
-                    </button>
-                    <button id="stopQuestion" class="btn bg-dark btn-fab btn-lg btn-round control-btn"
-                            style="display: none">
-                        <i class="material-icons">stop</i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
-                <form class="form flex-center" id="scoreForm" style="flex-direction: column;margin-bottom: 5px;">
-                    <div class="form-group bmd-form-group" style="padding-top: 5px">
-                        <input id="score" name="score" type="text" placeholder="分数" autocomplete="off"
-                               class="form-control empty-verify" data-emptyMessage="请输入分数">
-                    </div>
-                    <button type="button" id="giveScore" class="btn bg-dark btn-fab btn-round">
-                        <i class="material-icons">
-                            adjust
-                        </i>
-                    </button>
-                    <button type="button" id="patchScore" class="btn bg-dark btn-fab btn-round" style="display: none">
-                        <i class="material-icons">
-                            arrow_upward
-                        </i>
-                    </button>
-                </form>
+        <div class="row" style="margin-bottom: 150px">
+            <div class="col-6 col-md-4 ml-auto mr-auto team-brand" style="background-color: #343a40;">
+                <h3 style="text-align: center;margin-top: 10px;color: #FFFFFF;">${team.teamName}</h3>
             </div>
         </div>
     </div>
 </div>
-<div class="container foot-operation" style="max-width: 100%;">
-    <div class="row  flex-space-around">
-        <button id="pullQuestion" class="btn bg-dark btn-round">
-            <i class="material-icons">
-                toll
-            </i>
-            抽取提问
-        </button>
-
-        <button id="switchTeam" class="btn bg-dark btn-round">
-            <i class="material-icons">
-                arrow_forward
-            </i>
-            切换小组
-        </button>
+<div class="container foot-operation" style="max-width: 100%">
+    <div class="row  flex-center" style="flex-direction: column;">
+        <div id="operation" class="flex-space-around" style="width: 100%;">
+            <button id="raiseQuestion" class="btn bg-dark btn-round btn-lg" style="width: 40%;">
+                <i class="material-icons">send</i>
+                请求提问
+            </button>
+        </div>
     </div>
 </div>
 
-<form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId" placeholder="">
-    <input id="klassIdInput" name="klassId" placeholder="">
+<form hidden id="returnForm" action="/student/course/seminarList" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

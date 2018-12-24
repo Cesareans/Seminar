@@ -24,4 +24,6 @@ public interface Request {
      * @param monitor the seminarMonitor
      */
     void execute(SeminarMonitor monitor);
+
+
 }

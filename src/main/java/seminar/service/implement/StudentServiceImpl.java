@@ -101,6 +101,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Klass> getKlassesByStudentId(String studentId) {
         return klassDao.getByStudentId(studentId);
     }
+
+    @Override
+    public List<Team> getTeamByKlassIdAndStudentId(String klassId, String studentId) {
+        return teamDAO.getByKlassIdAndStudentId(klassId,studentId);
+    }
+
     /**
      * @author Xinyu Shi
      */

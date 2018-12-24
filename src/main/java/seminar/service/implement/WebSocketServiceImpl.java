@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.config.websocket.RawMessageConverter;
 import seminar.dao.KlassSeminarDAO;
+import seminar.dao.TeamDAO;
+import seminar.entity.Attendance;
+import seminar.entity.KlassSeminar;
+import seminar.entity.Team;
+import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.RawMessage;
@@ -12,6 +17,7 @@ import seminar.pojo.websocket.response.Response;
 import seminar.service.WebSocketService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,12 +26,14 @@ import java.util.Map;
 @Service
 public class WebSocketServiceImpl implements WebSocketService {
     private final KlassSeminarDAO klassSeminarDAO;
+    private final TeamDAO teamDAO;
     private final RawMessageConverter rawMessageConverter;
     private Map<String, SeminarMonitor> monitorMap = new HashMap<>();
 
     @Autowired
-    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, RawMessageConverter rawMessageConverter) {
+    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, RawMessageConverter rawMessageConverter) {
         this.klassSeminarDAO = klassSeminarDAO;
+        this.teamDAO = teamDAO;
         this.rawMessageConverter = rawMessageConverter;
     }
 
@@ -34,26 +42,25 @@ public class WebSocketServiceImpl implements WebSocketService {
         if (monitorMap.containsKey(ksId)) {
             return monitorMap.get(ksId);
         }
-        SeminarMonitor seminarMonitor = new SeminarMonitor(klassSeminarDAO.getEnrollList(ksId), null);
+        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
+        List<Team> teams = teamDAO.getCourseTeamsByCourseId(klassSeminarDAO.getById(ksId).get(0).getSeminar().getCourseId());
+        SeminarMonitor seminarMonitor = new SeminarMonitor(enrollList, teams);
         monitorMap.put(ksId, seminarMonitor);
         return seminarMonitor;
     }
 
     @Override
     public RawMessage handleMessage(String ksId, RawMessage message) {
-        if(!monitorMap.containsKey(ksId)){
-            return null;
-        }
-        SeminarMonitor monitor = monitorMap.get(ksId);
+        SeminarMonitor monitor = getMonitor(ksId);
         Request request = rawMessageConverter.convertToRequest(message);
         request.execute(monitor);
-        Response response = null;
+        DebugLogger.logJson(request);
         try {
-            response = request.getClass().getAnnotation(BindResponse.class).response().asSubclass(Response.class).newInstance();
+            Response response = request.getClass().getAnnotation(BindResponse.class).response().asSubclass(Response.class).newInstance();
+            return rawMessageConverter.convertFromResponse(response.execute(monitor));
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return null;
         }
-        return rawMessageConverter.convertFromResponse(response.execute(monitor));
     }
 }

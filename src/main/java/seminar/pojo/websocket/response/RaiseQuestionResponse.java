@@ -10,7 +10,7 @@ public class RaiseQuestionResponse implements Response {
 
     @Override
     public Response execute(SeminarMonitor monitor) {
-        questionNum = monitor.getQuestionPool().getRaisedQuestionsCount();
+        questionNum = monitor.getRaisedQuestionsCount();
         return this;
     }
 

@@ -313,13 +313,6 @@ public class TeacherController {
         return "teacher/course/seminar/grade";
     }
 
-    @PostMapping("/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
-        model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
-        return "teacher/course/seminar/progressing";
-    }
-
     @PostMapping("/course/klassList")
     public String klassList(String courseId, Model model) {
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
