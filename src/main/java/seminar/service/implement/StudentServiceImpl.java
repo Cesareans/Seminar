@@ -120,22 +120,14 @@ public class StudentServiceImpl implements StudentService {
         }
 
         Team team = new Team();
+        Student leader = studentDAO.getById(studentId).get(0);
         team.setCourseId(courseId);
         team.setKlassId(klassId);
-        Student leader = studentDAO.getById(studentId).get(0);
         team.setLeader(leader);
         team.setLeaderId(studentId);
         team.setTeamName(teamName);
         team.setStatus(1);
         teamDAO.create(team);
-        Team teamCreated = teamDAO.getById(team.getId()).get(0);
-        KlassStudent klassStudent = new KlassStudent();
-        klassStudent.setKlassId(klassId);
-        klassStudent.setCourseId(courseId);
-        klassStudent.setTeamId(teamCreated.getId());
-        klassStudent.setStudentId(studentId);
-        klassStudentDAO.update(klassStudent);
-
         return true;
     }
 
@@ -154,25 +146,21 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void exitTeam(String studentId, String teamId)
     {
-        KlassStudent klassStudent = klassStudentDAO.getByStudentIdAndTeamId(studentId,teamId).get(0);
-        Team team = teamDAO.getById(klassStudent.getTeamId()).get(0);
+        Team team = teamDAO.getById(teamId).get(0);
         if((team.getLeaderId()).equals(studentId))
         {
             // delete all students' team information in table klass_student in this team.
             List<Student> students = team.getStudents();
             for(Student student : students)
             {
-                KlassStudent klassStudentMember = klassStudentDAO.getByStudentIdAndTeamId(student.getId(),teamId).get(0);
-                klassStudentMember.setTeamId("0");
-                klassStudentDAO.update(klassStudentMember);
+                studentDAO.exitTeam(student.getId(),teamId);
             }
             //delete this team.
             teamDAO.deleteById(teamId);
         }
         else
         {
-            klassStudent.setTeamId("0");
-            klassStudentDAO.update(klassStudent);
+            studentDAO.exitTeam(studentId,teamId);
             team = teamDAO.getById(teamId).get(0);
             teamDAO.update(team);
         }

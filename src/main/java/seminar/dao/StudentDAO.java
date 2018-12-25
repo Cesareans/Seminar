@@ -129,5 +129,17 @@ public class StudentDAO {
         klassStudentMapper.update(klassStudent);
     }
 
+    /**
+     * update klass_student info if a student exit team
+     * @param studentId
+     * @param teamId
+     */
+    public void exitTeam(String studentId, String teamId)
+    {
+        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndTeamId(studentId,teamId).get(0);
+        klassStudent.setTeamId(NOT_HAVE_TEAM);
+        klassStudentMapper.update(klassStudent);
+    }
+
 
 }

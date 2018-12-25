@@ -3,6 +3,7 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Team;
+import seminar.entity.relation.KlassStudent;
 import seminar.mapper.TeamMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
@@ -45,6 +46,12 @@ public class TeamDAO {
         List<Team> teams = teamMapper.selectTeamById(team.getId());
         if (teams.isEmpty()) {
             teamMapper.addTeam(team);
+            KlassStudent klassStudent = new KlassStudent();
+            klassStudent.setKlassId(team.getKlassId());
+            klassStudent.setCourseId(team.getKlassId());
+            klassStudent.setTeamId(team.getId());
+            klassStudent.setStudentId(team.getLeaderId());
+            klassStudentMapper.update(klassStudent);
             return true;
         } else {
             return false;
