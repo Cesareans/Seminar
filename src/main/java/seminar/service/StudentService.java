@@ -96,17 +96,6 @@ public interface StudentService {
      */
     void uploadReportFile(String attendanceId, String reportFileName);
 
-    /**
-     * Create a team by a student who is without a team.
-     * @author Xinyu Shi
-     * @param studentId
-     * @param courseId
-     * @param klassId
-     * @param teamName
-     * @return
-     */
-    boolean createTeam(String studentId, String courseId, String klassId, String teamName);
-
     List<Team> getAllTeamInformation(String courseId);
 
     List<Student> getAllUnTeamedStudentsByCourseId(String courseId);

@@ -28,10 +28,10 @@ public class KlassStudentMapperTest {
         DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("16"));
     }
 
-    @Test
-    public void selectCourseByStudentId(){
-        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
-    }
+//    @Test
+//    public void selectCourseByStudentId(){
+//        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
+//    }
 
     @Test
     public void selectKlassByStudentId(){

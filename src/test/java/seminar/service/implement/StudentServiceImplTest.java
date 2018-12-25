@@ -19,16 +19,11 @@ public class StudentServiceImplTest {
     @Autowired
     TeamDAO teamDAO;
 
-    @Test
-    public void createTeam()
-    {
-        DebugLogger.logJson(studentService.createTeam("106","16","21","testBySxy"));
-    }
 
     @Test
     public void getAllTeamsByCourseId()
     {
-        DebugLogger.logJson(studentService.getAllTeamInformation("112"));
+        DebugLogger.logJson(studentService.getAllTeamInformation("16"));
     }
 
     @Test
@@ -40,7 +35,7 @@ public class StudentServiceImplTest {
     @Test
     public void exitTeam()
     {
-        studentService.exitTeam("106","28");
+        studentService.exitTeam("172","2");
     }
 
 

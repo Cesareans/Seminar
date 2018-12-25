@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import seminar.dao.SeminarScoreDAO;
 import seminar.entity.RoundScore;
 import seminar.entity.SeminarScore;
 import seminar.logger.DebugLogger;
@@ -19,18 +20,21 @@ public class ScoreServiceImplTest {
 
     @Autowired
     private ScoreService scoreService;
+    @Autowired
+    private SeminarScoreDAO seminarScoreDAO;
 
     @Test
     public void calculateScoreOfOneSeminar()
     {
-        SeminarScore seminarScore = scoreService.calculateScoreOfOneSeminar("132","7");
+        DebugLogger.logJson(seminarScoreDAO.getByTeamIdAndKlassSeminarId("21","9"));
+        SeminarScore seminarScore = scoreService.calculateScoreOfOneSeminar("21","9");
         DebugLogger.logJson(seminarScore);
     }
 
     @Test
     public void  calculateScoreOfOneRound()
     {
-        RoundScore roundScore = scoreService.calculateScoreOfOneRound("132","111");
+        RoundScore roundScore = scoreService.calculateScoreOfOneRound("21","5");
         DebugLogger.logJson(roundScore);
     }
 

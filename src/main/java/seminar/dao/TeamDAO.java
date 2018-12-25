@@ -2,6 +2,7 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Student;
 import seminar.entity.Team;
 import seminar.entity.relation.KlassStudent;
 import seminar.mapper.TeamMapper;
@@ -46,12 +47,7 @@ public class TeamDAO {
         List<Team> teams = teamMapper.selectTeamById(team.getId());
         if (teams.isEmpty()) {
             teamMapper.addTeam(team);
-            KlassStudent klassStudent = new KlassStudent();
-            klassStudent.setKlassId(team.getKlassId());
-            klassStudent.setCourseId(team.getKlassId());
-            klassStudent.setTeamId(team.getId());
-            klassStudent.setStudentId(team.getLeaderId());
-            klassStudentMapper.update(klassStudent);
+            klassStudentMapper.insertStudentIntoTeam(team.getId(),team.getLeaderId());
             return true;
         } else {
             return false;
@@ -105,6 +101,11 @@ public class TeamDAO {
     public List<Team> getByKlassIdAndTeamId(String klassId, String teamId)
     {
         return teamMapper.selectTeamByKlassIdAndTeamId(klassId,teamId);
+    }
+
+    public List<Student> getStudentsByTeamId(String teamId)
+    {
+        return klassStudentMapper.selectStudentsInTeamByTeamId(teamId);
     }
 
 }
