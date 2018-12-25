@@ -128,6 +128,13 @@ public class StudentServiceImpl implements StudentService {
         attendanceDAO.update(attendance);
     }
 
+    @Override
+    public void uploadReportFile(String attendanceId, String reportFileName) {
+        Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
+        attendance.setReportFile(reportFileName);
+        attendanceDAO.update(attendance);
+    }
+
     /**
      * @author Xinyu Shi
      */

@@ -11,22 +11,16 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script>
-        $(function () {
-            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
-            $("#returnBtn").click(function () {
-                $("#courseIdForm").submit();
-            })
-        })
-    </script>
+    <script src="/static/js/student/course/myTeam.js"></script>
     <style>
-        .valid {
+        .not-valid {
             color: #ff0000;
         }
     </style>
     <title>首页</title>
 </head>
 <body class="profile-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -99,7 +93,7 @@
                                         <td class="num">${student.studentNum}</td>
                                         <#if team.leader.id = studentId>
                                             <td class="operation">
-                                                <button class="btn btn-danger btn-fab-mini">删除</button>
+                                                <button data-sid="${student.id}" class="btn btn-danger btn-fab-mini delete">移除</button>
                                             </td>
                                         </#if>
                                     </tr>
@@ -122,7 +116,7 @@
         </div>
     </div>
 </div>
-<div class="container foot-container flex-center" style="bottom: 0;position: fixed;padding-bottom: 0">
+<div class="container foot-container flex-center" style="bottom: 0;position: fixed;padding-bottom: 0;max-width: 100%;">
     <#if team.leader.id = studentId>
         <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal">
             <i class="material-icons">add</i>
@@ -142,48 +136,53 @@
 <div class="modal fade" id="notTeamedModal">
     <div class="modal-dialog" style="margin-top: 30px">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="border-bottom: #EEEEEE 1px solid;border-collapse: collapse">
                 <h5 class="modal-title">添加成员</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <hr>
-            <div class="modal-body" style="overflow: scroll;max-height: 80%;">
+            <div class="modal-body" style="overflow: scroll;max-height: 70%;padding: 0 24px">
                 <div class="row">
                     <div class="container">
                         <#if (students?size > 0)>
-                        <table class="table team-table" style="margin-top: 0;">
-                            <tbody>
-                            <#list students as student>
-                                <tr>
-                                    <td class="serial">
-                                        <div class="form-check form-check-radio" style="margin-bottom: 20px">
-                                            <label class="form-check-label klass">
-                                                <input class="form-check-input" type="radio"
-                                                       name="studentId" value="${student.id}">
-                                                <span class="circle"><span class="check"></span></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="name select">${student.studentName}</td>
-                                    <td class="num">${student.studentNum}</td>
-                                </tr>
-                            </#list>
-                            </tbody>
-                        </table>
-                    <#else>
-                        <div class="empty-tag" style="height: 200px;">
-                            <div class="info">
-                                <div class="icon icon-rose flex-center">
-                                    <i class="material-icons color-grey">portable_wifi_off</i>
+                            <form id="chosenStudentForm" style="margin-bottom: 0">
+                                <input hidden name="teamId" placeholder="" value="${team.id}">
+                                <table class="table team-table" style="margin-top: 0;">
+                                    <tbody>
+                                    <#list students as student>
+                                        <tr>
+                                            <td class="serial">
+                                                <div class="form-check single">
+                                                    <label class="form-check-label">
+                                                        <input name="studentId" class="form-check-input" type="checkbox" value="${student.id}">
+                                                        <span class="form-check-sign"><span class="check"></span></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td class="name select">${student.studentName}</td>
+                                            <td class="num">${student.studentNum}</td>
+                                        </tr>
+                                    </#list>
+                                    </tbody>
+                                </table>
+                            </form>
+                        <#else>
+                            <div class="empty-tag" style="height: 200px;">
+                                <div class="info">
+                                    <div class="icon icon-rose flex-center">
+                                        <i class="material-icons color-grey">portable_wifi_off</i>
+                                    </div>
+                                    <h4 class="info-title">没有未组队学生</h4>
                                 </div>
-                                <h4 class="info-title">没有未组队学生</h4>
                             </div>
-                        </div>
-                    </#if>
+                        </#if>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer" style="padding: 10px;border-top: #EEEEEE 1px solid">
+                <button id="addBtn" class="btn bg-dark" style="margin-right: 20px">添加</button>
+                <button class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

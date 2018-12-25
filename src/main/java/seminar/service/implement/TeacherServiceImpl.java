@@ -13,6 +13,7 @@ import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.application.TeamValidApplication;
 import seminar.entity.relation.KlassRound;
+import seminar.entity.relation.KlassStudent;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -147,7 +148,7 @@ public class TeacherServiceImpl implements TeacherService {
                     studentDAO.insertNewStudent(student);
                 }
                 student = studentDAO.getBySN(student.getStudentNum()).get(0);
-                klassDAO.insertStudent(student.getId(), klass.getCourseId(), klass.getId());
+                klassDAO.insertStudent(new KlassStudent(klass.getCourseId(), klass.getId(), student.getId()));
             }
         }
     }

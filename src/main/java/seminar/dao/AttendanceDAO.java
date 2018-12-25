@@ -19,9 +19,6 @@ public class AttendanceDAO {
         this.attendanceMapper = attendanceMapper;
     }
 
-    public List<Attendance> getAttendanceByKlassSeminarId(String klassSeminarId) {
-        return attendanceMapper.selectAttendanceByKlassSeminarId(klassSeminarId);
-    }
 
     /**
      * @author Xinyu Shi

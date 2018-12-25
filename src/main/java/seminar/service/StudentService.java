@@ -90,6 +90,13 @@ public interface StudentService {
     void uploadPreFile(String attendanceId, String preFileName);
 
     /**
+     * Upload reportFile for attendance
+     * @param attendanceId the refer gist
+     * @param reportFileName the file name
+     */
+    void uploadReportFile(String attendanceId, String reportFileName);
+
+    /**
      * Create a team by a student who is without a team.
      * @author Xinyu Shi
      * @param studentId

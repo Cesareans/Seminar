@@ -86,7 +86,11 @@ public class KlassSeminarDAO {
     public List<KlassSeminar> getByKlassIdAndSeminarId(String klassId, String seminarId) {
         List<KlassSeminar> klassSeminars = klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         if(klassSeminars.size() == 0){
-
+            KlassSeminar klassSeminar = new KlassSeminar();
+            klassSeminar.setKlassId(klassId);
+            klassSeminar.setSeminarId(seminarId);
+            klassSeminar.setState(0);
+            klassSeminars.add(klassSeminar);
         }
         return klassSeminars;
     }

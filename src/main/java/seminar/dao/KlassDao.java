@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Course;
 import seminar.entity.Klass;
+import seminar.entity.relation.KlassStudent;
 import seminar.mapper.CourseMapper;
 import seminar.mapper.KlassMapper;
 import seminar.mapper.relation.KlassStudentMapper;
@@ -112,8 +113,8 @@ public class KlassDao {
     /**
      * @author cesare
      */
-    public void insertStudent(String studentId, String courseId, String klassId) {
-        klassStudentMapper.insertStudentIntoKlass(courseId, klassId, studentId);
+    public void insertStudent(KlassStudent klassStudent) {
+        klassStudentMapper.insertStudentIntoKlass(klassStudent);
     }
 
 }

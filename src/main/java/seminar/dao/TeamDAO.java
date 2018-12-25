@@ -88,8 +88,8 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public Team getByCourseIdAndStudentId(String courseId, String studentId){
-        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
+    public Team getByKlassIdAndStudentId(String klassId, String studentId){
+        return teamMapper.selectTeamById(klassStudentMapper.selectTeamByKlassIdAndStudentId(klassId, studentId)).get(0);
     }
     /**
      * @author Xinyu Shi

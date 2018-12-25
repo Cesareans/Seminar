@@ -79,8 +79,8 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public Team getTeamByCourseIdAndStudentId(String courseId, String studentId) {
-        return teamDAO.getByCourseIdAndStudentId(courseId,studentId);
+    public Team getTeamByKlassIdAndStudentId(String klassId, String studentId) {
+        return teamDAO.getByKlassIdAndStudentId(klassId,studentId);
     }
 
     @Override
@@ -106,6 +106,11 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public int getMaxSeminarSerialByCourseId(String courseId) {
         return seminarDAO.getMaxSeminarSerial(courseId);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceById(String teamId, String ksId) {
+        return attendanceDAO.getByTeamIdAndKlassSeminarId(teamId, ksId);
     }
 
     @Override

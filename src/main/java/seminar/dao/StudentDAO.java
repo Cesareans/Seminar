@@ -9,6 +9,7 @@ import seminar.mapper.StudentMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,8 +30,6 @@ public class StudentDAO {
     /**
      * Need previously check if the student is new.
      * Only need two attr here:studentNum and studentName
-     *
-     * @param student
      */
     public void insertNewStudent(Student student) {
         student.setPassword(SeminarConfig.DEFAULT_PASSWORD);

@@ -1,9 +1,7 @@
 package seminar.controller;
 
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import seminar.dao.KlassDao;
 import seminar.entity.*;
 import seminar.logger.DebugLogger;
 import seminar.service.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Cesare
@@ -159,7 +151,7 @@ public class StudentController {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
-        model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
+        model.addAttribute("team", seminarService.getTeamByKlassIdAndStudentId(klass.getId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
         return "student/course/seminar/enrollList";
     }
@@ -188,19 +180,35 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/course/seminar/grade")
-    public String seminarGrade(String klassId, String seminarId, Model model){
-        return "student/course/seminar/grade";
-    }
-
     @PostMapping("/course/seminar/report")
-    public String seminarReport(String klassId, String seminarId, Model model){
+    public String seminarReport(String klassId, String seminarId, Model model, HttpSession session){
+        Klass klass = seminarService.getKlassById(klassId).get(0);
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
+        Team team = seminarService.getTeamByKlassIdAndStudentId(klass.getId(), ((String) session.getAttribute("studentId")));
+        Attendance attendance;
+        if(team != null){
+            attendance = seminarService.getAttendanceById(team.getId(),klassSeminar.getId()).get(0);
+        }else{
+            attendance = null;
+        }
+        model.addAttribute("attendance", attendance);
         return "student/course/seminar/report";
     }
 
+    @PostMapping("/course/seminar/uploadReport")
+    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
+        DebugLogger.log(multipartFile.getOriginalFilename());
+        if(fileService.store(multipartFile) != null) {
+            studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
     @PostMapping("/course/teamList")
-    public String teamList(String courseId, Model model, HttpSession session) {
-        model.addAttribute("myTeam", seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute("studentId"))));
+    public String teamList(String courseId,String klassId, Model model, HttpSession session) {
+        model.addAttribute("myTeam", seminarService.getTeamByKlassIdAndStudentId(klassId, ((String) session.getAttribute("studentId"))));
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(courseId));
         return "student/course/teamList";
@@ -224,22 +232,32 @@ public class StudentController {
         model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
         return "student/course/myTeam";
     }
+    @PostMapping("/course/myTeam/addMembers")
+    public ResponseEntity<Object> addMembers(String teamId, String[] studentId){
+        DebugLogger.logJson(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+    @PostMapping("/course/myTeam/deleteMember")
+    public ResponseEntity<Object> deleteMember(String teamId, String studentId){
+        DebugLogger.logJson(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
     @PostMapping("/course/grade")
-    public String seminarGrade(String courseId, Model model, HttpSession session){
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
-        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
-        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
-        });
-        model.addAttribute("rounds", rounds);
-        model.addAttribute("seminarScoreMap", seminarScoreMap);
-        model.addAttribute("roundScoreMap", roundScoreMap);
+    public String seminarGrade(String courseId, String klassId, Model model, HttpSession session){
+//        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+//        Team team = seminarService.getTeamByKlassIdAndStudentId(klassId, ((String) session.getAttribute(STUDENT_ID_GIST)));
+//        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
+//        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+//        rounds.forEach(round -> {
+//            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+//        });
+//        model.addAttribute("rounds", rounds);
+//        model.addAttribute("seminarScoreMap", seminarScoreMap);
+//        model.addAttribute("roundScoreMap", roundScoreMap);
         return "student/course/grade";
     }
 }

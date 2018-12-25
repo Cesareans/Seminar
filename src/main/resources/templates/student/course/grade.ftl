@@ -62,13 +62,13 @@
                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                 <li class="nav-item">
                                     <a class="nav-link" style="padding-bottom: 0;">
-                                        <i class="material-icons">content_paste</i>
+                                        <i class="material-icons">equalizer</i>
                                         用例分析
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" style="padding-bottom: 0;">
-                                        <i class="material-icons round-setting">content_paste</i>
+                                        <i class="material-icons round-setting">equalizer</i>
                                         业务流程
                                     </a>
                                 </li>
@@ -91,39 +91,40 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-content">
-                                <table class="table">
-                                    <thead>
-                                    <th>总成绩</th>
-                                    <th>5.0分</th>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-content">
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <tr>
-                                        <td>展示</td>
-                                        <td>5.0分</td>
-                                    </tr>
-                                    <tr>
-                                        <td>提问</td>
-                                        <td>5.0分</td>
-                                    </tr>
-                                    <tr>
-                                        <td>书面报告</td>
-                                        <td>5.0分</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="grade-area">
+                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="material-icons">dashboard</i>
+                                    展示分
+                                    <h6>5分</h6>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="material-icons">settings</i>
+                                    提问分
+                                    <h6>5分</h6>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="material-icons">settings</i>
+                                    报告分
+                                    <h6>5分</h6>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="vertical-separator"></div>
+                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="material-icons">settings</i>
+                                    总分
+                                    <h6>5分</h6>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

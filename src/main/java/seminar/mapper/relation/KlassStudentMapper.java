@@ -22,14 +22,10 @@ public interface KlassStudentMapper {
     /**
      * Insert a student into klass without team
      *
-     * @param courseId  the redundant courseId information
-     * @param klassId   the klass's id, which the student will be inserted into
-     * @param studentId the student's id
+     * @param klassStudent  the relation entity for transfer parameters
      */
-    @Insert("insert into klass_student(course_id, klass_id, team_id, student_id) values(#{courseId}, #{klassId}, 0, #{studentId})")
-    void insertStudentIntoKlass(@Param("courseId") String courseId,
-                                @Param("klassId") String klassId,
-                                @Param("studentId") String studentId);
+    @Insert("insert into klass_student(course_id, klass_id, student_id) values(#{courseId}, #{klassId}, #{studentId})")
+    void insertStudentIntoKlass(KlassStudent klassStudent);
 
     /**
      * Delete all students in a klass
@@ -46,7 +42,7 @@ public interface KlassStudentMapper {
      * @return List<Student> the selected Team's all students as list
      * @author Cesare
      */
-    @Select("select student.* from klass_student left join student on klass_student.student_id = student.id where team_id=#{teamId}")
+    @Select("select student.* from team_student left join student on team_student.student_id = student.id where team_id=#{teamId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
@@ -58,13 +54,23 @@ public interface KlassStudentMapper {
     List<Student> selectStudentsByTeamId(String teamId);
 
     /**
+     * Get the team via studentId and teamId
+     * @param klassId the refer gist
+     * @param studentId the refer gist
+     * @return the team id
+     */
+    @Select("select klass_team.team_id from klass_team left join team_student on klass_student.team_id = team.id  where student_id=#{studentId} and klass_student.klass_id=#{klassId}")
+    String selectTeamByKlassIdAndStudentId(@Param("klassId") String klassId, @Param("studentId") String studentId);
+
+    /**
      * Select all not teamed students in a course via course id
      *
      * @param courseId the select gist
      * @return List<Student> the not teamed students in the course
      * @author Cesare
      */
-    @Select("select student.* from klass_student left join student on klass_student.student_id = student.id where course_id=#{courseId} and team_id = 0")
+    @Select("select student.* from klass_student left join student on student_id = id where course_id=#{courseId} and student_id not in " +
+            "(select distinct student_id from klass left join klass_team on id = klass_team.klass_id left join team_student on klass_team.team_id = team_student.team_id where student_id is not null and klass.course_id = #{courseId})")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "studentName", column = "student_name"),
@@ -74,6 +80,16 @@ public interface KlassStudentMapper {
             @Result(property = "activated", column = "is_active")
     })
     List<Student> selectNotTeamedStudentsByCourseId(String courseId);
+
+
+    /**
+     * Judge if the student has enter a team in the course
+     * @param courseId the course refer gist
+     * @param studentId the student refer gist
+     * @return whether has teamed.
+     */
+    @Select("select count(*) from klass left join klass_team on id = klass_team.klass_id left join team_student on klass_team.team_id = team_student.team_id where student_id = #{studentId} and klass.course_id = #{courseId}")
+    Boolean hasTeamed(String courseId, String studentId);
 
     /**
      * Select courses of students via studentId
@@ -101,7 +117,7 @@ public interface KlassStudentMapper {
      * Select klasses of students via studentId
      *
      * @param studentId the refer gist
-     * @return List<Course> list of course.
+     * @return List<Klass> list of Klass.
      */
     @Select("select klass.* from klass_student left join klass on klass_student.klass_id = klass.id where student_id = #{studentId}")
     @Results({
@@ -154,25 +170,7 @@ public interface KlassStudentMapper {
     })
     List<KlassStudent> selectByStudentIdAndKlassId(@Param("studentId") String studentId, @Param("klassId") String klassId);
 
-    /**
-     * Get the team via studentId and teamId
-     * @param courseId the refer gist
-     * @param studentId the refer gist
-     * @return the team
-     */
-    @Select("select team.* from klass_student left join team on klass_student.team_id = team.id  where student_id=#{studentId} and klass_student.course_id=#{courseId}")
-    @Results({
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "serial", column = "team_serial"),
-            @Result(property = "teamName", column = "team_name"),
-            @Result(property = "status", column = "status"),
-            @Result(property = "courseId", column = "course_id"),
-            @Result(property = "klassId", column = "klass_id"),
-            @Result(property = "leaderId", column = "leader_id"),
-            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
-    })
-    Team selectTeamByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
+
 
     /**
      * Select a Team's all students via teamId

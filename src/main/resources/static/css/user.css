@@ -71,6 +71,11 @@
 }
 
 /****** Component Style ******/
+.vertical-separator{
+    background-color: #EEEEEE;
+    height: 100%;
+    width: 1px;
+}
 /*Button*/
 .captcha-btn {
     height: 31px;
@@ -560,6 +565,12 @@
     }
 }
 
+.grade-area{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 
 /****** Page Style ******/
 /*Login page*/

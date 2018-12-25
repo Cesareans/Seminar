@@ -85,6 +85,14 @@ public interface SeminarService {
     int getMaxSeminarSerialByCourseId(String courseId);
 
     /**
+     * Get the attendance via id
+     * @param teamId the refer gist
+     * @param ksId the refer gist
+     * @return the attendance
+     */
+    List<Attendance> getAttendanceById(String teamId, String ksId);
+
+    /**
      * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
      *
      * @param ksId the refer gist
@@ -105,11 +113,11 @@ public interface SeminarService {
 
     /**
      * Get the team via studentId and courseId
-     * @param courseId the refer gist
+     * @param klassId the refer gist
      * @param studentId the refer gist
      * @return the team
      */
-    Team getTeamByCourseIdAndStudentId(String courseId, String studentId);
+    Team getTeamByKlassIdAndStudentId(String klassId, String studentId);
 
     /**
      * Get the team via team id
