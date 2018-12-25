@@ -21,15 +21,16 @@ public class LeaderServiceImplTest {
     @Test
     public void addGroupMemberTest()
     {
-        leaderService.addGroupMember("1238","112","132");
-        DebugLogger.logJson(teamDAO.getById("132").get(0));
+        DebugLogger.logJson(teamDAO.getById("6").get(0));
+        DebugLogger.logJson(leaderService.addGroupMember("106","16","6"));
+        DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
     @Test
     public void deleteGroupMemberTest()
     {
-        leaderService.deleteGroupMember("1237","112","132");
-        DebugLogger.logJson(teamDAO.getById("132").get(0));
+        leaderService.deleteGroupMember("106","16","6");
+        DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
+import seminar.entity.relation.KlassStudent;
 import seminar.mapper.StudentMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
@@ -17,6 +18,7 @@ import java.util.List;
 public class StudentDAO {
     private StudentMapper studentMapper;
     private KlassStudentMapper klassStudentMapper;
+    private final String NOT_HAVE_TEAM = "0";
 
     @Autowired
     public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper) {
@@ -89,20 +91,21 @@ public class StudentDAO {
     }
 
     /**
-     * Judge a student is teamed or not.
+     * Judge a student is teamed or not. If the student has already in a team, return true, otherwise return false
      * @author Xinyu Shi
      * @param studentId
      * @param courseId
      * @return
      */
-    public boolean studentHasNotTeamed(String studentId, String courseId)
+    public boolean studenHasAlreadyTeamed(String studentId, String courseId)
     {
-        List<Student> studentHasNotTeamed = klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
-        Student student = studentMapper.selectStudentById(studentId).get(0);
-        if(studentHasNotTeamed.contains(student))
-            return true;
-        else
+        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndCourseId(studentId,courseId).get(0);
+        if(NOT_HAVE_TEAM.equals(klassStudent.getTeamId())) {
             return false;
+        }
+        else{
+            return true;
+        }
     }
 
     /**
@@ -115,4 +118,16 @@ public class StudentDAO {
     {
         return klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
     }
+
+    /**
+     * @author Xinyu Shi
+     */
+    public void updateTeamInfoInKlassStudent(String studentId,String courseId, String teamId)
+    {
+        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndCourseId(studentId,courseId).get(0);
+        klassStudent.setTeamId(teamId);
+        klassStudentMapper.update(klassStudent);
+    }
+
+
 }
