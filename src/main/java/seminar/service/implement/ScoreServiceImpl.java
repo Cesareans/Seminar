@@ -7,9 +7,7 @@ import seminar.entity.*;
 import seminar.service.ScoreService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Xinyu Shi
@@ -100,16 +98,32 @@ public class ScoreServiceImpl implements ScoreService {
         return roundScore;
     }
 
+    @Override
+    public Map<String, List<RoundScore>> calculateScoreOfOneCourse(String courseId)
+    {
+        List<Round> rounds = roundDAO.getByCourseId(courseId);
+        List<Team> teams = teamDAO.getCourseTeamsByCourseId(courseId);
+        Map<String, List<RoundScore>> totalScoreOfCourse = new HashMap<>();
+        for(Round round : rounds)
+        {
+            List<RoundScore> roundScores = new ArrayList<>();
+            for(Team team:teams)
+            {
+                roundScores.add(calculateScoreOfOneRound(team.getId(),round.getId()));
+            }
+            totalScoreOfCourse.put(round.getId(),roundScores);
+        }
+        return totalScoreOfCourse;
+    }
+
     private BigDecimal calculateSeparateScore(int kind, int method, String teamId, List<Attendance> attendances)
     {
-        //kind: 0:pre 1:question 2:report
         BigDecimal score = new BigDecimal(0);
         List<SeminarScore> seminarScores = new ArrayList<>();
         for(Attendance attendance:attendances)
         {
             seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0));
         }
-        //average score
         if(method== AVG_SCORE_CAL_METHOD)
         {
             if(kind==PRE_SCORE){
@@ -127,7 +141,6 @@ public class ScoreServiceImpl implements ScoreService {
                 score = new BigDecimal(0);
             }
         }
-        //maximum score
         else if(method==MAX_SCORE_CAL_METHOD)
         {
             if(kind==PRE_SCORE){
