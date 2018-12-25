@@ -21,17 +21,15 @@ public class StudentServiceImpl implements StudentService {
     private final CourseDAO courseDAO;
     private final KlassDao klassDao;
     private final TeamDAO teamDAO;
-    private final KlassStudentDAO klassStudentDAO;
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassStudentDAO klassStudentDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
         this.studentDAO = studentDAO;
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
-        this.klassStudentDAO = klassStudentDAO;
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
     }
@@ -131,26 +129,7 @@ public class StudentServiceImpl implements StudentService {
     /**
      * @author Xinyu Shi
      */
-    @Override
-    public boolean createTeam(String studentId, String courseId, String klassId, String teamName)
-    {
-        Date today = new Date();
-        Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
-        if(today.getTime() > teamEndDate.getTime()) {
-            return false;
-        }
 
-        Team team = new Team();
-        Student leader = studentDAO.getById(studentId).get(0);
-        team.setCourseId(courseId);
-        team.setKlassId(klassId);
-        team.setLeader(leader);
-        team.setLeaderId(studentId);
-        team.setTeamName(teamName);
-        team.setStatus(1);
-        teamDAO.create(team);
-        return true;
-    }
 
     @Override
     public List<Team> getAllTeamInformation(String courseId)
@@ -167,24 +146,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void exitTeam(String studentId, String teamId)
     {
+        studentDAO.exitTeam(studentId,teamId);
         Team team = teamDAO.getById(teamId).get(0);
-        if((team.getLeaderId()).equals(studentId))
-        {
-            // delete all students' team information in table klass_student in this team.
-            List<Student> students = team.getStudents();
-            for(Student student : students)
-            {
-                studentDAO.exitTeam(student.getId(),teamId);
-            }
-            //delete this team.
-            teamDAO.deleteById(teamId);
-        }
-        else
-        {
-            studentDAO.exitTeam(studentId,teamId);
-            team = teamDAO.getById(teamId).get(0);
-            teamDAO.update(team);
-        }
+        teamDAO.update(team);
 
         /**
          * TODO: judge whether the team id valid or not.
