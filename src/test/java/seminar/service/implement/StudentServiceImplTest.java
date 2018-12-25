@@ -22,8 +22,7 @@ public class StudentServiceImplTest {
     @Test
     public void createTeam()
     {
-        DebugLogger.logJson(studentService.createTeam("1239","112","145","testTeam"));
-
+        DebugLogger.logJson(studentService.createTeam("106","16","21","testBySxy"));
     }
 
     @Test
@@ -41,8 +40,7 @@ public class StudentServiceImplTest {
     @Test
     public void exitTeam()
     {
-        studentService.exitTeam("1239","131");
-        DebugLogger.logJson(teamDAO.getById("131").get(0));
+        studentService.exitTeam("106","28");
     }
 
 

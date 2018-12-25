@@ -23,7 +23,7 @@ public class ScoreServiceImplTest {
     @Test
     public void calculateScoreOfOneSeminar()
     {
-        SeminarScore seminarScore = scoreService.calculateScoreOfOneSeminar("132","8");
+        SeminarScore seminarScore = scoreService.calculateScoreOfOneSeminar("132","7");
         DebugLogger.logJson(seminarScore);
     }
 
