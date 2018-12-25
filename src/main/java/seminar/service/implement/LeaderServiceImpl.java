@@ -21,7 +21,6 @@ public class LeaderServiceImpl implements LeaderService {
     private final CourseDAO courseDAO;
     private final TeamDAO teamDAO;
     private final StudentDAO studentDAO;
-    private final String NOT_HAVE_TEAM = "0";
     private final int TEAM_IS_INVALID = 0;
     private final int TEAM_IS_CHECKING = 2;
 
@@ -40,20 +39,21 @@ public class LeaderServiceImpl implements LeaderService {
         if(team.getStatus()==TEAM_IS_CHECKING) {
             return false;
         }
-        if(studentDAO.studenHasAlreadyTeamed(studentId,team.getCourseId())) {
+        if(studentDAO.studentHasAlreadyTeamed(studentId,team.getCourseId())) {
             return false;
         }
         if(!compareTime(teamEndDate)) {
             team.setStatus(TEAM_IS_INVALID);
         }
 
-        studentDAO.updateTeamInfoInKlassStudent(studentId,team.getCourseId(),teamId);
-        team = teamDAO.getById(teamId).get(0);
-        teamDAO.update(team);
+        studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
 
         /**
          * TODO: judge whether the team id valid or not.
          */
+        team = teamDAO.getById(teamId).get(0);
+        teamDAO.update(team);
+
         return true;
     }
 
@@ -68,13 +68,13 @@ public class LeaderServiceImpl implements LeaderService {
         if(!compareTime(teamEndDate)) {
             team.setStatus(TEAM_IS_INVALID);
         }
-        studentDAO.updateTeamInfoInKlassStudent(studentId,team.getCourseId(),NOT_HAVE_TEAM);
-        team = teamDAO.getById(teamId).get(0);
-        teamDAO.update(team);
+        studentDAO.deleteStudentFromTeamStudent(studentId);
 
         /**
          * TODO: judge whether the team id valid or not.
          */
+        team = teamDAO.getById(teamId).get(0);
+        teamDAO.update(team);
         return true;
     }
 
@@ -102,7 +102,7 @@ public class LeaderServiceImpl implements LeaderService {
         team.setLeader(leader);
         team.setLeaderId(studentId);
         team.setTeamName(teamName);
-        team.setStatus(1);
+        team.setStatus(TEAM_IS_INVALID);
         teamDAO.create(team);
         return true;
     }
@@ -115,11 +115,10 @@ public class LeaderServiceImpl implements LeaderService {
     @Override
     public void dissolveTeam(String teamId)
     {
-        Team team = teamDAO.getById(teamId).get(0);
-        List<Student> students = team.getStudents();
+        List<Student> students = teamDAO.getStudentsByTeamId(teamId);
         for(Student student : students)
         {
-            studentDAO.exitTeam(student.getId(),teamId);
+            studentDAO.deleteStudentFromTeamStudent(student.getId());
         }
         //delete this team.
         teamDAO.deleteById(teamId);

@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
+import seminar.entity.Team;
 import seminar.entity.relation.KlassStudent;
 import seminar.mapper.StudentMapper;
+import seminar.mapper.TeamMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +21,14 @@ import java.util.List;
 public class StudentDAO {
     private StudentMapper studentMapper;
     private KlassStudentMapper klassStudentMapper;
+    private TeamMapper teamMapper;
     private final String NOT_HAVE_TEAM = "0";
 
     @Autowired
-    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper) {
+    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper, TeamMapper teamMapper) {
         this.studentMapper = studentMapper;
         this.klassStudentMapper = klassStudentMapper;
+        this.teamMapper = teamMapper;
     }
 
     /**
@@ -97,15 +102,22 @@ public class StudentDAO {
      * @param courseId
      * @return
      */
-    public boolean studenHasAlreadyTeamed(String studentId, String courseId)
+    public boolean studentHasAlreadyTeamed(String studentId, String courseId)
     {
-        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndCourseId(studentId,courseId).get(0);
-        if(NOT_HAVE_TEAM.equals(klassStudent.getTeamId())) {
-            return false;
+        List<Team>  teams = teamMapper.selectTeamByCourseId(courseId);
+        Student student = studentMapper.selectStudentById(studentId).get(0);
+        List<Student> studentsTeamed = new ArrayList<>();
+        for(Team team:teams)
+        {
+            studentsTeamed.addAll(klassStudentMapper.selectStudentsByTeamId(team.getId()));
         }
-        else{
+        if(studentsTeamed.contains(student)){
             return true;
         }
+        else{
+            return false;
+        }
+
     }
 
     /**
@@ -122,24 +134,19 @@ public class StudentDAO {
     /**
      * @author Xinyu Shi
      */
-    public void updateTeamInfoInKlassStudent(String studentId,String courseId, String teamId)
+    public void insertStudentIntoTeamStudent(String studentId, String teamId)
     {
-        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndCourseId(studentId,courseId).get(0);
-        klassStudent.setTeamId(teamId);
-        klassStudentMapper.update(klassStudent);
+        klassStudentMapper.insertStudentIntoTeam(teamId,studentId);
     }
 
     /**
-     * update klass_student info if a student exit team
-     * @param studentId
-     * @param teamId
+     * @author Xinyu Shi
      */
-    public void exitTeam(String studentId, String teamId)
+    public void deleteStudentFromTeamStudent(String studentId)
     {
-        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndTeamId(studentId,teamId).get(0);
-        klassStudent.setTeamId(NOT_HAVE_TEAM);
-        klassStudentMapper.update(klassStudent);
+        klassStudentMapper.deleteTeamStudent(studentId);
     }
+
 
 
 }

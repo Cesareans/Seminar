@@ -33,4 +33,10 @@ public class LeaderServiceImplTest {
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
+    @Test
+    public void dissolveTest()
+    {
+        leaderService.dissolveTeam("6");
+    }
+
 }

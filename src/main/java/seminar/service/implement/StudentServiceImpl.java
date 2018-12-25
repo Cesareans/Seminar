@@ -146,10 +146,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void exitTeam(String studentId, String teamId)
     {
-        studentDAO.exitTeam(studentId,teamId);
-        Team team = teamDAO.getById(teamId).get(0);
-        teamDAO.update(team);
-
+        studentDAO.deleteStudentFromTeamStudent(studentId);
         /**
          * TODO: judge whether the team id valid or not.
          */

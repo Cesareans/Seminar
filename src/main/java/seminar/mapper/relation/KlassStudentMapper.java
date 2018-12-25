@@ -116,43 +116,11 @@ public interface KlassStudentMapper {
     List<Klass> selectKlassByStudentId(String studentId);
 
     /**
-     * Select a Team's all students via teamId
-     *
-     * @param
-     * @return
-     * @author Xinyu Shi
-     */
-    @Select("select * from klass_student where student_id=#{studentId} and course_id =#{courseId}")
-    @Results({
-            @Result(property = "courseId", column = "course_id"),
-            @Result(property = "klassId", column = "klass_id"),
-            @Result(property = "teamId", column = "team_id"),
-            @Result(property = "studentId", column = "student_id"),
-    })
-    List<KlassStudent> selectByStudentIdAndCourseId(@Param("studentId") String studentId, @Param("courseId") String courseId);
-
-    /**
      * @author Xinyu Shi
      * update team_id by studentId and courseId.
      */
     @Update("update klass_student set team_id=#{teamId} where student_id=#{studentId} and course_id=#{courseId}")
     void update(KlassStudent klassStudent);
-
-    /**
-     * TODO
-     *
-     * @param
-     * @return
-     * @author Xinyu Shi
-     */
-    @Select("select * from klass_student where student_id=#{studentId} and klass_id=#{klassId}")
-    @Results({
-            @Result(property = "courseId", column = "course_id"),
-            @Result(property = "klassId", column = "klass_id"),
-            @Result(property = "teamId", column = "team_id"),
-            @Result(property = "studentId", column = "student_id"),
-    })
-    List<KlassStudent> selectByStudentIdAndKlassId(@Param("studentId") String studentId, @Param("klassId") String klassId);
 
     /**
      * Get the team via studentId and teamId
@@ -175,19 +143,39 @@ public interface KlassStudentMapper {
     Team selectTeamByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
 
     /**
+     * Insert a student into klass without team
+     * @author Xinyu Shi
+     * @param teamId  the redundant courseId information
+     * @param studentId   the klass's id, which the student will be inserted into
+     * @param studentId the student's id
+     */
+    @Insert("insert into team_student(team_id, student_id) values(#{teamId}, #{studentId})")
+    void insertStudentIntoTeam(@Param("teamId") String teamId, @Param("studentId") String studentId);
+
+    /**
+     * Delete a student in a team
+     * @author Xinyu Shi
+     * @param studentId the refer gist
+     */
+    @Delete("delete from team_student where student_id=#{studentId}")
+    void deleteTeamStudent(String studentId);
+
+    /**
      * Select a Team's all students via teamId
      *
-     * @param
-     * @return
+     * @param teamId the select gist
+     * @return List<Student> the selected Team's all students as list
      * @author Xinyu Shi
      */
-    @Select("select * from klass_student where student_id=#{studentId} and team_id=#{teamId}")
+    @Select("select student.* from team_student left join student on team_student.student_id = student.id where team_id=#{teamId}")
     @Results({
-            @Result(property = "courseId", column = "course_id"),
-            @Result(property = "klassId", column = "klass_id"),
-            @Result(property = "teamId", column = "team_id"),
-            @Result(property = "studentId", column = "student_id"),
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "account"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_active")
     })
-    List<KlassStudent> selectByStudentIdAndTeamId(@Param("studentId") String studentId, @Param("teamId") String teamId);
+    List<Student> selectStudentsInTeamByTeamId(String teamId);
 
 }
