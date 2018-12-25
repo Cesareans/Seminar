@@ -57,14 +57,7 @@ public interface TeacherService {
      */
     boolean modifyPasswordViaId(String teacherId, String password);
 
-    /**
-     * Get a teacher's courses via teacherId
-     *
-     * @param teacherId the refer gist
-     * @return list of teacher's courses
-     * @author cesare
-     */
-    List<Course> getCoursesByTeacherId(String teacherId);
+
 
     /**
      * Create a course

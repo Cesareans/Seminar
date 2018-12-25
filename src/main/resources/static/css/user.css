@@ -4,6 +4,10 @@
     height: 0;
 }
 
+.holder-visible{
+    visibility: visible !important;
+}
+
 .flex-center {
     display: flex;
     align-items: center;
@@ -322,6 +326,12 @@
     font-size: 15px !important;
 }
 
+.nav-item.disabled{
+    pointer-events: none;
+}
+.nav-item.disabled .nav-link{
+    color: #AAAAAA;
+}
 /*Modal*/
 .modal .modal-dialog {
     margin-top: 20vh;
@@ -395,14 +405,28 @@
 
 .team-table .name {
     text-align: center;
+    vertical-align: middle;
     width: 48%;
     line-height: 21px;
 }
 
+
+.team-table .name.select {
+    text-align: left;
+    width: 36%;
+}
+
 .team-table .num {
+    vertical-align: middle;
     line-height: 21px;
 }
 
+.team-table .operation{
+    width: 20%;
+}
+.team-table .operation button{
+    padding: 5px 10px;
+}
 
 /*Graph Icon*/
 .triangle {

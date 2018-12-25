@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Path load(String filename) {
-        return null;
+        return Paths.get(UPLOADED_FOLDER + filename);
     }
 
     @Override

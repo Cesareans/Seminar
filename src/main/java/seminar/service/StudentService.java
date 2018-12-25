@@ -74,12 +74,21 @@ public interface StudentService {
     List<Klass> getKlassesByStudentId(String studentId);
 
     /**
-     * Get the team via studentId and teamId
-     * @param studentId the refer gist
-     * @param klassId the refer gist
-     * @return the team
+     * Enroll a seminar
+     * @param ksId the klass seminar's id
+     * @param teamId the student team's id
+     * @param sn the wanna register serial number
+     * @return whether the operation is successful
      */
-    List<Team> getTeamByKlassIdAndStudentId(String klassId, String studentId);
+    boolean seminarEnroll(String ksId, String teamId, int sn);
+
+    /**
+     * Upload preFile for attendance
+     * @param attendanceId the refer gist
+     * @param preFileName the file name
+     */
+    void uploadPreFile(String attendanceId, String preFileName);
+
     /**
      * Create a team by a student who is without a team.
      * @author Xinyu Shi

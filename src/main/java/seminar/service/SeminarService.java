@@ -18,6 +18,15 @@ public interface SeminarService {
     List<Course> getCourseByCourseId(String courseId);
 
     /**
+     * Get a teacher's courses via teacherId
+     *
+     * @param teacherId the refer gist
+     * @return list of teacher's courses
+     * @author cesare
+     */
+    List<Course> getCoursesByTeacherId(String teacherId);
+
+    /**
      * Get a course's other course via course id
      *
      * @param courseId the refer gist
@@ -94,6 +103,20 @@ public interface SeminarService {
      */
     List<Team> getTeamsByCourseId(String courseId);
 
+    /**
+     * Get the team via studentId and courseId
+     * @param courseId the refer gist
+     * @param studentId the refer gist
+     * @return the team
+     */
+    Team getTeamByCourseIdAndStudentId(String courseId, String studentId);
+
+    /**
+     * Get the team via team id
+     * @param teamId the refer gist
+     * @return the team
+     */
+    Team getTeamByTeamId(String teamId);
     /**
      * Get a course's klass via courseId
      *

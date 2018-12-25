@@ -22,7 +22,7 @@ public class TeamMapperTest {
 
     @Test
     public void selectTeamById() {
-        Team team = teamMapper.selectTeamById("111").get(0);
+        Team team = teamMapper.selectTeamById("22").get(0);
         DebugLogger.logJson(team);
         DebugLogger.logJson(team.getStudents().size());
     }

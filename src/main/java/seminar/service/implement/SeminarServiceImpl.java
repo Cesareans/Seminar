@@ -41,6 +41,11 @@ public class SeminarServiceImpl implements SeminarService {
         return courseDAO.getByCourseId(courseId);
     }
 
+
+    @Override
+    public List<Course> getCoursesByTeacherId(String teacherId) {
+        return courseDAO.getByTeacherId(teacherId);
+    }
     @Override
     public List<Course> getOtherCoursesByCourseId(String courseId) {
         return courseDAO.getOtherCoursesByCourseId(courseId);
@@ -71,6 +76,16 @@ public class SeminarServiceImpl implements SeminarService {
         }else{
             return teamDAO.getCourseTeamsByCourseId(course.getTeamMainCourseId());
         }
+    }
+
+    @Override
+    public Team getTeamByCourseIdAndStudentId(String courseId, String studentId) {
+        return teamDAO.getByCourseIdAndStudentId(courseId,studentId);
+    }
+
+    @Override
+    public Team getTeamByTeamId(String teamId) {
+        return teamDAO.getById(teamId).get(0);
     }
 
     @Override

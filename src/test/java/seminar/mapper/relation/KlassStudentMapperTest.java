@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import seminar.entity.Team;
 import seminar.logger.DebugLogger;
-import seminar.mapper.relation.KlassStudentMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

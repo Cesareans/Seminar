@@ -87,6 +87,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean handleShareSeminarApplication(ApplicationHandleDTO applicationHandleDTO) {
+        /*
+         * 1 : accept
+         * 2 : decline
+         */
         switch (applicationHandleDTO.getOperationType()){
             case 1:
                 Course course = courseDAO.getByCourseId(applicationHandleDTO.getSubCourseId()).get(0);

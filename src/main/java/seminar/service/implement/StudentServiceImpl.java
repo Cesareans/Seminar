@@ -1,23 +1,16 @@
 package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import seminar.dao.CourseDAO;
-import seminar.dao.KlassDao;
-import seminar.dao.KlassStudentDAO;
-import seminar.dao.StudentDAO;
-import seminar.entity.Course;
-import seminar.entity.Klass;
-import seminar.dao.TeamDAO;
-import seminar.entity.Student;
-import seminar.entity.Team;
+import seminar.dao.*;
+import seminar.entity.*;
 import seminar.entity.relation.KlassStudent;
+import seminar.logger.DebugLogger;
 import seminar.service.StudentService;
 
 import java.util.Date;
 import java.util.List;
-
-import static sun.misc.Version.println;
 
 /**
  * @author Cesare
@@ -29,14 +22,18 @@ public class StudentServiceImpl implements StudentService {
     private final KlassDao klassDao;
     private final TeamDAO teamDAO;
     private final KlassStudentDAO klassStudentDAO;
+    private final KlassSeminarDAO klassSeminarDAO;
+    private final AttendanceDAO attendanceDAO;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassStudentDAO klassStudentDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassStudentDAO klassStudentDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
         this.studentDAO = studentDAO;
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
         this.klassStudentDAO = klassStudentDAO;
+        this.klassSeminarDAO = klassSeminarDAO;
+        this.attendanceDAO = attendanceDAO;
     }
 
     @Override
@@ -103,8 +100,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Team> getTeamByKlassIdAndStudentId(String klassId, String studentId) {
-        return teamDAO.getByKlassIdAndStudentId(klassId,studentId);
+    public boolean seminarEnroll(String ksId, String teamId, int sn) {
+        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
+        DebugLogger.log(teamId);
+        DebugLogger.log(sn);
+        for (Attendance attendance : enrollList) {
+            if(attendance == null){
+                continue;
+            }
+            if(attendance.getTeam().getId().equals(teamId) || attendance.getSn() == sn){
+                return false;
+            }
+        }
+        Attendance attendance = new Attendance();
+        attendance.setKlassSeminarId(ksId);
+        attendance.setPresenting(false);
+        attendance.setSn(sn);
+        attendance.setTeamId(teamId);
+        attendanceDAO.create(attendance);
+        return true;
+    }
+
+    @Override
+    public void uploadPreFile(String attendanceId, String preFileName) {
+        Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
+        attendance.setPreFile(preFileName);
+        attendanceDAO.update(attendance);
     }
 
     /**

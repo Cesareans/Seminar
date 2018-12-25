@@ -81,8 +81,8 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public List<Team> getByKlassIdAndStudentId(String klassId, String studentId){
-        return klassStudentMapper.selectTeamByStudentIdAndKlassId(klassId, studentId);
+    public Team getByCourseIdAndStudentId(String courseId, String studentId){
+        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
     }
     /**
      * @author Xinyu Shi

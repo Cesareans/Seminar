@@ -7,26 +7,26 @@ import seminar.pojo.websocket.monitor.SeminarMonitor;
  * @author Cesare
  */
 public class PullQuestionResponse implements Response {
-    private String studentId;
+    private String studentNum;
     private String teamSerial;
     private String teamName;
     private int questionCount;
     @Override
     public Response execute(SeminarMonitor monitor) {
         RequestQuestion question = monitor.getChosenQuestion();
-        studentId = question.getStudent().getId();
+        studentNum = question.getStudent().getStudentNum();
         teamSerial = question.getTeam().getSerial();
         teamName = question.getTeam().getTeamName();
         questionCount = monitor.getRaisedQuestionsCount();
         return this;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getStudentNum() {
+        return studentNum;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudentNum(String studentNum) {
+        this.studentNum = studentNum;
     }
 
     public String getTeamSerial() {

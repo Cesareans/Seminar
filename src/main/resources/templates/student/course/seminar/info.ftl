@@ -16,10 +16,6 @@
         $(function () {
             ksIdForm=$("#ksIdForm");
             $("#courseIdInput").val(sessionStorage.getItem("courseId"));
-            $("#enrollBtn").click(function () {
-                ksIdForm.attr("action", "/student/course/seminar/enrollList");
-                ksIdForm.submit();
-            });
             $("#enterSeminar").click(function () {
                 ksIdForm.attr("action", "/student/course/seminar/progressing");
                 ksIdForm.submit();
@@ -67,11 +63,6 @@
                     <div class="row">
                         <div class="col-9" style="display: flex;align-items: center">
                             <h4 class="card-title" style="margin-top: 0">${klassSeminar.seminar.theme}</h4>
-                        </div>
-                        <div class="col-3">
-                            <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn">
-                                <i class="material-icons">library_books</i>
-                            </button>
                         </div>
                     </div>
                 </div>

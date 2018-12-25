@@ -93,10 +93,6 @@ public class TeacherServiceImpl implements TeacherService {
         return true;
     }
 
-    @Override
-    public List<Course> getCoursesByTeacherId(String teacherId) {
-        return courseDAO.getByTeacherId(teacherId);
-    }
 
 
     /**

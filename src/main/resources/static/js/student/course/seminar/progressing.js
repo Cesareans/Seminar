@@ -1,10 +1,11 @@
-var client = null, ksId, timer;
+var client = null, ksId, timer, studentNum;
 
-var questionCount, teams, questions, teamName, teamOperation;
+var questionCount, teams, questions, teamName, teamOperation, onAsk;
 
-var preTimeStamp, preState, progressState = 'PAUSE';
+var preTimeStamp, progressState = 'PAUSE';
 
 var tabContent, curActive, curOnfocus, curAttendanceIdx;
+
 $(function () {
     timer = $("#timer");
     questionCount = $("#questionCount");
@@ -13,16 +14,19 @@ $(function () {
 
     teamName = $("#teamName");
     teamOperation = $("#teamOperation");
+    onAsk = $("#onAsk");
 
     tabContent = $("#tabContent");
     curActive = curOnfocus = $(".active-team");
-    curAttendanceIdx = curActive.data("idx");
+    curAttendanceIdx = curActive.attr("data-idx");
     timer.create();
 
-    ksId = $("body").attr("data-ksId");
+    var body = $("body");
+    ksId = body.attr("data-ksId");
+    studentNum = body.attr("data-studentNum")
 });
 function changeFocus(target) {
-    var tab = target.data("tab");
+    var tab = target.attr("data-tab");
     tabContent.children(".tab-pane").hide();
     console.log($(tab));
     $(tab).show();
@@ -107,19 +111,25 @@ function handleSwitchTeamResponse(content) {
     pauseAt(content.state.timeStamp);
 }
 
-var PullQuestionResponse = {studentId: null, teamId: null, questionCount: null};
+var PullQuestionResponse = {studentNum: null, teamSerial:null, teamName: null, questionCount: null};
 function handlePullQuestionResponse(content) {
     preTimeStamp = timer.getTime();
-    preState = progressState;
 
     teamName.text(content.teamName);
     questionCount.text(content.questionCount);
     startAt(0);
     addQuestion(content.teamSerial);
+
+    console.log(content.studentNum);
+    console.log(studentNum);
+    if(content.studentNum === studentNum){
+        onAsk.addClass("holder-visible");
+    }
 }
 
 function handleEndQuestionResponse(content) {
     pauseAt(preTimeStamp);
+    onAsk.removeClass("holder-visible");
     changeActive(teams.eq(curAttendanceIdx));
 }
 function handleScoreResponse(content) {
@@ -148,7 +158,7 @@ function startAt(timeStamp) {
 }
 
 function addQuestion(teamSerial) {
-    var tab = $(curActive.data("tab"));
+    var tab = $(curActive.attr("data-tab"));
     var btn = $("<button class='btn btn-fab btn-round btn-team question'>" + teamSerial + "</button>");
 
     tab.append(btn);

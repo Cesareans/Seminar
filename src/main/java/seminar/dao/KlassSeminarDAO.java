@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Attendance;
 import seminar.entity.KlassSeminar;
+import seminar.logger.DebugLogger;
 import seminar.mapper.KlassSeminarMapper;
 
 import java.util.LinkedList;
@@ -83,7 +84,11 @@ public class KlassSeminarDAO {
      * @author Xinyu Shi
      */
     public List<KlassSeminar> getByKlassIdAndSeminarId(String klassId, String seminarId) {
-        return klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        List<KlassSeminar> klassSeminars = klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        if(klassSeminars.size() == 0){
+
+        }
+        return klassSeminars;
     }
 
     /**

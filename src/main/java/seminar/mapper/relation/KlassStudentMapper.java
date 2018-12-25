@@ -156,11 +156,11 @@ public interface KlassStudentMapper {
 
     /**
      * Get the team via studentId and teamId
+     * @param courseId the refer gist
      * @param studentId the refer gist
-     * @param klassId the refer gist
      * @return the team
      */
-    @Select("select team.* from klass_student left join team on klass_student.klass_id = team.klass_id  where student_id=#{studentId} and klass_student.klass_id=#{klassId}")
+    @Select("select team.* from klass_student left join team on klass_student.team_id = team.id  where student_id=#{studentId} and klass_student.course_id=#{courseId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "serial", column = "team_serial"),
@@ -172,7 +172,7 @@ public interface KlassStudentMapper {
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
             @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
     })
-    List<Team> selectTeamByStudentIdAndKlassId(@Param("klassId") String klassId, @Param("studentId") String studentId);
+    Team selectTeamByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
 
     /**
      * Select a Team's all students via teamId

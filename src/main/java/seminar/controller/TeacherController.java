@@ -160,6 +160,10 @@ public class TeacherController {
     @PostMapping("/notification/handle")
     public @ResponseBody ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO){
         DebugLogger.logJson(applicationHandleDTO);
+        /*
+         * 0 : ShareSeminar
+         * 1 : ShareTeam
+         */
         switch (applicationHandleDTO.getAppType()){
             case 0:
                 if(applicationService.handleShareSeminarApplication(applicationHandleDTO)){
@@ -182,7 +186,7 @@ public class TeacherController {
 
     @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
-        model.addAttribute("courses", teacherService.getCoursesByTeacherId(((String) session.getAttribute(TEACHER_ID_GIST))));
+        model.addAttribute("courses", seminarService.getCoursesByTeacherId(((String) session.getAttribute(TEACHER_ID_GIST))));
         return "teacher/courseList";
     }
 
@@ -313,7 +317,12 @@ public class TeacherController {
     @PostMapping("/course/seminar/grade")
     public String seminarGrade(String courseId, Model model) {
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        List<RoundScore> roundScores = new LinkedList<>();
+        List<Team> teams = seminarService.getTeamsByCourseId(courseId);
+        Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
+        rounds.forEach(round -> {
+
+            List<RoundScore> roundScores = new LinkedList<>();
+        });
         return "teacher/course/seminar/grade";
     }
 
