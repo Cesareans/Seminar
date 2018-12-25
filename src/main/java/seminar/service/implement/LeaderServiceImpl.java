@@ -35,7 +35,6 @@ public class LeaderServiceImpl implements LeaderService {
     @Override
     public boolean addGroupMember(String studentId, String teamId)
     {
-        Date today = new Date();
         Team team = teamDAO.getById(teamId).get(0);
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
         if(team.getStatus()==TEAM_IS_CHECKING) {
@@ -44,7 +43,7 @@ public class LeaderServiceImpl implements LeaderService {
         if(studentDAO.studenHasAlreadyTeamed(studentId,team.getCourseId())) {
             return false;
         }
-        if(today.getTime() > teamEndDate.getTime()) {
+        if(!compareTime(teamEndDate)) {
             team.setStatus(TEAM_IS_INVALID);
         }
 
@@ -61,17 +60,14 @@ public class LeaderServiceImpl implements LeaderService {
     @Override
     public boolean deleteGroupMember(String studentId, String teamId)
     {
-        Date today = new Date();
         Team team = teamDAO.getById(teamId).get(0);
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
         if(team.getStatus()==TEAM_IS_CHECKING) {
             return false;
         }
-
-        if(today.getTime() > teamEndDate.getTime()) {
+        if(!compareTime(teamEndDate)) {
             team.setStatus(TEAM_IS_INVALID);
         }
-
         studentDAO.updateTeamInfoInKlassStudent(studentId,team.getCourseId(),NOT_HAVE_TEAM);
         team = teamDAO.getById(teamId).get(0);
         teamDAO.update(team);
@@ -94,9 +90,8 @@ public class LeaderServiceImpl implements LeaderService {
     @Override
     public boolean createTeam(String studentId, String courseId, String klassId, String teamName)
     {
-        Date today = new Date();
         Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
-        if(today.getTime() > teamEndDate.getTime()) {
+        if(!compareTime(teamEndDate)) {
             return false;
         }
 
@@ -128,6 +123,25 @@ public class LeaderServiceImpl implements LeaderService {
         }
         //delete this team.
         teamDAO.deleteById(teamId);
+    }
+
+    /**
+     * compare the current time to the specific time,
+     * if the current time is earlier than the specific time, return true
+     * otherwise, return false
+     * @author Xinyu Shi
+     * @param date
+     * @return
+     */
+    private boolean compareTime(Date date)
+    {
+        Date today = new Date();
+        if(today.getTime() < date.getTime()) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
