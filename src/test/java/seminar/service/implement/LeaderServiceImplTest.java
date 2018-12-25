@@ -22,14 +22,14 @@ public class LeaderServiceImplTest {
     public void addGroupMemberTest()
     {
         DebugLogger.logJson(teamDAO.getById("6").get(0));
-        DebugLogger.logJson(leaderService.addGroupMember("106","16","6"));
+        DebugLogger.logJson(leaderService.addGroupMember("106","6"));
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
     @Test
     public void deleteGroupMemberTest()
     {
-        leaderService.deleteGroupMember("106","16","6");
+        leaderService.deleteGroupMember("106","6");
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 

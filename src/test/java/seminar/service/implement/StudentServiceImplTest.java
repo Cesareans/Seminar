@@ -19,11 +19,6 @@ public class StudentServiceImplTest {
     @Autowired
     TeamDAO teamDAO;
 
-    @Test
-    public void createTeam()
-    {
-        DebugLogger.logJson(studentService.createTeam("106","16","21","testBySxy"));
-    }
 
     @Test
     public void getAllTeamsByCourseId()

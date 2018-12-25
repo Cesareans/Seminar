@@ -9,6 +9,7 @@ import seminar.service.ScoreService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Xinyu Shi
@@ -24,6 +25,10 @@ public class ScoreServiceImpl implements ScoreService {
     private final AttendanceDAO attendanceDAO;
     private final QuestionDAO questionDAO;
     private final TeamDAO teamDAO;
+    private final int AVG_SCORE_CAL_METHOD = 0;
+    private final int MAX_SCORE_CAL_METHOD = 1;
+    private final int PRE_SCORE = 0;
+    private final int REPORT_SCORE = 1;
 
     @Autowired
     public ScoreServiceImpl(SeminarScoreDAO seminarScoreDAO, KlassSeminarDAO klassSeminarDAO, SeminarDAO seminarDAO, CourseDAO courseDAO, RoundDAO roundDAO, AttendanceDAO attendanceDAO, QuestionDAO questionDAO, TeamDAO teamDAO)
@@ -87,6 +92,7 @@ public class ScoreServiceImpl implements ScoreService {
         totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
         RoundScore roundScore = new RoundScore();
         roundScore.setRoundId(roundId);
+        roundScore.setTeamId(teamId);
         roundScore.setPresentationScore(preScore);
         roundScore.setQuestionScore(quesScore);
         roundScore.setReportScore(reportScore);
@@ -98,42 +104,39 @@ public class ScoreServiceImpl implements ScoreService {
     {
         //kind: 0:pre 1:question 2:report
         BigDecimal score = new BigDecimal(0);
-
-        //average score
-        if(method==0)
+        List<SeminarScore> seminarScores = new ArrayList<>();
+        for(Attendance attendance:attendances)
         {
-            int attendanceTimes = 0;
-            for(Attendance attendance : attendances)
-            {
-                if(kind==0) {
-                    score = score.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0).getPresentationScore());
-                }else if(kind==2) {
-                    score = score.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0).getReportScore());
-                }
-                attendanceTimes++;
-            }
+            seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0));
+        }
+        //average score
+        if(method== AVG_SCORE_CAL_METHOD)
+        {
+            if(kind==PRE_SCORE){
+                score =seminarScores.stream().map(SeminarScore::getPresentationScore).reduce(new BigDecimal("0"), BigDecimal::add);
 
-            score = score.divide(new BigDecimal(attendanceTimes),2, BigDecimal.ROUND_HALF_UP);
+            }
+            else if(kind==REPORT_SCORE) {
+                score = seminarScores.stream().map(SeminarScore::getReportScore).reduce(new BigDecimal("0"), BigDecimal::add);
+            }
+            long count = (long)seminarScores.size();
+            if(!seminarScores.isEmpty()){
+                score = score.divide(new BigDecimal(count) , 2, BigDecimal.ROUND_HALF_UP);
+            }
+            else{
+                score = new BigDecimal(0);
+            }
         }
         //maximum score
-        else if(method==1)
+        else if(method==MAX_SCORE_CAL_METHOD)
         {
-            for(Attendance attendance : attendances)
-            {
-                if(kind==0)
-                {
-                    BigDecimal temp = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,attendance.getKlassSeminarId()).get(0).getPresentationScore();
-                    if(score.compareTo(temp)<0) {
-                        score = temp;
-                    }
-                }
-                else if(kind==2)
-                {
-                    BigDecimal temp = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,attendance.getKlassSeminarId()).get(0).getReportScore();
-                    if(score.compareTo(temp)<0) {
-                        score = temp;
-                    }
-                }
+            if(kind==PRE_SCORE){
+                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getPresentationScore).reduce(BigDecimal::max);
+                score = max.orElse(new BigDecimal(0));
+            }
+            else if(kind==REPORT_SCORE){
+                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getReportScore).reduce(BigDecimal::max);
+                score = max.orElse(new BigDecimal(0));
             }
         }
         return score;
@@ -146,41 +149,13 @@ public class ScoreServiceImpl implements ScoreService {
         Seminar seminar = seminarDAO.getBySeminarId(klassSeminar.getSeminarId()).get(0);
         Round round = roundDAO.getByRoundId(seminar.getRoundId()).get(0);
         BigDecimal quesScore = new BigDecimal(0);
-        if(round.getQuesScoreType()==0)
+        if(round.getQuesScoreType()== AVG_SCORE_CAL_METHOD)
         {
-
-            // average score
-            int times = 0;
-            for(Question question : questions)
-            {
-                if(question.getScore()!=null)
-                {
-                    quesScore = quesScore.add(question.getScore());
-                    times++;
-                }
-            }
-            if(times!=0) {
-                quesScore = quesScore.divide(new BigDecimal(times), 2, BigDecimal.ROUND_HALF_UP);
-            }
-            else {
-                quesScore = new BigDecimal(0);
-            }
-
+            quesScore = averageScore(questions);
         }
-        else if(round.getQuesScoreType()==1)
+        else if(round.getQuesScoreType()==MAX_SCORE_CAL_METHOD)
         {
-            //maximum score
-            for(Question question:questions)
-            {
-                if(question.getScore()!=null)
-                {
-                    BigDecimal temp = question.getScore();
-                    if(quesScore.compareTo(temp)<0) {
-                        quesScore = temp;
-                    }
-                }
-
-            }
+            quesScore = maxScore(questions);
         }
         SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId).get(0);
         seminarScore.setQuestionScore(quesScore);
@@ -195,34 +170,35 @@ public class ScoreServiceImpl implements ScoreService {
             List<Question> questionsInOneSeminar = questionDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId());
             questions.addAll(questionsInOneSeminar);
         }
-
         BigDecimal quesScore = new BigDecimal(0);
-        if(method==0)
-        {
-            // average score
-            int times = 0;
-            for(Question question : questions)
-            {
-                if(question.getScore()!=null)
-                {
-                    quesScore = quesScore.add(question.getScore());
-                    times++;
-                }
-            }
-            quesScore = quesScore.divide(new BigDecimal(times), 2, BigDecimal.ROUND_HALF_UP);
+        if(method== AVG_SCORE_CAL_METHOD) {
+           quesScore = averageScore(questions);
+        }
+        else if(method==MAX_SCORE_CAL_METHOD) {
+           quesScore = maxScore(questions);
+        }
+        return quesScore;
+    }
 
+    private BigDecimal averageScore(List<Question> questions)
+    {
+        BigDecimal quesScore ;
+        BigDecimal sum = questions.stream().map(Question::getScore).reduce(new BigDecimal("0"), BigDecimal::add);
+        long count = (long) questions.size();
+        if(!questions.isEmpty()){
+            quesScore = sum.divide(new BigDecimal(count) , 2, BigDecimal.ROUND_HALF_UP);
         }
-        else if(method==1)
-        {
-            //maximum score
-            for(Question question:questions)
-            {
-                BigDecimal temp = question.getScore();
-                if(quesScore.compareTo(temp)<0) {
-                    quesScore = temp;
-                }
-            }
+        else{
+            quesScore = new BigDecimal(0);
         }
+        return quesScore;
+    }
+
+    private BigDecimal maxScore(List<Question> questions)
+    {
+        BigDecimal quesScore;
+        Optional<BigDecimal> max = questions.stream().map(Question::getScore).reduce(BigDecimal::max);
+        quesScore = max.orElse(new BigDecimal(0));
         return quesScore;
     }
 
