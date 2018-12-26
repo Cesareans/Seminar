@@ -1,8 +1,9 @@
-package seminar.mapper.strategy;
+package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
-import seminar.entity.strategy.CourseMemberLimitStrategy;
+import seminar.entity.regulation.CourseMemberLimitStrategy;
 import java.util.List;
 
 /**
