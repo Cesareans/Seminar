@@ -62,25 +62,30 @@ public class WebSocketServiceImpl implements WebSocketService {
         Map<String, BigDecimal> scoreMap = monitor.getPreScoreMap();
         SeminarScore seminarScore = new SeminarScore();
         Question question = new Question();
+        BigDecimal score;
         question.setKlassSeminarId(ksId);
         List<SeminarScore> seminarScores;
         List<AskedQuestion> askedQuestions;
         for (Attendance attendance : monitor.getEnrollList()) {
+            score = scoreMap.get(attendance.getId());
+            if (score.intValue() < 0) {score = new BigDecimal(0);}
             seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(), attendance.getKlassSeminarId());
             if(seminarScores.isEmpty()){
-                seminarScore.setPresentationScore(scoreMap.get(attendance.getId()));
+                seminarScore.setPresentationScore(score);
                 seminarScore.setTeamId(attendance.getTeamId());
                 seminarScore.setKlassSeminarId(attendance.getKlassSeminarId());
                 seminarScoreDAO.createSeminarScore(seminarScore);
             }else{
                 seminarScore = seminarScores.get(0);
-                seminarScore.setPresentationScore(scoreMap.get(attendance.getId()));
+                seminarScore.setPresentationScore(score);
                 seminarScoreDAO.update(seminarScore);
             }
             askedQuestions = monitor.getAskedQuestion().get(attendance.getId());
             askedQuestions.forEach(askedQuestion -> {
+                BigDecimal queScore = askedQuestion.getScore();
+                if(queScore.intValue()<0){queScore = new BigDecimal(0);}
                 question.setAttendanceId(attendance.getId());
-                question.setScore(askedQuestion.getScore());
+                question.setScore(queScore);
                 question.setStudentId(askedQuestion.getStudent().getId());
                 question.setTeamId(askedQuestion.getTeam().getId());
                 questionDAO.create(question);

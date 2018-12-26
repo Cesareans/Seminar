@@ -44,9 +44,9 @@ public class WebSocketController {
     public String seminarProgressing(String klassSeminarId, Model model) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
         Boolean hasEnd = klassSeminar.getState() == 2;
+        model.addAttribute("ksId", klassSeminarId);
         model.addAttribute("hasEnd", hasEnd);
         if(!hasEnd) {
-            model.addAttribute("ksId", klassSeminarId);
             model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
         }
         return "teacher/course/seminar/progressing";
