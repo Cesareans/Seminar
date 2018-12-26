@@ -65,59 +65,19 @@
                             <div class="body-content">
                                 <hr>
                                 <div class="row">
-                                    <#list round.seminars as seminar>
+                                    <#list teams as team>
                                         <div class="col-6">
                                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                                 <li class="nav-item" data-toggle="modal"
-                                                    data-target="#seminarScoreModal${seminar.id}">
+                                                    data-target="#teamScoreModal${team.id}">
                                                     <a class="nav-link" style="padding-bottom: 0;">
                                                         <i class="material-icons">equalizer</i>
-                                                        ${seminar.theme}
+                                                        ${team.klass.serial}-${team.serial}&nbsp;${team.teamName}
                                                     </a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </#list>
-                                </div>
-                            </div>
-                            <div>
-                                <hr>
-                                <div class="row">
-                                    <div class="grade-area">
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">mic</i>
-                                                    展示分
-                                                    <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">comment</i>
-                                                    提问分
-                                                    <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">description</i>
-                                                    报告分
-                                                    <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div class="vertical-separator"></div>
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">done_all</i>
-                                                    总分
-                                                    <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -130,12 +90,12 @@
 </div>
 
 <#list rounds as round>
-    <#list round.seminars as seminar>
-        <div class="modal fade" id="seminarScoreModal${seminar.id}">
+    <#list teams as team>
+        <div class="modal fade" id="teamScoreModal${team.id}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">${seminar.theme}</h5>
+                        <h5 class="modal-title">${team.klass.serial}-${team.serial}&nbsp;${team.teamName}</h5>
                         <button type="button" class="close" data-dismiss="modal">
                             <i class="material-icons">clear</i>
                         </button>

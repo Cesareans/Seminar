@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="body-content">
                                     <hr>
-                                    <#if hasEnd>
+                                    <#if !hasEnd>
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                             <li <#if attendance.preFile??>class="nav-item download-file"
                                                 data-fileName="${attendance.preFile}" data-teamId="${attendance.teamId}"

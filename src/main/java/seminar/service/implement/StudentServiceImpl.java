@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
 import seminar.logger.DebugLogger;
+import seminar.service.StrategyService;
 import seminar.service.StudentService;
 
 import java.util.Date;
@@ -20,17 +21,19 @@ public class StudentServiceImpl implements StudentService {
     private final CourseDAO courseDAO;
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
+    private final StrategyService strategyService;
     private final int TEAM_IS_INVALID = 0;
     private final int TEAM_IS_VALID = 1;
     private final int TEAM_IS_CHECKING = 2;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, TeamDAO teamDAO, CourseDAO courseDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO, TeamDAO teamDAO, CourseDAO courseDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StrategyService strategyService) {
         this.studentDAO = studentDAO;
         this.teamDAO = teamDAO;
         this.courseDAO = courseDAO;
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
+        this.strategyService = strategyService;
     }
 
     @Override
@@ -169,12 +172,10 @@ public class StudentServiceImpl implements StudentService {
             team.setStatus(TEAM_IS_INVALID);
         }
         studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
+        if(!strategyService.validate(teamId,team.getCourseId())){
+            team.setStatus(TEAM_IS_INVALID);
+        }
         teamDAO.update(team);
-
-        /**
-         * TODO: judge whether the team id valid or not.
-         */
-
         return true;
     }
 
@@ -193,11 +194,11 @@ public class StudentServiceImpl implements StudentService {
             team.setStatus(TEAM_IS_INVALID);
         }
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
+        if(!strategyService.validate(teamId,team.getCourseId())){
+            team.setStatus(TEAM_IS_INVALID);
+        }
         teamDAO.update(team);
 
-        /**
-         * TODO: judge whether the team id valid or not.
-         */
         return true;
     }
 
@@ -222,9 +223,12 @@ public class StudentServiceImpl implements StudentService {
     public void exitTeam(String teamId, String studentId)
     {
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
-        /**
-         * TODO: judge whether the team id valid or not.
-         */
+        Team team = teamDAO.getById(teamId).get(0);
+        if(!strategyService.validate(teamId,team.getCourseId())){
+            team.setStatus(TEAM_IS_INVALID);
+            teamDAO.update(team);
+        }
+
     }
 }
 

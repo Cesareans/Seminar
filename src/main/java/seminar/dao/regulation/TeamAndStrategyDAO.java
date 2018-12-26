@@ -1,8 +1,64 @@
 package seminar.dao.regulation;
 
-import seminar.entity.Team;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import seminar.entity.regulation.Strategy;
+import seminar.entity.regulation.StrategyNameId;
+import seminar.entity.regulation.TeamAndStrategy;
+import seminar.mapper.TeamAndStrategyMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author Xinyu Shi
+ */
+@Component
 public class TeamAndStrategyDAO {
 
+    private final TeamAndStrategyMapper teamAndStrategyMapper;
+    private final ConflictCourseStrategyDAO conflictCourseStrategyDAO;
+    private final CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO;
+    private final MemberLimitStrategyDAO memberLimitStrategyDAO;
 
+    @Autowired
+    public TeamAndStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO)
+    {
+        this.teamAndStrategyMapper = teamAndStrategyMapper;
+        this.conflictCourseStrategyDAO = conflictCourseStrategyDAO;
+        this.courseMemberLimitStrategyDAO = courseMemberLimitStrategyDAO;
+        this.memberLimitStrategyDAO = memberLimitStrategyDAO;
+    }
+
+    private List<Strategy> getAndStrategyById(String id)
+    {
+        List<Strategy> strategies = new ArrayList<>();
+        List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStratigiesById(id);
+        for (StrategyNameId s : strategySet)
+        {
+            switch(s.getStrategy_name()){
+                case("CourseMemberLimitStrategy"):
+                    strategies.add(courseMemberLimitStrategyDAO.getById(s.getStrategy_id()));
+                    break;
+                case("ConflictCourseStrategy"):
+                    strategies.add(conflictCourseStrategyDAO.getById(s.getStrategy_id()));
+                    break;
+                case("MemberLimitStrategy"):
+                    strategies.add(memberLimitStrategyDAO.getById(s.getStrategy_id()));
+                    break;
+                default:break;
+            }
+        }
+
+        return strategies;
+    }
+
+    public TeamAndStrategy getById(String strategyId)
+    {
+        TeamAndStrategy teamAndStrategy = new TeamAndStrategy();
+        teamAndStrategy.setId(strategyId);
+        teamAndStrategy.setStrategies(getAndStrategyById(strategyId));
+        return teamAndStrategy;
+    }
 }

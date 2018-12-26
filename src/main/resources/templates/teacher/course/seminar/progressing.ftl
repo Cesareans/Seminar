@@ -114,7 +114,7 @@
             <div class="row">
                 <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
                     <h3 id="teamName"
-                        style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
+                        style="text-align: center;margin-bottom: 0"><#if monitor.onPreAttendance??> ${monitor.onPreAttendance.team.teamName}</#if></h3>
                     <hr>
                     <h4 id="teamOperation" style="text-align: center">
                         暂停中...

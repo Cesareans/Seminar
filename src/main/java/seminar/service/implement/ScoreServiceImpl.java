@@ -129,11 +129,11 @@ public class ScoreServiceImpl implements ScoreService {
         if(method== AVG_SCORE_CAL_METHOD)
         {
             if(kind==PRE_SCORE){
-                score =seminarScores.stream().map(SeminarScore::getPresentationScore).reduce(new BigDecimal("0"), BigDecimal::add);
+                score =seminarScores.stream().map(SeminarScore::getPresentationScore).filter(Objects::nonNull).reduce(new BigDecimal("0"), BigDecimal::add);
 
             }
             else if(kind==REPORT_SCORE) {
-                score = seminarScores.stream().map(SeminarScore::getReportScore).reduce(new BigDecimal("0"), BigDecimal::add);
+                score = seminarScores.stream().map(SeminarScore::getReportScore).filter(Objects::nonNull).reduce(new BigDecimal("0"), BigDecimal::add);
             }
             long count = (long)seminarScores.size();
             if(!seminarScores.isEmpty()){
@@ -146,11 +146,11 @@ public class ScoreServiceImpl implements ScoreService {
         else if(method==MAX_SCORE_CAL_METHOD)
         {
             if(kind==PRE_SCORE){
-                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getPresentationScore).reduce(BigDecimal::max);
+                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getPresentationScore).filter(Objects::nonNull).reduce(BigDecimal::max);
                 score = max.orElse(new BigDecimal(0));
             }
             else if(kind==REPORT_SCORE){
-                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getReportScore).reduce(BigDecimal::max);
+                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getReportScore).filter(Objects::nonNull).reduce(BigDecimal::max);
                 score = max.orElse(new BigDecimal(0));
             }
         }
@@ -210,7 +210,7 @@ public class ScoreServiceImpl implements ScoreService {
     private BigDecimal maxScore(List<Question> questions)
     {
         BigDecimal quesScore;
-        Optional<BigDecimal> max = questions.stream().map(Question::getScore).reduce(BigDecimal::max);
+        Optional<BigDecimal> max = questions.stream().map(Question::getScore).filter(Objects::nonNull).reduce(BigDecimal::max);
         quesScore = max.orElse(new BigDecimal(0));
         return quesScore;
     }

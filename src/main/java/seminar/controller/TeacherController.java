@@ -320,7 +320,7 @@ public class TeacherController {
     @PostMapping("/course/seminar/enrollList")
     public String seminarEnrollList(String klassSeminarId, Model model) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
-        Boolean hasEnd = klassSeminar.getState()==2;
+        Boolean hasEnd = (klassSeminar.getState()==2);
         model.addAttribute("hasEnd", hasEnd);
         model.addAttribute("ksId", klassSeminar.getId());
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));

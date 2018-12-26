@@ -18,7 +18,7 @@ public interface QuestionMapper {
      *
      * @param question the Question entity that will be inserted
      */
-    @Insert("insert into question(score, team_id, student_id, attendance_id, klass_seminar_id) values(#{score}, #{teamId}, #{studentId}, #{attendanceId}, #{klassSeminarId})")
+    @Insert("insert into question(is_selected, score, team_id, student_id, attendance_id, klass_seminar_id) values(#{isSelected}, #{score}, #{teamId}, #{studentId}, #{attendanceId}, #{klassSeminarId})")
     @Options(useGeneratedKeys = true)
     void insertQuestion(Question question);
 
@@ -27,7 +27,7 @@ public interface QuestionMapper {
      *
      * @param question the Question entity that will be updated via the id
      */
-    @Update("update question set score=#{score}, team_id=#{teamId}, student_id=#{studentId}, attendance_id=#{attendanceId}, klass_seminar_id=#{klassSeminarId} where id=#{id}")
+    @Update("update question set is_selected=#{isSelected}, score=#{score}, team_id=#{teamId}, student_id=#{studentId}, attendance_id=#{attendanceId}, klass_seminar_id=#{klassSeminarId} where id=#{id}")
     void updateQuestion(Question question);
 
     /**
@@ -38,6 +38,7 @@ public interface QuestionMapper {
     @Select("select * from question")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -55,6 +56,7 @@ public interface QuestionMapper {
     @Select("select * from question where team_id=#{teamId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -72,6 +74,7 @@ public interface QuestionMapper {
     @Select("select * from question where student_id=#{studentId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -89,6 +92,7 @@ public interface QuestionMapper {
     @Select("select * from question where attendance_id=#{attendanceId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -106,6 +110,7 @@ public interface QuestionMapper {
     @Select("select * from question where klass_seminar_id=#{klassSeminarId}")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -123,6 +128,7 @@ public interface QuestionMapper {
     @Select("select * from question where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
             @Result(property = "score", column = "score"),
             @Result(property = "teamId", column = "team_id"),
             @Result(property = "studentId", column = "student_id"),
@@ -130,6 +136,25 @@ public interface QuestionMapper {
             @Result(property = "klassSeminarId", column = "klass_seminar_id")
     })
     List<Question> selectQuestionById(String id);
+
+    /**
+     * Select a Question entity via union
+     *
+     * @param teamId         the select gist
+     * @param klassSeminarId the union gist
+     * @return List<question> the selected Question entity as list
+     */
+    @Select("select * from question where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "isSelected", column = "is_selected"),
+            @Result(property = "score", column = "score"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+            @Result(property = "attendanceId", column = "attendance_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id")
+    })
+    List<Question> selectQuestionByTeamIdAndKlassSeminarId(@Param("teamId") String teamId, @Param("klassSeminarId") String klassSeminarId);
 
     /**
      * Delete a Question entity via teamId
@@ -170,23 +195,5 @@ public interface QuestionMapper {
      */
     @Delete("delete from question where id=#{id}")
     void deleteQuestionById(String id);
-
-    /**
-     * Select a Question entity via teamId and klassSeminarId
-     * @author Xinyu Shi
-     * @param teamId the select gist
-     * @return List<question> the selected Question entity as list
-     */
-    @Select("select * from question where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
-    @Results({
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "score", column = "score"),
-            @Result(property = "teamId", column = "team_id"),
-            @Result(property = "studentId", column = "student_id"),
-            @Result(property = "attendanceId", column = "attendance_id"),
-            @Result(property = "klassSeminarId", column = "klass_seminar_id")
-    })
-    List<Question> selectQuestionByTeamIdAndKlassSeminarId(@Param("teamId") String teamId, @Param("klassSeminarId") String klassSeminarId);
-
 
 }
