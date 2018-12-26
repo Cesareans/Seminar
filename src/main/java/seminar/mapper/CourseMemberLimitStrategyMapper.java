@@ -40,7 +40,8 @@ void updateCourseMemberLimitStrategy(CourseMemberLimitStrategy courseMemberLimit
 @Result(property = "id", column = "id", id = true),
 @Result(property = "min", column = "min"),
 @Result(property = "max", column = "max"),
-@Result(property = "courseId", column = "course_id")
+@Result(property = "courseId", column = "course_id"),
+@Result(property = "courses", column = "course_id", javaType = List.class, many=@Many(select="seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
 })
 List<CourseMemberLimitStrategy> selectAllCourseMemberLimitStrategy();
 
@@ -55,7 +56,8 @@ List<CourseMemberLimitStrategy> selectAllCourseMemberLimitStrategy();
 @Result(property = "id", column = "id", id = true),
 @Result(property = "min", column = "min"),
 @Result(property = "max", column = "max"),
-@Result(property = "courseId", column = "course_id")
+@Result(property = "courseId", column = "course_id"),
+@Result(property = "courses", column = "course_id", javaType = List.class, many=@Many(select="seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
 })
 List<CourseMemberLimitStrategy> selectCourseMemberLimitStrategyByCourseId(String courseId);
 
@@ -70,7 +72,8 @@ List<CourseMemberLimitStrategy> selectCourseMemberLimitStrategyByCourseId(String
 @Result(property = "id", column = "id", id = true),
 @Result(property = "min", column = "min"),
 @Result(property = "max", column = "max"),
-@Result(property = "courseId", column = "course_id")
+@Result(property = "courseId", column = "course_id"),
+@Result(property = "courses", column = "course_id", javaType = List.class, many=@Many(select="seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
 })
 List<CourseMemberLimitStrategy> selectCourseMemberLimitStrategyById(String id);
 

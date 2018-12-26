@@ -1,57 +1,26 @@
 package seminar.dao.regulation;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import seminar.entity.Student;
-import seminar.entity.Team;
+import org.springframework.stereotype.Component;
 import seminar.entity.regulation.ConflictCourseStrategy;
 import seminar.mapper.ConflictCourseStrategyMapper;
-import seminar.mapper.StudentMapper;
-import seminar.mapper.relation.KlassStudentMapper;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class ConflictCourseStrategyDAO implements RegulationDAO {
+/**
+ * @author Xinyu Shi
+ */
+@Component
+public class ConflictCourseStrategyDAO {
 
-    private final StudentMapper studentMapper;
-    private final KlassStudentMapper klassStudentMapper;
     private final ConflictCourseStrategyMapper conflictCourseStrategyMapper;
-    @Autowired
-    private ConflictCourseStrategy conflictCourseStrategy;
-    private String regulationId;
 
     @Autowired
-    public ConflictCourseStrategyDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper, ConflictCourseStrategyMapper conflictCourseStrategyMapper)
-    {
-        this.studentMapper = studentMapper;
-        this.klassStudentMapper = klassStudentMapper;
+    public ConflictCourseStrategyDAO(ConflictCourseStrategyMapper conflictCourseStrategyMapper) {
         this.conflictCourseStrategyMapper = conflictCourseStrategyMapper;
     }
 
-    @Override
-    public void setRegulation(String regulationId)
-    {
-        this.regulationId = regulationId;
-    }
-
-    @Override
-    public boolean validate(Team team)
-    {
-        conflictCourseStrategy.setConflictCourses(conflictCourseStrategyMapper.selectConflictCoursesById(regulationId));
-        List<Student> conflictStudents = new ArrayList<>();
-        for(Student student:team.getStudents())
-        {
-
-        }
-        List<String> courseIdOfStudents = new ArrayList<>();
-
-
-        return true;
-    }
-
-    @Override
-    public String getErrorMsg()
-    {
-        return "";
+    public ConflictCourseStrategy getById(String strategyId) {
+        ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy();
+        conflictCourseStrategy.setConflictCourses(conflictCourseStrategyMapper.selectConflictCoursesById(strategyId));
+        return conflictCourseStrategy;
     }
 }

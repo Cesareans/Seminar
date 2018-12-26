@@ -125,7 +125,8 @@ public interface KlassStudentMapper {
             @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_active")
+            @Result(property = "activated", column = "is_active"),
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId", fetchType = FetchType.LAZY))
     })
     List<Student> selectStudentsFromTeam(String teamId);
 
@@ -246,5 +247,5 @@ public interface KlassStudentMapper {
      * @return whether has teamed.
      */
     @Select("select count(*) from klass left join klass_team on id = klass_team.klass_id left join team_student on klass_team.team_id = team_student.team_id where student_id = #{studentId} and klass.course_id = #{courseId}")
-    Boolean hasTeamed(String courseId, String studentId);
+    Boolean hasTeamed(@Param("courseId") String courseId, @Param("studentId") String studentId);
 }
