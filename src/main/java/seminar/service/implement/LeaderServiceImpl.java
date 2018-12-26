@@ -22,6 +22,7 @@ public class LeaderServiceImpl implements LeaderService {
     private final TeamDAO teamDAO;
     private final StudentDAO studentDAO;
     private final int TEAM_IS_INVALID = 0;
+    private final int TEAM_IS_VALID = 1;
     private final int TEAM_IS_CHECKING = 2;
 
 
@@ -79,30 +80,19 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
     /**
-     * TODO
+     * create team
      * @author Xinyu Shi
-     * @param studentId
-     * @param courseId
-     * @param klassId
-     * @param teamName
-     * @return
+     * @param team the new team
+     * @return whether the operation is successful
      */
     @Override
-    public boolean createTeam(String studentId, String courseId, String klassId, String teamName)
+    public boolean createTeam(Team team)
     {
-        Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
+        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
         if(!compareTime(teamEndDate)) {
             return false;
         }
-
-        Team team = new Team();
-        Student leader = studentDAO.getById(studentId).get(0);
-        team.setCourseId(courseId);
-        team.setKlassId(klassId);
-        team.setLeader(leader);
-        team.setLeaderId(studentId);
-        team.setTeamName(teamName);
-        team.setStatus(TEAM_IS_INVALID);
+        team.setStatus(TEAM_IS_VALID);
         teamDAO.create(team);
         return true;
     }

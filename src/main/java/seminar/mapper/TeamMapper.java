@@ -139,8 +139,7 @@ public interface TeamMapper {
     void deleteTeamById(String id);
 
     /**
-     * Insert a new Round into a course.
-     * Only the courseId is used.
+     * Add a new team into table team
      * @author Xinyu Shi
      * @param team new team
      */

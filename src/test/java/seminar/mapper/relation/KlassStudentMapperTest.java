@@ -19,13 +19,13 @@ public class KlassStudentMapperTest {
 
 
     @Test
-    public void selectStudentsByTeamId() {
-        DebugLogger.logJson(klassStudentMapper.selectStudentsByTeamId("26"));
+    public void selectNotTeamedStudentsByCourseId() {
+        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("20"));
     }
 
     @Test
-    public void selectNotTeamedStudentsByCourseId() {
-        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("16"));
+    public void selectTeamByCourseIdAndStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectTeamByCourseIdAndStudentId("16", "103"));
     }
 
 //    @Test

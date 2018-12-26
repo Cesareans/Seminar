@@ -329,6 +329,7 @@
 
 .nav-item .nav-link {
     font-size: 15px !important;
+    cursor: pointer;
 }
 
 .nav-item.disabled{

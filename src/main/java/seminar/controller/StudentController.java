@@ -11,12 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import seminar.config.SeminarConfig;
 import seminar.entity.*;
 import seminar.logger.DebugLogger;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Cesare
@@ -31,10 +32,11 @@ public class StudentController {
     private final AccountManageService accountManageService;
     private final ScoreService scoreService;
     private final FileService fileService;
+    private final LeaderService leaderService;
 
     private final static String STUDENT_ID_GIST = "studentId";
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService, LeaderService leaderService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -42,6 +44,7 @@ public class StudentController {
         this.accountManageService = accountManageService;
         this.scoreService = scoreService;
         this.fileService = fileService;
+        this.leaderService = leaderService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -151,7 +154,7 @@ public class StudentController {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
-        model.addAttribute("team", seminarService.getTeamByKlassIdAndStudentId(klass.getId(), ((String) session.getAttribute("studentId"))));
+        model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
         return "student/course/seminar/enrollList";
     }
@@ -184,7 +187,7 @@ public class StudentController {
     public String seminarReport(String klassId, String seminarId, Model model, HttpSession session){
         Klass klass = seminarService.getKlassById(klassId).get(0);
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
-        Team team = seminarService.getTeamByKlassIdAndStudentId(klass.getId(), ((String) session.getAttribute("studentId")));
+        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId")));
         Attendance attendance;
         if(team != null){
             attendance = seminarService.getAttendanceById(team.getId(),klassSeminar.getId()).get(0);
@@ -207,8 +210,11 @@ public class StudentController {
     }
 
     @PostMapping("/course/teamList")
-    public String teamList(String courseId,String klassId, Model model, HttpSession session) {
-        model.addAttribute("myTeam", seminarService.getTeamByKlassIdAndStudentId(klassId, ((String) session.getAttribute("studentId"))));
+    public String teamList(String courseId, Model model, HttpSession session) {
+        Course course = seminarService.getCourseByCourseId(courseId).get(0);
+        Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
+        model.addAttribute("permitCreate", mPermitCreate);
+        model.addAttribute("myTeam", seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute("studentId"))));
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(courseId));
         return "student/course/teamList";
@@ -222,42 +228,71 @@ public class StudentController {
     @PutMapping("/course/team")
     public ResponseEntity<Object> createTeam(@RequestBody Team team){
         DebugLogger.logJson(team);
+        leaderService.createTeam(team);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     @PostMapping("/course/myTeam")
     public String myTeam(String teamId, Model model, HttpSession session){
         Team team = seminarService.getTeamByTeamId(teamId);
+        model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", team);
         model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
         return "student/course/myTeam";
     }
     @PostMapping("/course/myTeam/addMembers")
-    public ResponseEntity<Object> addMembers(String teamId, String[] studentId){
-        DebugLogger.logJson(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session){
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.addGroupMember(studentId, teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
     @PostMapping("/course/myTeam/deleteMember")
-    public ResponseEntity<Object> deleteMember(String teamId, String studentId){
-        DebugLogger.logJson(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session){
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.deleteGroupMember(studentId, teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
+    @PostMapping("/course/myTeam/dissolveTeam")
+    public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session){
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.dissolveTeam(teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
     @PostMapping("/course/grade")
     public String seminarGrade(String courseId, String klassId, Model model, HttpSession session){
-//        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-//        Team team = seminarService.getTeamByKlassIdAndStudentId(klassId, ((String) session.getAttribute(STUDENT_ID_GIST)));
-//        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
-//        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
-//        rounds.forEach(round -> {
-//            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
-//        });
-//        model.addAttribute("rounds", rounds);
-//        model.addAttribute("seminarScoreMap", seminarScoreMap);
-//        model.addAttribute("roundScoreMap", roundScoreMap);
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
+        Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
+        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+        rounds.forEach(round -> {
+            DebugLogger.log(team.getId());
+            DebugLogger.log(round.getId());
+            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+            round.getSeminars().forEach(seminar -> {
+                seminarScoreMap.computeIfAbsent(round.getId(), k -> new LinkedList<>());
+                seminarScoreMap.get(round.getId()).add(scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+            });
+        });
+        model.addAttribute("rounds", rounds);
+        model.addAttribute("seminarScoreMap", seminarScoreMap);
+        model.addAttribute("roundScoreMap", roundScoreMap);
         return "student/course/grade";
     }
 }

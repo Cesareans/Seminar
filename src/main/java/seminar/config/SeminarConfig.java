@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public class SeminarConfig {
     public static final String DEFAULT_PASSWORD = "123456";
+    public static final Integer MAX_MEMBER = 6;
 
     @Bean
     public JavaMailSender mailSender(Environment env) {
@@ -27,6 +28,10 @@ public class SeminarConfig {
     }
 
     public enum WorkBookType {
+        /**
+         * HSSF: For xls
+         * XSSF: For xlsx
+         */
         HSSF("xls"), XSSF("xlsx");
         String type;
 

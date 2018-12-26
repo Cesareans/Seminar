@@ -4,15 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
-import seminar.entity.Team;
-import seminar.entity.relation.KlassStudent;
 import seminar.mapper.StudentMapper;
-import seminar.mapper.TeamMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
 
-import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,13 +17,11 @@ import java.util.List;
 public class StudentDAO {
     private StudentMapper studentMapper;
     private KlassStudentMapper klassStudentMapper;
-    private TeamMapper teamMapper;
 
     @Autowired
-    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper, TeamMapper teamMapper) {
+    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper) {
         this.studentMapper = studentMapper;
         this.klassStudentMapper = klassStudentMapper;
-        this.teamMapper = teamMapper;
     }
 
     /**
@@ -102,10 +95,7 @@ public class StudentDAO {
     }
 
     /**
-     * Get all students is not teamed
-     * @author Xinyu Shi
-     * @param courseId
-     * @return
+     * Get all not teamed students
      */
     public List<Student> studentsUnTeamed(String courseId)
     {
@@ -125,7 +115,7 @@ public class StudentDAO {
      */
     public void deleteStudentFromTeamStudent(String studentId)
     {
-        klassStudentMapper.deleteTeamStudent(studentId);
+        klassStudentMapper.deleteStudentFromTeam(studentId);
     }
 
 

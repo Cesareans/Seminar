@@ -1,5 +1,7 @@
 package seminar.service;
 
+import seminar.entity.Team;
+
 /**
  * @author Xinyu Shi
  */
@@ -9,7 +11,7 @@ public interface LeaderService {
 
    boolean deleteGroupMember(String studentId, String teamId);
 
-   boolean createTeam(String studentId, String courseId, String klassId, String teamName);
+   boolean createTeam(Team team);
 
    void dissolveTeam(String teamId);
 

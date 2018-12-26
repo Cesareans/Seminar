@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Student;
 import seminar.entity.Team;
-import seminar.entity.relation.KlassStudent;
+import seminar.mapper.AttendanceMapper;
 import seminar.mapper.TeamMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
@@ -15,15 +15,15 @@ import java.util.List;
  */
 @Component
 public class TeamDAO {
-    private final KlassDao klassDao;
     private final TeamMapper teamMapper;
     private final KlassStudentMapper klassStudentMapper;
+    private final AttendanceMapper attendanceMapper;
 
     @Autowired
-    public TeamDAO(KlassDao klassDao, TeamMapper teamMapper, KlassStudentMapper klassStudentMapper) {
-        this.klassDao = klassDao;
+    public TeamDAO(TeamMapper teamMapper, KlassStudentMapper klassStudentMapper, AttendanceMapper attendanceMapper) {
         this.teamMapper = teamMapper;
         this.klassStudentMapper = klassStudentMapper;
+        this.attendanceMapper = attendanceMapper;
     }
 
     /**
@@ -44,14 +44,10 @@ public class TeamDAO {
      * @author Xinyu Shi
      */
     public boolean create(Team team) {
-        List<Team> teams = teamMapper.selectTeamById(team.getId());
-        if (teams.isEmpty()) {
-            teamMapper.addTeam(team);
-            klassStudentMapper.insertStudentIntoTeam(team.getId(),team.getLeaderId());
-            return true;
-        } else {
-            return false;
-        }
+        teamMapper.addTeam(team);
+        klassStudentMapper.insertTeamIntoKlassTeam(team.getId(),team.getKlassId());
+        klassStudentMapper.insertStudentIntoTeam(team.getId(),team.getLeaderId());
+        return true;
     }
 
     /**
@@ -59,6 +55,8 @@ public class TeamDAO {
      */
     public void deleteById(String teamId) {
         teamMapper.deleteTeamById(teamId);
+        klassStudentMapper.deleteTeamFromKlassTeam(teamId);
+        attendanceMapper.deleteAttendanceByTeamId(teamId);
     }
 
     /**
@@ -84,8 +82,8 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public Team getByKlassIdAndStudentId(String klassId, String studentId){
-        return teamMapper.selectTeamById(klassStudentMapper.selectTeamByKlassIdAndStudentId(klassId, studentId)).get(0);
+    public Team getByCourseIdAndStudentId(String courseId, String studentId){
+        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
     }
     /**
      * @author Xinyu Shi
@@ -103,9 +101,12 @@ public class TeamDAO {
         return teamMapper.selectTeamByKlassIdAndTeamId(klassId,teamId);
     }
 
+    /**
+     * @author cesare
+     */
     public List<Student> getStudentsByTeamId(String teamId)
     {
-        return klassStudentMapper.selectStudentsInTeamByTeamId(teamId);
+        return klassStudentMapper.selectStudentsFromTeam(teamId);
     }
 
 }

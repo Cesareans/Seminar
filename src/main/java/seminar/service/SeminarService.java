@@ -117,7 +117,7 @@ public interface SeminarService {
      * @param studentId the refer gist
      * @return the team
      */
-    Team getTeamByKlassIdAndStudentId(String klassId, String studentId);
+    Team getTeamByCourseIdAndStudentId(String klassId, String studentId);
 
     /**
      * Get the team via team id
