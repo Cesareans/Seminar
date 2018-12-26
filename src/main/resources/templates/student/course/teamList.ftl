@@ -209,7 +209,6 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <hr>
             <div class="modal-body" style="overflow: scroll;height: 80%;">
                 <div class="row">
                     <#if (students?size > 0)>

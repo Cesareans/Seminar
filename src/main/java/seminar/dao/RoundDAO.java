@@ -84,6 +84,13 @@ public class RoundDAO {
     }
 
     /**
+     * @author cesare
+     */
+    void deleteKlassRoundByCourseId(String courseId){
+        klassRoundMapper.deleteKlassRoundByCourseId(courseId);
+    }
+
+    /**
      * @author lyf
      */
     public void deleteById(String roundId) {

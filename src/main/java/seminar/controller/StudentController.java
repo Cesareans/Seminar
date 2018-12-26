@@ -275,21 +275,22 @@ public class StudentController {
     }
     @PostMapping("/course/grade")
     public String seminarGrade(String courseId, String klassId, Model model, HttpSession session){
+        if(courseId == null || klassId == null){
+            throw new RuntimeException();
+        }
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
-        Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
+        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
         Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
         rounds.forEach(round -> {
-            DebugLogger.log(team.getId());
-            DebugLogger.log(round.getId());
             roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
             round.getSeminars().forEach(seminar -> {
-                seminarScoreMap.computeIfAbsent(round.getId(), k -> new LinkedList<>());
-                seminarScoreMap.get(round.getId()).add(scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+                seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
             });
         });
         model.addAttribute("rounds", rounds);
         model.addAttribute("seminarScoreMap", seminarScoreMap);
+        DebugLogger.logJson(seminarScoreMap);
         model.addAttribute("roundScoreMap", roundScoreMap);
         return "student/course/grade";
     }

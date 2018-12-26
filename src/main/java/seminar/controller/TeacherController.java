@@ -400,6 +400,7 @@ public class TeacherController {
 
     @PostMapping("/course/share")
     public String courseShare(String courseId, Model model) {
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         model.addAttribute("mainCourse", seminarService.getMainCoursesByCourseId(courseId));
         model.addAttribute("subCourse", seminarService.getSubCoursesByCourseId(courseId));
         return "teacher/course/share";
@@ -411,16 +412,14 @@ public class TeacherController {
         return "teacher/course/share/create";
     }
 
-    @PostMapping("/course/share/cancel")
-    public ResponseEntity<Object> courseShareCancel(String mainCourseId, String subCourseId, String type, Model model) {
-        switch (type){
-            case "seminarShare":
-                break;
-            case "teamShare":
-                break;
-            default:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    @PostMapping("/course/share/cancelTeamShare")
+    public ResponseEntity<Object> cancelTeamShare(String subCourseId) {
+        teacherService.cancelTeamShare(subCourseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+    @PostMapping("/course/share/cancelSeminarShare")
+    public ResponseEntity<Object> cancelSeminarShare(String subCourseId) {
+        teacherService.cancelSeminarShare(subCourseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
