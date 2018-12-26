@@ -8,27 +8,25 @@ $(function () {
     $("#activationBtn").click(function () {
         var password = actForm.password.val();
         var confirmPwd = actForm.confirmPwd.val();
-        if(password !== confirmPwd){
+        if (password !== confirmPwd) {
             util.showAlert("warning", "两次密码不一致", 3);
             actForm.confirmPwd.registerDanger();
             return;
         }
         var verify = util.verifyWithAlert(actForm.form);
-        if(verify == null){
+        if (verify == null) {
             $.ajax({
                 type: "post",
-                url: "/teacher/activation",
+                url: "/student/activation",
                 data: actForm.form.serialize(),
                 success: function (result, status, xhr) {
-                    if (xhr.status === 200) {
-                        window.location="/teacher/index";
-                    }
+                    window.location = "/student/index";
                 },
                 error: function () {
                     util.showAlert("danger", "激活失败，未知错误", 3);
                 }
             });
-        }else{
+        } else {
             verify.registerDanger();
         }
     })

@@ -124,6 +124,12 @@
             <i class="material-icons">add</i>
             添加成员
         </button>
+        <#if team.status = 0>
+            <button class="btn btn-danger">
+                <i class="material-icons">add</i>
+                添加成员
+            </button>
+        </#if>
     <#else >
         <button id="quitBtn" class="btn bg-danger">
             <i class="material-icons">close</i>
