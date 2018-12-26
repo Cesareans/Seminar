@@ -82,7 +82,7 @@ public class ScoreServiceImpl implements ScoreService {
 
         BigDecimal preScore = calculateSeparateScore(0,round.getPreScoreType(),teamId,attendances);
         BigDecimal quesScore = calculateQuestionScoreOfRound(klassSeminars,teamId,round.getQuesScoreType());
-        BigDecimal reportScore = calculateSeparateScore(2,round.getReportScoreType(),teamId,attendances);
+        BigDecimal reportScore = calculateSeparateScore(1,round.getReportScoreType(),teamId,attendances);
 
         Course course = courseDAO.getByCourseId(round.getCourseId()).get(0);
         BigDecimal totalScore = (preScore.multiply(new BigDecimal(course.getPrePercentage()))).add(quesScore.multiply(new BigDecimal(course.getQuesPercentage()))).add(reportScore.multiply(new BigDecimal(course.getReportPercentage())));
