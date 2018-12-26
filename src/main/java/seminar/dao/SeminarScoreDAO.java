@@ -21,6 +21,9 @@ public class SeminarScoreDAO {
         this.seminarScoreMapper = seminarScoreMapper;
     }
 
+    public void createSeminarScore(SeminarScore seminarScore){
+        seminarScoreMapper.insertSeminarScore(seminarScore);
+    }
     public List<SeminarScore> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
     {
         return seminarScoreMapper.selectSeminarScoreByTeamIdAndKlassSeminarId(teamId,klassSeminarId);

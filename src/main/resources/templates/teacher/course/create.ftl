@@ -61,9 +61,9 @@
                                    class="form-control empty-verify" data-emptyMessage="请输入课程名称">
                         </div>
                         <div class="form-group bmd-form-group">
-                            <label for="intro" class="bmd-label">课程简介</label>
+                            <label for="intro" class="bmd-label">课程要求</label>
                             <textarea id="intro" name="intro" type="text" rows="4" autocomplete="off"
-                                   class="form-control empty-verify" data-emptyMessage="请输入课程简介"></textarea>
+                                      class="form-control empty-verify" data-emptyMessage="请输入课程要求"></textarea>
                         </div>
                         <div class="form-group bmd-form-group">
                             <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off" placeholder="组队开始时间"
@@ -126,30 +126,43 @@
                                 <div id="groupCard" class="card form-card dropdown-card">
                                     <div class="card-body">
                                         <div class="body-header">
-                                            <div class="body-title">人数限制</div>
+                                            <div class="body-title">组员基本要求</div>
                                             <div class="flex-center">
                                                 <div class="triangle rightward"></div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-12">
                                         <div class="body-content" style="display: none">
-                                            <hr>
-                                            <div class="line">
-                                                <label for="teamMax">人数上限</label>
-                                                <div class="sep"></div>
-                                                <div class="content">
-                                                    <div class="form-group bmd-form-group" style="display: inline">
-                                                        <input id="teamMax" name="teamMax" type="text" autocomplete="off"
-                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                            <div id="groupCard" class="card form-card dropdown-card">
+                                                <div class="card-body">
+                                                    <div class="body-header">
+                                                        <div class="body-title">小组人数限制</div>
+                                                        <div class="flex-center">
+                                                            <div class="triangle rightward"></div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="line">
-                                                <label for="teamMin">人数下限</label>
-                                                <div class="sep"></div>
-                                                <div class="content">
-                                                    <div class="form-group bmd-form-group" style="display: inline">
-                                                        <input id="teamMin" name="teamMin" type="text" autocomplete="off"
-                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                    <div class="body-content" style="display: none">
+                                                        <hr>
+                                                        <div class="line">
+                                                            <label for="teamMax">人数上限</label>
+                                                            <div class="sep"></div>
+                                                            <div class="content">
+                                                                <div class="form-group bmd-form-group" style="display: inline">
+                                                                    <input id="teamMax" name="teamMax" type="text" autocomplete="off"
+                                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="line">
+                                                            <label for="teamMin">人数下限</label>
+                                                            <div class="sep"></div>
+                                                            <div class="content">
+                                                                <div class="form-group bmd-form-group" style="display: inline">
+                                                                    <input id="teamMin" name="teamMin" type="text" autocomplete="off"
+                                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

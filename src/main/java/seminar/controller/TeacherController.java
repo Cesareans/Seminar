@@ -28,6 +28,7 @@ import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -321,8 +322,15 @@ public class TeacherController {
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
         Boolean hasEnd = klassSeminar.getState()==2;
         model.addAttribute("hasEnd", hasEnd);
+        model.addAttribute("ksId", klassSeminar.getId());
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
         return "teacher/course/seminar/enrollList";
+    }
+
+    @PostMapping("/course/seminar/enrollList/giveScore")
+    public ResponseEntity<Object> giveScore(BigDecimal score, String ksId, String teamId) {
+        teacherService.updateReportScore(score,ksId,teamId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
