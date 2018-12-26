@@ -64,7 +64,7 @@
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                             <li class="nav-item seminar-nav">
                                                 <a class="nav-link" onclick="window.location='/student/grades'">
-                                                    <i class="material-icons">event_note</i>
+                                                    <i class="material-icons">content_paste</i>
                                                     我的成绩
                                                 </a>
                                             </li>
