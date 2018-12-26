@@ -76,7 +76,7 @@
                                 <h6 style="margin: 0">组长</h6>
                             </td>
                             <td class="num">${team.leader.studentNum}</td>
-                            <#if (team.leader.id = studentId && !course.teamMainCourseId??)>
+                            <#if (team.leader.id = studentId && !course.teamMainCourseId?? && canChange)>
                                 <td class="operation">
                                     <button id="dissolveBtn" class="btn btn-danger btn-fab-mini"
                                             <#if (team.status = 2)>disabled</#if>>解散
@@ -95,7 +95,7 @@
                                             <h6 style="margin: 0">组员</h6>
                                         </td>
                                         <td class="num">${student.studentNum}</td>
-                                        <#if (team.leader.id = studentId && !course.teamMainCourseId??)>
+                                        <#if (team.leader.id = studentId && !course.teamMainCourseId?? && canChange)>
                                             <td class="operation">
                                                 <button data-sid="${student.id}"
                                                         class="btn btn-danger btn-fab-mini delete"
@@ -131,17 +131,17 @@
         </div>
     </div>
 </div>
-<#if !course.teamMainCourseId??>
+<#if !course.teamMainCourseId?? && canChange>
     <div class="container foot-container flex-center"
          style="bottom: 0;position: fixed;padding-bottom: 0;max-width: 100%;">
         <#if team.leader.id = studentId>
-            <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal"
-                    <#if (curMember = maxMember || team.status = 2)>disabled</#if>>
-                <i class="material-icons">add</i>
-                添加成员
-            </button>
+                <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal"
+                        <#if (curMember = maxMember || team.status = 2)>disabled</#if>>
+                    <i class="material-icons">add</i>
+                    添加成员
+                </button>
             <#if team.status = 0>
-                <button class="btn btn-danger">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#applicationModal">
                     <i class="material-icons">call_merge</i>
                     提交申请
                 </button>
@@ -210,6 +210,36 @@
             </div>
         </div>
     </div>
+    <#if team.status = 0>
+        <div class="modal fade" id="applicationModal">
+            <div class="modal-dialog" style="margin-top: 30px">
+                <div class="modal-content">
+                    <div class="modal-header" style="border-bottom: #EEEEEE 1px solid;border-collapse: collapse">
+                        <h5 class="modal-title">发起申请</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="overflow: scroll;height: 30%;padding: 0 24px">
+                        <form class="form" id="validApplicationForm">
+                            <input hidden name="teamId" value="${team.id}" placeholder="">
+                            <div class="card-body">
+                                <div class="form-group bmd-form-group">
+                                    <label for="content" class="bmd-label">申请理由</label>
+                                    <textarea id="content" name="content" type="text" rows="4" autocomplete="off"
+                                              class="form-control empty-verify" data-emptyMessage="请输入申请理由"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px;border-top: #EEEEEE 1px solid">
+                        <button id="sendBtn" class="btn bg-dark" style="margin-right: 20px">申请</button>
+                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#if>
 </#if>
 <form id="courseIdForm" method="post" action="/student/course/teamList" hidden>
     <input id="courseIdInput" name="courseId" placeholder="">
