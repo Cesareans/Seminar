@@ -51,7 +51,9 @@
 <div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
+            <#assign i = 0>
             <#list SSApps as SSApp>
+                <#assign i = i + 1 >
                 <div class="col-md-6">
                 <div class="card content-card dropdown-card">
                 <div class="card-body">
@@ -108,6 +110,7 @@
                 </div>
             </#list>
             <#list STApps as STApp>
+                <#assign i = i + 1 >
                 <div class="col-md-6">
                 <div class="card content-card dropdown-card">
                 <div class="card-body">
@@ -162,6 +165,16 @@
                 </div>
                 </div>
             </#list>
+            <#if i = 0>
+                <div class="empty-tag">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
+                        </div>
+                        <h4 class="info-title">无通知</h4>
+                    </div>
+                </div>
+            </#if>
         </div>
     </div>
 </div>

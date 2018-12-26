@@ -40,8 +40,6 @@ $(function () {
     });
 
 
-
-
     dropdownCard.click(function (ev) {
         var offsetY = ev.pageY - $(this).offset().top;
         if(offsetY>0&&offsetY<165){
@@ -52,15 +50,14 @@ $(function () {
 });
 
 function ajaxSubmitForm(){
-    console.log(appHandleForm.form.serializeObject());
+    util.showLoading();
     $.ajax({
         type: "post",
         url: "/teacher/notification/handle",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(appHandleForm.form.serializeObject()),
         success: function () {
-            util.showLoading();
-            window.location="/teacher/notification";
+            window.location.reload();
         },
         error: function () {
             util.hideLoading();
