@@ -46,7 +46,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised <#if (!myTeam?? && course.teamMainCourseId??)>no-footer</#if>">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -122,7 +122,7 @@
             进入我的小组
             <i class="material-icons">arrow_forward_ios</i>
         </button>
-    <#else >
+    <#elseif !course.teamMainCourseId??>
         <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();" <#if !permitCreate>disabled</#if>>
             <i class="material-icons">add</i>
             创建小组

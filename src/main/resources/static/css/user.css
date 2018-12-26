@@ -70,6 +70,9 @@
     height: 40%;
 }
 
+.close{
+    cursor: pointer;
+}
 /****** Component Style ******/
 .vertical-separator{
     background-color: #EEEEEE;
