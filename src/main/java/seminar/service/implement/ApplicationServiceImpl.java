@@ -21,6 +21,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ShareTeamApplicationDAO shareTeamApplicationDAO;
     private final ShareSeminarApplicationDAO shareSeminarApplicationDAO;
     private final CourseDAO courseDAO;
+    private final static int REJECT = 0;
+    private final static int ACCEPT = 1;
 
     @Autowired
     public ApplicationServiceImpl(ShareTeamApplicationDAO shareTeamApplicationDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, CourseDAO courseDAO) {
@@ -50,23 +52,11 @@ public class ApplicationServiceImpl implements ApplicationService {
      */
     @Override
     public boolean handleShareTeamApplication(ApplicationHandleDTO applicationHandleDTO) {
-        switch (applicationHandleDTO.getOperationType()){
-            case 1:
-                Course course = courseDAO.getByCourseId(applicationHandleDTO.getSubCourseId()).get(0);
-                if(course.getTeamMainCourseId()!=null){
-                    return false;
-                }else{
-                    course.setTeamMainCourseId(applicationHandleDTO.getMainCourseId());
-                    courseDAO.update(course);
-                    shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
-                    return true;
-                }
-            case 0:
-                shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
-                return true;
-            default:
-                return false;
+        shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
+        if (applicationHandleDTO.getOperationType() == ACCEPT) {
+            return courseDAO.buildTeamShare(applicationHandleDTO.getMainCourseId(),applicationHandleDTO.getSubCourseId());
         }
+        return applicationHandleDTO.getOperationType() == REJECT;
     }
 
     /**
@@ -87,26 +77,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean handleShareSeminarApplication(ApplicationHandleDTO applicationHandleDTO) {
-        /*
-         * 1 : accept
-         * 2 : decline
-         */
-        switch (applicationHandleDTO.getOperationType()){
-            case 1:
-                Course course = courseDAO.getByCourseId(applicationHandleDTO.getSubCourseId()).get(0);
-                if(course.getSeminarMainCourseId()!=null){
-                    return false;
-                }else{
-                    course.setSeminarMainCourseId(applicationHandleDTO.getMainCourseId());
-                    courseDAO.update(course);
-                    shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
-                    return true;
-                }
-            case 0:
-                shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
-                return true;
-            default:
-                return false;
+        shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
+        if(applicationHandleDTO.getOperationType() == ACCEPT){
+            return courseDAO.buildSeminarShare(applicationHandleDTO.getMainCourseId(),applicationHandleDTO.getSubCourseId());
         }
+        return applicationHandleDTO.getOperationType() == REJECT;
     }
 }

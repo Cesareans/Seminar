@@ -63,8 +63,8 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public Map<String, List<Course>> getSubCoursesByCourseId(String courseId) {
         Map<String, List<Course>> mainCourses = new HashMap<>(2);
-        mainCourses.put("team", courseDAO.getByTeamMainCourseId(courseId));
-        mainCourses.put("seminar", courseDAO.getBySeminarMainCourseId(courseId));
+        mainCourses.put("team", courseDAO.getSubCourseOfTeamShare(courseId));
+        mainCourses.put("seminar", courseDAO.getSubCourseOfSeminarShare(courseId));
         return mainCourses;
     }
 

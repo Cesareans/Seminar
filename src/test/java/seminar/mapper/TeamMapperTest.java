@@ -1,6 +1,5 @@
 package seminar.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import seminar.entity.Team;
 import seminar.logger.DebugLogger;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,7 +26,7 @@ public class TeamMapperTest {
 
     @Test
     public void selectTeamByCourseId() {
-        List<Team> teams = teamMapper.selectTeamByCourseId("112");
+        List<Team> teams = teamMapper.selectTeamByMainCourseId("112");
         DebugLogger.logJson(teams);
         DebugLogger.logJson(teams.get(0).getStudents().size());
     }

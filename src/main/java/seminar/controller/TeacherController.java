@@ -224,7 +224,7 @@ public class TeacherController {
     }
 
     @PostMapping("/course/round/setting")
-    public String roundSetting(String roundId, Model model){
+    public String roundSetting(String roundId, String courseId, Model model){
         Round round = seminarService.getRoundByRoundId(roundId).get(0);
         Map<String, Klass> klassMap = new HashMap<>(5);
         round.getKlassRounds().forEach(klassRound -> {

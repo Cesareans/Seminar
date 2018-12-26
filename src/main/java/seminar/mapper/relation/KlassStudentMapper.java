@@ -119,8 +119,9 @@ public interface KlassStudentMapper {
      * @param teamId the refer gist
      */
     @Delete("delete from klass_team where team_id=#{teamId}")
-    void deleteTeamFromKlassTeam(String teamId);
+    void deleteTeamFromKlassTeamByTeamId(String teamId);
 
+    void deleteTeamFromKlassTeamByCourseId();
     /**
      * Insert team record into klass team
      * @param teamId the team id

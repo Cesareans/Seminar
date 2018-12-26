@@ -9,7 +9,7 @@ import seminar.entity.relation.KlassRound;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("Cesare", KlassSeminar.class);
+        EntityGenerator generator = new EntityGenerator("Cesare", Team.class);
         generator.generateMapper();
     }
 }

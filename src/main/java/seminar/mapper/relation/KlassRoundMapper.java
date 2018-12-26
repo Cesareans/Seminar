@@ -19,7 +19,6 @@ public interface KlassRoundMapper {
      * @param klassRound the KlassRound entity that will be inserted
      */
     @Insert("insert into klass_round(klass_id, round_id, enroll_number) values(#{klassId}, #{roundId}, #{enrollLimit})")
-    @Options(useGeneratedKeys = true)
     void insertKlassRound(KlassRound klassRound);
 
     /**

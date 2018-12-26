@@ -26,7 +26,7 @@ public class Team {
 
     @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
     private Student leader;
-    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId")
+    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam")
     private List<Student> students;
     @Link(gist = "klassId", select = "seminar.mapper.KlassMapper.selectKlassById")
     private Klass klass;
