@@ -40,7 +40,11 @@ public interface ScoreService {
 
     /**
      * Calculate score of course score
+     *
+     * @param rounds the rounds
+     * @param teams the teams
+     * @return the calculated course score
      */
-    List<Map<String,RoundScore>> calculateCourseScore(String courseId);
+    List<Map<String,RoundScore>> calculateCourseScore(List<Round> rounds, List<Team> teams);
 
 }
