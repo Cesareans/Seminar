@@ -9,7 +9,7 @@ import seminar.entity.Team;
  * @author Xinyu Shi
  */
 @TargetPackage(value = "seminar.mapper")
-public class CourseMemberLimitRegulation implements Regulation{
+public class CourseMemberLimitStrategy implements Regulation{
 
     @ID(isIncrement = true)
     private String id;
@@ -19,13 +19,9 @@ public class CourseMemberLimitRegulation implements Regulation{
     private String courseId;
 
     @Override
-    public boolean validate(Team team) {
-        return true;
-    }
-
-    @Override
-    public String getErrorMsg() {
-        return "该课程人数应在" + min + "-" + max + "之间";
+    public String getStrategyName()
+    {
+        return "CourseMemberLimitStrategy";
     }
 
     public String getId() {

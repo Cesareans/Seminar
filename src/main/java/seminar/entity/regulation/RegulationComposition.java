@@ -13,11 +13,11 @@ public class RegulationComposition {
 
     public List<String> validate(Team team) {
         List<String> errorMessages = new LinkedList<>();
-        regulations.forEach(regulation -> {
-            if (!regulation.validate(team)) {
-                errorMessages.add(regulation.getErrorMsg());
-            }
-        });
+//        regulations.forEach(regulation -> {
+//            if (!regulation.validate(team)) {
+//                errorMessages.add(regulation.getErrorMsg());
+//            }
+//        });
         return errorMessages;
     }
 
