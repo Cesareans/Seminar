@@ -29,7 +29,7 @@ public class StudentServiceImplTest {
     @Test
     public void getAllUnTeamedStudents()
     {
-        DebugLogger.logJson(studentService.getAllUnTeamedStudentsByCourseId("112"));
+        DebugLogger.logJson(studentService.getAllUnTeamedStudentsByCourseId("16"));
     }
 
     @Test

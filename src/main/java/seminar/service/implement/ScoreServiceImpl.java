@@ -46,7 +46,7 @@ public class ScoreServiceImpl implements ScoreService {
     public SeminarScore calculateScoreOfOneSeminar(String teamId, String klassSeminarId)
     {
         SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId).get(0);
-        calculateQuestionScoreOfSeminar(klassSeminarId,teamId);
+        seminarScore.setQuestionScore(calculateQuestionScoreOfSeminar(klassSeminarId,teamId));
         KlassSeminar klassSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);
         Seminar seminar = seminarDAO.getBySeminarId(klassSeminar.getSeminarId()).get(0);
         Course course = courseDAO.getByCourseId(seminar.getCourseId()).get(0);
@@ -74,7 +74,6 @@ public class ScoreServiceImpl implements ScoreService {
         {
             KlassSeminar klassSeminar = klassSeminarDAO.getByKlassIdAndSeminarId(team.getKlassId(),seminar.getId()).get(0);
             klassSeminars.add(klassSeminar);
-            calculateQuestionScoreOfSeminar(klassSeminar.getId(),teamId);
             List<Attendance> attendanceTemp = attendanceDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId());
             if(!attendanceTemp.isEmpty()) {
                 attendances.add(attendanceTemp.get(0));
@@ -155,7 +154,7 @@ public class ScoreServiceImpl implements ScoreService {
         return score;
     }
 
-    private void calculateQuestionScoreOfSeminar(String klassSeminarId, String teamId)
+    private BigDecimal calculateQuestionScoreOfSeminar(String klassSeminarId, String teamId)
     {
         List<Question> questions = questionDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
         KlassSeminar klassSeminar = klassSeminarDAO.getByKlassSeminarId(klassSeminarId).get(0);
@@ -170,9 +169,7 @@ public class ScoreServiceImpl implements ScoreService {
         {
             quesScore = maxScore(questions);
         }
-        SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId).get(0);
-        seminarScore.setQuestionScore(quesScore);
-        seminarScoreDAO.update(seminarScore);
+       return quesScore;
     }
 
     private BigDecimal calculateQuestionScoreOfRound(List<KlassSeminar> klassSeminars, String teamId, int method)
