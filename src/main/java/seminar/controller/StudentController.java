@@ -17,7 +17,10 @@ import seminar.logger.DebugLogger;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cesare
@@ -34,6 +37,7 @@ public class StudentController {
     private final FileService fileService;
 
     private final static String STUDENT_ID_GIST = "studentId";
+
     @Autowired
     public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService) {
         this.studentService = studentService;
@@ -50,10 +54,10 @@ public class StudentController {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Student student = accountManageService.getStudentBySN(user.getUsername()).get(0);
         session.setAttribute(STUDENT_ID_GIST, student.getId());
-        if(student.isActivated()){
+        if (student.isActivated()) {
             model.addAttribute("student", student);
             return "student/index";
-        }else{
+        } else {
             return "redirect:/student/activation";
         }
     }
@@ -73,11 +77,10 @@ public class StudentController {
     }
 
     @PostMapping("/activation")
-    public @ResponseBody
-    ResponseEntity<Object> activate(String password, String email, HttpSession session) {
-        if(studentService.activate(((String) session.getAttribute(STUDENT_ID_GIST)), password, email)){
+    public ResponseEntity<Object> activate(String password, String email, HttpSession session) {
+        if (studentService.activate(((String) session.getAttribute(STUDENT_ID_GIST)), password, email)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("学生不存在");
         }
     }
@@ -115,7 +118,7 @@ public class StudentController {
 
     @PostMapping("/modifyPassword")
     public ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        if(!studentService.modifyPasswordViaId(((String) session.getAttribute(STUDENT_ID_GIST)), password)){
+        if (!studentService.modifyPasswordViaId(((String) session.getAttribute(STUDENT_ID_GIST)), password)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -141,7 +144,7 @@ public class StudentController {
     }
 
     @PostMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String klassId, String seminarId, Model model, HttpSession session){
+    public String seminarEnrollList(String klassId, String seminarId, Model model, HttpSession session) {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
@@ -151,38 +154,38 @@ public class StudentController {
     }
 
     @PostMapping("/course/seminar/uploadPPT")
-    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
-        if(fileService.store(multipartFile) != null) {
+    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+        if (fileService.store(multipartFile) != null) {
             studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<FileSystemResource> downloadPPT(String fileName){
+    public ResponseEntity<FileSystemResource> downloadPPT(String fileName) {
         return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
 
     @PostMapping("/course/seminar/enroll")
-    public ResponseEntity<Object> seminarEnroll(String ksId, String teamId, Integer sn){
-        if (studentService.enrollSeminar(ksId, teamId, sn)){
+    public ResponseEntity<Object> seminarEnroll(String ksId, String teamId, Integer sn) {
+        if (studentService.enrollSeminar(ksId, teamId, sn)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PostMapping("/course/seminar/report")
-    public String seminarReport(String klassId, String seminarId, Model model, HttpSession session){
+    public String seminarReport(String klassId, String seminarId, Model model, HttpSession session) {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute(STUDENT_ID_GIST)));
         Attendance attendance;
-        if(team != null){
-            attendance = seminarService.getAttendanceById(team.getId(),klassSeminar.getId()).get(0);
-        }else{
+        if (team != null) {
+            attendance = seminarService.getAttendanceById(team.getId(), klassSeminar.getId()).get(0);
+        } else {
             attendance = null;
         }
         model.addAttribute("attendance", attendance);
@@ -190,12 +193,12 @@ public class StudentController {
     }
 
     @PostMapping("/course/seminar/uploadReport")
-    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
+    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
         DebugLogger.log(multipartFile.getOriginalFilename());
-        if(fileService.store(multipartFile) != null) {
+        if (fileService.store(multipartFile) != null) {
             studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -204,67 +207,75 @@ public class StudentController {
     public String teamList(String courseId, Model model, HttpSession session) {
         Course course = seminarService.getCourseByCourseId(courseId).get(0);
         Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
+        model.addAttribute("course", course);
         model.addAttribute("permitCreate", mPermitCreate);
         model.addAttribute("myTeam", seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST))));
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
         model.addAttribute("students", seminarService.getNotTeamedStudentsByCourseId(courseId));
         return "student/course/teamList";
     }
+
     @PostMapping("/course/team/create")
-    public String createTeam(String courseId, Model model, HttpSession session){
+    public String createTeam(String courseId, Model model, HttpSession session) {
         model.addAttribute("leaderId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
         return "student/course/team/create";
     }
+
     @PutMapping("/course/team")
-    public ResponseEntity<Object> createTeam(@RequestBody Team team){
-        if(!studentService.createTeam(team)){
+    public ResponseEntity<Object> createTeam(@RequestBody Team team) {
+        if (!studentService.createTeam(team)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
     @PostMapping("/course/myTeam")
-    public String myTeam(String courseId, String teamId, Model model, HttpSession session){
+    public String myTeam(String courseId, String teamId, Model model, HttpSession session) {
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndTeamId(courseId, teamId));
         model.addAttribute("students", seminarService.getNotTeamedStudentsByCourseId(courseId));
         return "student/course/myTeam";
     }
+
     @PostMapping("/course/myTeam/addMembers")
-    public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session){
+    public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session) {
         Team team = seminarService.getTeamByTeamId(teamId);
-        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
             studentService.addTeamMember(studentId, teamId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
     @PostMapping("/course/myTeam/deleteMember")
-    public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session){
+    public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session) {
         Team team = seminarService.getTeamByTeamId(teamId);
-        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            if(!studentService.deleteTeamMember(studentId, teamId)){
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            if (!studentService.deleteTeamMember(studentId, teamId)) {
                 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
     @PostMapping("/course/myTeam/dissolveTeam")
-    public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session){
+    public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session) {
         Team team = seminarService.getTeamByTeamId(teamId);
-        if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
             studentService.dissolveTeam(teamId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
     @PostMapping("/course/myTeam/quitTeam")
-    public ResponseEntity<Object> quitTeam(String teamId, HttpSession session){
+    public ResponseEntity<Object> quitTeam(String teamId, HttpSession session) {
         studentService.exitTeam(teamId, ((String) session.getAttribute(STUDENT_ID_GIST)));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -273,9 +284,10 @@ public class StudentController {
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
+
     @PostMapping("/course/grade")
-    public String seminarGrade(String courseId, String klassId, Model model, HttpSession session){
-        if(courseId == null || klassId == null){
+    public String seminarGrade(String courseId, String klassId, Model model, HttpSession session) {
+        if (courseId == null || klassId == null) {
             throw new RuntimeException();
         }
         List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
@@ -292,6 +304,7 @@ public class StudentController {
         model.addAttribute("seminarScoreMap", seminarScoreMap);
         DebugLogger.logJson(seminarScoreMap);
         model.addAttribute("roundScoreMap", roundScoreMap);
+        DebugLogger.logJson(roundScoreMap);
         return "student/course/grade";
     }
 }
