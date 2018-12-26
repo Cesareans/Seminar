@@ -23,6 +23,19 @@ public class Klass {
     @Link(gist = "courseId", select = "seminar.mapper.CourseMapper.selectCourseById")
     private Course course;
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Klass)) {
+            return false;
+        }
+        return id.equals(((Klass) obj).id);
+    }
+
     public String getKlassName() {
         return grade + "-" + serial + "班";
     }

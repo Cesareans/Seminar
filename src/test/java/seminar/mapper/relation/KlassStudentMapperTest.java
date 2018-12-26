@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import seminar.entity.Team;
 import seminar.logger.DebugLogger;
+import seminar.mapper.TeamMapper;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -16,6 +19,8 @@ import seminar.logger.DebugLogger;
 public class KlassStudentMapperTest {
     @Autowired
     KlassStudentMapper klassStudentMapper;
+    @Autowired
+    TeamMapper teamMapper;
 
 
     @Test
@@ -28,10 +33,20 @@ public class KlassStudentMapperTest {
         DebugLogger.logJson(klassStudentMapper.selectTeamByCourseIdAndStudentId("16", "103"));
     }
 
-//    @Test
-//    public void selectCourseByStudentId(){
-//        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
-//    }
+    @Test
+    public void selectTeamByCourseId(){
+        List<Team> teams = klassStudentMapper.selectTeamsByCourseId("17");
+        DebugLogger.logJson(teams);
+        DebugLogger.log(teams.size());
+        List<Team> teams1 = teamMapper.selectTeamByMainCourseId("17");;
+        DebugLogger.logJson(teams1);
+        DebugLogger.log(teams1.size());
+    }
+
+    @Test
+    public void selectCourseByStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
+    }
 
     @Test
     public void selectKlassByStudentId(){
