@@ -70,7 +70,7 @@ public interface TeamMapper {
             @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam", fetchType = FetchType.LAZY)),
             @Result(property = "klass", column = "klass_id", one = @One(select = "seminar.mapper.KlassMapper.selectKlassById", fetchType = FetchType.LAZY))
     })
-    List<Team> selectTeamByCourseId(String courseId);
+    List<Team> selectTeamByMainCourseId(String courseId);
 
     /**
      * Select a Team entity via klassId
