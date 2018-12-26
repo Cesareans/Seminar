@@ -103,11 +103,9 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public Map<String, List<RoundScore>> calculateScoreOfOneCourse(String courseId)
+    public Map<String, List<RoundScore>> calculateScoreOfOneCourse(List<Round> rounds, List<Team> teams)
     {
-        List<Round> rounds = roundDAO.getByCourseId(courseId);
-        List<Team> teams = teamDAO.getNoStudentTeamsByCourseId(courseId);
-        Map<String, List<RoundScore>> totalScoreOfCourse = new HashMap<>();
+        Map<String, List<RoundScore>> totalScoreOfCourse = new HashMap<>(rounds.size());
         for(Round round : rounds)
         {
             List<RoundScore> roundScores = new ArrayList<>();
@@ -198,7 +196,7 @@ public class ScoreServiceImpl implements ScoreService {
     private BigDecimal averageScore(List<Question> questions)
     {
         BigDecimal quesScore ;
-        BigDecimal sum = questions.stream().map(Question::getScore).reduce(new BigDecimal("0"), BigDecimal::add);
+        BigDecimal sum = questions.stream().map(Question::getScore).filter(Objects::nonNull).reduce(new BigDecimal("0"), BigDecimal::add);
         long count = (long) questions.size();
         if(!questions.isEmpty()){
             quesScore = sum.divide(new BigDecimal(count) , 2, BigDecimal.ROUND_HALF_UP);

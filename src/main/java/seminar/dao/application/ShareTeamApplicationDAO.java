@@ -3,7 +3,6 @@ package seminar.dao.application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.application.ShareTeamApplication;
-import seminar.logger.DebugLogger;
 import seminar.mapper.TeacherMapper;
 import seminar.mapper.application.ShareTeamApplicationMapper;
 
@@ -27,19 +26,11 @@ public class ShareTeamApplicationDAO {
      * The course which is a subordinateCourse can't send and receive a seminar share handler
      */
     public boolean create(ShareTeamApplication shareTeamApplication) {
-        if(!shareTeamApplicationMapper.selectShareTeamApplicationByMainCourseIdAndSubCourseId(shareTeamApplication.getMainCourseId(), shareTeamApplication.getSubCourseId()).isEmpty()){
+        if (!shareTeamApplicationMapper.selectShareTeamApplicationByMainCourseIdAndSubCourseId(shareTeamApplication.getMainCourseId(), shareTeamApplication.getSubCourseId()).isEmpty()) {
             return false;
         }
         shareTeamApplicationMapper.insertShareTeamApplication(shareTeamApplication);
         return true;
-    }
-
-    public boolean update(ShareTeamApplication shareTeamApplication) {
-        if (!shareTeamApplicationMapper.selectShareTeamApplicationById(shareTeamApplication.getId()).isEmpty()) {
-            shareTeamApplicationMapper.updateShareTeamApplication(shareTeamApplication);
-            return true;
-        }
-        return false;
     }
 
     public List<ShareTeamApplication> getByTeacherId(String teacherId) {
@@ -50,7 +41,7 @@ public class ShareTeamApplicationDAO {
         return shareTeamApplications;
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         shareTeamApplicationMapper.deleteShareTeamApplicationById(id);
     }
 }

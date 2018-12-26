@@ -2,6 +2,7 @@ package seminar.service;
 
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
+import seminar.entity.application.TeamValidApplication;
 import seminar.pojo.dto.ApplicationHandleDTO;
 
 import java.util.List;
@@ -59,4 +60,25 @@ public interface ApplicationService {
      * @return whether the operation is successful
      */
     boolean handleShareTeamApplication(ApplicationHandleDTO applicationHandleDTO);
+
+    /**
+     * Create a new TeamValidApplication
+     * @param teamValidApplication the new TeamValidApplication
+     * @return whether the operation is successful
+     */
+    boolean createTeamValidApplication(TeamValidApplication teamValidApplication);
+
+    /**
+     * Get teamValidApplications of a teacher
+     * @param teacherId the teacher refer gist
+     * @return the teamValidApplications
+     */
+    List<TeamValidApplication> getTeamValidApplicationByTeacherId(String teacherId);
+
+    /**
+     * Handle team valid application
+     * @param applicationHandleDTO the dto
+     * @return whether the operation is successful
+     */
+    boolean handleTeamValidApplication(ApplicationHandleDTO applicationHandleDTO);
 }

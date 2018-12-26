@@ -57,39 +57,62 @@
                 <div class="col-xl-4 col-md-6">
                     <div class="card enroll-card">
                         <#if attendance??>
-                        <div class="card-body">
-                            <div class="body-header flex-space-between">
-                                <div class="body-title">第${i}组</div>
-                                <div class="line team-line">
-                                    <label style="width: 50px">队伍</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${attendance.team.teamName}</div>
+                            <div class="card-body">
+                                <div class="body-header flex-space-between">
+                                    <div class="body-title">第${i}组</div>
+                                    <div class="line team-line">
+                                        <label style="width: 50px">队伍</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${attendance.team.teamName}</div>
+                                    </div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <#if hasEnd>
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li <#if attendance.preFile??>class="nav-item download-file"
+                                                data-fileName="${attendance.preFile}" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled" </#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    下载PPT
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    <#else >
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li <#if attendance.reportFile??>class="nav-item download-file"
+                                                data-fileName="${attendance.reportFile}" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled" </#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    下载报告
+                                                </a>
+                                            </li>
+                                            <li <#if attendance.reportFile??>data-toggle="modal"
+                                                class="nav-item" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled"</#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    打分
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </#if>
                                 </div>
                             </div>
-                            <div class="body-content">
-                                <hr>
-                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="padding: 0;color: #AAAAAA;">
-                                            <i class="material-icons">cloud_download</i>
-                                            下载PPT
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         <#else>
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">第${i}组</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="flex-center not-enroll">
-                                    尚未报名
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${i}组</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="flex-center not-enroll">
+                                        尚未报名
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </#if>
                     </div>
                 </div>
@@ -98,8 +121,12 @@
     </div>
 </div>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId">
-    <input id="klassIdInput" name="klassId">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
+</form>
+<form hidden id="downloadFileForm" action="/student/course/seminar/downloadPPT" method="get">
+    <input id="fileNameInput" name="fileName" placeholder="">
+    <input id="teamIdInput" name="teamId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

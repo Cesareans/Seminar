@@ -4,7 +4,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -146,10 +148,9 @@ public class TeacherController {
     public String notification(Model model, HttpSession session) {
         String teacherId = ((String) session.getAttribute(TEACHER_ID_GIST));
         //STApps:ShareTeamApplications     SSApps:ShareSeminarApplications
-        List<ShareTeamApplication> shareTeamApplications = applicationService.getShareTeamApplicationByTeacherId(teacherId);
-        model.addAttribute("STApps", shareTeamApplications);
+        model.addAttribute("STApps", applicationService.getShareTeamApplicationByTeacherId(teacherId));
         model.addAttribute("SSApps", applicationService.getShareSeminarApplicationByTeacherId(teacherId));
-
+        model.addAttribute("TVApps", applicationService.getTeamValidApplicationByTeacherId(teacherId));
         return "teacher/notification";
     }
 
@@ -160,6 +161,7 @@ public class TeacherController {
         /*
          * 0 : ShareSeminar
          * 1 : ShareTeam
+         * 2 : Team valid
          */
         switch (applicationHandleDTO.getAppType()) {
             case 0:
@@ -175,7 +177,11 @@ public class TeacherController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
-                return ResponseEntity.status(HttpStatus.OK).body(null);
+                if (applicationService.handleTeamValidApplication(applicationHandleDTO)) {
+                    return ResponseEntity.status(HttpStatus.OK).body(null);
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+                }
             default:
                 throw new RuntimeException();
         }
@@ -304,7 +310,6 @@ public class TeacherController {
     public String seminarInfo(String klassId, String seminarId, Model model) {
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         if (klassSeminar.size() == 0) {
-            //TODO:need better code here.
             throw new RuntimeException("No klass seminar");
         }
         model.addAttribute("klassSeminar", klassSeminar.get(0));
@@ -313,22 +318,21 @@ public class TeacherController {
 
     @PostMapping("/course/seminar/enrollList")
     public String seminarEnrollList(String klassSeminarId, Model model) {
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
+        Boolean hasEnd = klassSeminar.getState()==2;
+        model.addAttribute("hasEnd", hasEnd);
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
         return "teacher/course/seminar/enrollList";
     }
 
-    /**
-     * Todo: Remain to be realize
-     */
-    @PostMapping("/course/seminar/grade")
-    public String seminarGrade(String courseId, Model model) {
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
-        List<Team> teams = seminarService.getTeamsByCourseId(courseId);
-        Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            List<RoundScore> roundScores = new LinkedList<>();
-        });
-        return "teacher/course/seminar/grade";
+    @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<FileSystemResource> downloadPPT(String fileName, String teamId) {
+        return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
+    }
+
+    @GetMapping(value = "/course/seminar/downloadReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<FileSystemResource> downloadReport(String fileName, String teamId) {
+        return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
 
     @PostMapping("/course/klassList")
@@ -389,11 +393,14 @@ public class TeacherController {
         return "teacher/course/teamList";
     }
 
-    /**
-     * Todo: Remain to be realize
-     */
     @PostMapping("/course/grade")
-    public String grade(String courseId) {
+    public String grade(String courseId, Model model) {
+        //Map roundId - roundScores(for every team in the course)
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        List<Team> teams = seminarService.getTeamsByCourseId(courseId);
+        model.addAttribute("rounds", rounds);
+        model.addAttribute("teams", teams);
+        model.addAttribute("roundScores", scoreService.calculateScoreOfOneCourse(rounds, teams));
         return "teacher/course/grade";
     }
 

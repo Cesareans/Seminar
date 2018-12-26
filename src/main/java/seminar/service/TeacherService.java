@@ -164,11 +164,13 @@ public interface TeacherService {
 
     /**
      * Cancel team share
+     * @param subCourseId the subCourseId
      */
     void cancelTeamShare(String subCourseId);
 
     /**
      * cancel seminar share
+     * @param subCourseId the subCourseId
      */
     void cancelSeminarShare(String subCourseId);
 
