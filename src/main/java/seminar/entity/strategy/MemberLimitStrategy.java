@@ -1,13 +1,14 @@
-package seminar.entity.regulation;
+package seminar.entity.strategy;
 
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
+import seminar.entity.Team;
 
 /**
  * @author Xinyu Shi
  */
 @TargetPackage(value = "seminar.mapper")
-public class MemberLimitStrategy implements Regulation{
+public class MemberLimitStrategy implements Strategy {
 
     @ID(isIncrement = true)
     private String id;
@@ -15,12 +16,6 @@ public class MemberLimitStrategy implements Regulation{
     private int min;
 
     private int max;
-
-    @Override
-    public String getStrategyName()
-    {
-        return "MemberLimitStrategy";
-    }
 
     public String getId() {
         return id;
@@ -46,5 +41,22 @@ public class MemberLimitStrategy implements Regulation{
         this.max = max;
     }
 
+    @Override
+    public boolean validate(Team team)
+    {
+        int studentNumber = team.getStudents().size();
+        if(studentNumber >= min && studentNumber <= max){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public String getErrorMsg()
+    {
+        return "小组人数应在" + min + "到" + max + "之间";
+    }
 
 }

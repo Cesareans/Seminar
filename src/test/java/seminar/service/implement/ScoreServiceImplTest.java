@@ -34,7 +34,7 @@ public class ScoreServiceImplTest {
     @Test
     public void  calculateScoreOfOneRound()
     {
-        RoundScore roundScore = scoreService.calculateScoreOfOneRound("26","3");
+        RoundScore roundScore = scoreService.calculateScoreOfOneRound("26","7");
         DebugLogger.logJson(roundScore);
     }
 
