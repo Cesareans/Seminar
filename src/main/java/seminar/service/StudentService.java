@@ -1,11 +1,6 @@
 package seminar.service;
 
-import seminar.entity.Course;
 import seminar.entity.Klass;
-
-import java.util.List;
-
-import seminar.entity.Student;
 import seminar.entity.Team;
 
 import java.util.List;
@@ -16,7 +11,6 @@ import java.util.List;
 public interface StudentService {
     /**
      * Activate a student's account
-     *
      * @param studentId the student's account id
      * @param password  the student's new password
      * @param email     the student's new email
@@ -26,8 +20,7 @@ public interface StudentService {
     boolean activate(String studentId, String password, String email);
 
     /**
-     * Modify a student's email
-     *
+     * Modify a student's email via student id
      * @param studentId the student's account id
      * @param email     the student's new email
      * @return whether the operation is successful
@@ -36,8 +29,7 @@ public interface StudentService {
     boolean modifyEmail(String studentId, String email);
 
     /**
-     * Modify a student's password when he/she forget his/her password
-     *
+     * Modify a student's password via student number
      * @param sn       the student num
      * @param password the new password
      * @return whether the operation is success
@@ -46,8 +38,7 @@ public interface StudentService {
     boolean modifyPasswordViaSn(String sn, String password);
 
     /**
-     * Modify a student's password
-     *
+     * Modify a student's password via student id
      * @param studentId the student's account id
      * @param password  the student's new password
      * @return whether the operation is successful
@@ -56,31 +47,13 @@ public interface StudentService {
     boolean modifyPasswordViaId(String studentId, String password);
 
     /**
-     * Get a student's courses via teacherId
-     *
-     * @param studentId refer gist
-     * @return list of student's courses
-     * @author cesare
-     */
-    List<Course> getCoursesByStudentId(String studentId);
-
-    /**
-     * Get a student's klasses via teacherId
-     *
-     * @param studentId refer gist
-     * @return list of student's klasses
-     * @author cesare
-     */
-    List<Klass> getKlassesByStudentId(String studentId);
-
-    /**
      * Enroll a seminar
      * @param ksId the klass seminar's id
      * @param teamId the student team's id
      * @param sn the wanna register serial number
      * @return whether the operation is successful
      */
-    boolean seminarEnroll(String ksId, String teamId, int sn);
+    boolean enrollSeminar(String ksId, String teamId, int sn);
 
     /**
      * Upload preFile for attendance
@@ -96,10 +69,40 @@ public interface StudentService {
      */
     void uploadReportFile(String attendanceId, String reportFileName);
 
-    List<Team> getAllTeamInformation(String courseId);
+    /**
+     * create team
+     * @author Xinyu Shi
+     * @param team the new team
+     * @return whether the operation is successful
+     */
+    boolean createTeam(Team team);
 
-    List<Student> getAllUnTeamedStudentsByCourseId(String courseId);
+    /**
+     * Add member to team
+     * @param studentId the student refer gist
+     * @param teamId the team refer gist
+     * @return whether the operation is successful
+     */
+    boolean addTeamMember(String studentId, String teamId);
 
-    void exitTeam(String studentId, String teamId);
+    /**
+     * Delete member from team
+     * @param studentId the student refer gist
+     * @param teamId the team refer gist
+     * @return whether the operation is successful
+     */
+    boolean deleteTeamMember(String studentId, String teamId);
 
+    /**
+     * Student exit team
+     * @param teamId the team refer gist
+     * @param studentId the student refer gist
+     */
+    void exitTeam(String teamId, String studentId);
+
+    /**
+     * Dissolve a team
+     * @param teamId the team refer gist
+     */
+    void dissolveTeam(String teamId);
 }

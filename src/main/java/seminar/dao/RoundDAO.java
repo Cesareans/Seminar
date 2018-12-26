@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Round;
 import seminar.mapper.RoundMapper;
+import seminar.mapper.SeminarMapper;
+import seminar.mapper.relation.KlassRoundMapper;
 
 import java.util.List;
 
@@ -13,10 +15,14 @@ import java.util.List;
 @Component
 public class RoundDAO {
     private final RoundMapper roundMapper;
+    private final SeminarMapper seminarMapper;
+    private final KlassRoundMapper klassRoundMapper;
 
     @Autowired
-    public RoundDAO(RoundMapper roundMapper) {
+    public RoundDAO(RoundMapper roundMapper, SeminarMapper seminarMapper, KlassRoundMapper klassRoundMapper) {
         this.roundMapper = roundMapper;
+        this.seminarMapper = seminarMapper;
+        this.klassRoundMapper = klassRoundMapper;
     }
 
     /**
@@ -70,7 +76,10 @@ public class RoundDAO {
     /**
      * @author lyf
      */
-    public void deleteByCourseId(String courseId) {
+    void deleteRoundsByCourseId(String courseId) {
+        List<Round> rounds = roundMapper.selectRoundByCourseId(courseId);
+        rounds.forEach(round -> seminarMapper.deleteSeminarByRoundId(round.getId()));
+        klassRoundMapper.deleteKlassRoundByCourseId(courseId);
         roundMapper.deleteRoundByCourseId(courseId);
     }
 

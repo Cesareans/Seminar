@@ -20,24 +20,5 @@ public class StudentServiceImplTest {
     TeamDAO teamDAO;
 
 
-    @Test
-    public void getAllTeamsByCourseId()
-    {
-        DebugLogger.logJson(studentService.getAllTeamInformation("16"));
-    }
-
-    @Test
-    public void getAllUnTeamedStudents()
-    {
-        DebugLogger.logJson(studentService.getAllUnTeamedStudentsByCourseId("16"));
-    }
-
-    @Test
-    public void exitTeam()
-    {
-        studentService.exitTeam("172","2");
-    }
-
-
 
 }

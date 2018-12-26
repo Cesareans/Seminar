@@ -13,7 +13,7 @@
     <script src="/static/js/util.js"></script>
     <script>
         $(function () {
-            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
+            $(".courseId").val(sessionStorage.getItem("courseId"));
         })
     </script>
     <title>分组</title>
@@ -115,6 +115,7 @@
 <div class="container foot-container flex-center" style="padding-bottom: 0">
     <#if (myTeam??)>
         <form hidden id="myTeamForm" action="/student/course/myTeam" method="post">
+            <input class="courseId" name="courseId" placeholder="">
             <input name="teamId" value="${myTeam.id}" placeholder="">
         </form>
         <button class="btn bg-dark" onclick="$('#myTeamForm').submit()">
@@ -129,7 +130,7 @@
     </#if>
 </div>
 <form hidden id="createTeamForm" action="/student/course/team/create" method="post">
-    <input id="courseIdInput" name="courseId" placeholder="">
+    <input class="courseId" name="courseId" placeholder="">
 </form>
 
 <#list teams as team>
@@ -209,7 +210,7 @@
                 </button>
             </div>
             <hr>
-            <div class="modal-body" style="overflow: scroll;max-height: 80%;">
+            <div class="modal-body" style="overflow: scroll;height: 80%;">
                 <div class="row">
                     <#if (students?size > 0)>
                         <table class="table team-table" style="margin-top: 0;">

@@ -32,11 +32,10 @@ public class StudentController {
     private final AccountManageService accountManageService;
     private final ScoreService scoreService;
     private final FileService fileService;
-    private final LeaderService leaderService;
 
     private final static String STUDENT_ID_GIST = "studentId";
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService, LeaderService leaderService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -44,7 +43,6 @@ public class StudentController {
         this.accountManageService = accountManageService;
         this.scoreService = scoreService;
         this.fileService = fileService;
-        this.leaderService = leaderService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -62,8 +60,7 @@ public class StudentController {
 
 
     @PostMapping("/captcha/{type}")
-    public @ResponseBody
-    ResponseEntity<Object> getCaptcha(@PathVariable String type, String email, HttpSession session) {
+    public ResponseEntity<Object> getCaptcha(@PathVariable String type, String email, HttpSession session) {
         String captcha = captchaService.generateCaptcha();
         mailService.sendCaptcha(captcha, email);
         session.setAttribute(type + "Captcha", captcha);
@@ -77,17 +74,11 @@ public class StudentController {
 
     @PostMapping("/activation")
     public @ResponseBody
-    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
-        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
-        if (captcha.equals(senderCaptcha)) {
-            if(studentService.activate(((String) session.getAttribute(STUDENT_ID_GIST)), password, email)){
-                session.removeAttribute("activationCaptcha");
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            }else{
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("学生不存在");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("验证码错误");
+    ResponseEntity<Object> activate(String password, String email, HttpSession session) {
+        if(studentService.activate(((String) session.getAttribute(STUDENT_ID_GIST)), password, email)){
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("学生不存在");
         }
     }
 
@@ -107,8 +98,7 @@ public class StudentController {
     }
 
     @PostMapping("/modifyEmail")
-    public @ResponseBody
-    ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
+    public ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
         String senderCaptcha = ((String) session.getAttribute("modifyEmailCaptcha"));
         if (captcha.equals(senderCaptcha)) {
             studentService.modifyEmail(((String) session.getAttribute(STUDENT_ID_GIST)), email);
@@ -124,15 +114,16 @@ public class StudentController {
     }
 
     @PostMapping("/modifyPassword")
-    public @ResponseBody
-    ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        studentService.modifyPasswordViaId(((String) session.getAttribute(STUDENT_ID_GIST)), password);
+    public ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
+        if(!studentService.modifyPasswordViaId(((String) session.getAttribute(STUDENT_ID_GIST)), password)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping("/courseList")
     public String courses(Model model, HttpSession session) {
-        model.addAttribute("klasses", studentService.getKlassesByStudentId(((String) session.getAttribute(STUDENT_ID_GIST))));
+        model.addAttribute("klasses", seminarService.getKlassesByStudentId(((String) session.getAttribute(STUDENT_ID_GIST))));
         return "student/courseList";
     }
 
@@ -176,7 +167,7 @@ public class StudentController {
 
     @PostMapping("/course/seminar/enroll")
     public ResponseEntity<Object> seminarEnroll(String ksId, String teamId, Integer sn){
-        if (studentService.seminarEnroll(ksId, teamId, sn)){
+        if (studentService.enrollSeminar(ksId, teamId, sn)){
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -187,7 +178,7 @@ public class StudentController {
     public String seminarReport(String klassId, String seminarId, Model model, HttpSession session){
         Klass klass = seminarService.getKlassById(klassId).get(0);
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
-        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId")));
+        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute(STUDENT_ID_GIST)));
         Attendance attendance;
         if(team != null){
             attendance = seminarService.getAttendanceById(team.getId(),klassSeminar.getId()).get(0);
@@ -214,9 +205,9 @@ public class StudentController {
         Course course = seminarService.getCourseByCourseId(courseId).get(0);
         Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
         model.addAttribute("permitCreate", mPermitCreate);
-        model.addAttribute("myTeam", seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute("studentId"))));
+        model.addAttribute("myTeam", seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST))));
         model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
-        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(courseId));
+        model.addAttribute("students", seminarService.getNotTeamedStudentsByCourseId(courseId));
         return "student/course/teamList";
     }
     @PostMapping("/course/team/create")
@@ -227,24 +218,24 @@ public class StudentController {
     }
     @PutMapping("/course/team")
     public ResponseEntity<Object> createTeam(@RequestBody Team team){
-        DebugLogger.logJson(team);
-        leaderService.createTeam(team);
+        if(!studentService.createTeam(team)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     @PostMapping("/course/myTeam")
-    public String myTeam(String teamId, Model model, HttpSession session){
-        Team team = seminarService.getTeamByTeamId(teamId);
+    public String myTeam(String courseId, String teamId, Model model, HttpSession session){
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
-        model.addAttribute("team", team);
-        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
+        model.addAttribute("team", seminarService.getTeamByCourseIdAndTeamId(courseId, teamId));
+        model.addAttribute("students", seminarService.getNotTeamedStudentsByCourseId(courseId));
         return "student/course/myTeam";
     }
     @PostMapping("/course/myTeam/addMembers")
     public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session){
         Team team = seminarService.getTeamByTeamId(teamId);
         if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            leaderService.addGroupMember(studentId, teamId);
+            studentService.addTeamMember(studentId, teamId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -254,7 +245,9 @@ public class StudentController {
     public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session){
         Team team = seminarService.getTeamByTeamId(teamId);
         if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            leaderService.deleteGroupMember(studentId, teamId);
+            if(!studentService.deleteTeamMember(studentId, teamId)){
+                ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -264,11 +257,16 @@ public class StudentController {
     public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session){
         Team team = seminarService.getTeamByTeamId(teamId);
         if(team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            leaderService.dissolveTeam(teamId);
+            studentService.dissolveTeam(teamId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+    }
+    @PostMapping("/course/myTeam/quitTeam")
+    public ResponseEntity<Object> quitTeam(String teamId, HttpSession session){
+        studentService.exitTeam(teamId, ((String) session.getAttribute(STUDENT_ID_GIST)));
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/info")

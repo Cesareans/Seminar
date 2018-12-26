@@ -47,10 +47,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean activate(String teacherId, String password, String email) {
+    public boolean activate(String teacherId, String password) {
         Teacher teacher = teacherDAO.getById(teacherId).get(0);
         teacher.setPassword(password);
-        teacher.setEmail(email);
         teacher.setActivated(true);
         teacherDAO.update(teacher);
         return true;
@@ -93,7 +92,6 @@ public class TeacherServiceImpl implements TeacherService {
         teacherDAO.update(teacher);
         return true;
     }
-
 
 
     /**
@@ -157,14 +155,6 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean updateKlass(Klass klass) {
-        return klassDAO.update(klass);
-    }
-
-    /**
-     * @author lyf
-     */
-    @Override
     public void deleteKlassById(String klassId) {
         klassDAO.deleteById(klassId);
     }
@@ -181,8 +171,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean createSeminar(Seminar seminar) {
-        return seminarDAO.create(seminar);
+    public void createSeminar(Seminar seminar) {
+        seminarDAO.create(seminar);
     }
 
     /**
@@ -211,25 +201,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public void deleteSeminarByRoundId(String roundId) {
-        seminarDAO.deleteByRoundId(roundId);
-    }
-
-    /**
-     * @author lyf
-     */
-    @Override
     public void deleteSeminarById(String seminarId) {
         seminarDAO.deleteById(seminarId);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public boolean updateTeam(String teamId) {
-        Team team = teamDAO.getById(teamId).get(0);
-        return teamDAO.update(team);
     }
 
 

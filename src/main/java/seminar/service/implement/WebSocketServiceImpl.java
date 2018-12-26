@@ -6,7 +6,6 @@ import seminar.config.websocket.RawMessageConverter;
 import seminar.dao.KlassSeminarDAO;
 import seminar.dao.TeamDAO;
 import seminar.entity.Attendance;
-import seminar.entity.KlassSeminar;
 import seminar.entity.Team;
 import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.annotation.BindResponse;
@@ -43,7 +42,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             return monitorMap.get(ksId);
         }
         List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
-        List<Team> teams = teamDAO.getCourseTeamsByCourseId(klassSeminarDAO.getById(ksId).get(0).getSeminar().getCourseId());
+        List<Team> teams = teamDAO.getOwnStudentsTeamByCourseId(klassSeminarDAO.getById(ksId).get(0).getSeminar().getCourseId());
         SeminarMonitor seminarMonitor = new SeminarMonitor(enrollList, teams);
         monitorMap.put(ksId, seminarMonitor);
         return seminarMonitor;

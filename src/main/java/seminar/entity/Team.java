@@ -18,15 +18,15 @@ public class Team {
     private String serial;
     private String teamName;
     private int status;
+    private String leaderId;
     @Gist
     private String courseId;
     @Gist
     private String klassId;
-    private String leaderId;
 
     @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
     private Student leader;
-    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam")
+    @Block
     private List<Student> students;
     @Link(gist = "klassId", select = "seminar.mapper.KlassMapper.selectKlassById")
     private Klass klass;

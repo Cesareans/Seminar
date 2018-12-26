@@ -83,7 +83,7 @@ public interface KlassStudentMapper {
      * @return whether is in
      */
     @Select("select count(*) from klass_student where klass_id = #{klassId} and student_id= #{studentId}")
-    Boolean studentInKlass(@Param("klassId") String klassId,@Param("studentId") String studentId);
+    Boolean isStudentInKlass(@Param("klassId") String klassId, @Param("studentId") String studentId);
 
     //#############    Team Student
     /**
@@ -98,10 +98,18 @@ public interface KlassStudentMapper {
     /**
      * Delete a student in a team
      * @author Xinyu Shi
+     * @param teamId the refer gist
      * @param studentId the refer gist
      */
-    @Delete("delete from team_student where student_id=#{studentId}")
-    void deleteStudentFromTeam(String studentId);
+    @Delete("delete from team_student where student_id=#{studentId} and team_id=#{teamId}")
+    void deleteStudentFromTeam(@Param("teamId")String teamId, @Param("studentId") String studentId);
+
+    /**
+     * Delete students of team in the course
+     * @param courseId the refer gist
+     */
+    @Delete("delete from team_student where team_id in (select id from team where course_id = #{courseId})")
+    void deleteTeamStudentByCourseId(String courseId);
 
     /**
      * Select a Team's all students via teamId
@@ -129,7 +137,14 @@ public interface KlassStudentMapper {
     @Delete("delete from klass_team where team_id=#{teamId}")
     void deleteTeamFromKlassTeamByTeamId(String teamId);
 
-    void deleteTeamFromKlassTeamByCourseId();
+
+    /**
+     * Delete team in a course that stored in the klass team table
+     * @param courseId the refer gist
+     */
+    @Delete("delete from klass_team where klass_id in (select id from klass where course_id = #{courseId})")
+    void deleteTeamFromKlassTeamByCourseId(String courseId);
+
     /**
      * Insert team record into klass team
      * @param teamId the team id
@@ -143,6 +158,7 @@ public interface KlassStudentMapper {
     /**
      * Select a Team's students under a course
      *
+     * @param courseId the refer gist
      * @param teamId the select gist
      * @return List<Student> the selected Team's all students as list
      * @author Cesare
@@ -174,7 +190,6 @@ public interface KlassStudentMapper {
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam", fetchType = FetchType.LAZY)),
             @Result(property = "klass", column = "klass_id", one = @One(select = "seminar.mapper.KlassMapper.selectKlassById", fetchType = FetchType.LAZY))
     })
     Team selectTeamByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
@@ -194,7 +209,6 @@ public interface KlassStudentMapper {
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam", fetchType = FetchType.LAZY)),
             @Result(property = "klass", column = "klass_id", one = @One(select = "seminar.mapper.KlassMapper.selectKlassById", fetchType = FetchType.LAZY))
     })
     List<Team> selectTeamsByCourseId(String courseId);

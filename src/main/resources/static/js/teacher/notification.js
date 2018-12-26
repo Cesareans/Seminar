@@ -59,9 +59,11 @@ function ajaxSubmitForm(){
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(appHandleForm.form.serializeObject()),
         success: function () {
+            util.showLoading();
             window.location="/teacher/notification";
         },
         error: function () {
+            util.hideLoading();
             util.showAlert("danger", "操作失败", 3);
         }
     })

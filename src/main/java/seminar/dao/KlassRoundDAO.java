@@ -67,4 +67,11 @@ public class KlassRoundDAO {
     public void deleteByRoundId(String roundId){
         klassRoundMapper.deleteKlassRoundByRoundId(roundId);
     }
+
+    /**
+     * @author cesare
+     */
+    public void deleteByCourseId(String courseId){
+        klassRoundMapper.deleteKlassRoundByCourseId(courseId);
+    }
 }

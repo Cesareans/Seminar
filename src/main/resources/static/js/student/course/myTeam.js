@@ -33,6 +33,21 @@ $(function () {
             }
         });
     });
+    $("#quitBtn").click(function () {
+        util.showLoading();
+        $.ajax({
+            type:"post",
+            url:"/student/course/myTeam/quitTeam",
+            data: {teamId:$("body").attr("data-teamId")},
+            success:function () {
+                $("#courseIdForm").submit();
+            },
+            error:function () {
+                util.hideLoading();
+                util.showAlert("danger", "退出失败，未知原因", 3);
+            }
+        });
+    });
     $(".delete").click(function () {
         util.showLoading();
         $.ajax({

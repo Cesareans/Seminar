@@ -7,14 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import seminar.dao.TeamDAO;
 import seminar.logger.DebugLogger;
-import seminar.service.LeaderService;
+import seminar.service.StudentService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LeaderServiceImplTest {
 
     @Autowired
-    LeaderService leaderService;
+    StudentService studentService;
     @Autowired
     TeamDAO teamDAO;
 
@@ -22,21 +22,21 @@ public class LeaderServiceImplTest {
     public void addGroupMemberTest()
     {
         DebugLogger.logJson(teamDAO.getById("6").get(0));
-        DebugLogger.logJson(leaderService.addGroupMember("106","6"));
+        DebugLogger.logJson(studentService.addTeamMember("106","6"));
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
     @Test
     public void deleteGroupMemberTest()
     {
-        leaderService.deleteGroupMember("106","6");
+        studentService.deleteTeamMember("106","6");
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
     @Test
     public void dissolveTest()
     {
-        leaderService.dissolveTeam("6");
+        studentService.dissolveTeam("6");
     }
 
 }

@@ -97,7 +97,7 @@ public class StudentDAO {
     /**
      * Get all not teamed students
      */
-    public List<Student> studentsUnTeamed(String courseId)
+    public List<Student> getNotTeamedStudentsByCourseId(String courseId)
     {
         return klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
     }
@@ -113,9 +113,9 @@ public class StudentDAO {
     /**
      * @author Xinyu Shi
      */
-    public void deleteStudentFromTeamStudent(String studentId)
+    public void deleteStudentFromTeamStudent(String teamId, String studentId)
     {
-        klassStudentMapper.deleteStudentFromTeam(studentId);
+        klassStudentMapper.deleteStudentFromTeam(teamId, studentId);
     }
 
 

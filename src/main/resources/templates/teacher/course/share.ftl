@@ -73,6 +73,11 @@
                         <div class="sep"></div>
                         <div class="content">主课程</div>
                     </div>
+                    <div class="line">
+                        <label>子课程教师</label>
+                        <div class="sep"></div>
+                        <div class="content">${teamCourse.teacher.teacherName}</div>
+                    </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
                             <button class="btn btn-primary bg-red" style="margin: 0;width: 100%;">
@@ -107,6 +112,11 @@
                         <label>共享情况</label>
                         <div class="sep"></div>
                         <div class="content">主课程</div>
+                    </div>
+                    <div class="line">
+                        <label>子课程教师</label>
+                        <div class="sep"></div>
+                        <div class="content">${seminarCourse.teacher.teacherName}</div>
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">

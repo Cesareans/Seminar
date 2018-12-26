@@ -125,6 +125,17 @@ public interface SeminarService {
      * @return the team
      */
     Team getTeamByTeamId(String teamId);
+
+    Team getTeamByCourseIdAndTeamId(String courseId, String teamId);
+
+
+    /**
+     * Get not teamed students by course id
+     * @param courseId the refer gist
+     * @return the not teamed students.
+     */
+    List<Student> getNotTeamedStudentsByCourseId(String courseId);
+
     /**
      * Get a course's klass via courseId
      *
@@ -133,6 +144,16 @@ public interface SeminarService {
      * @author cesare
      */
     List<Klass> getKlassByCourseId(String courseId);
+
+
+    /**
+     * Get a student's klasses via teacherId
+     *
+     * @param studentId refer gist
+     * @return list of student's klasses
+     * @author cesare
+     */
+    List<Klass> getKlassesByStudentId(String studentId);
 
     /**
      * Get a course's klass via klassId

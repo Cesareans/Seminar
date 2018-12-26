@@ -125,7 +125,7 @@
             添加成员
         </button>
     <#else >
-        <button class="btn bg-danger">
+        <button id="quitBtn" class="btn bg-danger">
             <i class="material-icons">close</i>
             退出
         </button>
