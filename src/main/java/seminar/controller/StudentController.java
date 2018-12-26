@@ -56,10 +56,10 @@ public class StudentController {
 
     @GetMapping("/courseList")
     public String courses(Model model, HttpSession session) {
-        return "courseList";
+        return "student/courseList";
     }
 
-    @GetMapping("/gradesList")
+    @GetMapping("/grades")
     public String grades() { return "student/grades";}
 
     @GetMapping("/group")

@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -51,38 +51,86 @@
 <div class="main main-raised no-footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">面向对象分析与设计</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12 ml-auto mr-auto">
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item seminar-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">event_note</i>
-                                                    我的成绩
-                                                </a>
-                                            </li>
-                                            <li class="nav-item team-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">group</i>
-                                                    我的组队
-                                                </a>
-                                            </li>
-                                        </ul>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body" data-courseID="${1}" data-toggle="modal" data-target="#teamModal${1}">
+                                <div class="body-header">
+                                    <div class="body-title">2</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="line">
+                                        <label>序号</label>
+                                        <div class="sep"></div>
+                                    <#--TODO:???There are no klass info here.-->
+                                        <div class="content">3</div>
+                                    </div>
+                                    <div class="line">
+                                        <label>队长</label>
+                                        <div class="sep"></div>
+                                        <div class="content">4</div>
+                                    </div>
+                                    <div class="line">
+                                        <label>合法性</label>
+                                        <div class="sep"></div>
+                                        <div class="content">5</div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+</div>
+<div class="modal fade" id="teamModal${1}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">用例分析</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card content-card">
+                        <div class="card-body">
+                            <div class="body-content">
+                                <table class="table">
+                                    <thead>
+                                    <th>总成绩</th>
+                                    <th>5.0分</th>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card content-card">
+                        <div class="card-body">
+                            <div class="body-content">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>展示</td>
+                                        <td>5.0分</td>
+                                    </tr>
+                                    <tr>
+                                        <td>提问</td>
+                                        <td>5.0分</td>
+                                    </tr>
+                                    <tr>
+                                        <td>书面报告</td>
+                                        <td>5.0分</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <!--   Core JS Files   -->

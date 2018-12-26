@@ -61,39 +61,39 @@
         <div class="container">
             <div class="row">
                 <#list teams as team>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-courseID="${team.id}" data-toggle="modal" data-target="#teamModal${team.id}">
-                            <div class="body-header">
-                                <div class="body-title">${team.teamName}</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="line">
-                                    <label>序号</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${team.serial}</div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body" data-courseID="${team.id}" data-toggle="modal" data-target="#teamModal${team.id}">
+                                <div class="body-header">
+                                    <div class="body-title">${team.teamName}</div>
                                 </div>
-                                <div class="line">
-                                    <label>队长</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${team.leader.studentName}</div>
-                                </div>
-                                <div class="line">
-                                    <label>合法性</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${team.valid?string("合法","不合法")}</div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="line">
+                                        <label>序号</label>
+                                        <div class="sep"></div>
+                                    <#--TODO:???There are no klass info here.-->
+                                        <div class="content">${team.serial}</div>
+                                    </div>
+                                    <div class="line">
+                                        <label>队长</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${team.leader.studentName}</div>
+                                    </div>
+                                    <div class="line">
+                                        <label>合法性</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${team.status}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </#list>
             </div>
         </div>
     </#if>
 </div>
-
 <#list teams as team>
 <div class="modal fade" id="teamModal${team.id}">
     <div class="modal-dialog">
@@ -109,20 +109,34 @@
                     <div class="card content-card">
                         <div class="card-body">
                             <div class="body-content">
-                                队长：${team.leader.studentName}
+                                <table class="table">
+                                    <thead>
+                                    <th>队长</th>
+                                    <th>${team.leader.studentName}</th>
+                                    <th>${team.leader.id}</th>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div class="card content-card">
                         <div class="card-body">
                             <div class="body-content">
-                            <#if (team.students?size > 0)>
-                                <#list team.students as student>
-                                    <#if team.leader.studentNum != student.studentNum>
-                                    <div>队员：${student.studentName}</div>
-                                    </#if>
-                                </#list>
-                            <#else>
+                                <#if (team.students?size > 0)>
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <#list team.students as student>
+                                                <#if team.leader.studentNum != student.studentNum>
+                                                <tr>
+                                                    <td>队员</td>
+                                                    <td>${student.studentName}</td>
+                                                    <td>${student.id}</td>
+                                                </tr>
+                                                </#if>
+                                            </#list>
+                                        </tbody>
+                                    </table>
+                                <#else>
                                 <div class="empty-tag" style="height: 200px;">
                                     <div class="info">
                                         <div class="icon icon-rose flex-center">
@@ -131,7 +145,7 @@
                                         <h4 class="info-title">没有队员</h4>
                                     </div>
                                 </div>
-                            </#if>
+                                </#if>
                             </div>
                         </div>
                     </div>
