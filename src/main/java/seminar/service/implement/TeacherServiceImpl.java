@@ -33,7 +33,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final SeminarScoreDAO seminarScoreDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, ShareTeamApplicationDAO shareTeamApplicationDAO, TeamDAO teamDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, SeminarScoreDAO seminarScoreDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, TeamDAO teamDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, SeminarScoreDAO seminarScoreDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
