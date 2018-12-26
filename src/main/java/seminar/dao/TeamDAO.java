@@ -2,9 +2,11 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Klass;
 import seminar.entity.Student;
 import seminar.entity.Team;
 import seminar.mapper.AttendanceMapper;
+import seminar.mapper.KlassMapper;
 import seminar.mapper.TeamMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
@@ -18,12 +20,14 @@ public class TeamDAO {
     private final TeamMapper teamMapper;
     private final KlassStudentMapper klassStudentMapper;
     private final AttendanceMapper attendanceMapper;
+    private final KlassMapper klassMapper;
 
     @Autowired
-    public TeamDAO(TeamMapper teamMapper, KlassStudentMapper klassStudentMapper, AttendanceMapper attendanceMapper) {
+    public TeamDAO(TeamMapper teamMapper, KlassStudentMapper klassStudentMapper, AttendanceMapper attendanceMapper, KlassMapper klassMapper) {
         this.teamMapper = teamMapper;
         this.klassStudentMapper = klassStudentMapper;
         this.attendanceMapper = attendanceMapper;
+        this.klassMapper = klassMapper;
     }
 
     /**
@@ -127,6 +131,25 @@ public class TeamDAO {
         teamMapper.deleteTeamByCourseId(courseId);
     }
 
+    /**
+     * @author Xinyu Shi
+     */
+    public String getKlassIdByTeamIdAndCourseId(String teamId, String courseId)
+    {
+        List<Klass> klasses = klassMapper.selectKlassByCourseId(courseId);
+        List<String> klassIds = klassStudentMapper.selectKlassIdByTeamId(teamId);
+        String klassId ="";
+        for(String id:klassIds)
+        {
+            for(Klass klass:klasses)
+            {
+                if(klass.getId().equals(id)){
+                    klassId = id;
+                }
+            }
+        }
 
+        return klassId;
+    }
 
 }

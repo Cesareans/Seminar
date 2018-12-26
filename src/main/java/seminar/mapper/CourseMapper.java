@@ -194,4 +194,5 @@ public interface CourseMapper {
             @Result(property = "seminarMainCourseId", column = "seminar_main_course_id")
     })
     List<Course> selectCanShareCoursesById(@Param("id")String id, @Param("tmId")String teamMainCourseId, @Param("smId")String seminarMainCourseId);
+
 }
