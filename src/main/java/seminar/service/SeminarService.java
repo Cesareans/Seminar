@@ -18,6 +18,15 @@ public interface SeminarService {
     List<Course> getCourseByCourseId(String courseId);
 
     /**
+     * Get a teacher's courses via teacherId
+     *
+     * @param teacherId the refer gist
+     * @return list of teacher's courses
+     * @author cesare
+     */
+    List<Course> getCoursesByTeacherId(String teacherId);
+
+    /**
      * Get a course's other course via course id
      *
      * @param courseId the refer gist
@@ -76,6 +85,14 @@ public interface SeminarService {
     int getMaxSeminarSerialByCourseId(String courseId);
 
     /**
+     * Get the attendance via id
+     * @param teamId the refer gist
+     * @param ksId the refer gist
+     * @return the attendance
+     */
+    List<Attendance> getAttendanceById(String teamId, String ksId);
+
+    /**
      * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
      *
      * @param ksId the refer gist
@@ -94,6 +111,30 @@ public interface SeminarService {
      */
     List<Team> getTeamsByCourseId(String courseId);
 
+    /**
+     * Get the team via studentId and courseId
+     * @param klassId the refer gist
+     * @param studentId the refer gist
+     * @return the team
+     */
+    Team getTeamByCourseIdAndStudentId(String klassId, String studentId);
+
+    /**
+     * Get the team via team id
+     * @param teamId the refer gist
+     * @return the team
+     */
+    Team getTeamByTeamId(String teamId);
+
+    Team getTeamByCourseIdAndTeamId(String courseId, String teamId);
+
+
+    /**
+     * Get not teamed students by course id
+     * @param courseId the refer gist
+     * @return the not teamed students.
+     */
+    List<Student> getNotTeamedStudentsByCourseId(String courseId);
 
     /**
      * Get a course's klass via courseId
@@ -103,6 +144,16 @@ public interface SeminarService {
      * @author cesare
      */
     List<Klass> getKlassByCourseId(String courseId);
+
+
+    /**
+     * Get a student's klasses via teacherId
+     *
+     * @param studentId refer gist
+     * @return list of student's klasses
+     * @author cesare
+     */
+    List<Klass> getKlassesByStudentId(String studentId);
 
     /**
      * Get a course's klass via klassId
@@ -143,25 +194,4 @@ public interface SeminarService {
      */
     List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
 
-    /**
-     * Get the attendance at the klassSeminar with given klassSeminarId
-     *
-     * @param klassSeminarId the refer gist
-     * @return the attendance at the klassSeminar.
-     * @author lyf
-     * @deprecated the attendances are fetched at the KlassSeminar.
-     */
-    @Deprecated
-    List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId);
-
-    /**
-     * Get the seminar of a round.
-     *
-     * @param roundId the refer gist
-     * @return the seminar of the round
-     * @author Xinyu Shi
-     * @deprecated Because the seminars are fetched in the round entity.
-     */
-    @Deprecated
-    List<Seminar> getSeminarsByRoundId(String roundId);
 }

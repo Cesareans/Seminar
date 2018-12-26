@@ -19,7 +19,7 @@ public interface KlassSeminarMapper {
      *
      * @param klassSeminar the KlassSeminar entity that will be inserted
      */
-    @Insert("insert into klass_seminar(seminar_status, report_ddl, klass_id, seminar_id) values(#{state}, #{reportDeadline}, #{klassId}, #{seminarId})")
+    @Insert("insert into klass_seminar(seminar_status, klass_id, seminar_id) values(#{state}, #{klassId}, #{seminarId})")
     @Options(useGeneratedKeys = true)
     void insertKlassSeminar(KlassSeminar klassSeminar);
 
@@ -28,7 +28,7 @@ public interface KlassSeminarMapper {
      *
      * @param klassSeminar the KlassSeminar entity that will be updated via the id
      */
-    @Update("update klass_seminar set seminar_status=#{state}, report_ddl=#{reportDeadline}, klass_id=#{klassId}, seminar_id=#{seminarId} where id=#{id}")
+    @Update("update klass_seminar set seminar_status=#{state}, klass_id=#{klassId}, seminar_id=#{seminarId} where id=#{id}")
     void updateKlassSeminar(KlassSeminar klassSeminar);
 
     /**
@@ -40,7 +40,6 @@ public interface KlassSeminarMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "seminar_status"),
-            @Result(property = "reportDeadline", column = "report_ddl"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "seminarId", column = "seminar_id"),
             @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId", fetchType = FetchType.LAZY)),
@@ -58,7 +57,6 @@ public interface KlassSeminarMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "seminar_status"),
-            @Result(property = "reportDeadline", column = "report_ddl"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "seminarId", column = "seminar_id"),
             @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId", fetchType = FetchType.LAZY)),
@@ -76,7 +74,6 @@ public interface KlassSeminarMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "seminar_status"),
-            @Result(property = "reportDeadline", column = "report_ddl"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "seminarId", column = "seminar_id"),
             @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId", fetchType = FetchType.LAZY)),
@@ -94,7 +91,6 @@ public interface KlassSeminarMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "seminar_status"),
-            @Result(property = "reportDeadline", column = "report_ddl"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "seminarId", column = "seminar_id"),
             @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId", fetchType = FetchType.LAZY)),
@@ -113,7 +109,6 @@ public interface KlassSeminarMapper {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "state", column = "seminar_status"),
-            @Result(property = "reportDeadline", column = "report_ddl"),
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "seminarId", column = "seminar_id"),
             @Result(property = "attendances", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId", fetchType = FetchType.LAZY)),

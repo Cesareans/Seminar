@@ -19,9 +19,6 @@ public class AttendanceDAO {
         this.attendanceMapper = attendanceMapper;
     }
 
-    public List<Attendance> getAttendanceByKlassSeminarId(String klassSeminarId) {
-        return attendanceMapper.selectAttendanceByKlassSeminarId(klassSeminarId);
-    }
 
     /**
      * @author Xinyu Shi
@@ -90,6 +87,16 @@ public class AttendanceDAO {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @author Xinyu Shi
+     *
+     *
+     */
+    public List<Attendance> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
+    {
+        return attendanceMapper.selectAttendanceByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
     }
 
 

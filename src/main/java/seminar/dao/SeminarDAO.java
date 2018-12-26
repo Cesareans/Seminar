@@ -33,9 +33,8 @@ public class SeminarDAO {
     /**
      * @author lyf
      */
-    public boolean create(Seminar seminar) {
+    public void create(Seminar seminar) {
         seminarMapper.insertSeminar(seminar);
-        return true;
     }
 
     /**

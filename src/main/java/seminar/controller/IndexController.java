@@ -101,9 +101,13 @@ public class IndexController {
         String studentType = "student", teacherType = "teacher";
         String forgetAccount = (String) session.getAttribute("forgetAccount");
         if (studentType.equals(session.getAttribute(forgetType))) {
-            studentService.modifyPasswordViaSn(forgetAccount, password);
+            if(!studentService.modifyPasswordViaSn(forgetAccount, password)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
         } else if (teacherType.equals(session.getAttribute(forgetType))) {
-            teacherService.modifyPasswordViaTn(forgetAccount, password);
+            if(!teacherService.modifyPasswordViaTn(forgetAccount, password)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

@@ -88,7 +88,7 @@
                                     </colgroup>
                                     <thead style="border: 0;">
                                     <tr style="border: 0;">
-                                        <th style="border: 0;text-align: center;padding-right: 21px">·</th>
+                                        <th style="border: 0;text-align: center;padding-right: 21px"><i class="material-icons" style="font-size: 15px">brightness_1</i></th>
                                         <th style="border: 0;">课程名</th>
                                         <th style="border: 0;">教师名</th>
                                     </tr>

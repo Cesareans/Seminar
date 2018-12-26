@@ -34,14 +34,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
@@ -71,27 +65,15 @@
             </div>
         </div>
         <hr>
-        <div class="row options" style="margin-top: 30px">
+        <div class="row" style="margin-top: 30px">
             <div class="col-md-6 ml-auto mr-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex-space-between">
-                            <span>电子邮箱：${student.email}</span>
-                            <span>
-                            <a class="btn btn-link btn-fab-mini btn-fab btn-round btn-rose"
-                               style="margin-top: 0;margin-bottom: 0;">
-                            <i class="material-icons">edit</i>
-                            </a>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row options" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn btn-round bg-dark" style="width: 100%">
-                    修改密码
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyEmail'" style="width: 100%;text-transform: none">
+                    <span>电子邮箱：<#if student.email??>${student.email}<#else >暂无</#if></span>
+                    <i class="material-icons">chevron_right</i>
+                </button>
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyPassword'" style="width: 100%;">
+                    <span>修改密码</span>
+                    <i class="material-icons">chevron_right</i>
                 </button>
             </div>
         </div>
@@ -102,59 +84,6 @@
         <i class="material-icons">exit_to_app</i>
         退出登录
     </button>
-</div>
-<form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId">
-</form>
-<div class="modal fade" id="courseModal" data-courseID="">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row" style="margin-bottom: 40px">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="infoNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">description</i>
-                                    课程信息
-                                </a>
-                            </li>
-                            <li class="nav-item" id="gradeNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">equalizer</i>
-                                    成绩
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="optionNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item" id="shareNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">share</i>
-                                    课程共享
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

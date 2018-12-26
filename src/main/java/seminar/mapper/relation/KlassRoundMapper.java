@@ -19,7 +19,6 @@ public interface KlassRoundMapper {
      * @param klassRound the KlassRound entity that will be inserted
      */
     @Insert("insert into klass_round(klass_id, round_id, enroll_number) values(#{klassId}, #{roundId}, #{enrollLimit})")
-    @Options(useGeneratedKeys = true)
     void insertKlassRound(KlassRound klassRound);
 
     /**
@@ -88,4 +87,11 @@ public interface KlassRoundMapper {
      */
     @Delete("delete from klass_round where round_id=#{roundId}")
     void deleteKlassRoundByRoundId(String roundId);
+
+    /**
+     * Delete klass rounds by courseId
+     * @param courseId the delete refer gist
+     */
+    @Delete("delete from klass_round where klass_id in (select id from klass where course_id = #{courseId})")
+    void deleteKlassRoundByCourseId(String courseId);
 }

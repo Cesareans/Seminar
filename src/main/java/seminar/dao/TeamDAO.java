@@ -2,8 +2,11 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import seminar.entity.Student;
 import seminar.entity.Team;
+import seminar.mapper.AttendanceMapper;
 import seminar.mapper.TeamMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 
 import java.util.List;
 
@@ -12,13 +15,15 @@ import java.util.List;
  */
 @Component
 public class TeamDAO {
-    private final KlassDao klassDao;
     private final TeamMapper teamMapper;
+    private final KlassStudentMapper klassStudentMapper;
+    private final AttendanceMapper attendanceMapper;
 
     @Autowired
-    public TeamDAO(KlassDao klassDao, TeamMapper teamMapper) {
-        this.klassDao = klassDao;
+    public TeamDAO(TeamMapper teamMapper, KlassStudentMapper klassStudentMapper, AttendanceMapper attendanceMapper) {
         this.teamMapper = teamMapper;
+        this.klassStudentMapper = klassStudentMapper;
+        this.attendanceMapper = attendanceMapper;
     }
 
     /**
@@ -29,23 +34,57 @@ public class TeamDAO {
     }
 
     /**
-     * @author Cesare
+     * @author cesare
      */
-    public List<Team> getCourseTeamsByCourseId(String courseId) {
-        return teamMapper.selectTeamByCourseId(courseId);
+    public List<Student> getStudentsByTeamId(String teamId)
+    {
+        return klassStudentMapper.selectStudentsFromTeam(teamId);
     }
 
     /**
-     * @author lyf
+     * @author Cesare
+     */
+    public List<Team> getNoStudentTeamsByCourseId(String courseId) {
+        return klassStudentMapper.selectTeamsByCourseId(courseId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public List<Team> getOwnStudentsTeamByCourseId(String courseId){
+        List<Team> teams = klassStudentMapper.selectTeamsByCourseId(courseId);
+        teams.forEach(team -> {
+            team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        });
+        return teams;
+    }
+
+    /**
+     * @author cesare
+     */
+    public Team getOwnStudentTeamByCourseIdAndTeamId(String courseId, String teamId){
+        Team team = teamMapper.selectTeamById(teamId).get(0);
+        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, teamId));
+        return team;
+    }
+
+    /**
+     * @author cesare
+     */
+    public Team getByCourseIdAndStudentId(String courseId, String studentId){
+        Team team = klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
+        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        return team;
+    }
+
+    /**
+     * @author Xinyu Shi
      */
     public boolean create(Team team) {
-        List<Team> teams = teamMapper.selectTeamById(team.getId());
-        if (teams.isEmpty()) {
-            teamMapper.insertTeam(team);
-            return true;
-        } else {
-            return false;
-        }
+        teamMapper.addTeam(team);
+        klassStudentMapper.insertTeamIntoKlassTeam(team.getId(),team.getKlassId());
+        klassStudentMapper.insertStudentIntoTeam(team.getId(),team.getLeaderId());
+        return true;
     }
 
     /**
@@ -53,13 +92,8 @@ public class TeamDAO {
      */
     public void deleteById(String teamId) {
         teamMapper.deleteTeamById(teamId);
-    }
-
-    /**
-     * @author lyf
-     */
-    public void deleteByKlassId(String klassId) {
-        teamMapper.deleteTeamByKlassId(klassId);
+        klassStudentMapper.deleteTeamFromKlassTeamByTeamId(teamId);
+        attendanceMapper.deleteAttendanceByTeamId(teamId);
     }
 
     /**
@@ -74,5 +108,21 @@ public class TeamDAO {
             return true;
         }
     }
+
+
+
+    /**
+     * @author cesare
+     */
+    void deleteTeamsByCourseId(String courseId){
+        //Team student table
+        klassStudentMapper.deleteTeamStudentByCourseId(courseId);
+        //klass team table
+        klassStudentMapper.deleteTeamFromKlassTeamByCourseId(courseId);
+        //Team table
+        teamMapper.deleteTeamByCourseId(courseId);
+    }
+
+
 
 }

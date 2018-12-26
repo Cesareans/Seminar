@@ -74,25 +74,29 @@
                             <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="讨论课时间"
                                    class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
                         </div>
-                    </div>
-
-                    <div class="container">
                         <div class="form-group bmd-form-group">
                             <input id="location" name="location" type="text" autocomplete="off" placeholder="讨论课地点"
                                    class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12 ml-auto mr-auto">
-                            <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请上传名单">
-                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                <li class="nav-item" id="fileProxy">
-                                    <a class="nav-link">
-                                        <i class="material-icons">save_alt</i>
-                                        上传名单
-                                    </a>
-                                </li>
-                            </ul>
+                            <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请选择名单">
+                            <div class="file-frame">
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item" id="upload" style="width: 100%;">
+                                        <a class="nav-link">
+                                            <div class="icon">
+                                                <i class="material-icons">folder</i>
+                                            </div>
+                                            <div id="uploadName" style="text-transform: none">
+                                                上传文件
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </form>

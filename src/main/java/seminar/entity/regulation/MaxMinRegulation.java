@@ -18,13 +18,9 @@ public class MaxMinRegulation implements Regulation {
     private String courseId;
 
     @Override
-    public boolean validate(Team team) {
-        return true;
-    }
-
-    @Override
-    public String getErrorMsg() {
-        return "组队人数应在" + min + "-" + max + "之间";
+    public String getStrategyName()
+    {
+        return "MaxMinRegulation";
     }
 
     public String getId() {

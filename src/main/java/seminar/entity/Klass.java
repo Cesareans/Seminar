@@ -1,9 +1,6 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.SqlMap;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 
 /**
  * @author Cesare
@@ -22,6 +19,22 @@ public class Klass {
 
     @Gist
     private String courseId;
+
+    @Link(gist = "courseId", select = "seminar.mapper.CourseMapper.selectCourseById")
+    private Course course;
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Klass)) {
+            return false;
+        }
+        return id.equals(((Klass) obj).id);
+    }
 
     public String getKlassName() {
         return grade + "-" + serial + "班";
@@ -73,5 +86,13 @@ public class Klass {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

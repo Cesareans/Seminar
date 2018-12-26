@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import seminar.config.SeminarConfig;
 import seminar.entity.Student;
 import seminar.mapper.StudentMapper;
+import seminar.mapper.relation.KlassStudentMapper;
 import seminar.pojo.dto.StudentFilter;
 
 import java.util.List;
@@ -15,17 +16,17 @@ import java.util.List;
 @Component
 public class StudentDAO {
     private StudentMapper studentMapper;
+    private KlassStudentMapper klassStudentMapper;
 
     @Autowired
-    public StudentDAO(StudentMapper studentMapper) {
+    public StudentDAO(StudentMapper studentMapper, KlassStudentMapper klassStudentMapper) {
         this.studentMapper = studentMapper;
+        this.klassStudentMapper = klassStudentMapper;
     }
 
     /**
      * Need previously check if the student is new.
      * Only need two attr here:studentNum and studentName
-     *
-     * @param student
      */
     public void insertNewStudent(Student student) {
         student.setPassword(SeminarConfig.DEFAULT_PASSWORD);
@@ -84,4 +85,39 @@ public class StudentDAO {
     public void deleteBySN(String sn) {
         studentMapper.deleteStudentByStudentNum(sn);
     }
+
+    /**
+     * Judge a student is teamed or not. If the student has already in a team, return true, otherwise return false
+     */
+    public boolean studentHasAlreadyTeamed(String studentId, String courseId)
+    {
+        return klassStudentMapper.hasTeamed(courseId, studentId);
+    }
+
+    /**
+     * Get all not teamed students
+     */
+    public List<Student> getNotTeamedStudentsByCourseId(String courseId)
+    {
+        return klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    public void insertStudentIntoTeamStudent(String studentId, String teamId)
+    {
+        klassStudentMapper.insertStudentIntoTeam(teamId,studentId);
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    public void deleteStudentFromTeamStudent(String teamId, String studentId)
+    {
+        klassStudentMapper.deleteStudentFromTeam(teamId, studentId);
+    }
+
+
+
 }

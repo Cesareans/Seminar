@@ -35,8 +35,31 @@ ${KlassStudentMapper}
             @Result(property = "activated", column = "is_active")
     })
     List<Student> selectNotTeamedStudentsByCourseId(String courseId);
+${CourseMapper}
+    /**
+     * Get a course's other course via course id
+     *
+     * @param id the select gist
+     * @param teamMainCourseId the select gist
+     * @param seminarMainCourseId the  select gist
+     * @return List<course> the selected Course's other courses as list
+     */
+    @Select("select * from course where id != #{id} and (#{tmId} is null or id!=#{tmId}) and (#{smId} is null or id!=#{smId}) and (team_main_course_id is null or seminar_main_course_id is null)")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "courseName", column = "course_name"),
+            @Result(property = "introduction", column = "introduction"),
+            @Result(property = "prePercentage", column = "presentation_percentage"),
+            @Result(property = "reportPercentage", column = "report_percentage"),
+            @Result(property = "quesPercentage", column = "question_percentage"),
+            @Result(property = "teamStartDate", column = "team_start_time"),
+            @Result(property = "teamEndDate", column = "team_end_time"),
+            @Result(property = "teacherId", column = "teacher_id"),
+            @Result(property = "teamMainCourseId", column = "team_main_course_id"),
+            @Result(property = "seminarMainCourseId", column = "seminar_main_course_id")
+    })
+    List<Course> selectOtherCoursesById(@Param("id")String id, @Param("tmId")String teamMainCourseId, @Param("smId")String seminarMainCourseId);
 
-@Cesare
 ${RoundMapper}
     /**
      * Insert a new Round into a course.
@@ -56,3 +79,84 @@ ${SeminarMapper}
      */
     @Select("select max(seminar_serial) from seminar where course_id = #{courseId}")
     int selectMaxSerialOfCourse(String courseId);
+
+@Xinyu Shi
+${KlassStudentMapper}
+/**
+     * Select a Team's all students via teamId
+     *
+     * @param
+     * @return
+     * @author Xinyu Shi
+     */
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId} and course_id =#{courseId}")
+    @Results({
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+    })
+    List<KlassStudent> selectByStudentIdAndCourseId(@Param("studentId") String studentId, @Param("courseId") String courseId);
+
+@Xinyu Shi
+${KlassStudentMapper}
+    /**
+     * @author Xinyu Shi
+     * update team_id by studentId and courseId.
+     */
+    @Update("update klass_student set team_id=#{teamId} where student_id=#{studentId} and course_id=#{courseId}")
+    void update(KlassStudent klassStudent);
+
+@Xinyu Shi
+${KlassStudentMapper}
+    /**
+     *
+     *
+     * @param
+     * @return
+     * @author Xinyu Shi
+     */
+    @Select("select student.id,student_name,account,password,email,is_active from klass_student left join student on klass_student.student_id = student.id where student_id=#{studentId}")
+    @Results({
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+    })
+    List<KlassStudent> selectByStudentId(String studentId);
+}
+
+@Xinyu Shi
+${teamMapper}
+   /**
+     * Add a new team into table team
+     * @author Xinyu Shi
+     * @param team new team
+     */
+    @Insert("insert into team(team_serial, klass_id, course_id, leader_id, team_name, status) select max(team_serial) + 1, #{klassId}, #{courseId}, #{leaderId}, #{teamName}, #{status}  from team where klass_id = #{klassId}")
+    @Options(useGeneratedKeys = true)
+    void addTeam(Team team);
+
+@Xinyu Shi
+${teamMapper}
+    /**
+     * Select a Team entity via leaderId
+     * @author Xinyu Shi
+     * @param
+     * @return
+     */
+    @Select("select * from team where leader_id=#{leaderId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "serial", column = "team_serial"),
+            @Result(property = "teamName", column = "team_name"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY))
+    })
+    List<Team> selectTeamByLeaderId(String leaderId);
+
+}

@@ -13,6 +13,7 @@ import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.application.TeamValidApplication;
 import seminar.entity.relation.KlassRound;
+import seminar.entity.relation.KlassStudent;
 import seminar.service.TeacherService;
 
 import java.util.List;
@@ -46,10 +47,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean activate(String teacherId, String password, String email) {
+    public boolean activate(String teacherId, String password) {
         Teacher teacher = teacherDAO.getById(teacherId).get(0);
         teacher.setPassword(password);
-        teacher.setEmail(email);
         teacher.setActivated(true);
         teacherDAO.update(teacher);
         return true;
@@ -91,11 +91,6 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setPassword(password);
         teacherDAO.update(teacher);
         return true;
-    }
-
-    @Override
-    public List<Course> getCoursesByTeacherId(String teacherId) {
-        return courseDAO.getByTeacherId(teacherId);
     }
 
 
@@ -145,23 +140,15 @@ public class TeacherServiceImpl implements TeacherService {
                 if (row.getCell(0).getStringCellValue().length() == 0) {
                     continue;
                 }
-                student.setStudentNum(row.getCell(0).getStringCellValue().trim());
-                student.setStudentName(row.getCell(1).getStringCellValue().trim());
+                student.setStudentNum(row.getCell(0).getStringCellValue().replace((char)160, (char)32).trim());
+                student.setStudentName(row.getCell(1).getStringCellValue().replace((char)160, (char)32).trim());
                 if (!studentDAO.existStudent(student)) {
                     studentDAO.insertNewStudent(student);
                 }
                 student = studentDAO.getBySN(student.getStudentNum()).get(0);
-                klassDAO.insertStudent(student.getId(), klass.getCourseId(), klass.getId());
+                klassDAO.insertStudent(new KlassStudent(klass.getCourseId(), klass.getId(), student.getId()));
             }
         }
-    }
-
-    /**
-     * @author lyf
-     */
-    @Override
-    public boolean updateKlass(Klass klass) {
-        return klassDAO.update(klass);
     }
 
     /**
@@ -184,8 +171,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public boolean createSeminar(Seminar seminar) {
-        return seminarDAO.create(seminar);
+    public void createSeminar(Seminar seminar) {
+        seminarDAO.create(seminar);
     }
 
     /**
@@ -214,25 +201,8 @@ public class TeacherServiceImpl implements TeacherService {
      * @author lyf
      */
     @Override
-    public void deleteSeminarByRoundId(String roundId) {
-        seminarDAO.deleteByRoundId(roundId);
-    }
-
-    /**
-     * @author lyf
-     */
-    @Override
     public void deleteSeminarById(String seminarId) {
         seminarDAO.deleteById(seminarId);
-    }
-
-    /**
-     * @author SWJ
-     */
-    @Override
-    public boolean updateTeam(String teamId) {
-        Team team = teamDAO.getById(teamId).get(0);
-        return teamDAO.update(team);
     }
 
 

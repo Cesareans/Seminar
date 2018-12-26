@@ -21,11 +21,10 @@ public interface TeacherService {
      *
      * @param teacherId the teacher's account id
      * @param password  the teacher's new password
-     * @param email     the teacher's new email
      * @return whether the operation is successful
      * @author cesare
      */
-    boolean activate(String teacherId, String password, String email);
+    boolean activate(String teacherId, String password);
 
     /**
      * Modify a teacher's email
@@ -57,35 +56,36 @@ public interface TeacherService {
      */
     boolean modifyPasswordViaId(String teacherId, String password);
 
-    /**
-     * Get a teacher's courses via teacherId
-     *
-     * @param teacherId refer gist
-     * @return list of teacher's courses
-     * @author cesare
-     */
-    List<Course> getCoursesByTeacherId(String teacherId);
+
 
     /**
+     * Create a course
+     *
+     * @param course the Course entity
+     * @return whether creating course successfully
      * @author lyf
      */
     boolean createCourse(Course course);
 
     /**
+     * Delete a course by courseId
+     * @param courseId the refer gist
      * @author lyf
      */
     void deleteCourseById(String courseId);
 
     /**
+     * Update the information of a course
+     * @param course the Course entity
+     * @return whether updating course successfully
      * @author lyf
      */
     boolean updateCourse(Course course);
 
     /**
      * Create a klass with given klass info.
-     *
      * @param klass the klass entity
-     * @return whether the create is successful.
+     * @return whether creating klass successfully
      * @author lyf
      */
     boolean createKlass(Klass klass);
@@ -101,11 +101,8 @@ public interface TeacherService {
     void insertKlassStudent(Klass klass, Workbook workbook);
 
     /**
-     * @author lyf
-     */
-    boolean updateKlass(Klass klass);
-
-    /**
+     * Delete a klass by its id
+     * @param klassId the refer gist
      * @author lyf
      */
     void deleteKlassById(String klassId);
@@ -120,11 +117,18 @@ public interface TeacherService {
     void addRound(Round round);
 
     /**
+     * Create a seminar
+     *
+     * @param seminar the Seminar entity
      * @author lyf
      */
-    boolean createSeminar(Seminar seminar);
+    void createSeminar(Seminar seminar);
 
     /**
+     * Update the information of a seminar
+     *
+     * @param seminar the Seminar entity
+     * @return whether updating seminar successfully
      * @author lyf
      */
     boolean updateSeminar(Seminar seminar);
@@ -146,17 +150,15 @@ public interface TeacherService {
     boolean updateKlassRound(KlassRound klassRound);
 
     /**
+     * Delete a seminar via seminarId
+
+     * @param seminarId the refer gist
      * @author lyf
      */
     void deleteSeminarById(String seminarId);
 
     /**
-     * @author lyf
-     */
-    void deleteSeminarByRoundId(String courseId);
-
-    /**
-     * Updete the report score when teacher give score
+     * Update the report score when teacher give score
      *
      * @param reportScore    refer gist.
      * @param klassSeminarId refer gist
@@ -165,12 +167,4 @@ public interface TeacherService {
      */
     boolean updateReportScore(int reportScore, String klassSeminarId);
 
-    /**
-     * Agree this team's invalid state, update this team's valid
-     *
-     * @param teamId refer gist.
-     * @return success or fail
-     * @author SWJ
-     */
-    boolean updateTeam(String teamId);
 }

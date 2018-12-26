@@ -41,9 +41,15 @@ public class SeminarServiceImpl implements SeminarService {
         return courseDAO.getByCourseId(courseId);
     }
 
+
+    @Override
+    public List<Course> getCoursesByTeacherId(String teacherId) {
+        return courseDAO.getByTeacherId(teacherId);
+    }
+
     @Override
     public List<Course> getOtherCoursesByCourseId(String courseId) {
-        return courseDAO.getOtherCoursesByCourseId(courseId);
+        return courseDAO.getCanShareCoursesByCourseId(courseId);
     }
 
     @Override
@@ -58,27 +64,42 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public Map<String, List<Course>> getSubCoursesByCourseId(String courseId) {
         Map<String, List<Course>> mainCourses = new HashMap<>(2);
-        mainCourses.put("team", courseDAO.getByTeamMainCourseId(courseId));
-        mainCourses.put("seminar", courseDAO.getBySeminarMainCourseId(courseId));
+        mainCourses.put("team", courseDAO.getSubCourseOfTeamShare(courseId));
+        mainCourses.put("seminar", courseDAO.getSubCourseOfSeminarShare(courseId));
         return mainCourses;
     }
 
     @Override
     public List<Team> getTeamsByCourseId(String courseId) {
-        Course course = courseDAO.getByCourseId(courseId).get(0);
-        if(course.getTeamMainCourseId() == null) {
-            return teamDAO.getCourseTeamsByCourseId(courseId);
-        }else{
-            return teamDAO.getCourseTeamsByCourseId(course.getTeamMainCourseId());
-        }
+        return teamDAO.getOwnStudentsTeamByCourseId(courseId);
+    }
+
+    @Override
+    public Team getTeamByCourseIdAndStudentId(String courseId, String studentId) {
+        return teamDAO.getByCourseIdAndStudentId(courseId, studentId);
+    }
+
+    @Override
+    public Team getTeamByTeamId(String teamId) {
+        return teamDAO.getById(teamId).get(0);
+    }
+
+    @Override
+    public Team getTeamByCourseIdAndTeamId(String courseId, String teamId) {
+        return teamDAO.getOwnStudentTeamByCourseIdAndTeamId(courseId, teamId);
+    }
+
+    @Override
+    public List<Student> getNotTeamedStudentsByCourseId(String courseId) {
+        return studentDAO.getNotTeamedStudentsByCourseId(courseId);
     }
 
     @Override
     public List<Round> getRoundsByCourseId(String courseId) {
         Course course = courseDAO.getByCourseId(courseId).get(0);
-        if(course.getSeminarMainCourseId() == null) {
+        if (course.getSeminarMainCourseId() == null) {
             return roundDAO.getByCourseId(courseId);
-        }else{
+        } else {
             return roundDAO.getByCourseId(course.getSeminarMainCourseId());
         }
     }
@@ -94,8 +115,18 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Attendance> getAttendanceById(String teamId, String ksId) {
+        return attendanceDAO.getByTeamIdAndKlassSeminarId(teamId, ksId);
+    }
+
+    @Override
     public List<Klass> getKlassByCourseId(String courseId) {
         return klassDao.getByCourseId(courseId);
+    }
+
+    @Override
+    public List<Klass> getKlassesByStudentId(String studentId) {
+        return klassDao.getByStudentId(studentId);
     }
 
     @Override
@@ -106,11 +137,6 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Attendance> getEnrollListByKsId(String ksId) {
         return klassSeminarDAO.getEnrollList(ksId);
-    }
-
-    @Override
-    public List<Seminar> getSeminarsByRoundId(String roundId) {
-        return seminarDAO.getByRoundId(roundId);
     }
 
     @Override
@@ -126,11 +152,6 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Seminar> getSeminarBySeminarId(String seminarId) {
         return seminarDAO.getBySeminarId(seminarId);
-    }
-
-    @Override
-    public List<Attendance> getAttendancesByKlassSeminarId(String klassSeminarId) {
-        return attendanceDAO.getAttendanceByKlassSeminarId(klassSeminarId);
     }
 
 }

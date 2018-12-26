@@ -171,4 +171,22 @@ public interface QuestionMapper {
     @Delete("delete from question where id=#{id}")
     void deleteQuestionById(String id);
 
+    /**
+     * Select a Question entity via teamId and klassSeminarId
+     * @author Xinyu Shi
+     * @param teamId the select gist
+     * @return List<question> the selected Question entity as list
+     */
+    @Select("select * from question where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "score", column = "score"),
+            @Result(property = "teamId", column = "team_id"),
+            @Result(property = "studentId", column = "student_id"),
+            @Result(property = "attendanceId", column = "attendance_id"),
+            @Result(property = "klassSeminarId", column = "klass_seminar_id")
+    })
+    List<Question> selectQuestionByTeamIdAndKlassSeminarId(@Param("teamId") String teamId, @Param("klassSeminarId") String klassSeminarId);
+
+
 }

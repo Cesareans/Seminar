@@ -17,6 +17,7 @@ import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.relation.KlassRound;
+import seminar.logger.DebugLogger;
 import seminar.pojo.dto.ApplicationHandleDTO;
 import seminar.pojo.dto.KlassCreateDTO;
 import seminar.pojo.dto.RoundSettingDTO;
@@ -26,6 +27,7 @@ import seminar.service.*;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,11 +44,12 @@ public class TeacherController {
     private final MailService mailService;
     private final FileService fileService;
     private final ApplicationService applicationService;
+    private final ScoreService scoreService;
 
     private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
-    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService) {
+    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService) {
         this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.seminarService = seminarService;
@@ -54,6 +57,7 @@ public class TeacherController {
         this.mailService = mailService;
         this.fileService = fileService;
         this.applicationService = applicationService;
+        this.scoreService = scoreService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -79,23 +83,20 @@ public class TeacherController {
     }
 
     @GetMapping("/activation")
-    public String activation() {
+    public String activation(Model model) {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
+        model.addAttribute("teacher", teacher);
         return "teacher/activation";
     }
 
     @PostMapping("/activation")
     public @ResponseBody
-    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
-        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
-        if (captcha.equals(senderCaptcha)) {
-            if(teacherService.activate(((String) session.getAttribute(TEACHER_ID_GIST)), password, email)){
-                session.removeAttribute("activationCaptcha");
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            }else{
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("教师不存在");
-            }
+    ResponseEntity<Object> activate(String password, HttpSession session) {
+        if (teacherService.activate(((String) session.getAttribute(TEACHER_ID_GIST)), password)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("验证码错误");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("教师不存在");
         }
     }
 
@@ -119,7 +120,7 @@ public class TeacherController {
     ResponseEntity<Object> modifyEmail(String email, String captcha, HttpSession session) {
         String senderCaptcha = ((String) session.getAttribute("modifyEmailCaptcha"));
         if (captcha.equals(senderCaptcha)) {
-            teacherService.modifyEmail(((String) session.getAttribute("teacherId")), email);
+            teacherService.modifyEmail(((String) session.getAttribute(TEACHER_ID_GIST)), email);
             session.removeAttribute("modifyEmailCaptcha");
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
@@ -135,7 +136,9 @@ public class TeacherController {
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        teacherService.modifyPasswordViaId(((String) session.getAttribute("teacherId")), password);
+        if(!teacherService.modifyPasswordViaId(((String) session.getAttribute(TEACHER_ID_GIST)), password)){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -144,25 +147,31 @@ public class TeacherController {
         String teacherId = ((String) session.getAttribute(TEACHER_ID_GIST));
         //STApps:ShareTeamApplications     SSApps:ShareSeminarApplications
         List<ShareTeamApplication> shareTeamApplications = applicationService.getShareTeamApplicationByTeacherId(teacherId);
-        model.addAttribute("STApps",shareTeamApplications);
+        model.addAttribute("STApps", shareTeamApplications);
         model.addAttribute("SSApps", applicationService.getShareSeminarApplicationByTeacherId(teacherId));
 
         return "teacher/notification";
     }
 
     @PostMapping("/notification/handle")
-    public @ResponseBody ResponseEntity<Object> handleApplication(ApplicationHandleDTO applicationHandleDTO){
-        switch (applicationHandleDTO.getAppType()){
+    public @ResponseBody
+    ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
+        DebugLogger.logJson(applicationHandleDTO);
+        /*
+         * 0 : ShareSeminar
+         * 1 : ShareTeam
+         */
+        switch (applicationHandleDTO.getAppType()) {
             case 0:
-                if(applicationService.handleShareSeminarApplication(applicationHandleDTO)){
+                if (applicationService.handleShareSeminarApplication(applicationHandleDTO)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
-                }else{
+                } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 1:
-                if(applicationService.handleShareTeamApplication(applicationHandleDTO)){
+                if (applicationService.handleShareTeamApplication(applicationHandleDTO)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
-                }else{
+                } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
@@ -174,7 +183,7 @@ public class TeacherController {
 
     @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
-        model.addAttribute("courses", teacherService.getCoursesByTeacherId(((String) session.getAttribute(TEACHER_ID_GIST))));
+        model.addAttribute("courses", seminarService.getCoursesByTeacherId(((String) session.getAttribute(TEACHER_ID_GIST))));
         return "teacher/courseList";
     }
 
@@ -212,7 +221,7 @@ public class TeacherController {
     }
 
     @PostMapping("/course/round/setting")
-    public String roundSetting(String roundId, Model model){
+    public String roundSetting(String roundId, String courseId, Model model) {
         Round round = seminarService.getRoundByRoundId(roundId).get(0);
         Map<String, Klass> klassMap = new HashMap<>(5);
         round.getKlassRounds().forEach(klassRound -> {
@@ -224,12 +233,19 @@ public class TeacherController {
     }
 
     @PostMapping("/course/round/setting/update")
-    public @ResponseBody ResponseEntity<Object> updateRoundSetting(@RequestBody RoundSettingDTO roundSettingDTO){
+    public @ResponseBody
+    ResponseEntity<Object> updateRoundSetting(@RequestBody RoundSettingDTO roundSettingDTO) {
         Round round = roundSettingDTO.getRound();
         List<KlassRound> klassRounds = roundSettingDTO.getKlassRounds();
 
-        teacherService.updateRoundScoreType(round);
-        klassRounds.forEach(teacherService::updateKlassRound);
+        if(!teacherService.updateRoundScoreType(round)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
+        }
+        for (KlassRound klassRound : klassRounds) {
+            if(!teacherService.updateKlassRound(klassRound)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("更新班级轮次设置失败");
+            }
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -242,10 +258,10 @@ public class TeacherController {
     }
 
     @PutMapping("/course/seminar")
-    public ResponseEntity<Object> createSeminar(@RequestBody Seminar seminar){
+    public ResponseEntity<Object> createSeminar(@RequestBody Seminar seminar) {
         Round round = new Round();
         round.setCourseId(seminar.getCourseId());
-        if(seminar.getRoundId().length() == 0){
+        if (seminar.getRoundId().length() == 0) {
             teacherService.addRound(round);
             seminar.setRoundId(round.getId());
         }
@@ -254,7 +270,7 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/option")
-    public String seminarOption(String seminarId, Model model){
+    public String seminarOption(String seminarId, Model model) {
         Seminar seminar = seminarService.getSeminarBySeminarId(seminarId).get(0);
         model.addAttribute("seminar", seminar);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(seminar.getCourseId()));
@@ -262,14 +278,16 @@ public class TeacherController {
     }
 
     @PatchMapping("/course/seminar")
-    public ResponseEntity<Object> updateSeminar(@RequestBody Seminar seminar){
+    public ResponseEntity<Object> updateSeminar(@RequestBody Seminar seminar) {
         Round round = new Round();
-        if(seminar.getRoundId().length() == 0){
+        if (seminar.getRoundId().length() == 0) {
             round.setCourseId(seminar.getCourseId());
             teacherService.addRound(round);
             seminar.setRoundId(round.getId());
         }
-        teacherService.updateSeminar(seminar);
+        if(!teacherService.updateSeminar(seminar)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -277,7 +295,7 @@ public class TeacherController {
      * TODO:Should delete the klass seminar
      */
     @DeleteMapping("/course/seminar/{seminarId}")
-    public ResponseEntity<Object> deleteSeminar(@PathVariable String seminarId){
+    public ResponseEntity<Object> deleteSeminar(@PathVariable String seminarId) {
         teacherService.deleteSeminarById(seminarId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -303,15 +321,14 @@ public class TeacherController {
      * Todo: Remain to be realize
      */
     @PostMapping("/course/seminar/grade")
-    public String seminarGrade() {
+    public String seminarGrade(String courseId, Model model) {
+        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+        List<Team> teams = seminarService.getTeamsByCourseId(courseId);
+        Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
+        rounds.forEach(round -> {
+            List<RoundScore> roundScores = new LinkedList<>();
+        });
         return "teacher/course/seminar/grade";
-    }
-
-    @PostMapping("/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
-        model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
-        return "teacher/course/seminar/progressing";
     }
 
     @PostMapping("/course/klassList")
@@ -394,31 +411,45 @@ public class TeacherController {
         return "teacher/course/share/create";
     }
 
+    @PostMapping("/course/share/cancel")
+    public ResponseEntity<Object> courseShareCancel(String mainCourseId, String subCourseId, String type, Model model) {
+        switch (type){
+            case "seminarShare":
+                break;
+            case "teamShare":
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
     @PutMapping("/course/shareApplication")
-    public @ResponseBody ResponseEntity<Object> createCourseShareApplication(@RequestBody ShareApplicationDTO shareApplicationDTO){
+    public @ResponseBody
+    ResponseEntity<Object> createCourseShareApplication(@RequestBody ShareApplicationDTO shareApplicationDTO) {
         String teacherId = seminarService.getCourseByCourseId(shareApplicationDTO.getSubCourseId()).get(0).getTeacherId();
-        if(shareApplicationDTO.getShareType() == 0){
+        if (shareApplicationDTO.getShareType() == 0) {
             //Share team
             ShareTeamApplication shareTeamApplication = new ShareTeamApplication();
             shareTeamApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareTeamApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareTeamApplication.setTeacherId(teacherId);
-            if(applicationService.createShareTeamApplication(shareTeamApplication)){
+            if (applicationService.createShareTeamApplication(shareTeamApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
-            }else{
+            } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
-        }else if(shareApplicationDTO.getShareType() == 1){
+        } else if (shareApplicationDTO.getShareType() == 1) {
             ShareSeminarApplication shareSeminarApplication = new ShareSeminarApplication();
             shareSeminarApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareSeminarApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareSeminarApplication.setTeacherId(teacherId);
-            if(applicationService.createShareSeminarApplication(shareSeminarApplication)){
+            if (applicationService.createShareSeminarApplication(shareSeminarApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
-            }else{
+            } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
-        }else{
+        } else {
             throw new RuntimeException();
         }
     }

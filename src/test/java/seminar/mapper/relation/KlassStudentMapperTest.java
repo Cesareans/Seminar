@@ -7,8 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import seminar.entity.Team;
 import seminar.logger.DebugLogger;
-import seminar.mapper.relation.KlassStudentMapper;
+import seminar.mapper.TeamMapper;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -16,31 +19,33 @@ import seminar.mapper.relation.KlassStudentMapper;
 public class KlassStudentMapperTest {
     @Autowired
     KlassStudentMapper klassStudentMapper;
+    @Autowired
+    TeamMapper teamMapper;
 
-    @Test
-    public void insertStudentIntoKlass() {
-        klassStudentMapper.insertStudentIntoKlass("112","145","1240");
-    }
-
-
-    @Test
-    public void selectStudentsByTeamId() {
-        DebugLogger.logJson(klassStudentMapper.selectStudentsByTeamId("113"));
-    }
 
     @Test
     public void selectNotTeamedStudentsByCourseId() {
-        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("112"));
+        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("20"));
     }
 
     @Test
-    public void deleteAllStudents() {
-        klassStudentMapper.insertStudentIntoKlass("112","146","1240");
-        klassStudentMapper.insertStudentIntoKlass("112","146","1241");
-        klassStudentMapper.insertStudentIntoKlass("112","146","1242");
-        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("112"));
-        klassStudentMapper.deleteKlassStudents("146");
-        DebugLogger.logJson(klassStudentMapper.selectNotTeamedStudentsByCourseId("112"));
+    public void selectTeamByCourseIdAndStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectTeamByCourseIdAndStudentId("16", "103"));
+    }
 
+    @Test
+    public void selectTeamByCourseId(){
+        List<Team> teams = klassStudentMapper.selectTeamsByCourseId("17");
+        DebugLogger.logJson(teams);
+        DebugLogger.log(teams.size());
+        List<Team> teams1 = teamMapper.selectTeamByMainCourseId("17");;
+        DebugLogger.logJson(teams1);
+        DebugLogger.log(teams1.size());
+    }
+
+
+    @Test
+    public void selectKlassByStudentId(){
+        DebugLogger.logJson(klassStudentMapper.selectKlassByStudentId("1"));
     }
 }

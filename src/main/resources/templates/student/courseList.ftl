@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <script src="/static/js/student/courseList.js"></script>
+    <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">课程</div>
+            <a class="navbar-brand">课程</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -34,14 +34,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
-                        <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
+                        <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
             </ul>
@@ -49,13 +43,15 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-        <div class="container">
-            <div class="row">
+    <div class="container">
+        <div class="row">
+            <#list klasses as klass>
                 <div class="col-md-6">
                     <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">面向对象分析与设计</div>
+                        <div class="card-body" data-courseID="${klass.course.id}" data-klassId="${klass.id}">
+                            <div class="body-header flex-space-between">
+                                <div class="body-title" style="text-align: left;font-size: 20px">${klass.course.courseName}</div>
+                                <div class="body-title" style="text-align: right;font-size: 12px">${klass.klassName}</div>
                             </div>
                             <div class="body-content">
                                 <hr>
@@ -63,15 +59,33 @@
                                     <div class="col-md-12 ml-auto mr-auto">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                             <li class="nav-item seminar-nav">
-                                                <a class="nav-link" onclick="window.location='/student/grades'">
-                                                    <i class="material-icons">content_paste</i>
-                                                    我的成绩
+                                                <a class="nav-link">
+                                                    <i class="material-icons">event_note</i>
+                                                    讨论课
                                                 </a>
                                             </li>
                                             <li class="nav-item team-nav">
-                                                <a class="nav-link" onclick="window.location='/student/group'">
+                                                <a class="nav-link">
                                                     <i class="material-icons">group</i>
-                                                    我的组队
+                                                     组队
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 ml-auto mr-auto">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item info-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">description</i>
+                                                    课程信息
+                                                </a>
+                                            </li>
+                                            <li class="nav-item grade-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">equalizer</i>
+                                                    成绩
                                                 </a>
                                             </li>
                                         </ul>
@@ -81,10 +95,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </#list>
         </div>
+    </div>
 </div>
-
+<form hidden id="courseIdForm" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

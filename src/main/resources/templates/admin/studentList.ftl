@@ -45,7 +45,7 @@
             <td class="counter">${student?counter + fromIndex}</td>
             <td class="studentNum">${student.studentNum}</td>
             <td class="name">${student.studentName}</td>
-            <td class="email">${student.email}</td>
+            <td class="email"><#if student.email??>${student.email}<#else >暂无</#if></td>
             <td>
                 <#if student.activated>
                     <i class="material-icons" style="color: #4caf50">record_voice_over</i>
@@ -89,8 +89,8 @@
                         <input id="id" name="id" style="display: none">
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
-                                <label for="name" class="bmd-label-floating">学生姓名</label>
-                                <input id="name" name="name" type="text" autocomplete="off"
+                                <label for="studentName" class="bmd-label-floating">学生姓名</label>
+                                <input id="studentName" name="studentName" type="text" autocomplete="off"
                                        class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入学生姓名">
                             </div>

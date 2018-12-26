@@ -1,11 +1,25 @@
 package seminar.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import seminar.pojo.websocket.ResponseMessage;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import seminar.entity.KlassSeminar;
+import seminar.logger.DebugLogger;
+import seminar.pojo.websocket.RawMessage;
+import seminar.pojo.websocket.monitor.SeminarMonitor;
+import seminar.service.SeminarService;
+import seminar.service.StudentService;
+import seminar.service.WebSocketService;
 
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.Principal;
 
 /**
@@ -13,15 +27,59 @@ import java.security.Principal;
  */
 @Controller
 public class WebSocketController {
+    private final WebSocketService webSocketService;
+    private final SeminarService seminarService;
+    private final ObjectMapper objectMapper;
+
+    @Autowired
+    public WebSocketController(WebSocketService webSocketService, SeminarService seminarService, ObjectMapper objectMapper) {
+        this.webSocketService = webSocketService;
+        this.seminarService = seminarService;
+        this.objectMapper = objectMapper;
+    }
+
+
+    @PostMapping("/teacher/course/seminar/progressing")
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
+        model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        return "teacher/course/seminar/progressing";
+    }
+
     @MessageMapping("/teacher/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
-    public ResponseMessage teacherMessage(@DestinationVariable String ksId, String message, Principal principal) {
-        return new ResponseMessage(principal.getName(), message);
+    public RawMessage teacherMessage(@DestinationVariable String ksId, RawMessage message, Principal principal) {
+        try{
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            ((ObjectNode) jsonContent).put("teacherNum", principal.getName());
+            message.setContent(jsonContent.toString());
+            return webSocketService.handleMessage(ksId, message);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
+    @PostMapping("/student/course/seminar/processing")
+    public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
+        SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+        model.addAttribute("studentNum", principal.getName());
+        model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
+        model.addAttribute("ksId", klassSeminar.getId());
+        model.addAttribute("monitor", monitor);
+        return "student/course/seminar/progressing";
     }
 
     @MessageMapping("/student/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
-    public ResponseMessage studentMessage(@DestinationVariable String ksId, String message, Principal principal) {
-        return new ResponseMessage(principal.getName(), message);
+    public RawMessage studentMessage(@DestinationVariable String ksId, RawMessage message, Principal principal) throws IOException {
+            DebugLogger.logJson(message);
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            ((ObjectNode) jsonContent).put("studentNum", principal.getName());
+            message.setContent(jsonContent.toString());
+            return webSocketService.handleMessage(ksId, message);
+
     }
 }

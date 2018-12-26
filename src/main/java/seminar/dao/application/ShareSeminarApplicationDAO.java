@@ -22,7 +22,7 @@ public class ShareSeminarApplicationDAO {
     }
 
     /**
-     * The course which is a subordinateCourse can't send a seminar share message
+     * The course which is a subordinateCourse can't send a seminar share handler
      * @author Cesare
      */
     public boolean create(ShareSeminarApplication shareSeminarApplication) {
@@ -53,5 +53,12 @@ public class ShareSeminarApplicationDAO {
             shareSeminarApplication.setMainTeacher(teacherMapper.selectTeacherById(shareSeminarApplication.getMainCourse().getTeacherId()).get(0));
         });
         return shareSeminarApplications;
+    }
+
+    /**
+     * @author Cesare
+     */
+    public void deleteById(String id){
+        shareSeminarApplicationMapper.deleteShareSeminarApplicationById(id);
     }
 }
