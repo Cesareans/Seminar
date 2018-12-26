@@ -147,9 +147,12 @@ public class StudentController {
     public String seminarEnrollList(String klassId, String seminarId, Model model, HttpSession session) {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        Boolean canEnroll = new Date().compareTo(klassSeminar.get(0).getSeminar().getEnrollEndDate()) < 0;
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
+        DebugLogger.logJson(seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
+        model.addAttribute("canEnroll", canEnroll);
         return "student/course/seminar/enrollList";
     }
 
@@ -232,7 +235,10 @@ public class StudentController {
 
     @PostMapping("/course/myTeam")
     public String myTeam(String courseId, String teamId, Model model, HttpSession session) {
-        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
+        Course course = seminarService.getCourseByCourseId(courseId).get(0);
+        Boolean canChange = new Date().compareTo(course.getTeamEndDate()) < 0;
+        model.addAttribute("canChange", canChange);
+        model.addAttribute("course", course);
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndTeamId(courseId, teamId));
@@ -283,6 +289,8 @@ public class StudentController {
 
     @PostMapping("/course/myTeam/validApplication")
     public ResponseEntity<Object> validApplication(String teamId, String content) {
+        DebugLogger.log(teamId);
+        DebugLogger.log(content);
         Team team = seminarService.getTeamByTeamId(teamId);
         if(team.getStatus()!=0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
