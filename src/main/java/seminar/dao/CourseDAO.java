@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.*;
 import seminar.entity.relation.KlassRound;
-import seminar.entity.relation.KlassStudent;
 import seminar.mapper.*;
 import seminar.mapper.relation.KlassRoundMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,6 +16,7 @@ import java.util.List;
  */
 @Component
 public class CourseDAO {
+    private final TeamDAO teamDAO;
     private final CourseMapper courseMapper;
     private final KlassMapper klassMapper;
     private final RoundMapper roundMapper;
@@ -28,7 +26,8 @@ public class CourseDAO {
     private final TeacherMapper teacherMapper;
 
     @Autowired
-    public CourseDAO(CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper) {
+    public CourseDAO(TeamDAO teamDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper) {
+        this.teamDAO = teamDAO;
         this.courseMapper = courseMapper;
         this.klassMapper = klassMapper;
         this.teacherMapper = teacherMapper;
@@ -149,11 +148,13 @@ public class CourseDAO {
         subCourse.setTeamMainCourseId(mainCourseId);
         update(subCourse);
 
+        teamDAO.deleteByCourseId(subCourseId);
+
         List<Team> teams = teamMapper.selectTeamByMainCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
         Integer[] klassStudentCount = new Integer[klasses.size()];
-        Arrays.fill(klassStudentCount, 0);
         teams.forEach(team -> {
+            Arrays.fill(klassStudentCount, 0);
             List<Student> students= klassStudentMapper.selectStudentsFromTeam(team.getId());
             for (Student student : students) {
                 for (int i = 0; i < klasses.size(); ++i) {

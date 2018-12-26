@@ -70,12 +70,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Team> getTeamsByCourseId(String courseId) {
-        Course course = courseDAO.getByCourseId(courseId).get(0);
-        if(course.getTeamMainCourseId() == null) {
-            return teamDAO.getCourseTeamsByCourseId(courseId);
-        }else{
-            return teamDAO.getCourseTeamsByCourseId(course.getTeamMainCourseId());
-        }
+        return teamDAO.getOwnStudentsTeamByCourseId(courseId);
     }
 
     @Override
@@ -86,6 +81,11 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public Team getTeamByTeamId(String teamId) {
         return teamDAO.getById(teamId).get(0);
+    }
+
+    @Override
+    public Team getTeamByCourseIdAndTeamId(String courseId, String teamId) {
+        return teamDAO.getOwnStudentTeamByCourseIdAndTeamId(courseId, teamId);
     }
 
     @Override

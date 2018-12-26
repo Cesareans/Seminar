@@ -96,8 +96,6 @@ public interface StudentService {
      */
     void uploadReportFile(String attendanceId, String reportFileName);
 
-    List<Team> getAllTeamInformation(String courseId);
-
     List<Student> getAllUnTeamedStudentsByCourseId(String courseId);
 
     void exitTeam(String studentId, String teamId);

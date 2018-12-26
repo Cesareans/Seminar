@@ -43,17 +43,15 @@ public class LeaderServiceImpl implements LeaderService {
         if(studentDAO.studentHasAlreadyTeamed(studentId,team.getCourseId())) {
             return false;
         }
-        if(!compareTime(teamEndDate)) {
+        if(new Date().compareTo(teamEndDate) > 0) {
             team.setStatus(TEAM_IS_INVALID);
         }
-
         studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
+        teamDAO.update(team);
 
         /**
          * TODO: judge whether the team id valid or not.
          */
-        team = teamDAO.getById(teamId).get(0);
-        teamDAO.update(team);
 
         return true;
     }
@@ -66,16 +64,15 @@ public class LeaderServiceImpl implements LeaderService {
         if(team.getStatus()==TEAM_IS_CHECKING) {
             return false;
         }
-        if(!compareTime(teamEndDate)) {
+        if(new Date().compareTo(teamEndDate) > 0) {
             team.setStatus(TEAM_IS_INVALID);
         }
         studentDAO.deleteStudentFromTeamStudent(studentId);
+        teamDAO.update(team);
 
         /**
          * TODO: judge whether the team id valid or not.
          */
-        team = teamDAO.getById(teamId).get(0);
-        teamDAO.update(team);
         return true;
     }
 
@@ -89,7 +86,7 @@ public class LeaderServiceImpl implements LeaderService {
     public boolean createTeam(Team team)
     {
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
-        if(!compareTime(teamEndDate)) {
+        if(new Date().compareTo(teamEndDate) > 0) {
             return false;
         }
         team.setStatus(TEAM_IS_VALID);
@@ -112,25 +109,6 @@ public class LeaderServiceImpl implements LeaderService {
         }
         //delete this team.
         teamDAO.deleteById(teamId);
-    }
-
-    /**
-     * compare the current time to the specific time,
-     * if the current time is earlier than the specific time, return true
-     * otherwise, return false
-     * @author Xinyu Shi
-     * @param date
-     * @return
-     */
-    private boolean compareTime(Date date)
-    {
-        Date today = new Date();
-        if(today.getTime() < date.getTime()) {
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
 }

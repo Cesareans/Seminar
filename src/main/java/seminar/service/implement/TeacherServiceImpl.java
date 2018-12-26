@@ -47,10 +47,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean activate(String teacherId, String password, String email) {
+    public boolean activate(String teacherId, String password) {
         Teacher teacher = teacherDAO.getById(teacherId).get(0);
         teacher.setPassword(password);
-        teacher.setEmail(email);
         teacher.setActivated(true);
         teacherDAO.update(teacher);
         return true;

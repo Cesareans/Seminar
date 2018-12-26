@@ -21,11 +21,10 @@ public interface TeacherService {
      *
      * @param teacherId the teacher's account id
      * @param password  the teacher's new password
-     * @param email     the teacher's new email
      * @return whether the operation is successful
      * @author cesare
      */
-    boolean activate(String teacherId, String password, String email);
+    boolean activate(String teacherId, String password);
 
     /**
      * Modify a teacher's email

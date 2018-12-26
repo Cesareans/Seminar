@@ -125,6 +125,9 @@ public interface SeminarService {
      * @return the team
      */
     Team getTeamByTeamId(String teamId);
+
+    Team getTeamByCourseIdAndTeamId(String courseId, String teamId);
+
     /**
      * Get a course's klass via courseId
      *

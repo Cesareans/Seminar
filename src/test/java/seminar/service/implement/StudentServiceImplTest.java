@@ -20,11 +20,6 @@ public class StudentServiceImplTest {
     TeamDAO teamDAO;
 
 
-    @Test
-    public void getAllTeamsByCourseId()
-    {
-        DebugLogger.logJson(studentService.getAllTeamInformation("16"));
-    }
 
     @Test
     public void getAllUnTeamedStudents()

@@ -1,15 +1,12 @@
 package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
-import seminar.entity.relation.KlassStudent;
 import seminar.logger.DebugLogger;
 import seminar.service.StudentService;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -131,12 +128,6 @@ public class StudentServiceImpl implements StudentService {
         Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
         attendance.setReportFile(reportFileName);
         attendanceDAO.update(attendance);
-    }
-
-    @Override
-    public List<Team> getAllTeamInformation(String courseId)
-    {
-        return teamDAO.getCourseTeamsByCourseId(courseId);
     }
 
     @Override

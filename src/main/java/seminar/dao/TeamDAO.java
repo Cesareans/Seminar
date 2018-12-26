@@ -36,8 +36,35 @@ public class TeamDAO {
     /**
      * @author Cesare
      */
-    public List<Team> getCourseTeamsByCourseId(String courseId) {
-        return teamMapper.selectTeamByMainCourseId(courseId);
+    public List<Team> getNoStudentTeamsByCourseId(String courseId) {
+        return klassStudentMapper.selectTeamsByCourseId(courseId);
+    }
+
+    /**
+     * @author cesare
+     */
+    public List<Team> getOwnStudentsTeamByCourseId(String courseId){
+        List<Team> teams = klassStudentMapper.selectTeamsByCourseId(courseId);
+        teams.forEach(team -> {
+            team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        });
+        return teams;
+    }
+
+    /**
+     * @author cesare
+     */
+    public Team getOwnStudentTeamByCourseIdAndTeamId(String courseId, String teamId){
+        Team team = teamMapper.selectTeamById(teamId).get(0);
+        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, teamId));
+        return team;
+    }
+
+    /**
+     * @author cesare
+     */
+    public Team getByCourseIdAndStudentId(String courseId, String studentId){
+        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
     }
 
     /**
@@ -72,12 +99,20 @@ public class TeamDAO {
         }
     }
 
+
+
     /**
      * @author cesare
      */
-    public Team getByCourseIdAndStudentId(String courseId, String studentId){
-        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
+    public void deleteByCourseId(String courseId){
+        //Team student table
+        klassStudentMapper.deleteTeamStudentByCourseId(courseId);
+        //klass team table
+        klassStudentMapper.deleteTeamFromKlassTeamByCourseId(courseId);
+        //Team table
+        teamMapper.deleteTeamByCourseId(courseId);
     }
+
 
     /**
      * @author cesare
@@ -87,12 +122,4 @@ public class TeamDAO {
         return klassStudentMapper.selectStudentsFromTeam(teamId);
     }
 
-    /**
-     * @author cesare
-     */
-    public void deleteByCourseId(String courseId){
-        //Team table
-        teamMapper.deleteTeamByCourseId(courseId);
-
-    }
 }

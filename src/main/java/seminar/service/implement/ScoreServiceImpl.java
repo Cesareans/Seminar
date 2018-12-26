@@ -101,7 +101,7 @@ public class ScoreServiceImpl implements ScoreService {
     public Map<String, List<RoundScore>> calculateScoreOfOneCourse(String courseId)
     {
         List<Round> rounds = roundDAO.getByCourseId(courseId);
-        List<Team> teams = teamDAO.getCourseTeamsByCourseId(courseId);
+        List<Team> teams = teamDAO.getNoStudentTeamsByCourseId(courseId);
         Map<String, List<RoundScore>> totalScoreOfCourse = new HashMap<>();
         for(Round round : rounds)
         {
