@@ -72,14 +72,6 @@ public interface TeacherService {
     void deleteCourseById(String courseId);
 
     /**
-     * Update the information of a course
-     * @param course the Course entity
-     * @return whether updating course successfully
-     * @author lyf
-     */
-    boolean updateCourse(Course course);
-
-    /**
      * Create a klass with given klass info.
      * @param klass the klass entity
      * @return whether creating klass successfully
@@ -163,6 +155,14 @@ public interface TeacherService {
      */
     void updateReportScore(BigDecimal reportScore, String klassSeminarId, String teamId);
 
+    /**
+     * Update the report score and pre score
+     *
+     * @param attendanceId the attendanceId
+     * @param preScore the new score
+     * @param reportScore the new score
+     */
+    void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal reportScore);
     /**
      * Cancel team share
      * @param subCourseId the subCourseId

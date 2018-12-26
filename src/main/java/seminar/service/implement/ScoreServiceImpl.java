@@ -118,6 +118,25 @@ public class ScoreServiceImpl implements ScoreService {
         return totalScoreOfCourse;
     }
 
+    @Override
+    public List<Map<String,RoundScore>> calculateCourseScore(String courseId)
+    {
+        List<Map<String, RoundScore>> scoreTable = new ArrayList<>();
+        List<Round> rounds = roundDAO.getByCourseId(courseId);
+        List<Team> teams = teamDAO.getNoStudentTeamsByCourseId(courseId);
+        for(Round round: rounds)
+        {
+            Map<String,RoundScore> map = new HashMap<>();
+            for(Team team:teams)
+            {
+                RoundScore roundScore = calculateScoreOfOneRound(team.getId(),round.getId());
+                map.put(team.getId(),roundScore);
+            }
+            scoreTable.add(map);
+        }
+        return scoreTable;
+    }
+
     private BigDecimal calculateSeparateScore(int kind, int method, String teamId, List<Attendance> attendances)
     {
         BigDecimal score = new BigDecimal(0);
