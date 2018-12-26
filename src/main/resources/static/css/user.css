@@ -70,6 +70,12 @@
     height: 40%;
 }
 
+.team-state{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
 .close{
     cursor: pointer;
 }
