@@ -73,10 +73,11 @@ public class ScoreServiceImpl implements ScoreService {
         List<Attendance> attendances  = new ArrayList<>();
         List<KlassSeminar> klassSeminars = new ArrayList<>();
         Team team = teamDAO.getById(teamId).get(0);
+        String klassId = teamDAO.getKlassIdByTeamIdAndCourseId(teamId,round.getCourseId());
 
         for(Seminar seminar : seminarsInRound)
         {
-            KlassSeminar klassSeminar = klassSeminarDAO.getByKlassIdAndSeminarId(team.getKlassId(),seminar.getId()).get(0);
+            KlassSeminar klassSeminar = klassSeminarDAO.getByKlassIdAndSeminarId(klassId,seminar.getId()).get(0);
             klassSeminars.add(klassSeminar);
             List<Attendance> attendanceTemp = attendanceDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId());
             if(!attendanceTemp.isEmpty()) {

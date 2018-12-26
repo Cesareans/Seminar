@@ -129,6 +129,12 @@ public interface KlassStudentMapper {
     })
     List<Student> selectStudentsFromTeam(String teamId);
 
+    /**
+     * @author Xinyu Shi
+     */
+    @Select("select klass_id from klass_team where team_id=#{teamId}")
+    List<String> selectKlassIdByTeamId(String teamId);
+
     //#############    Klass Team
     /**
      * Delete team occurrence from klass team
