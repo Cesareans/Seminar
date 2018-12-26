@@ -14,14 +14,14 @@ import java.math.BigDecimal;
 public class Question {
     @ID(isIncrement = true)
     private String id;
+    private int isSelected = 0;
     private BigDecimal score;
-    @Gist
+    @Gist(unions = "klassSeminarId")
     private String teamId;
     @Gist
     private String studentId;
     @Gist
     private String attendanceId;
-
     @Gist
     private String klassSeminarId;
 
@@ -31,6 +31,14 @@ public class Question {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
     }
 
     public BigDecimal getScore() {

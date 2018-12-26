@@ -18,16 +18,12 @@ $(function () {
     });
 });
 
-
 function navClickWithLoading(e) {
     util.showLoading();
     var courseId = $(this).parents(".card-body").attr("data-courseId");
-    var klassId = $(this).parents(".card-body").attr("data-klassId");
     sessionStorage.setItem("courseId" , courseId);
-    sessionStorage.setItem("klassId" , klassId);
 
     courseIdForm.form.attr("action", e.data.url);
     courseIdForm.courseIdInput.val(courseId);
-    courseIdForm.klassIdInput.val(klassId);
     courseIdForm.form.submit();
 }
