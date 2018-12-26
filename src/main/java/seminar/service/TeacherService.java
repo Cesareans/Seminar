@@ -133,10 +133,9 @@ public interface TeacherService {
     /**
      * Update enroll limit of a round
      * @param klassRound the new klassRound. Klass id and round id is referred. And new enroll limit is required.
-     * @return whether the operation is successful.
      * @author cesare
      */
-    boolean updateKlassRound(KlassRound klassRound);
+    void updateKlassRound(KlassRound klassRound);
 
     /**
      * Delete a seminar via seminarId

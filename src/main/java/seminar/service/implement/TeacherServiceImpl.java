@@ -199,8 +199,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean updateKlassRound(KlassRound klassRound) {
-        return klassRoundDAO.update(klassRound);
+    public void updateKlassRound(KlassRound klassRound) {
+        klassRoundDAO.update(klassRound);
     }
 
     /**
