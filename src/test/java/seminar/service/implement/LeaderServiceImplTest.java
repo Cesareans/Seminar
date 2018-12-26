@@ -21,9 +21,9 @@ public class LeaderServiceImplTest {
     @Test
     public void addGroupMemberTest()
     {
-        DebugLogger.logJson(teamDAO.getById("6").get(0));
-        DebugLogger.logJson(studentService.addTeamMember("106","6"));
-        DebugLogger.logJson(teamDAO.getById("6").get(0));
+        //DebugLogger.logJson(teamDAO.getById("6").get(0));
+        DebugLogger.logJson(studentService.addTeamMember("106","26"));
+        DebugLogger.logJson(teamDAO.getById("26").get(0));
     }
 
     @Test
