@@ -6,26 +6,25 @@ import org.springframework.stereotype.Component;
 import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyNameId;
 import seminar.entity.regulation.TeamAndStrategy;
-import seminar.mapper.TeamAndStrategyMapper;
+import seminar.mapper.TeamOrStrategyMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Xinyu Shi
  */
 @Component
 public class TeamOrStrategyDAO {
-    private final TeamAndStrategyMapper teamAndStrategyMapper;
+    private final TeamOrStrategyMapper teamOrStrategyMapper;
     private final ConflictCourseStrategyDAO conflictCourseStrategyDAO;
     private final CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO;
     private final MemberLimitStrategyDAO memberLimitStrategyDAO;
 
     @Autowired
-    public TeamOrStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO)
+    public TeamOrStrategyDAO(TeamOrStrategyMapper teamOrStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO)
     {
-        this.teamAndStrategyMapper = teamAndStrategyMapper;
+        this.teamOrStrategyMapper = teamOrStrategyMapper;
         this.conflictCourseStrategyDAO = conflictCourseStrategyDAO;
         this.courseMemberLimitStrategyDAO = courseMemberLimitStrategyDAO;
         this.memberLimitStrategyDAO = memberLimitStrategyDAO;
@@ -34,7 +33,7 @@ public class TeamOrStrategyDAO {
     private List<Strategy> getOrStrategyById(String id)
     {
         List<Strategy> strategies = new ArrayList<>();
-        List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStratigiesById(id);
+        List<StrategyNameId> strategySet = teamOrStrategyMapper.selectStratigiesById(id);
         for (StrategyNameId s : strategySet)
         {
             switch(s.getStrategy_name()){
