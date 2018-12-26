@@ -128,6 +128,9 @@ $(function () {
     stopBtn.click(function () {
         sendRequest("EndQuestionRequest", {});
     });
+    $("#endPre").click(function () {
+        sendRequest("EndSeminarRequest",{});
+    })
 });
 
 function connect() {
@@ -200,6 +203,9 @@ function handleEndQuestionResponse(content) {
 }
 function handleScoreResponse(content) {
 
+}
+function handleEndSeminarResponse() {
+    window.location.reload();
 }
 
 function setQuestionCount(count) {

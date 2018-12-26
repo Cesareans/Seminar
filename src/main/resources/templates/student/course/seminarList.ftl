@@ -137,13 +137,13 @@
                                 <div class="row">
                                     <div class="col-md-12 ml-auto mr-auto" style="padding: 0">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item" id="enroll">
+                                            <li class="nav-item enroll">
                                                 <a class="nav-link">
                                                     <i class="material-icons">ballot</i>
                                                     报名
                                                 </a>
                                             </li>
-                                            <li class="nav-item" id="seminarInfo">
+                                            <li class="nav-item seminarInfo">
                                                 <a class="nav-link">
                                                     <i class="material-icons">library_books</i>
                                                     信息
@@ -156,13 +156,13 @@
                                     <div class="col-md-12 ml-auto mr-auto" style="padding: 0">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
 
-                                            <li class="nav-item" id="report">
+                                            <li class="nav-item report">
                                                 <a class="nav-link" >
                                                     <i class="material-icons">open_in_browser</i>
                                                     提交报告
                                                 </a>
                                             </li>
-                                            <li class="nav-item" id="processing">
+                                            <li class="nav-item processing">
                                                 <a class="nav-link">
                                                     <i class="material-icons">arrow_forward</i>
                                                     进入讨论

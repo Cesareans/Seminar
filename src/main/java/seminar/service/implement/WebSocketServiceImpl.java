@@ -4,17 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.config.websocket.RawMessageConverter;
 import seminar.dao.KlassSeminarDAO;
+import seminar.dao.QuestionDAO;
+import seminar.dao.SeminarScoreDAO;
 import seminar.dao.TeamDAO;
-import seminar.entity.Attendance;
-import seminar.entity.Team;
-import seminar.logger.DebugLogger;
+import seminar.entity.*;
 import seminar.pojo.websocket.annotation.BindResponse;
+import seminar.pojo.websocket.monitor.AskedQuestion;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.RawMessage;
 import seminar.pojo.websocket.request.Request;
+import seminar.pojo.websocket.response.EndSeminarResponse;
 import seminar.pojo.websocket.response.Response;
 import seminar.service.WebSocketService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +29,17 @@ import java.util.Map;
 public class WebSocketServiceImpl implements WebSocketService {
     private final KlassSeminarDAO klassSeminarDAO;
     private final TeamDAO teamDAO;
+    private final SeminarScoreDAO seminarScoreDAO;
+    private final QuestionDAO questionDAO;
     private final RawMessageConverter rawMessageConverter;
     private Map<String, SeminarMonitor> monitorMap = new HashMap<>();
 
     @Autowired
-    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, RawMessageConverter rawMessageConverter) {
+    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, SeminarScoreDAO seminarScoreDAO, QuestionDAO questionDAO, RawMessageConverter rawMessageConverter) {
         this.klassSeminarDAO = klassSeminarDAO;
         this.teamDAO = teamDAO;
+        this.seminarScoreDAO = seminarScoreDAO;
+        this.questionDAO = questionDAO;
         this.rawMessageConverter = rawMessageConverter;
     }
 
@@ -49,13 +56,53 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
+    public void endMonitor(String ksId) {
+        SeminarMonitor monitor = getMonitor(ksId);
+
+        Map<String, BigDecimal> scoreMap = monitor.getPreScoreMap();
+        SeminarScore seminarScore = new SeminarScore();
+        Question question = new Question();
+        question.setKlassSeminarId(ksId);
+        List<SeminarScore> seminarScores;
+        List<AskedQuestion> askedQuestions;
+        for (Attendance attendance : monitor.getEnrollList()) {
+            seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(), attendance.getKlassSeminarId());
+            if(seminarScores.isEmpty()){
+                seminarScore.setPresentationScore(scoreMap.get(attendance.getId()));
+                seminarScore.setTeamId(attendance.getTeamId());
+                seminarScore.setKlassSeminarId(attendance.getKlassSeminarId());
+                seminarScoreDAO.createSeminarScore(seminarScore);
+            }else{
+                seminarScore = seminarScores.get(0);
+                seminarScore.setPresentationScore(scoreMap.get(attendance.getId()));
+                seminarScoreDAO.update(seminarScore);
+            }
+            askedQuestions = monitor.getAskedQuestion().get(attendance.getId());
+            askedQuestions.forEach(askedQuestion -> {
+                question.setAttendanceId(attendance.getId());
+                question.setScore(askedQuestion.getScore());
+                question.setStudentId(askedQuestion.getStudent().getId());
+                question.setTeamId(askedQuestion.getTeam().getId());
+                questionDAO.create(question);
+            });
+        }
+        KlassSeminar klassSeminar = klassSeminarDAO.getById(ksId).get(0);
+        klassSeminar.setState(2);
+        klassSeminarDAO.update(klassSeminar);
+        monitorMap.remove(ksId);
+    }
+
+    @Override
     public RawMessage handleMessage(String ksId, RawMessage message) {
         SeminarMonitor monitor = getMonitor(ksId);
         Request request = rawMessageConverter.convertToRequest(message);
         request.execute(monitor);
-        DebugLogger.logJson(request);
         try {
-            Response response = request.getClass().getAnnotation(BindResponse.class).response().asSubclass(Response.class).newInstance();
+            Class<?> responseClass = request.getClass().getAnnotation(BindResponse.class).response();
+            if(responseClass == EndSeminarResponse.class){
+                endMonitor(ksId);
+            }
+            Response response = responseClass.asSubclass(Response.class).newInstance();
             return rawMessageConverter.convertFromResponse(response.execute(monitor));
         } catch (Exception ex) {
             ex.printStackTrace();

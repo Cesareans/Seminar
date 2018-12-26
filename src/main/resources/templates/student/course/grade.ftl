@@ -49,80 +49,91 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row">
-            <#list rounds as round>
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">第${round.roundNum}轮</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="row">
-                                    <#list round.seminars as seminar>
-                                        <div class="col-6">
+            <#if hasGrade>
+                <#list rounds as round>
+                    <div class="col-lg-12">
+                        <div class="card content-card">
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${round.roundNum}轮</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="row">
+                                        <#list round.seminars as seminar>
+                                            <div class="col-6">
+                                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                    <li class="nav-item" data-toggle="modal"
+                                                        data-target="#seminarScoreModal${seminar.id}">
+                                                        <a class="nav-link" style="padding-bottom: 0;">
+                                                            <i class="material-icons">equalizer</i>
+                                                            ${seminar.theme}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </#list>
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="grade-area">
                                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                                <li class="nav-item" data-toggle="modal"
-                                                    data-target="#seminarScoreModal${seminar.id}">
-                                                    <a class="nav-link" style="padding-bottom: 0;">
-                                                        <i class="material-icons">equalizer</i>
-                                                        ${seminar.theme}
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">mic</i>
+                                                        展示分
+                                                        <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">comment</i>
+                                                        提问分
+                                                        <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">description</i>
+                                                        报告分
+                                                        <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="vertical-separator"></div>
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">done_all</i>
+                                                        总分
+                                                        <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </div>
-                                    </#list>
-                                </div>
-                            </div>
-                            <div>
-                                <hr>
-                                <div class="row">
-                                    <div class="grade-area">
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">mic</i>
-                                                    展示分
-                                                    <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">comment</i>
-                                                    提问分
-                                                    <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">description</i>
-                                                    报告分
-                                                    <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div class="vertical-separator"></div>
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">done_all</i>
-                                                    总分
-                                                    <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </#list>
+            <#else >
+                <div class="empty-tag" style="height: 50%">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
+                        </div>
+                        <h4 class="info-title">您未加入任何队伍</h4>
+                    </div>
                 </div>
-            </#list>
-
+            </#if>
         </div>
     </div>
 </div>
 
+<#if hasGrade>
 <#list rounds as round>
     <#list round.seminars as seminar>
         <div class="modal fade" id="seminarScoreModal${seminar.id}">
@@ -189,6 +200,7 @@
         </div>
     </#list>
 </#list>
+</#if>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

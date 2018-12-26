@@ -11,8 +11,12 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/seminar.js"></script>
-    <title>讨论课</title>
+    <script>
+        window.onbeforeunload = function () {
+            util.showLoading();
+        }
+    </script>
+    <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -21,7 +25,7 @@
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">讨论课</div>
+            <div class="navbar-brand brand-title">创建课程</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,19 +52,9 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised no-footer">
-    <#if rounds?size ==0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else>
-        <div class="container">
-            <div class="row">
+<div class="main main-raised">
+    <div class="container">
+        <div class="row">
             <#list rounds as round>
                 <div class="col-md-6">
                     <div class="card content-card">
@@ -70,126 +64,137 @@
                             </div>
                             <div class="body-content">
                                 <hr>
-                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item" data-toggle="modal" data-target="#round${round.id}Modal">
-                                        <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons">ballot</i>
-                                            讨论课
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons round-setting" data-roundId="${round.id}">settings</i>
-                                            轮次设置
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div class="row">
+                                    <#list round.seminars as seminar>
+                                        <div class="col-6">
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item" data-toggle="modal"
+                                                    data-target="#seminarScoreModal${seminar.id}">
+                                                    <a class="nav-link" style="padding-bottom: 0;">
+                                                        <i class="material-icons">equalizer</i>
+                                                        ${seminar.theme}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </#list>
+                                </div>
+                            </div>
+                            <div>
+                                <hr>
+                                <div class="row">
+                                    <div class="grade-area">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">mic</i>
+                                                    展示分
+                                                    <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">comment</i>
+                                                    提问分
+                                                    <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">description</i>
+                                                    报告分
+                                                    <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="vertical-separator"></div>
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">done_all</i>
+                                                    总分
+                                                    <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </#list>
-                <div class="col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="createButton" style="margin-top: 10px;margin-bottom: 10px;">
-                        <i class="material-icons add-icon">add_circle</i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </#if>
-</div>
 
-<#list rounds as round>
-<div class="modal seminar-modal fade" id="round${round.id}Modal" data-roundId="${round.id}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">第${round.roundNum}轮</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;">
-                <#if round.seminars?size == 0>
-                    <div class="empty-tag modal-tag">
-                        <div class="info">
-                            <div class="icon icon-rose flex-center">
-                                <i class="material-icons color-grey">portable_wifi_off</i>
-                            </div>
-                            <h4 class="info-title">这里空荡荡的</h4>
-                        </div>
-                    </div>
-                <#else >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 nav-col">
-                            <ul class="nav nav-pills nav-pills-icons flex-column">
-                                <#list round.seminars as seminar>
-                                    <li class="nav-item">
-                                        <a class="nav-link seminar" href="#pane${seminar.id}" data-toggle="tab"
-                                           data-seminarId="${seminar.id}">
-                                            <i class="material-icons">list</i>
-                                            <span>${seminar.serial}</span>
-                                            <span class="theme">-${seminar.theme}</span>
-                                        </a>
-                                    </li>
-                                </#list>
-                            </ul>
-                        </div>
-                        <div class="col-8 tab-col" style="margin-top: -20px">
-                            <div class="tab-content">
-                                <#list round.seminars as seminar>
-                                    <div class="tab-pane" id="pane${seminar.id}">
-                                        <div class="info">
-                                            <div class="icon icon-rose flex-space-between">
-                                                <i class="material-icons">group_work</i>
-                                                <span class="info-title" style="padding-right: 20px">${seminar.theme}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </#list>
-                            </div>
-                            <div class="container">
-                                <#if klasses?size == 0>
-                                    <div class="empty-tag" style="height: 200px;padding-top: 20px;">
-                                        <div class="info">
-                                            <div class="icon icon-rose flex-center">
-                                                <i class="material-icons color-grey">portable_wifi_off</i>
-                                            </div>
-                                            <h4 class="info-title">这里空荡荡的</h4>
-                                        </div>
-                                    </div>
-                                <#else >
-                                    <#list klasses as klass>
-                                        <button type="button" class="btn btn-round bg-dark klass-btn"
-                                                data-klassId="${klass.id}">${klass.klassName}</button>
-                                    </#list>
-                                </#if>
-                                <hr>
-                                <button type="button" class="btn btn-round bg-dark option-btn" style="width: 100%">设置</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </#if>
-            </div>
         </div>
     </div>
 </div>
+
+<#list rounds as round>
+    <#list round.seminars as seminar>
+        <div class="modal fade" id="seminarScoreModal${seminar.id}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">${seminar.theme}</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <#if seminarScoreMap[seminar.id]??>
+                                <div class="grade-area">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">mic</i>
+                                                展示分
+                                                <h6><#if seminarScoreMap[seminar.id].presentationScore??>${seminarScoreMap[seminar.id].presentationScore}分<#else >无数据</#if></h6>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">description</i>
+                                                提问分
+                                                <h6><#if seminarScoreMap[seminar.id].questionScore??>${seminarScoreMap[seminar.id].questionScore}分<#else >无数据</#if></h6>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">done_all</i>
+                                                报告分
+                                                <h6><#if seminarScoreMap[seminar.id].reportScore??>${seminarScoreMap[seminar.id].reportScore}分<#else >无数据</#if></h6>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="vertical-separator"></div>
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">settings</i>
+                                                总分
+                                                <h6><#if seminarScoreMap[seminar.id].totalScore??>${seminarScoreMap[seminar.id].totalScore}分<#else >无数据</#if></h6>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <#else >
+                                <div class="empty-tag" style="height: 30%">
+                                    <div class="info">
+                                        <div class="icon icon-rose flex-center">
+                                            <i class="material-icons color-grey">portable_wifi_off</i>
+                                        </div>
+                                        <h4 class="info-title">您没有参与该讨论课</h4>
+                                    </div>
+                                </div>
+                            </#if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#list>
 </#list>
-<form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId" placeholder="">
-    <input id="klassIdInput" name="klassId" placeholder="">
-</form>
-<form hidden id="seminarOptionForm" action="/teacher/course/seminar/option" method="post">
-    <input id="seminarIdOptionInput" name="seminarId" placeholder="">
-</form>
-<form hidden id="roundSettingForm" action="/teacher/course/round/setting" method="post">
-    <input id="roundIdInput" name="roundId" placeholder="">
-</form>
-<form hidden id="courseIdForm" action="/teacher/course/seminar/create" method="post">
-    <input id="courseIdInput" name="courseId" placeholder="">
-</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

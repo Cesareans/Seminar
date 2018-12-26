@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
 import seminar.entity.*;
+import seminar.entity.application.TeamValidApplication;
 import seminar.logger.DebugLogger;
 import seminar.service.*;
 
@@ -35,11 +36,12 @@ public class StudentController {
     private final AccountManageService accountManageService;
     private final ScoreService scoreService;
     private final FileService fileService;
+    private final ApplicationService applicationService;
 
     private final static String STUDENT_ID_GIST = "studentId";
 
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService, ApplicationService applicationService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -47,6 +49,7 @@ public class StudentController {
         this.accountManageService = accountManageService;
         this.scoreService = scoreService;
         this.fileService = fileService;
+        this.applicationService = applicationService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -289,13 +292,19 @@ public class StudentController {
 
     @PostMapping("/course/myTeam/validApplication")
     public ResponseEntity<Object> validApplication(String teamId, String content) {
-        DebugLogger.log(teamId);
-        DebugLogger.log(content);
         Team team = seminarService.getTeamByTeamId(teamId);
         if(team.getStatus()!=0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
+        team.setStatus(2);
+        studentService.updateTeam(team);
+        TeamValidApplication teamValidApplication = new TeamValidApplication();
+        teamValidApplication.setTeamId(teamId);
+        teamValidApplication.setContent(content);
+        teamValidApplication.setTeacherId(seminarService.getCourseByCourseId(team.getCourseId()).get(0).getTeacherId());
+        if(!applicationService.createTeamValidApplication(teamValidApplication)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("该申请已存在");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -310,21 +319,23 @@ public class StudentController {
         if (courseId == null || klassId == null) {
             throw new RuntimeException();
         }
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
-        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
-        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
-            round.getSeminars().forEach(seminar -> {
-                seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+        Boolean hasGrade = (team != null);
+        model.addAttribute("hasGrade", hasGrade);
+        if(hasGrade) {
+            List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+            Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
+            Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+            rounds.forEach(round -> {
+                roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+                round.getSeminars().forEach(seminar -> {
+                    seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+                });
             });
-        });
-        model.addAttribute("rounds", rounds);
-        model.addAttribute("seminarScoreMap", seminarScoreMap);
-        DebugLogger.logJson(seminarScoreMap);
-        model.addAttribute("roundScoreMap", roundScoreMap);
-        DebugLogger.logJson(roundScoreMap);
+            model.addAttribute("rounds", rounds);
+            model.addAttribute("seminarScoreMap", seminarScoreMap);
+            model.addAttribute("roundScoreMap", roundScoreMap);
+        }
         return "student/course/grade";
     }
 }

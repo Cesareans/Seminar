@@ -17,6 +17,7 @@ import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.service.SeminarService;
 import seminar.service.StudentService;
 import seminar.service.WebSocketService;
+import sun.awt.ModalExclude;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -41,9 +42,15 @@ public class WebSocketController {
 
     @PostMapping("/teacher/course/seminar/progressing")
     public String seminarProgressing(String klassSeminarId, Model model) {
-        model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
+        Boolean hasEnd = klassSeminar.getState() == 2;
+        model.addAttribute("hasEnd", hasEnd);
+        if(!hasEnd) {
+            model.addAttribute("ksId", klassSeminarId);
+            model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        }
         return "teacher/course/seminar/progressing";
+
     }
 
     @MessageMapping("/teacher/klassSeminar/{ksId}")
@@ -65,10 +72,14 @@ public class WebSocketController {
     public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        model.addAttribute("studentNum", principal.getName());
-        model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
-        model.addAttribute("ksId", klassSeminar.getId());
-        model.addAttribute("monitor", monitor);
+        Boolean hasEnd = klassSeminar.getState() == 2;
+        model.addAttribute("hasEnd", hasEnd);
+        if(!hasEnd) {
+            model.addAttribute("studentNum", principal.getName());
+            model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
+            model.addAttribute("ksId", klassSeminar.getId());
+            model.addAttribute("monitor", monitor);
+        }
         return "student/course/seminar/progressing";
     }
 

@@ -1,8 +1,7 @@
 package seminar.entity.application;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
+import seminar.entity.Team;
 
 /**
  * @author SWJ
@@ -11,11 +10,15 @@ import cesare.mybatis.annotations.TargetPackage;
 public class TeamValidApplication {
     @ID(isIncrement = true)
     private String id;
+    @SqlMap("reason")
     private String content;
     @Gist
     private String teacherId;
     @Gist
     private String teamId;
+
+    @Link(gist = "teamId", select = "seminar.mapper.TeamMapper.selectTeamById")
+    private Team team;
 
     public String getId() {
         return id;
@@ -49,4 +52,12 @@ public class TeamValidApplication {
         this.teamId = teamId;
     }
 
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
