@@ -149,6 +149,10 @@ public class StudentServiceImpl implements StudentService {
         return true;
     }
 
+    @Override
+    public boolean updateTeam(Team team) {
+        return teamDAO.update(team);
+    }
 
     /**
      * @author Xinyu Shi

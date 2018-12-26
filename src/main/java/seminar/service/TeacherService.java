@@ -7,6 +7,8 @@ import seminar.entity.Round;
 import seminar.entity.Seminar;
 import seminar.entity.relation.KlassRound;
 
+import java.math.BigDecimal;
+
 /**
  * @author Cesare
  */
@@ -157,18 +159,19 @@ public interface TeacherService {
      *
      * @param reportScore    refer gist.
      * @param klassSeminarId refer gist
-     * @return success of fail
-     * @author SWJ
+     * @param teamId refer gist
      */
-    boolean updateReportScore(int reportScore, String klassSeminarId);
+    void updateReportScore(BigDecimal reportScore, String klassSeminarId, String teamId);
 
     /**
      * Cancel team share
+     * @param subCourseId the subCourseId
      */
     void cancelTeamShare(String subCourseId);
 
     /**
      * cancel seminar share
+     * @param subCourseId the subCourseId
      */
     void cancelSeminarShare(String subCourseId);
 

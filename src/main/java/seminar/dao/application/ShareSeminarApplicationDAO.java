@@ -36,17 +36,6 @@ public class ShareSeminarApplicationDAO {
     /**
      * @author Cesare
      */
-    public boolean update(ShareSeminarApplication shareSeminarApplication) {
-        if (!shareSeminarApplicationMapper.selectShareSeminarApplicationById(shareSeminarApplication.getId()).isEmpty()) {
-            shareSeminarApplicationMapper.updateShareSeminarApplication(shareSeminarApplication);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @author Cesare
-     */
     public List<ShareSeminarApplication> getByTeacherId(String teacherId) {
         List<ShareSeminarApplication> shareSeminarApplications = shareSeminarApplicationMapper.selectShareSeminarApplicationByTeacherId(teacherId);
         shareSeminarApplications.forEach(shareSeminarApplication -> {

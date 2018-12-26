@@ -3,6 +3,8 @@ package seminar.service;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.RawMessage;
 
+import javax.management.monitor.Monitor;
+
 /**
  * @author Cesare
  */
@@ -13,6 +15,12 @@ public interface WebSocketService {
      * @return the corresponding SeminarMonitor
      */
     SeminarMonitor getMonitor(String ksId);
+
+    /**
+     * Terminate the monitor
+     * @param ksId the monitor corresponding ksId
+     */
+    void endMonitor(String ksId);
 
     /**
      * Handle RawMessage from the front end.

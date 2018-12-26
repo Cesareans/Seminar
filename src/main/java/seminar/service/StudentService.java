@@ -78,6 +78,14 @@ public interface StudentService {
     boolean createTeam(Team team);
 
     /**
+     * Update team
+     * @author Cesare
+     * @param team the new team
+     * @return whether the operation is successful
+     */
+    boolean updateTeam(Team team);
+
+    /**
      * Add member to team
      * @param studentId the student refer gist
      * @param teamId the team refer gist

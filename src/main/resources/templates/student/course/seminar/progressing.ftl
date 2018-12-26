@@ -56,7 +56,7 @@
         </div>
     </div>
 </nav>
-<#if monitor.state.progressState = "TERMINATE">
+<#if hasEnd>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">

@@ -1,7 +1,9 @@
 package seminar.service;
 
+import seminar.entity.Round;
 import seminar.entity.RoundScore;
 import seminar.entity.SeminarScore;
+import seminar.entity.Team;
 
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,10 @@ public interface ScoreService {
 
     /**
      * Calculate score of course score
-     * @param courseId the course refer gist
+     * @param rounds the rounds
+     * @param teams the teams
      * @return the calculated course score
      */
-    Map<String, List<RoundScore>> calculateScoreOfOneCourse(String courseId);
+    Map<String, List<RoundScore>> calculateScoreOfOneCourse(List<Round> rounds, List<Team> teams);
 
 }

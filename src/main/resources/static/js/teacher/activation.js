@@ -3,7 +3,6 @@ $(function () {
     actForm.form = $("#activationForm");
     actForm.password = $("#password");
     actForm.confirmPwd = $("#confirmPassword");
-    actForm.email = $("#email");
 
     $("#activationBtn").click(function () {
         var password = actForm.password.val();
@@ -19,7 +18,7 @@ $(function () {
                 type: "post",
                 url: "/teacher/activation",
                 data: actForm.form.serialize(),
-                success: function (result, status, xhr) {
+                success: function () {
                     window.location = "/teacher/index";
                 },
                 error: function () {

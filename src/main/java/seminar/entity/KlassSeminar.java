@@ -17,7 +17,7 @@ public class KlassSeminar {
      * 1: 正在进行
      * 2: 已经结束
      */
-    @SqlMap("seminar_status")
+    @SqlMap("status")
     private int state;
     @Gist(unions = {"seminarId"})
     private String klassId;

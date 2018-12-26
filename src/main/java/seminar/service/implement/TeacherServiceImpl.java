@@ -9,13 +9,11 @@ import seminar.dao.*;
 import seminar.dao.application.ShareSeminarApplicationDAO;
 import seminar.dao.application.ShareTeamApplicationDAO;
 import seminar.entity.*;
-import seminar.entity.application.ShareSeminarApplication;
-import seminar.entity.application.ShareTeamApplication;
-import seminar.entity.application.TeamValidApplication;
 import seminar.entity.relation.KlassRound;
 import seminar.entity.relation.KlassStudent;
 import seminar.service.TeacherService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,9 +30,10 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherDAO teacherDAO;
     private final StudentDAO studentDAO;
     private final KlassRoundDAO klassRoundDAO;
+    private final SeminarScoreDAO seminarScoreDAO;
 
     @Autowired
-    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, ShareTeamApplicationDAO shareTeamApplicationDAO, TeamDAO teamDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
+    public TeacherServiceImpl(TeacherDAO teacherDAO, CourseDAO courseDAO, KlassDao klassDAO, SeminarDAO seminarDAO, MaxMinRegulationDAO maxMinRegulationDAO, ShareTeamApplicationDAO shareTeamApplicationDAO, TeamDAO teamDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, AttendanceDAO attendanceDAO, RoundDAO roundDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, SeminarScoreDAO seminarScoreDAO) {
         this.teacherDAO = teacherDAO;
         this.courseDAO = courseDAO;
         this.seminarDAO = seminarDAO;
@@ -44,6 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.roundDAO = roundDAO;
         this.studentDAO = studentDAO;
         this.klassRoundDAO = klassRoundDAO;
+        this.seminarScoreDAO = seminarScoreDAO;
     }
 
     @Override
@@ -210,15 +210,19 @@ public class TeacherServiceImpl implements TeacherService {
      * @author SWJ
      */
     @Override
-    public boolean updateReportScore(int reportScore, String klassSeminarId) {
-        List<Attendance> attendances = attendanceDAO.getByKlassSeminarId(klassSeminarId);
-        for (Attendance a : attendances) {
-            boolean flag = attendanceDAO.update(a);
-            if (!flag) {
-                return false;
-            }
+    public void updateReportScore(BigDecimal reportScore, String klassSeminarId, String teamId) {
+        List<SeminarScore> seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, klassSeminarId);
+        if(seminarScores.isEmpty()){
+            SeminarScore seminarScore = new SeminarScore();
+            seminarScore.setKlassSeminarId(klassSeminarId);
+            seminarScore.setTeamId(teamId);
+            seminarScore.setReportScore(reportScore);
+            seminarScoreDAO.createSeminarScore(seminarScore);
+        }else{
+            SeminarScore seminarScore = seminarScores.get(0);
+            seminarScore.setReportScore(reportScore);
+            seminarScoreDAO.update(seminarScore);
         }
-        return true;
     }
 
     @Override

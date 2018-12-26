@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
 import seminar.entity.*;
+import seminar.entity.application.TeamValidApplication;
 import seminar.logger.DebugLogger;
 import seminar.service.*;
 
@@ -35,11 +36,12 @@ public class StudentController {
     private final AccountManageService accountManageService;
     private final ScoreService scoreService;
     private final FileService fileService;
+    private final ApplicationService applicationService;
 
     private final static String STUDENT_ID_GIST = "studentId";
 
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService, ApplicationService applicationService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -47,6 +49,7 @@ public class StudentController {
         this.accountManageService = accountManageService;
         this.scoreService = scoreService;
         this.fileService = fileService;
+        this.applicationService = applicationService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -147,9 +150,12 @@ public class StudentController {
     public String seminarEnrollList(String klassId, String seminarId, Model model, HttpSession session) {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        Boolean canEnroll = new Date().compareTo(klassSeminar.get(0).getSeminar().getEnrollEndDate()) < 0;
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
+        DebugLogger.logJson(seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
+        model.addAttribute("canEnroll", canEnroll);
         return "student/course/seminar/enrollList";
     }
 
@@ -232,6 +238,10 @@ public class StudentController {
 
     @PostMapping("/course/myTeam")
     public String myTeam(String courseId, String teamId, Model model, HttpSession session) {
+        Course course = seminarService.getCourseByCourseId(courseId).get(0);
+        Boolean canChange = new Date().compareTo(course.getTeamEndDate()) < 0;
+        model.addAttribute("canChange", canChange);
+        model.addAttribute("course", course);
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndTeamId(courseId, teamId));
@@ -280,6 +290,25 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @PostMapping("/course/myTeam/validApplication")
+    public ResponseEntity<Object> validApplication(String teamId, String content) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if(team.getStatus()!=0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        team.setStatus(2);
+        studentService.updateTeam(team);
+        TeamValidApplication teamValidApplication = new TeamValidApplication();
+        teamValidApplication.setTeamId(teamId);
+        teamValidApplication.setContent(content);
+        teamValidApplication.setTeacherId(seminarService.getCourseByCourseId(team.getCourseId()).get(0).getTeacherId());
+        if(!applicationService.createTeamValidApplication(teamValidApplication)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("该申请已存在");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
@@ -290,21 +319,23 @@ public class StudentController {
         if (courseId == null || klassId == null) {
             throw new RuntimeException();
         }
-        List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
         Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
-        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
-        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
-            round.getSeminars().forEach(seminar -> {
-                seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+        Boolean hasGrade = (team != null);
+        model.addAttribute("hasGrade", hasGrade);
+        if(hasGrade) {
+            List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
+            Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
+            Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+            rounds.forEach(round -> {
+                roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+                round.getSeminars().forEach(seminar -> {
+                    seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+                });
             });
-        });
-        model.addAttribute("rounds", rounds);
-        model.addAttribute("seminarScoreMap", seminarScoreMap);
-        DebugLogger.logJson(seminarScoreMap);
-        model.addAttribute("roundScoreMap", roundScoreMap);
-        DebugLogger.logJson(roundScoreMap);
+            model.addAttribute("rounds", rounds);
+            model.addAttribute("seminarScoreMap", seminarScoreMap);
+            model.addAttribute("roundScoreMap", roundScoreMap);
+        }
         return "student/course/grade";
     }
 }
