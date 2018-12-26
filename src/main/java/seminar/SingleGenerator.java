@@ -12,7 +12,7 @@ import seminar.entity.regulation.MemberLimitStrategy;
  */
 public class SingleGenerator {
     public static void main(String[] args) {
-        EntityGenerator generator = new EntityGenerator("Cesare", TeamValidApplication.class);
+        EntityGenerator generator = new EntityGenerator("Cesare", KlassSeminar.class);
         generator.generateMapper();
     }
 }
