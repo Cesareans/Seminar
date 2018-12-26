@@ -115,8 +115,18 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Attendance> getAttendanceById(String teamId, String ksId) {
+    public List<Attendance> getAttendanceById(String id) {
+        return attendanceDAO.getById(id);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByTeamIdAndKlassSeminarId(String teamId, String ksId) {
         return attendanceDAO.getByTeamIdAndKlassSeminarId(teamId, ksId);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByKsId(String ksId) {
+        return attendanceDAO.getByKlassSeminarId(ksId);
     }
 
     @Override

@@ -45,6 +45,14 @@ public class KlassSeminarDAO {
         klassSeminarMapper.insertKlassSeminar(klassSeminar);
     }
 
+    public void createByKlassIdAndSeminarId(String klassId, String seminarId){
+        KlassSeminar klassSeminar = new KlassSeminar();
+        klassSeminar.setSeminarId(seminarId);
+        klassSeminar.setKlassId(klassId);
+        klassSeminar.setState(0);
+        klassSeminarMapper.insertKlassSeminar(klassSeminar);
+    }
+
     /**
      * @author Xinyu Shi
      */
