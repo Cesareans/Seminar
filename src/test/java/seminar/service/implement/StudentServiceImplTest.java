@@ -21,18 +21,4 @@ public class StudentServiceImplTest {
 
 
 
-    @Test
-    public void getAllUnTeamedStudents()
-    {
-        DebugLogger.logJson(studentService.getAllUnTeamedStudentsByCourseId("16"));
-    }
-
-    @Test
-    public void exitTeam()
-    {
-        studentService.exitTeam("172","2");
-    }
-
-
-
 }

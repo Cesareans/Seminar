@@ -1,9 +1,8 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.SqlMap;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @author Cesare
@@ -21,6 +20,9 @@ public class Student {
     private String email;
     @SqlMap("is_active")
     private boolean activated;
+
+    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId")
+    private List<Course> courses;
 
     public String getId() {
         return id;
@@ -68,5 +70,13 @@ public class Student {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

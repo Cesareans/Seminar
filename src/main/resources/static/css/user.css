@@ -796,18 +796,28 @@
 
 /*Responsive style*/
 @media screen and  (min-width: 992px) {
+    .modal .modal-dialog {
+        margin-top: 20vh;
+    }
     .navbar-translate .brand-title {
         margin-left: 40px;
     }
 }
 
 @media screen and  (max-width: 991px) {
+    .modal .modal-dialog {
+        margin-top: 15vh;
+    }
     .navbar-collapse {
         padding-top: 20px;
     }
 }
 
 @media screen and (max-width: 768px) {
+    .modal .modal-dialog {
+        margin-top: 10vh;
+    }
+
     .alert-area .alert {
         width: 100%;
     }

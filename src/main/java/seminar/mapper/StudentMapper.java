@@ -1,6 +1,7 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import seminar.entity.Student;
 
 import java.util.List;
@@ -42,7 +43,8 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_active")
+            @Result(property = "activated", column = "is_active"),
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId", fetchType = FetchType.LAZY))
     })
     List<Student> selectAllStudent();
 
@@ -59,7 +61,8 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_active")
+            @Result(property = "activated", column = "is_active"),
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId", fetchType = FetchType.LAZY))
     })
     List<Student> selectStudentByStudentName(String studentName);
 
@@ -76,7 +79,8 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_active")
+            @Result(property = "activated", column = "is_active"),
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId", fetchType = FetchType.LAZY))
     })
     List<Student> selectStudentByStudentNum(String studentNum);
 
@@ -93,7 +97,8 @@ public interface StudentMapper {
             @Result(property = "studentNum", column = "account"),
             @Result(property = "password", column = "password"),
             @Result(property = "email", column = "email"),
-            @Result(property = "activated", column = "is_active")
+            @Result(property = "activated", column = "is_active"),
+            @Result(property = "courses", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId", fetchType = FetchType.LAZY))
     })
     List<Student> selectStudentById(String id);
 

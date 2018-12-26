@@ -43,10 +43,6 @@ public class KlassStudentMapperTest {
         DebugLogger.log(teams1.size());
     }
 
-    @Test
-    public void selectCourseByStudentId(){
-        DebugLogger.logJson(klassStudentMapper.selectCourseByStudentId("1234"));
-    }
 
     @Test
     public void selectKlassByStudentId(){

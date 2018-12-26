@@ -46,9 +46,10 @@ public class SeminarServiceImpl implements SeminarService {
     public List<Course> getCoursesByTeacherId(String teacherId) {
         return courseDAO.getByTeacherId(teacherId);
     }
+
     @Override
     public List<Course> getOtherCoursesByCourseId(String courseId) {
-        return courseDAO.getOtherCoursesByCourseId(courseId);
+        return courseDAO.getCanShareCoursesByCourseId(courseId);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public Team getTeamByCourseIdAndStudentId(String courseId, String studentId) {
-        return teamDAO.getByCourseIdAndStudentId(courseId,studentId);
+        return teamDAO.getByCourseIdAndStudentId(courseId, studentId);
     }
 
     @Override
@@ -89,11 +90,16 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Student> getNotTeamedStudentsByCourseId(String courseId) {
+        return studentDAO.getNotTeamedStudentsByCourseId(courseId);
+    }
+
+    @Override
     public List<Round> getRoundsByCourseId(String courseId) {
         Course course = courseDAO.getByCourseId(courseId).get(0);
-        if(course.getSeminarMainCourseId() == null) {
+        if (course.getSeminarMainCourseId() == null) {
             return roundDAO.getByCourseId(courseId);
-        }else{
+        } else {
             return roundDAO.getByCourseId(course.getSeminarMainCourseId());
         }
     }
@@ -116,6 +122,11 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public List<Klass> getKlassByCourseId(String courseId) {
         return klassDao.getByCourseId(courseId);
+    }
+
+    @Override
+    public List<Klass> getKlassesByStudentId(String studentId) {
+        return klassDao.getByStudentId(studentId);
     }
 
     @Override

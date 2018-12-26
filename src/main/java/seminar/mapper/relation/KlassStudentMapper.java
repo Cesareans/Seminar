@@ -83,7 +83,7 @@ public interface KlassStudentMapper {
      * @return whether is in
      */
     @Select("select count(*) from klass_student where klass_id = #{klassId} and student_id= #{studentId}")
-    Boolean studentInKlass(@Param("klassId") String klassId,@Param("studentId") String studentId);
+    Boolean isStudentInKlass(@Param("klassId") String klassId, @Param("studentId") String studentId);
 
     //#############    Team Student
     /**
@@ -98,10 +98,11 @@ public interface KlassStudentMapper {
     /**
      * Delete a student in a team
      * @author Xinyu Shi
+     * @param teamId the refer gist
      * @param studentId the refer gist
      */
-    @Delete("delete from team_student where student_id=#{studentId}")
-    void deleteStudentFromTeam(String studentId);
+    @Delete("delete from team_student where student_id=#{studentId} and team_id=#{teamId}")
+    void deleteStudentFromTeam(@Param("teamId")String teamId, @Param("studentId") String studentId);
 
     /**
      * Delete students of team in the course

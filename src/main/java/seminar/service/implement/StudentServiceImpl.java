@@ -7,6 +7,7 @@ import seminar.entity.*;
 import seminar.logger.DebugLogger;
 import seminar.service.StudentService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,18 +16,19 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentDAO studentDAO;
-    private final CourseDAO courseDAO;
-    private final KlassDao klassDao;
     private final TeamDAO teamDAO;
+    private final CourseDAO courseDAO;
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
+    private final int TEAM_IS_INVALID = 0;
+    private final int TEAM_IS_VALID = 1;
+    private final int TEAM_IS_CHECKING = 2;
 
     @Autowired
-    public StudentServiceImpl(StudentDAO studentDAO, CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
+    public StudentServiceImpl(StudentDAO studentDAO, TeamDAO teamDAO, CourseDAO courseDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO) {
         this.studentDAO = studentDAO;
-        this.courseDAO = courseDAO;
-        this.klassDao = klassDao;
         this.teamDAO = teamDAO;
+        this.courseDAO = courseDAO;
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
     }
@@ -84,18 +86,11 @@ public class StudentServiceImpl implements StudentService {
         return true;
     }
 
+    /**
+     * @author Cesare
+     */
     @Override
-    public List<Course> getCoursesByStudentId(String studentId) {
-        return courseDAO.getByStudentId(studentId);
-    }
-
-    @Override
-    public List<Klass> getKlassesByStudentId(String studentId) {
-        return klassDao.getByStudentId(studentId);
-    }
-
-    @Override
-    public boolean seminarEnroll(String ksId, String teamId, int sn) {
+    public boolean enrollSeminar(String ksId, String teamId, int sn) {
         List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
         DebugLogger.log(teamId);
         DebugLogger.log(sn);
@@ -116,6 +111,9 @@ public class StudentServiceImpl implements StudentService {
         return true;
     }
 
+    /**
+     * @author Cesare
+     */
     @Override
     public void uploadPreFile(String attendanceId, String preFileName) {
         Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
@@ -123,6 +121,9 @@ public class StudentServiceImpl implements StudentService {
         attendanceDAO.update(attendance);
     }
 
+    /**
+     * @author Cesare
+     */
     @Override
     public void uploadReportFile(String attendanceId, String reportFileName) {
         Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
@@ -130,18 +131,96 @@ public class StudentServiceImpl implements StudentService {
         attendanceDAO.update(attendance);
     }
 
+    /**
+     * @author Xinyu Shi
+     */
     @Override
-    public List<Student> getAllUnTeamedStudentsByCourseId(String courseId)
+    public boolean createTeam(Team team)
     {
-        return studentDAO.studentsUnTeamed(courseId);
+        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
+        if(new Date().compareTo(teamEndDate) > 0) {
+            return false;
+        }
+        team.setStatus(TEAM_IS_VALID);
+        teamDAO.create(team);
+        return true;
     }
 
+
+    /**
+     * @author Xinyu Shi
+     */
     @Override
-    public void exitTeam(String studentId, String teamId)
+    public boolean addTeamMember(String studentId, String teamId)
     {
-        studentDAO.deleteStudentFromTeamStudent(studentId);
+        Team team = teamDAO.getById(teamId).get(0);
+        if(team.getStatus()==TEAM_IS_CHECKING) {
+            return false;
+        }
+        if(studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())) {
+            return false;
+        }
+        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
+        if(new Date().compareTo(teamEndDate) > 0) {
+            team.setStatus(TEAM_IS_INVALID);
+        }
+        studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
+        teamDAO.update(team);
+
+        /**
+         * TODO: judge whether the team id valid or not.
+         */
+
+        return true;
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    @Override
+    public boolean deleteTeamMember(String studentId, String teamId)
+    {
+        Team team = teamDAO.getById(teamId).get(0);
+        if(team.getStatus()==TEAM_IS_CHECKING) {
+            return false;
+        }
+        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
+        if(new Date().compareTo(teamEndDate) > 0) {
+            team.setStatus(TEAM_IS_INVALID);
+        }
+        studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
+        teamDAO.update(team);
+
+        /**
+         * TODO: judge whether the team id valid or not.
+         */
+        return true;
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    @Override
+    public void dissolveTeam(String teamId)
+    {
+        List<Student> students = teamDAO.getStudentsByTeamId(teamId);
+        for(Student student : students)
+        {
+            studentDAO.deleteStudentFromTeamStudent(teamId, student.getId());
+        }
+        teamDAO.deleteById(teamId);
+    }
+
+    /**
+     * @author Xinyu Shi
+     */
+    @Override
+    public void exitTeam(String teamId, String studentId)
+    {
+        studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
         /**
          * TODO: judge whether the team id valid or not.
          */
     }
 }
+

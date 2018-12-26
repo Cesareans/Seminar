@@ -34,6 +34,14 @@ public class TeamDAO {
     }
 
     /**
+     * @author cesare
+     */
+    public List<Student> getStudentsByTeamId(String teamId)
+    {
+        return klassStudentMapper.selectStudentsFromTeam(teamId);
+    }
+
+    /**
      * @author Cesare
      */
     public List<Team> getNoStudentTeamsByCourseId(String courseId) {
@@ -64,7 +72,9 @@ public class TeamDAO {
      * @author cesare
      */
     public Team getByCourseIdAndStudentId(String courseId, String studentId){
-        return klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
+        Team team = klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
+        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        return team;
     }
 
     /**
@@ -104,7 +114,7 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public void deleteByCourseId(String courseId){
+    void deleteTeamsByCourseId(String courseId){
         //Team student table
         klassStudentMapper.deleteTeamStudentByCourseId(courseId);
         //klass team table
@@ -114,12 +124,5 @@ public class TeamDAO {
     }
 
 
-    /**
-     * @author cesare
-     */
-    public List<Student> getStudentsByTeamId(String teamId)
-    {
-        return klassStudentMapper.selectStudentsFromTeam(teamId);
-    }
 
 }

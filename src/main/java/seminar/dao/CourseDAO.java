@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 public class CourseDAO {
     private final TeamDAO teamDAO;
+    private final RoundDAO roundDAO;
     private final CourseMapper courseMapper;
     private final KlassMapper klassMapper;
     private final RoundMapper roundMapper;
@@ -26,8 +27,9 @@ public class CourseDAO {
     private final TeacherMapper teacherMapper;
 
     @Autowired
-    public CourseDAO(TeamDAO teamDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper) {
+    public CourseDAO(TeamDAO teamDAO, RoundDAO roundDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper) {
         this.teamDAO = teamDAO;
+        this.roundDAO = roundDAO;
         this.courseMapper = courseMapper;
         this.klassMapper = klassMapper;
         this.teacherMapper = teacherMapper;
@@ -36,10 +38,11 @@ public class CourseDAO {
         this.klassRoundMapper = klassRoundMapper;
         this.teamMapper = teamMapper;
     }
+
     /**
      * @author Cesare
      */
-    public void setTeacher(Course course){
+    public void setTeacher(Course course) {
         course.setTeacher(teacherMapper.selectTeacherById(course.getTeacherId()).get(0));
     }
 
@@ -55,13 +58,6 @@ public class CourseDAO {
      */
     public List<Course> getByTeacherId(String teacherId) {
         return courseMapper.selectCourseByTeacherId(teacherId);
-    }
-
-    /**
-     * @author cesare
-     */
-    public List<Course> getByStudentId(String studentId){
-        return klassStudentMapper.selectCourseByStudentId(studentId);
     }
 
     /**
@@ -100,15 +96,18 @@ public class CourseDAO {
     /**
      * @author cesare
      */
-    public List<Course> getSubCourseOfSeminarShare(String seminarMainCourseId){
-        return courseMapper.selectCourseBySeminarMainCourseId(seminarMainCourseId);
+    public List<Course> getSubCourseOfSeminarShare(String seminarMainCourseId) {
+        List<Course> seminarSubCourses = courseMapper.selectCourseBySeminarMainCourseId(seminarMainCourseId);
+        seminarSubCourses.forEach(this::setTeacher);
+        return seminarSubCourses;
     }
 
     /**
      * Copy klass round
+     *
      * @author cesare
      */
-    public boolean buildSeminarShare(String mainCourseId, String subCourseId){
+    public boolean buildSeminarShare(String mainCourseId, String subCourseId) {
         Course subCourse = getByCourseId(subCourseId).get(0);
         if (subCourse.getSeminarMainCourseId() != null) {
             return false;
@@ -116,9 +115,10 @@ public class CourseDAO {
         subCourse.setSeminarMainCourseId(mainCourseId);
         update(subCourse);
 
+        roundDAO.deleteRoundsByCourseId(subCourseId);
+
         List<Round> rounds = roundMapper.selectRoundByCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
-
         KlassRound klassRound = new KlassRound();
         klassRound.setEnrollLimit(1);
         rounds.forEach(round -> {
@@ -130,17 +130,20 @@ public class CourseDAO {
         });
         return true;
     }
+
     /**
      * @author cesare
      */
-    public List<Course> getSubCourseOfTeamShare(String teamMainCourseId){
-        return courseMapper.selectCourseByTeamMainCourseId(teamMainCourseId);
+    public List<Course> getSubCourseOfTeamShare(String teamMainCourseId) {
+        List<Course> teamSubCourses = courseMapper.selectCourseByTeamMainCourseId(teamMainCourseId);
+        teamSubCourses.forEach(this::setTeacher);
+        return teamSubCourses;
     }
 
     /**
      * @author cesare
      */
-    public boolean buildTeamShare(String mainCourseId, String subCourseId){
+    public boolean buildTeamShare(String mainCourseId, String subCourseId) {
         Course subCourse = getByCourseId(subCourseId).get(0);
         if (subCourse.getTeamMainCourseId() != null) {
             return false;
@@ -148,28 +151,28 @@ public class CourseDAO {
         subCourse.setTeamMainCourseId(mainCourseId);
         update(subCourse);
 
-        teamDAO.deleteByCourseId(subCourseId);
+        teamDAO.deleteTeamsByCourseId(subCourseId);
 
         List<Team> teams = teamMapper.selectTeamByMainCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
         Integer[] klassStudentCount = new Integer[klasses.size()];
         teams.forEach(team -> {
             Arrays.fill(klassStudentCount, 0);
-            List<Student> students= klassStudentMapper.selectStudentsFromTeam(team.getId());
+            List<Student> students = klassStudentMapper.selectStudentsFromTeam(team.getId());
             for (Student student : students) {
                 for (int i = 0; i < klasses.size(); ++i) {
-                    if(klassStudentMapper.studentInKlass(klasses.get(i).getId(),student.getId())){
+                    if (klassStudentMapper.isStudentInKlass(klasses.get(i).getId(), student.getId())) {
                         ++klassStudentCount[i];
                     }
                 }
             }
             int maxIdx = 0;
             for (int i = 0; i < klasses.size(); i++) {
-                if(klassStudentCount[i] > klassStudentCount[maxIdx]){
+                if (klassStudentCount[i] > klassStudentCount[maxIdx]) {
                     maxIdx = i;
                 }
             }
-            if(klassStudentCount[maxIdx] > 0){
+            if (klassStudentCount[maxIdx] > 0) {
                 klassStudentMapper.insertTeamIntoKlassTeam(team.getId(), klasses.get(maxIdx).getId());
             }
         });
@@ -180,9 +183,9 @@ public class CourseDAO {
     /**
      * @author cesare
      */
-    public List<Course> getOtherCoursesByCourseId(String courseId){
+    public List<Course> getCanShareCoursesByCourseId(String courseId) {
         Course course = courseMapper.selectCourseById(courseId).get(0);
-        List<Course> otherCourses = courseMapper.selectOtherCoursesById(course.getId(), course.getTeamMainCourseId(), course.getSeminarMainCourseId());
+        List<Course> otherCourses = courseMapper.selectCanShareCoursesById(course.getId(), course.getTeamMainCourseId(), course.getSeminarMainCourseId());
         otherCourses.forEach(this::setTeacher);
         return otherCourses;
     }

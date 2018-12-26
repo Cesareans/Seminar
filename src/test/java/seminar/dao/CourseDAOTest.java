@@ -11,7 +11,6 @@ import seminar.mapper.relation.KlassStudentMapper;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CourseDAOTest {
@@ -21,9 +20,9 @@ public class CourseDAOTest {
     KlassStudentMapper klassStudentMapper;
     @Test
     public void getOtherCoursesByCourseId() {
-        DebugLogger.logJson(courseDAO.getOtherCoursesByCourseId("112"));
-        DebugLogger.logJson(courseDAO.getOtherCoursesByCourseId("113"));
-        DebugLogger.logJson(courseDAO.getOtherCoursesByCourseId("114"));
+        DebugLogger.logJson(courseDAO.getCanShareCoursesByCourseId("112"));
+        DebugLogger.logJson(courseDAO.getCanShareCoursesByCourseId("113"));
+        DebugLogger.logJson(courseDAO.getCanShareCoursesByCourseId("114"));
 
     }
 

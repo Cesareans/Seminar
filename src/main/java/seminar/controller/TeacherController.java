@@ -136,7 +136,9 @@ public class TeacherController {
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        teacherService.modifyPasswordViaId(((String) session.getAttribute("teacherId")), password);
+        if(!teacherService.modifyPasswordViaId(((String) session.getAttribute(TEACHER_ID_GIST)), password)){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -236,8 +238,14 @@ public class TeacherController {
         Round round = roundSettingDTO.getRound();
         List<KlassRound> klassRounds = roundSettingDTO.getKlassRounds();
 
-        teacherService.updateRoundScoreType(round);
-        klassRounds.forEach(teacherService::updateKlassRound);
+        if(!teacherService.updateRoundScoreType(round)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
+        }
+        for (KlassRound klassRound : klassRounds) {
+            if(!teacherService.updateKlassRound(klassRound)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("更新班级轮次设置失败");
+            }
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -277,7 +285,9 @@ public class TeacherController {
             teacherService.addRound(round);
             seminar.setRoundId(round.getId());
         }
-        teacherService.updateSeminar(seminar);
+        if(!teacherService.updateSeminar(seminar)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -316,7 +326,6 @@ public class TeacherController {
         List<Team> teams = seminarService.getTeamsByCourseId(courseId);
         Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
         rounds.forEach(round -> {
-
             List<RoundScore> roundScores = new LinkedList<>();
         });
         return "teacher/course/seminar/grade";
@@ -400,6 +409,19 @@ public class TeacherController {
     public String courseShareCreate(String courseId, Model model) {
         model.addAttribute("otherCourses", seminarService.getOtherCoursesByCourseId(courseId));
         return "teacher/course/share/create";
+    }
+
+    @PostMapping("/course/share/cancel")
+    public ResponseEntity<Object> courseShareCancel(String mainCourseId, String subCourseId, String type, Model model) {
+        switch (type){
+            case "seminarShare":
+                break;
+            case "teamShare":
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PutMapping("/course/shareApplication")
