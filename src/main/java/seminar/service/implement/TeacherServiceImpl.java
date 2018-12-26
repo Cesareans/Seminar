@@ -220,4 +220,14 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return true;
     }
+
+    @Override
+    public void cancelTeamShare(String subCourseId) {
+        courseDAO.cancelTeamShare(subCourseId);
+    }
+
+    @Override
+    public void cancelSeminarShare(String subCourseId) {
+        courseDAO.cancelSeminarShare(subCourseId);
+    }
 }

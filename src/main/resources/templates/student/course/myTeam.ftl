@@ -24,7 +24,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" id="returnBtn">
+            <a class="btn btn-link btn-fab btn-round" id="returnBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">我的队伍</div>

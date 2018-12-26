@@ -52,10 +52,10 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row flex-center">
-            <div class="col-md-6">
+            <div class="col-lg-10 col-md-8">
                 <div class="container">
                     <div class="row" style="padding-top: 20px;">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="card content-card">
                                 <div class="card-body">
                                     <div class="body-header">

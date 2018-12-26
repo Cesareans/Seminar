@@ -45,7 +45,11 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public SeminarScore calculateScoreOfOneSeminar(String teamId, String klassSeminarId)
     {
-        SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId).get(0);
+        List<SeminarScore> seminarScores =  seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+        if(seminarScores.isEmpty()){
+            return null;
+        }
+        SeminarScore seminarScore =seminarScores.get(0);
         seminarScore.setQuestionScore(calculateQuestionScoreOfSeminar(klassSeminarId,teamId));
         KlassSeminar klassSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);
         Seminar seminar = seminarDAO.getBySeminarId(klassSeminar.getSeminarId()).get(0);

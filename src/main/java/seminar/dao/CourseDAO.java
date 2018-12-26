@@ -103,8 +103,6 @@ public class CourseDAO {
     }
 
     /**
-     * Copy klass round
-     *
      * @author cesare
      */
     public boolean buildSeminarShare(String mainCourseId, String subCourseId) {
@@ -129,6 +127,20 @@ public class CourseDAO {
             });
         });
         return true;
+    }
+
+    /**
+     * @author cesare
+     */
+    public void cancelSeminarShare(String subCourseId){
+        Course subCourse = getByCourseId(subCourseId).get(0);
+        if (subCourse.getSeminarMainCourseId() == null) {
+            return;
+        }
+        subCourse.setSeminarMainCourseId(null);
+        update(subCourse);
+
+        klassRoundMapper.deleteKlassRoundByCourseId(subCourseId);
     }
 
     /**
@@ -178,6 +190,17 @@ public class CourseDAO {
         });
 
         return true;
+    }
+
+    public void cancelTeamShare(String subCourseId){
+        Course subCourse = getByCourseId(subCourseId).get(0);
+        if (subCourse.getTeamMainCourseId() == null) {
+            return;
+        }
+        subCourse.setTeamMainCourseId(null);
+        update(subCourse);
+
+        klassStudentMapper.deleteTeamFromKlassTeamByCourseId(subCourseId);
     }
 
     /**

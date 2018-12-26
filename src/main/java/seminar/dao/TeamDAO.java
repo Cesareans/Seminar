@@ -64,7 +64,9 @@ public class TeamDAO {
      */
     public Team getOwnStudentTeamByCourseIdAndTeamId(String courseId, String teamId){
         Team team = teamMapper.selectTeamById(teamId).get(0);
-        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, teamId));
+        if(team != null) {
+            team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, teamId));
+        }
         return team;
     }
 
@@ -73,7 +75,9 @@ public class TeamDAO {
      */
     public Team getByCourseIdAndStudentId(String courseId, String studentId){
         Team team = klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
-        team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        if(team != null) {
+            team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
+        }
         return team;
     }
 

@@ -5,12 +5,7 @@ import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.entity.Round;
 import seminar.entity.Seminar;
-import seminar.entity.application.ShareTeamApplication;
-import seminar.entity.application.TeamValidApplication;
-import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.relation.KlassRound;
-
-import java.util.List;
 
 /**
  * @author Cesare
@@ -166,5 +161,15 @@ public interface TeacherService {
      * @author SWJ
      */
     boolean updateReportScore(int reportScore, String klassSeminarId);
+
+    /**
+     * Cancel team share
+     */
+    void cancelTeamShare(String subCourseId);
+
+    /**
+     * cancel seminar share
+     */
+    void cancelSeminarShare(String subCourseId);
 
 }
