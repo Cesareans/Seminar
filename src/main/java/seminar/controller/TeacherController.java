@@ -436,7 +436,7 @@ public class TeacherController {
         List<Team> teams = seminarService.getTeamsByCourseId(courseId);
         model.addAttribute("rounds", rounds);
         model.addAttribute("teams", teams);
-        model.addAttribute("roundScores", scoreService.calculateScoreOfOneCourse(rounds, teams));
+        model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
         return "teacher/course/grade";
     }
 
