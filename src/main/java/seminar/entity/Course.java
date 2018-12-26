@@ -2,6 +2,8 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import seminar.entity.regulation.RegulationComposition;
 
 import java.util.Date;
 
@@ -35,6 +37,8 @@ public class Course {
 
     @Block
     private Teacher teacher;
+    @Block
+    private RegulationComposition regulationComposition;
 
     public String getId() {
         return id;
@@ -132,4 +136,11 @@ public class Course {
         this.teacher = teacher;
     }
 
+    public RegulationComposition getRegulationComposition() {
+        return regulationComposition;
+    }
+
+    public void setRegulationComposition(RegulationComposition regulationComposition) {
+        this.regulationComposition = regulationComposition;
+    }
 }

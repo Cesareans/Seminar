@@ -1,6 +1,7 @@
 package seminar.pojo.dto;
 
 import seminar.entity.Course;
+import seminar.entity.regulation.MaxMinRegulation;
 
 import java.util.Date;
 
@@ -31,6 +32,12 @@ public class CourseCreateDTO {
         return course;
     }
 
+    public MaxMinRegulation getMaxMinReg() {
+        MaxMinRegulation maxMinReg = new MaxMinRegulation();
+        maxMinReg.setMax(teamMax);
+        maxMinReg.setMin(teamMin);
+        return maxMinReg;
+    }
 
     @Override
     public String toString() {
