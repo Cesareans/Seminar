@@ -1,6 +1,7 @@
 package seminar.service;
 
 import seminar.entity.*;
+import seminar.entity.relation.KlassRound;
 
 import java.util.List;
 import java.util.Map;
@@ -206,6 +207,14 @@ public interface SeminarService {
      * @author lyf
      */
     List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
+
+    /**
+     * get klass rounds by klass id and round id
+     * @param klassId the refer gist
+     * @param roundId the refer gist
+     * @return the klass round
+     */
+    List<KlassRound> getKlassRoundsByKlassIdAndRoundId(String klassId, String roundId);
 
 
 }

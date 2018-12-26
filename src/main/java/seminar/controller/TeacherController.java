@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
+import seminar.dao.CourseDAO;
 import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
@@ -221,6 +222,9 @@ public class TeacherController {
 
     @PostMapping("/course/seminarList")
     public String seminarList(String courseId, Model model) {
+        Course course = seminarService.getCourseByCourseId(courseId).get(0);
+        Boolean canAdd = course.getSeminarMainCourseId() == null;
+        model.addAttribute("canAdd", canAdd);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
 
@@ -230,11 +234,13 @@ public class TeacherController {
     @PostMapping("/course/round/setting")
     public String roundSetting(String roundId, String courseId, Model model) {
         Round round = seminarService.getRoundByRoundId(roundId).get(0);
-        Map<String, Klass> klassMap = new HashMap<>(5);
-        round.getKlassRounds().forEach(klassRound -> {
-            klassMap.put(klassRound.getKlassId(), seminarService.getKlassById(klassRound.getKlassId()).get(0));
+        Map<String, KlassRound> klassRoundMap = new HashMap<>(5);
+        List<Klass> klasses = seminarService.getKlassByCourseId(courseId);
+        klasses.forEach(klass -> {
+            klassRoundMap.put(klass.getId(), seminarService.getKlassRoundsByKlassIdAndRoundId(klass.getId(), roundId).get(0));
         });
-        model.addAttribute("klassMap", klassMap);
+        model.addAttribute("klasses", klasses);
+        model.addAttribute("klassRoundMap", klassRoundMap);
         model.addAttribute("round", round);
         return "teacher/course/roundSetting";
     }
@@ -249,9 +255,7 @@ public class TeacherController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
         }
         for (KlassRound klassRound : klassRounds) {
-            if(!teacherService.updateKlassRound(klassRound)){
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("更新班级轮次设置失败");
-            }
+            teacherService.updateKlassRound(klassRound);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }

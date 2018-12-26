@@ -31,12 +31,11 @@ public class KlassRoundDAO {
     /**
      * @author cesare
      */
-    public boolean update(KlassRound klassRound) {
+    public void update(KlassRound klassRound) {
         if (klassRoundMapper.selectKlassRoundByKlassIdAndRoundId(klassRound.getKlassId(), klassRound.getRoundId()).isEmpty()) {
-            return false;
+            klassRoundMapper.insertKlassRound(klassRound);
         } else {
             klassRoundMapper.updateKlassRound(klassRound);
-            return true;
         }
     }
 
