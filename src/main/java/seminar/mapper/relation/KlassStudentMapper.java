@@ -20,7 +20,6 @@ import java.util.List;
 @Mapper
 public interface KlassStudentMapper {
     //#############    Klass Student
-
     /**
      * Insert a student into klass without team
      *
@@ -76,6 +75,15 @@ public interface KlassStudentMapper {
             @Result(property = "course", column = "course_id", one = @One(select = "seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
     })
     List<Klass> selectKlassByStudentId(String studentId);
+
+    /**
+     * Judge if the student is in the klass
+     * @param klassId the klass refer gist
+     * @param studentId the student refer gist
+     * @return whether is in
+     */
+    @Select("select count(*) from klass_student where klass_id = #{klassId} and student_id= #{studentId}")
+    Boolean studentInKlass(@Param("klassId") String klassId,@Param("studentId") String studentId);
 
     //#############    Team Student
     /**
@@ -133,6 +141,24 @@ public interface KlassStudentMapper {
 
     //#############    Union multi table
     /**
+     * Select a Team's students under a course
+     *
+     * @param teamId the select gist
+     * @return List<Student> the selected Team's all students as list
+     * @author Cesare
+     */
+    @Select("select student.* from klass_student left join student on klass_student.student_id = id where course_id = #{courseId} and id in(select student_id from team_student where team_student.team_id = #{teamId});")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "studentName", column = "student_name"),
+            @Result(property = "studentNum", column = "account"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "activated", column = "is_active")
+    })
+    List<Student> selectStudentsFromTeamByCourseIdAndTeamId(@Param("courseId") String courseId, @Param("teamId") String teamId);
+
+    /**
      * Get the team via courseId and studentId
      * @param courseId the refer gist
      * @param studentId the refer gist
@@ -148,10 +174,30 @@ public interface KlassStudentMapper {
             @Result(property = "klassId", column = "klass_id"),
             @Result(property = "leaderId", column = "leader_id"),
             @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
-            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsByTeamId", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam", fetchType = FetchType.LAZY)),
             @Result(property = "klass", column = "klass_id", one = @One(select = "seminar.mapper.KlassMapper.selectKlassById", fetchType = FetchType.LAZY))
     })
     Team selectTeamByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
+
+    /**
+     * Select Team by course id
+     * @param courseId refer gist
+     * @return the teams
+     */
+    @Select("select * from team where team.id in(select klass_team.team_id from klass left join klass_team on id = klass_team.klass_id where klass.course_id = #{courseId})")
+    @Results({
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "serial", column = "team_serial"),
+            @Result(property = "teamName", column = "team_name"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "klassId", column = "klass_id"),
+            @Result(property = "leaderId", column = "leader_id"),
+            @Result(property = "leader", column = "leader_id", one = @One(select = "seminar.mapper.StudentMapper.selectStudentById", fetchType = FetchType.LAZY)),
+            @Result(property = "students", column = "id", javaType = List.class, many = @Many(select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam", fetchType = FetchType.LAZY)),
+            @Result(property = "klass", column = "klass_id", one = @One(select = "seminar.mapper.KlassMapper.selectKlassById", fetchType = FetchType.LAZY))
+    })
+    List<Team> selectTeamsByCourseId(String courseId);
 
     /**
      * Select all not teamed students in a course via course id

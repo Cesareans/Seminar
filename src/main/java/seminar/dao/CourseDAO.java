@@ -9,6 +9,9 @@ import seminar.mapper.*;
 import seminar.mapper.relation.KlassRoundMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -146,13 +149,28 @@ public class CourseDAO {
         subCourse.setTeamMainCourseId(mainCourseId);
         update(subCourse);
 
-
-
         List<Team> teams = teamMapper.selectTeamByMainCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
+        Integer[] klassStudentCount = new Integer[klasses.size()];
+        Arrays.fill(klassStudentCount, 0);
         teams.forEach(team -> {
             List<Student> students= klassStudentMapper.selectStudentsFromTeam(team.getId());
-
+            for (Student student : students) {
+                for (int i = 0; i < klasses.size(); ++i) {
+                    if(klassStudentMapper.studentInKlass(klasses.get(i).getId(),student.getId())){
+                        ++klassStudentCount[i];
+                    }
+                }
+            }
+            int maxIdx = 0;
+            for (int i = 0; i < klasses.size(); i++) {
+                if(klassStudentCount[i] > klassStudentCount[maxIdx]){
+                    maxIdx = i;
+                }
+            }
+            if(klassStudentCount[maxIdx] > 0){
+                klassStudentMapper.insertTeamIntoKlassTeam(team.getId(), klasses.get(maxIdx).getId());
+            }
         });
 
         return true;
