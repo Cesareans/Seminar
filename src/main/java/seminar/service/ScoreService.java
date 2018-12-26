@@ -38,4 +38,9 @@ public interface ScoreService {
      */
     Map<String, List<RoundScore>> calculateScoreOfOneCourse(List<Round> rounds, List<Team> teams);
 
+    /**
+     * Calculate score of course score
+     */
+    List<Map<String,RoundScore>> calculateCourseScore(String courseId);
+
 }
