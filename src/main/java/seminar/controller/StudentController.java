@@ -232,6 +232,7 @@ public class StudentController {
 
     @PostMapping("/course/myTeam")
     public String myTeam(String courseId, String teamId, Model model, HttpSession session) {
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndTeamId(courseId, teamId));
@@ -279,6 +280,17 @@ public class StudentController {
         studentService.exitTeam(teamId, ((String) session.getAttribute(STUDENT_ID_GIST)));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    @PostMapping("/course/myTeam/validApplication")
+    public ResponseEntity<Object> validApplication(String teamId, String content) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if(team.getStatus()!=0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
