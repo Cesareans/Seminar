@@ -13,7 +13,8 @@
     <script src="/static/js/util.js"></script>
     <title>课程信息</title>
 </head>
-<body class="card-page sidebar-collapse">
+<body class="card-page sidebar-collapse"">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -60,21 +61,24 @@
                     <div class="container">
                         <div class="col-md-6 ml-auto mr-auto">
                             <div class="line">
-                                <label>轮次</label>
-                                <div class="sep"></div>
-                                <#--TODO:{}-->
-                                <div class="content">｛第二轮｝</div>
+                                <label>成绩计算规则</label>
                             </div>
-                            <div class="line">
-                                <label>班级</label>
-                                <div class="sep"></div>
-                                <#--TODO:{}-->
-                                <div class="content">｛2016(1)｝</div>
-                            </div>
-                            <div class="line">
-                                <label>小组人数</label>
-                                <div class="sep"></div>
-                                <div class="content" style="margin-left: 10px">{6~8}</div>
+                            <div style="margin-left: 30px">
+                                <div class="line">
+                                    <label>课堂展示</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.prePercentage}%</div>
+                                </div>
+                                <div class="line">
+                                    <label>课堂提问</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.quesPercentage}%</div>
+                                </div>
+                                <div class="line">
+                                    <label>书面报告</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.reportPercentage}%</div>
+                                </div>
                             </div>
                             <div class="line content-line">
                                 <label>组队开始时间</label>
@@ -95,7 +99,7 @@
 </div>
 <div class="container foot-container flex-center">
     <div class="col-md-10 ml-auto mr-auto" style="padding: 0;">
-        <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+        <button id="deleteBtn" class="btn bg-red" style="margin: 0">
             <i class="material-icons">delete</i>
             删除课程
         </button>

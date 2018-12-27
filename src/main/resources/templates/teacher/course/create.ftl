@@ -93,7 +93,9 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="prePer" name="prePer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify"
+                                                               class="form-control empty-verify reg-verity"
+                                                               data-reg="[0-9]*"
+                                                               data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入课堂展示权重">
                                                     </div>
                                                 </div>
@@ -105,7 +107,9 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="quePer" name="quePer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify"
+                                                               class="form-control empty-verify reg-verity"
+                                                               data-reg="[0-9]*"
+                                                               data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入课堂提问权重">
                                                     </div>
                                                 </div>
@@ -117,7 +121,9 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="repPer" name="repPer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify"
+                                                               class="form-control empty-verify reg-verity"
+                                                               data-reg="[0-9]*"
+                                                               data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入书面报告权重">
                                                     </div>
                                                 </div>

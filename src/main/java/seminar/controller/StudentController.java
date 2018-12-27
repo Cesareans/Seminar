@@ -311,6 +311,7 @@ public class StudentController {
 
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         return "student/course/info";
     }
 
