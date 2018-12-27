@@ -94,11 +94,15 @@
         </div>
     </#if>
     <#if canAdd>
-        <div class="col-md-6">
-            <a class="btn bg-transparent add-card-btn" id="createButton"
-               style="margin-top: 10px;margin-bottom: 10px;">
-                <i class="material-icons add-icon">add_circle</i>
-            </a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="createButton"
+                       style="margin-top: 10px;margin-bottom: 10px;">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
+                </div>
+            </div>
         </div>
     </#if>
 </div>
