@@ -46,11 +46,11 @@ public class WebSocketController {
         Boolean hasEnd = klassSeminar.getState() == 2;
         model.addAttribute("ksId", klassSeminarId);
         model.addAttribute("hasEnd", hasEnd);
+        DebugLogger.log(klassSeminar.getState());
         if(!hasEnd) {
             model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
         }
         return "teacher/course/seminar/progressing";
-
     }
 
     @MessageMapping("/teacher/klassSeminar/{ksId}")
@@ -72,12 +72,13 @@ public class WebSocketController {
     public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        Boolean hasEnd = klassSeminar.getState() == 2;
-        model.addAttribute("hasEnd", hasEnd);
+        int end = 2;
+        Integer state = klassSeminar.getState();
+        model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
-        if(!hasEnd) {
+        if(state != end) {
             model.addAttribute("monitor", monitor);
         }
         return "student/course/seminar/progressing";
@@ -86,7 +87,6 @@ public class WebSocketController {
     @MessageMapping("/student/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
     public RawMessage studentMessage(@DestinationVariable String ksId, RawMessage message, Principal principal) throws IOException {
-            DebugLogger.logJson(message);
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             ((ObjectNode) jsonContent).put("studentNum", principal.getName());
             message.setContent(jsonContent.toString());

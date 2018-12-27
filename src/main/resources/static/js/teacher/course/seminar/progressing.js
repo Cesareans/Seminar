@@ -1,11 +1,11 @@
 var client = null, ksId, timer, startBtn, pauseBtn, stopBtn, scoreInput,
-    giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn;
+    giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn, pullQuestionBtn;
 
 var questionCount, teams, questions, teamName, teamOperation;
 
 var preTimeStamp;
 
-var tabContent,curActive,curOnfocus,curAttendanceIdx;
+var tabContent, curActive, curOnfocus, curAttendanceIdx;
 $(function () {
     timer = $("#timer");
     startBtn = $("#start");
@@ -15,6 +15,7 @@ $(function () {
     giveScoreBtn = $("#giveScore");
     patchScoreBtn = $("#patchScore");
     switchTeamBtn = $("#switchTeam");
+    pullQuestionBtn = $("#pullQuestion");
     endPreBtn = $("#endPre");
     questionCount = $("#questionCount");
     teams = $(".btn-team:not(.question)");
@@ -28,7 +29,7 @@ $(function () {
 
     teams.click(function () {
         var team = $(this);
-        if(parseInt(team.attr("data-idx")) > curAttendanceIdx){
+        if (parseInt(team.attr("data-idx")) > curAttendanceIdx) {
             return;
         }
         changeFocus(team);
@@ -54,7 +55,6 @@ function changeFocus(target, none) {
         tabContent.children(".tab-pane").hide();
         $(tab).show();
     }
-    console.log(curOnfocus.attr("data-score"));
     changeScore(parseInt(curOnfocus.attr("data-score")));
 }
 
@@ -89,47 +89,49 @@ $(function () {
         teamOperation.text("暂停中...");
         sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
     });
-    $([switchTeamBtn, endPreBtn]).each(function () {
-        this.click(function () {
-            sendRequest("SwitchTeamRequest", {});
-        })
+    switchTeamBtn.click(function () {
+        sendRequest("SwitchTeamRequest", {});
     });
-    $("#pullQuestion").click(function () {
+    pullQuestionBtn.click(function () {
         if (parseInt(questionCount.text()) <= 0) {
             util.showAlert("warning", "当前提问数为零", 3);
             return;
         }
+        pullQuestionBtn.hide();
+        switchTeamBtn.hide();
         sendRequest("PullQuestionRequest", {});
     });
     $([giveScoreBtn, patchScoreBtn]).each(function () {
         this.click(function () {
             var score = parseFloat(scoreInput.val());
-            if(isNaN(score)){
+            if (isNaN(score)) {
                 util.showAlert("warning", "请输入分数", 3);
                 return;
             }
             curOnfocus.attr("data-score", score);
-            if(curOnfocus.hasClass("question")){
+            if (curOnfocus.hasClass("question")) {
                 sendRequest("ScoreRequest", {
-                    score:score,
-                    type:"Question",
-                    attendanceIdx:curAttendanceIdx,
-                    questionIdx:curOnfocus.attr("data-idx")
+                    score: score,
+                    type: "Question",
+                    attendanceIdx: curAttendanceIdx,
+                    questionIdx: curOnfocus.attr("data-idx")
                 });
-            }else{
+            } else {
                 sendRequest("ScoreRequest", {
-                    score:score,
-                    type:"Attendance",
-                    attendanceIdx:curAttendanceIdx
+                    score: score,
+                    type: "Attendance",
+                    attendanceIdx: curAttendanceIdx
                 });
             }
         });
     });
     stopBtn.click(function () {
+        pullQuestionBtn.show();
+        switchTeamBtn.show();
         sendRequest("EndQuestionRequest", {});
     });
-    $("#endPre").click(function () {
-        sendRequest("EndSeminarRequest",{});
+    endPreBtn.click(function () {
+        sendRequest("EndSeminarRequest", {});
     })
 });
 
@@ -158,14 +160,18 @@ function handleResponse(response) {
 }
 
 var SeminarStateResponse = {state: {progressState: null, timeStamp: null}};
-function handleSeminarStateResponse(content) {}
+
+function handleSeminarStateResponse(content) {
+}
 
 var RaiseQuestionResponse = {questionNum: null};
+
 function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
 var SwitchTeamResponse = {attendanceIndex: null, state: null};
+
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
     if (content.attendanceIndex < teams.length) {
@@ -174,18 +180,19 @@ function handleSwitchTeamResponse(content) {
         onTeam.removeClass("preparatory-team");
         teamName.text(onTeam.attr("data-teamName"));
         changeActive(onTeam);
-        if(content.attendanceIndex === teams.length - 2){
+        if (content.attendanceIndex === teams.length - 2) {
             $("#switchTeam").hide();
             $("#endPre").show();
         }
-    }else{
+    } else {
 
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
 }
 
-var PullQuestionResponse = {studentNum: null, teamSerial:null, teamName: null, questionCount: null};
+var PullQuestionResponse = {studentNum: null, teamSerial: null, teamName: null, questionCount: null};
+
 function handlePullQuestionResponse(content) {
     preTimeStamp = timer.getTime();
 
@@ -201,9 +208,11 @@ function handleEndQuestionResponse(content) {
     pauseAt(preTimeStamp);
     changeActive(teams.eq(curAttendanceIdx));
 }
+
 function handleScoreResponse(content) {
 
 }
+
 function handleEndSeminarResponse() {
     window.location.reload();
 }
@@ -244,12 +253,12 @@ function addQuestion(teamSerial) {
     changeActive(btn);
 }
 
-function changeScore(score){
-    if(score !== -1){
+function changeScore(score) {
+    if (score !== -1) {
         scoreInput.val(score);
         giveScoreBtn.hide();
         patchScoreBtn.show();
-    }else{
+    } else {
         scoreInput.val("");
         giveScoreBtn.show();
         patchScoreBtn.hide();
