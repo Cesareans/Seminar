@@ -176,6 +176,9 @@ public class CourseDAO {
 
         List<Team> teams = teamMapper.selectTeamByMainCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
+        if(klasses.size() == 0){
+            return true;
+        }
         Integer[] klassStudentCount = new Integer[klasses.size()];
         teams.forEach(team -> {
             Arrays.fill(klassStudentCount, 0);

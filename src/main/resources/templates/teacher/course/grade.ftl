@@ -25,7 +25,7 @@
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">创建课程</div>
+            <div class="navbar-brand brand-title">成绩</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
