@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
+import seminar.dao.CourseDAO;
 import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
@@ -221,6 +222,9 @@ public class TeacherController {
 
     @PostMapping("/course/seminarList")
     public String seminarList(String courseId, Model model) {
+        Course course = seminarService.getCourseByCourseId(courseId).get(0);
+        Boolean canAdd = course.getSeminarMainCourseId() == null;
+        model.addAttribute("canAdd", canAdd);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
 
@@ -230,11 +234,13 @@ public class TeacherController {
     @PostMapping("/course/round/setting")
     public String roundSetting(String roundId, String courseId, Model model) {
         Round round = seminarService.getRoundByRoundId(roundId).get(0);
-        Map<String, Klass> klassMap = new HashMap<>(5);
-        round.getKlassRounds().forEach(klassRound -> {
-            klassMap.put(klassRound.getKlassId(), seminarService.getKlassById(klassRound.getKlassId()).get(0));
+        Map<String, KlassRound> klassRoundMap = new HashMap<>(5);
+        List<Klass> klasses = seminarService.getKlassByCourseId(courseId);
+        klasses.forEach(klass -> {
+            klassRoundMap.put(klass.getId(), seminarService.getKlassRoundsByKlassIdAndRoundId(klass.getId(), roundId).get(0));
         });
-        model.addAttribute("klassMap", klassMap);
+        model.addAttribute("klasses", klasses);
+        model.addAttribute("klassRoundMap", klassRoundMap);
         model.addAttribute("round", round);
         return "teacher/course/roundSetting";
     }
@@ -249,9 +255,7 @@ public class TeacherController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
         }
         for (KlassRound klassRound : klassRounds) {
-            if(!teacherService.updateKlassRound(klassRound)){
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("更新班级轮次设置失败");
-            }
+            teacherService.updateKlassRound(klassRound);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -308,13 +312,37 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/info")
-    public String seminarInfo(String klassId, String seminarId, Model model) {
-        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+    public String seminarInfo(String klassId, String seminarId, String ksId, Model model) {
+        List<KlassSeminar> klassSeminar;
+        if(ksId != null){
+            klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(ksId);
+        }else{
+            klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        }
         if (klassSeminar.size() == 0) {
             throw new RuntimeException("No klass seminar");
         }
         model.addAttribute("klassSeminar", klassSeminar.get(0));
         return "teacher/course/seminar/info";
+    }
+
+    @PostMapping("/course/seminar/grade")
+    public String seminarGrade(String klassSeminarId, Model model) {
+        List<Attendance> attendances = seminarService.getAttendanceByKsId(klassSeminarId);
+        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(attendances.size());
+        attendances.forEach(attendance -> {
+            seminarScoreMap.put(attendance.getId(), scoreService.calculateScoreOfOneSeminar(attendance.getTeamId(), klassSeminarId));
+        });
+        model.addAttribute("seminarScore", seminarScoreMap);
+        model.addAttribute("attendances", attendances);
+        model.addAttribute("ksId", klassSeminarId);
+        return "teacher/course/seminar/grade";
+    }
+
+    @PostMapping("/course/seminar/grade/modify")
+    public String modifyGrade(String attendanceId, BigDecimal preScore, BigDecimal reportScore, Model model) {
+        teacherService.updateSeminarScore(attendanceId,preScore,reportScore);
+        return "teacher/course/seminar/grade";
     }
 
     @PostMapping("/course/seminar/enrollList")
@@ -408,7 +436,7 @@ public class TeacherController {
         List<Team> teams = seminarService.getTeamsByCourseId(courseId);
         model.addAttribute("rounds", rounds);
         model.addAttribute("teams", teams);
-        model.addAttribute("roundScores", scoreService.calculateScoreOfOneCourse(rounds, teams));
+        model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
         return "teacher/course/grade";
     }
 
@@ -467,4 +495,6 @@ public class TeacherController {
             throw new RuntimeException();
         }
     }
+
+
 }

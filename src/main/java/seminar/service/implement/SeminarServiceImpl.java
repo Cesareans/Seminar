@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
+import seminar.entity.relation.KlassRound;
 import seminar.service.SeminarService;
 
 import java.util.HashMap;
@@ -23,9 +24,10 @@ public class SeminarServiceImpl implements SeminarService {
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
     private final StudentDAO studentDAO;
+    private final KlassRoundDAO klassRoundDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
@@ -34,6 +36,7 @@ public class SeminarServiceImpl implements SeminarService {
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
         this.studentDAO = studentDAO;
+        this.klassRoundDAO = klassRoundDAO;
     }
 
     @Override
@@ -115,8 +118,18 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Attendance> getAttendanceById(String teamId, String ksId) {
+    public List<Attendance> getAttendanceById(String id) {
+        return attendanceDAO.getById(id);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByTeamIdAndKlassSeminarId(String teamId, String ksId) {
         return attendanceDAO.getByTeamIdAndKlassSeminarId(teamId, ksId);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByKsId(String ksId) {
+        return attendanceDAO.getByKlassSeminarId(ksId);
     }
 
     @Override
@@ -154,4 +167,17 @@ public class SeminarServiceImpl implements SeminarService {
         return seminarDAO.getBySeminarId(seminarId);
     }
 
+    @Override
+    public List<KlassRound> getKlassRoundsByKlassIdAndRoundId(String klassId, String roundId) {
+        List<KlassRound> klassRounds = klassRoundDAO.getByKlassIdAndRoundId(klassId,roundId);
+        if(klassRounds.size() == 0){
+            KlassRound klassRound = new KlassRound();
+            klassRound.setEnrollLimit(1);
+            klassRound.setKlassId(klassId);
+            klassRound.setRoundId(roundId);
+            klassRoundDAO.insert(klassRound);
+            klassRounds.add(klassRound);
+        }
+        return klassRounds;
+    }
 }

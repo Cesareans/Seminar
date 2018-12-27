@@ -38,10 +38,5 @@ public class ScoreServiceImplTest {
         DebugLogger.logJson(roundScore);
     }
 
-    @Test
-    public void calculateScore()
-    {
-        DebugLogger.logJson(scoreService.calculateCourseScore("16"));
-    }
 
 }
