@@ -72,7 +72,6 @@ public class ScoreServiceImpl implements ScoreService {
         List<Seminar> seminarsInRound = seminarDAO.getByRoundId(roundId);
         List<Attendance> attendances  = new ArrayList<>();
         List<KlassSeminar> klassSeminars = new ArrayList<>();
-        Team team = teamDAO.getById(teamId).get(0);
         String klassId = teamDAO.getKlassIdByTeamIdAndCourseId(teamId,round.getCourseId());
 
         for(Seminar seminar : seminarsInRound)
@@ -85,9 +84,15 @@ public class ScoreServiceImpl implements ScoreService {
             }
         }
 
-        BigDecimal preScore = calculateSeparateScore(0,round.getPreScoreType(),teamId,attendances);
+        List<SeminarScore> seminarScores = new ArrayList<>();
+        for(Attendance attendance:attendances)
+        {
+            seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0));
+        }
+
+        BigDecimal preScore = calculateSeparateScore(0,round.getPreScoreType(),seminarScores);
         BigDecimal quesScore = calculateQuestionScoreOfRound(klassSeminars,teamId,round.getQuesScoreType());
-        BigDecimal reportScore = calculateSeparateScore(1,round.getReportScoreType(),teamId,attendances);
+        BigDecimal reportScore = calculateSeparateScore(1,round.getReportScoreType(),seminarScores);
 
         Course course = courseDAO.getByCourseId(round.getCourseId()).get(0);
         BigDecimal totalScore = (preScore.multiply(new BigDecimal(course.getPrePercentage()))).add(quesScore.multiply(new BigDecimal(course.getQuesPercentage()))).add(reportScore.multiply(new BigDecimal(course.getReportPercentage())));
@@ -124,7 +129,7 @@ public class ScoreServiceImpl implements ScoreService {
         List<Map<String, RoundScore>> scoreTable = new ArrayList<>();
         for(Round round: rounds)
         {
-            Map<String,RoundScore> map = new HashMap<>();
+            Map<String,RoundScore> map = new HashMap<>(rounds.size());
             for(Team team:teams)
             {
                 RoundScore roundScore = calculateScoreOfOneRound(team.getId(),round.getId());
@@ -135,14 +140,9 @@ public class ScoreServiceImpl implements ScoreService {
         return scoreTable;
     }
 
-    private BigDecimal calculateSeparateScore(int kind, int method, String teamId, List<Attendance> attendances)
+    private BigDecimal calculateSeparateScore(int kind, int method, List<SeminarScore> seminarScores)
     {
         BigDecimal score = new BigDecimal(0);
-        List<SeminarScore> seminarScores = new ArrayList<>();
-        for(Attendance attendance:attendances)
-        {
-            seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, attendance.getKlassSeminarId()).get(0));
-        }
         if(method== AVG_SCORE_CAL_METHOD)
         {
             if(kind==PRE_SCORE){

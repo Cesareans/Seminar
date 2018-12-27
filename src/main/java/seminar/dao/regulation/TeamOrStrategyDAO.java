@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyNameId;
 import seminar.entity.regulation.TeamAndStrategy;
+import seminar.logger.DebugLogger;
 import seminar.mapper.TeamOrStrategyMapper;
 
 import java.util.ArrayList;
