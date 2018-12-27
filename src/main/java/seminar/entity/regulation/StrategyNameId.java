@@ -4,22 +4,22 @@ package seminar.entity.regulation;
  * @author Xinyu Shi
  */
 public class StrategyNameId {
-    private String strategy_name;
-    private String strategy_id;
+    private String strategyName;
+    private String strategyId;
 
-    public String getStrategy_id() {
-        return strategy_id;
+    public String getStrategyId() {
+        return strategyId;
     }
 
-    public String getStrategy_name() {
-        return strategy_name;
+    public String getStrategyName() {
+        return strategyName;
     }
 
-    public void setStrategy_id(String strategy_id) {
-        this.strategy_id = strategy_id;
+    public void setStrategyId(String strategyId) {
+        this.strategyId = strategyId;
     }
 
-    public void setStrategy_name(String strategy_name) {
-        this.strategy_name = strategy_name;
+    public void setStrategyName(String strategyName) {
+        this.strategyName = strategyName;
     }
 }

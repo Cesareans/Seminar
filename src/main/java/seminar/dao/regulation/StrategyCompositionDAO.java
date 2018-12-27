@@ -43,9 +43,9 @@ public class StrategyCompositionDAO {
         for (StrategyNameId s : strategySet)
         {
             try {
-                DebugLogger.logJson(s.getStrategy_name());
-                Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategy_name()).newInstance();
-                strategy = makeStrategyByDAO(strategy,s.getStrategy_id());
+                DebugLogger.logJson(s.getStrategyName());
+                Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
+                strategy = makeStrategyByDAO(strategy,s.getStrategyId());
                 if(!strategy.validate(team)){
                     validation = false;
                     break;

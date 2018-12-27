@@ -37,15 +37,15 @@ public class TeamAndStrategyDAO {
         List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStratigiesById(id);
         for (StrategyNameId s : strategySet)
         {
-            switch(s.getStrategy_name()){
+            switch(s.getStrategyName()){
                 case("CourseMemberLimitStrategy"):
-                    strategies.add(courseMemberLimitStrategyDAO.getById(s.getStrategy_id()));
+                    strategies.add(courseMemberLimitStrategyDAO.getById(s.getStrategyId()));
                     break;
                 case("ConflictCourseStrategy"):
-                    strategies.add(conflictCourseStrategyDAO.getById(s.getStrategy_id()));
+                    strategies.add(conflictCourseStrategyDAO.getById(s.getStrategyId()));
                     break;
                 case("MemberLimitStrategy"):
-                    strategies.add(memberLimitStrategyDAO.getById(s.getStrategy_id()));
+                    strategies.add(memberLimitStrategyDAO.getById(s.getStrategyId()));
                     break;
                 default:break;
             }

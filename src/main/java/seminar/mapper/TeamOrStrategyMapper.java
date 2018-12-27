@@ -21,8 +21,8 @@ public interface TeamOrStrategyMapper {
      */
     @Select("select strategy_name,strategy_id from team_or_strategy where id =#{id} ")
     @Results({
-            @Result(property = "strategy_name", column = "strategy_name"),
-            @Result(property = "strategy_id", column = "strategy_id")
+            @Result(property = "strategyName", column = "strategy_name"),
+            @Result(property = "strategyId", column = "strategy_id")
     })
     List<StrategyNameId> selectStratigiesById(String id);
 }
