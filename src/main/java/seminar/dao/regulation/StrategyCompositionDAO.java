@@ -7,6 +7,7 @@ import seminar.entity.regulation.*;
 import seminar.logger.DebugLogger;
 import seminar.mapper.TeamFinalStrategyMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,18 +38,29 @@ public class StrategyCompositionDAO {
 
     public boolean validate(Team team, String courseId)
     {
-        List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStrategiesById(courseId);
         boolean validation = true;
+        List<Strategy> strategies = getStrategiesByCourseId(courseId);
+        for(Strategy strategy:strategies)
+        {
+            if(!strategy.validate(team)){
+                validation = false;
+                break;
+            }
+        }
+        return validation;
+    }
+
+    public List<Strategy> getStrategiesByCourseId(String courseId)
+    {
+        List<Strategy> strategies = new ArrayList<>();
+        List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStrategiesById(courseId);
         for (StrategyNameId s : strategySet)
         {
             try {
                 DebugLogger.logJson(s.getStrategyName());
                 Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
                 strategy = makeStrategyByDAO(strategy,s.getStrategyId());
-                if(!strategy.validate(team)){
-                    validation = false;
-                    break;
-                }
+                strategies.add(strategy);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -57,7 +69,7 @@ public class StrategyCompositionDAO {
                 e.printStackTrace();
             }
         }
-        return validation;
+        return strategies;
     }
 
     private Strategy makeStrategyByDAO(Strategy strategy, String strategyId)
