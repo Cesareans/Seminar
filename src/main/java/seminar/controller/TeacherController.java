@@ -20,6 +20,7 @@ import seminar.dao.CourseDAO;
 import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
+import seminar.entity.regulation.Strategy;
 import seminar.entity.relation.KlassRound;
 import seminar.logger.DebugLogger;
 import seminar.pojo.dto.*;
@@ -193,9 +194,6 @@ public class TeacherController {
         return "teacher/courseList";
     }
 
-    /**
-     * Todo: Remains to be deepen designed
-     */
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
