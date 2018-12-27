@@ -74,10 +74,10 @@ public class WebSocketController {
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
         Boolean hasEnd = klassSeminar.getState() == 2;
         model.addAttribute("hasEnd", hasEnd);
+        model.addAttribute("studentNum", principal.getName());
+        model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
+        model.addAttribute("ksId", klassSeminar.getId());
         if(!hasEnd) {
-            model.addAttribute("studentNum", principal.getName());
-            model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
-            model.addAttribute("ksId", klassSeminar.getId());
             model.addAttribute("monitor", monitor);
         }
         return "student/course/seminar/progressing";

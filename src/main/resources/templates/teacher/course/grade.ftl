@@ -69,7 +69,7 @@
                                         <div class="col-6">
                                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                                 <li class="nav-item" data-toggle="modal"
-                                                    data-target="#teamScoreModal${team.id}">
+                                                    data-target="#scoreModal${round.id}-${team.id}">
                                                     <a class="nav-link" style="padding-bottom: 0;">
                                                         <i class="material-icons">equalizer</i>
                                                         ${team.klass.serial}-${team.serial}&nbsp;${team.teamName}
@@ -91,7 +91,7 @@
 
 <#list rounds as round>
     <#list teams as team>
-        <div class="modal fade" id="teamScoreModal${team.id}">
+        <div class="modal fade" id="scoreModal${round.id}-${team.id}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -102,28 +102,28 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <#if seminarScoreMap[seminar.id]??>
+                            <#if roundScores[round?index][team.id]??>
                                 <div class="grade-area">
                                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">mic</i>
                                                 展示分
-                                                <h6><#if seminarScoreMap[seminar.id].presentationScore??>${seminarScoreMap[seminar.id].presentationScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id].presentationScore??>${roundScores[round?index][team.id].presentationScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">description</i>
                                                 提问分
-                                                <h6><#if seminarScoreMap[seminar.id].questionScore??>${seminarScoreMap[seminar.id].questionScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id].questionScore??>${roundScores[round?index][team.id].questionScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">done_all</i>
                                                 报告分
-                                                <h6><#if seminarScoreMap[seminar.id].reportScore??>${seminarScoreMap[seminar.id].reportScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id].reportScore??>${roundScores[round?index][team.id].reportScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
@@ -133,7 +133,7 @@
                                             <a class="nav-link">
                                                 <i class="material-icons">settings</i>
                                                 总分
-                                                <h6><#if seminarScoreMap[seminar.id].totalScore??>${seminarScoreMap[seminar.id].totalScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id].totalScore??>${roundScores[round?index][team.id].totalScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
@@ -144,7 +144,7 @@
                                         <div class="icon icon-rose flex-center">
                                             <i class="material-icons color-grey">portable_wifi_off</i>
                                         </div>
-                                        <h4 class="info-title">您没有参与该讨论课</h4>
+                                        <h4 class="info-title">该队没有分数记录</h4>
                                     </div>
                                 </div>
                             </#if>

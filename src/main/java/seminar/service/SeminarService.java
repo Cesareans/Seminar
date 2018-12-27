@@ -1,6 +1,7 @@
 package seminar.service;
 
 import seminar.entity.*;
+import seminar.entity.relation.KlassRound;
 
 import java.util.List;
 import java.util.Map;
@@ -85,12 +86,25 @@ public interface SeminarService {
     int getMaxSeminarSerialByCourseId(String courseId);
 
     /**
+     * Get attendance by id
+     * @param id the refer gist
+     * @return the attendance
+     */
+    List<Attendance> getAttendanceById(String id);
+    /**
      * Get the attendance via id
      * @param teamId the refer gist
      * @param ksId the refer gist
      * @return the attendance
      */
-    List<Attendance> getAttendanceById(String teamId, String ksId);
+    List<Attendance> getAttendanceByTeamIdAndKlassSeminarId(String teamId, String ksId);
+
+    /**
+     * Get the attendance in the klassSeminar
+     * @param ksId the klassSeminar refer gist
+     * @return the list of attendance
+     */
+    List<Attendance> getAttendanceByKsId(String ksId);
 
     /**
      * Get a klass seminar's enroll list, which means that if a position do not has corresponding attendance, the enroll will be regarded as null.
@@ -193,5 +207,14 @@ public interface SeminarService {
      * @author lyf
      */
     List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(String klassId, String seminarId);
+
+    /**
+     * get klass rounds by klass id and round id
+     * @param klassId the refer gist
+     * @param roundId the refer gist
+     * @return the klass round
+     */
+    List<KlassRound> getKlassRoundsByKlassIdAndRoundId(String klassId, String roundId);
+
 
 }

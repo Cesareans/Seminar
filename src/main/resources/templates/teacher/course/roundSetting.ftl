@@ -180,18 +180,21 @@
                                         </div>
                                         <div class="body-content">
                                             <hr>
-                                            <#list round.klassRounds as klassRound>
-                                                <input hidden name="klassId" value="${klassRound.klassId}" placeholder="">
+                                            <#list klasses as klass>
+                                                <input hidden name="klassId" value="${klass.id}"
+                                                       placeholder="">
                                                 <div class="line">
-                                                <label>${klassMap[klassRound.klassId].klassName}</label>
-                                            <div class="sep"></div>
-                                                <div class="content">
-                                                <div class="form-group bmd-form-group" style="display: inline">
-                                            <input type="text" autocomplete="off" name="enrollLimit" placeholder=""
-                                                   class="form-control empty-verify klass-round-limit" value="${klassRound.enrollLimit}"
-                                                data-emptyMessage="请输入课堂展示权重">
-                                                </div>
-                                                </div>
+                                                    <label>${klass.klassName}</label>
+                                                    <div class="sep"></div>
+                                                    <div class="content">
+                                                        <div class="form-group bmd-form-group" style="display: inline">
+                                                            <input type="text" autocomplete="off" name="enrollLimit"
+                                                                   placeholder=""
+                                                                   class="form-control empty-verify klass-round-limit"
+                                                                   value="${klassRoundMap[klass.id].enrollLimit}"
+                                                                   data-emptyMessage="请输入课堂展示权重">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </#list>
                                         </div>

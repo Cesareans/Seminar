@@ -190,7 +190,7 @@ public class StudentController {
         Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute(STUDENT_ID_GIST)));
         Attendance attendance;
         if (team != null) {
-            attendance = seminarService.getAttendanceById(team.getId(), klassSeminar.getId()).get(0);
+            attendance = seminarService.getAttendanceByTeamIdAndKlassSeminarId(team.getId(), klassSeminar.getId()).get(0);
         } else {
             attendance = null;
         }
@@ -334,7 +334,9 @@ public class StudentController {
             });
             model.addAttribute("rounds", rounds);
             model.addAttribute("seminarScoreMap", seminarScoreMap);
+            DebugLogger.logJson(seminarScoreMap);
             model.addAttribute("roundScoreMap", roundScoreMap);
+            DebugLogger.logJson(roundScoreMap);
         }
         return "student/course/grade";
     }
