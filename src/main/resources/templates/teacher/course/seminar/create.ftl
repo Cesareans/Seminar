@@ -60,7 +60,7 @@
                         <div class="form-row" style="margin-top: 20px;">
                             <div class="form-group col-2" style="padding-left: 0;">
                                 <label for="serial">序号</label>
-                                <input id="serial" name="serial" type="text" autocomplete="off" value="<#if maxSerial??>{maxSerial + 1}<#else>1</#if>"
+                                <input id="serial" name="serial" type="text" autocomplete="off" value="<#if maxSerial??>${maxSerial + 1}<#else>1</#if>"
                                        class="form-control empty-verify" data-emptyMessage="请输入讨论课序号">
                             </div>
                             <div class="form-group col-10">
