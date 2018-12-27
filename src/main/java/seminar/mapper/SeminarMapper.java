@@ -143,5 +143,5 @@ public interface SeminarMapper {
      * @return the max seminar serial
      */
     @Select("select max(seminar_serial) from seminar where course_id = #{courseId}")
-    int selectMaxSeminarSerial(String courseId);
+    Integer selectMaxSeminarSerial(String courseId);
 }

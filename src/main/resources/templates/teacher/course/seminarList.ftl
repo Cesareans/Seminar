@@ -49,7 +49,7 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if rounds?size ==0>
+    <#if rounds?size ==0 && !canAdd>
         <div class="empty-tag">
             <div class="info">
                 <div class="icon icon-rose flex-center">
@@ -89,14 +89,19 @@
                         </div>
                     </div>
                 </#list>
-                <#if canAdd>
-                    <div class="col-md-6">
-                        <a class="btn bg-transparent add-card-btn" id="createButton"
-                           style="margin-top: 10px;margin-bottom: 10px;">
-                            <i class="material-icons add-icon">add_circle</i>
-                        </a>
-                    </div>
-                </#if>
+
+            </div>
+        </div>
+    </#if>
+    <#if canAdd>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="createButton"
+                       style="margin-top: 10px;margin-bottom: 10px;">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
+                </div>
             </div>
         </div>
     </#if>
