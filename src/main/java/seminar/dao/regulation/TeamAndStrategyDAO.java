@@ -20,14 +20,16 @@ public class TeamAndStrategyDAO {
     private final ConflictCourseStrategyDAO conflictCourseStrategyDAO;
     private final CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO;
     private final MemberLimitStrategyDAO memberLimitStrategyDAO;
+    private final TeamOrStrategyDAO teamOrStrategyDAO;
 
     @Autowired
-    public TeamAndStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO)
+    public TeamAndStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO)
     {
         this.teamAndStrategyMapper = teamAndStrategyMapper;
         this.conflictCourseStrategyDAO = conflictCourseStrategyDAO;
         this.courseMemberLimitStrategyDAO = courseMemberLimitStrategyDAO;
         this.memberLimitStrategyDAO = memberLimitStrategyDAO;
+        this.teamOrStrategyDAO = teamOrStrategyDAO;
     }
 
     private List<Strategy> getAndStrategyById(String id)
@@ -45,6 +47,9 @@ public class TeamAndStrategyDAO {
                     break;
                 case("MemberLimitStrategy"):
                     strategies.add(memberLimitStrategyDAO.getById(s.getStrategyId()));
+                    break;
+                case("TeamOrStrategy"):
+                    strategies.add(teamOrStrategyDAO.getById(s.getStrategyId()));
                     break;
                 default:break;
             }
