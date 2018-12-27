@@ -478,6 +478,10 @@ public class TeacherController {
             shareTeamApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareTeamApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareTeamApplication.setTeacherId(teacherId);
+            Course course = seminarService.getCourseByCourseId(shareApplicationDTO.getSubCourseId()).get(0);
+            if(course.getTeamMainCourseId() != null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
             if (applicationService.createShareTeamApplication(shareTeamApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } else {
@@ -485,6 +489,10 @@ public class TeacherController {
             }
         } else if (shareApplicationDTO.getShareType() == 1) {
             ShareSeminarApplication shareSeminarApplication = new ShareSeminarApplication();
+            Course course = seminarService.getCourseByCourseId(shareApplicationDTO.getSubCourseId()).get(0);
+            if(course.getSeminarMainCourseId() != null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
             shareSeminarApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareSeminarApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareSeminarApplication.setTeacherId(teacherId);
