@@ -198,7 +198,6 @@ public class TeacherController {
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
         model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
-
         return "teacher/course/info";
     }
 
