@@ -3,7 +3,9 @@ package seminar.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
+import seminar.dao.regulation.StrategyCompositionDAO;
 import seminar.entity.*;
+import seminar.entity.regulation.Strategy;
 import seminar.entity.relation.KlassRound;
 import seminar.service.SeminarService;
 
@@ -25,9 +27,10 @@ public class SeminarServiceImpl implements SeminarService {
     private final AttendanceDAO attendanceDAO;
     private final StudentDAO studentDAO;
     private final KlassRoundDAO klassRoundDAO;
+    private final StrategyCompositionDAO strategyCompositionDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, StrategyCompositionDAO strategyCompositionDAO) {
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
@@ -37,6 +40,12 @@ public class SeminarServiceImpl implements SeminarService {
         this.attendanceDAO = attendanceDAO;
         this.studentDAO = studentDAO;
         this.klassRoundDAO = klassRoundDAO;
+        this.strategyCompositionDAO = strategyCompositionDAO;
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return courseDAO.getAll();
     }
 
     @Override
@@ -70,6 +79,11 @@ public class SeminarServiceImpl implements SeminarService {
         mainCourses.put("team", courseDAO.getSubCourseOfTeamShare(courseId));
         mainCourses.put("seminar", courseDAO.getSubCourseOfSeminarShare(courseId));
         return mainCourses;
+    }
+
+    @Override
+    public List<Strategy> getStrategiesByCourseId(String courseId) {
+        return strategyCompositionDAO.getStrategiesByCourseId(courseId);
     }
 
     @Override

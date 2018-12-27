@@ -13,16 +13,18 @@ import java.util.*;
 public class QuestionPool {
     private List<RequestQuestion> raisedQuestion = new LinkedList<>();
     private Map<String, List<AskedQuestion>> askedQuestion = new HashMap<>();
+    private Map<Team, Integer> teamTimes = new HashMap<>(5);
     private AskedQuestion onAskQuestion;
 
     private Random rd = new Random();
 
-    QuestionPool(List<Attendance> attendances) {
+    QuestionPool(List<Attendance> attendances, List<Team> teams) {
         attendances.forEach(attendance -> {
             if (attendance != null) {
                 askedQuestion.put(attendance.getId(), new LinkedList<>());
             }
         });
+        teams.forEach(team -> teamTimes.put(team, 0));
         onAskQuestion = null;
     }
 
@@ -44,6 +46,8 @@ public class QuestionPool {
         if (onAskQuestion == null && raisedQuestion.size() > 0) {
             int i = rd.nextInt(raisedQuestion.size());
             onAskQuestion = new AskedQuestion(raisedQuestion.get(i));
+
+            teamTimes.put(onAskQuestion.getTeam(), teamTimes.get(onAskQuestion.getTeam()) + 1);
             raisedQuestion.remove(i);
         }
     }
