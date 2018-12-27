@@ -18,7 +18,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/student/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">课程信息</div>
@@ -34,14 +34,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
@@ -51,7 +45,7 @@
 <div class="container" style="margin-top: 40px">
     <div class="row">
         <div class="col-md-10 ml-auto mr-auto">
-            <div class="card seminar-card" style="height: 77%;">
+            <div class="card seminar-card" style="height: 84%;">
                 <div class="card-header">
                     <div class="container flex-center">
                         <h4 class="card-title">${course.courseName}</h4>
@@ -95,14 +89,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="container foot-container flex-center">
-    <div class="col-md-10 ml-auto mr-auto" style="padding: 0;">
-        <button id="deleteBtn" class="btn bg-red" style="margin: 0">
-            <i class="material-icons">delete</i>
-            删除课程
-        </button>
     </div>
 </div>
 <!--   Core JS Files   -->
