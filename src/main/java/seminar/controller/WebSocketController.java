@@ -72,13 +72,13 @@ public class WebSocketController {
     public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        int end = 2;
+        int on = 1;
         Integer state = klassSeminar.getState();
         model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
-        if(state != end) {
+        if(state == on) {
             model.addAttribute("monitor", monitor);
         }
         return "student/course/seminar/progressing";

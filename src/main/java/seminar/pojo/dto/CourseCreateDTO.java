@@ -1,5 +1,6 @@
 package seminar.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import seminar.entity.Course;
 
 import java.util.Date;
@@ -13,7 +14,9 @@ public class CourseCreateDTO {
     private Integer prePer;
     private Integer quePer;
     private Integer repPer;
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
+    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
 
     private Integer teamMax;
