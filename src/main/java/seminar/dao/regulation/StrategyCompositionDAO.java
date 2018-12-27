@@ -8,7 +8,6 @@ import seminar.logger.DebugLogger;
 import seminar.mapper.TeamFinalStrategyMapper;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Xinyu Shi
@@ -38,7 +37,7 @@ public class StrategyCompositionDAO {
 
     public boolean validate(Team team, String courseId)
     {
-        List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStratigiesById(courseId);
+        List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStrategiesById(courseId);
         boolean validation = true;
         for (StrategyNameId s : strategySet)
         {

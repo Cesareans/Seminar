@@ -33,7 +33,7 @@ public class TeamOrStrategyDAO {
     private List<Strategy> getOrStrategyById(String id)
     {
         List<Strategy> strategies = new ArrayList<>();
-        List<StrategyNameId> strategySet = teamOrStrategyMapper.selectStratigiesById(id);
+        List<StrategyNameId> strategySet = teamOrStrategyMapper.selectStrategiesById(id);
         for (StrategyNameId s : strategySet)
         {
             switch(s.getStrategyName()){

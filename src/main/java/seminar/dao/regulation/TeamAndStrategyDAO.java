@@ -9,7 +9,6 @@ import seminar.mapper.TeamAndStrategyMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Xinyu Shi
@@ -34,7 +33,7 @@ public class TeamAndStrategyDAO {
     private List<Strategy> getAndStrategyById(String id)
     {
         List<Strategy> strategies = new ArrayList<>();
-        List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStratigiesById(id);
+        List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStrategiesById(id);
         for (StrategyNameId s : strategySet)
         {
             switch(s.getStrategyName()){

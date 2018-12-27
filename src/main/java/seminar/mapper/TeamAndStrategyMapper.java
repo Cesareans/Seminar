@@ -24,5 +24,5 @@ public interface TeamAndStrategyMapper {
             @Result(property = "strategyName", column = "strategy_name"),
             @Result(property = "strategyId", column = "strategy_id")
     })
-    List<StrategyNameId> selectStratigiesById(String id);
+    List<StrategyNameId> selectStrategiesById(String id);
 }

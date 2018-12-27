@@ -23,5 +23,5 @@ public interface TeamFinalStrategyMapper {
             @Result(property = "strategyName", column = "strategy_name"),
             @Result(property = "strategyId", column = "strategy_id")
     })
-    List<StrategyNameId> selectStratigiesById(String courseId);
+    List<StrategyNameId> selectStrategiesById(String courseId);
 }
