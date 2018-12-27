@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/klass/create.js"></script>
-    <title>首页</title>
+    <title>创建班级</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>

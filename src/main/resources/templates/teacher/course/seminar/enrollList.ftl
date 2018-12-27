@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/enrollList.js"></script>
-    <title>讨论课报名</title>
+    <title>进行讨论课</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>

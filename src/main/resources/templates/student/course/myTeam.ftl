@@ -17,7 +17,7 @@
             color: #ff0000;
         }
     </style>
-    <title>首页</title>
+    <title>我的队伍</title>
 </head>
 <body class="profile-page sidebar-collapse" data-maxMember="${maxMember}" data-teamId="${team.id}">
 <div class="alert-area"></div>
