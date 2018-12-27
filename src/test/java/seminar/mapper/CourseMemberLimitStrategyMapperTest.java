@@ -1,4 +1,4 @@
-package seminar.dao.regulation;
+package seminar.mapper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,17 +7,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import seminar.logger.DebugLogger;
 
+import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StrategyCompositionDAOTest {
+public class CourseMemberLimitStrategyMapperTest {
 
     @Autowired
-    StrategyCompositionDAO strategyCompositionDAO;
+    CourseMemberLimitStrategyMapper courseMemberLimitStrategyMapper;
 
     @Test
-    public void getStrategiesTest()
+    public void getByIdTest()
     {
-        DebugLogger.logJson(strategyCompositionDAO.getStrategiesByCourseId("16"));
+        DebugLogger.logJson(courseMemberLimitStrategyMapper.selectCourseMemberLimitStrategyById("1").get(0));
     }
-
 }

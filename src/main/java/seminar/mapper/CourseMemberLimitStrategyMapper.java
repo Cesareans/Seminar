@@ -70,8 +70,8 @@ List<CourseMemberLimitStrategy> selectCourseMemberLimitStrategyByCourseId(String
 @Select("select * from course_member_limit_strategy where id=#{id}")
 @Results({
 @Result(property = "id", column = "id", id = true),
-@Result(property = "min", column = "min"),
-@Result(property = "max", column = "max"),
+@Result(property = "min", column = "min_member"),
+@Result(property = "max", column = "max_member"),
 @Result(property = "courseId", column = "course_id"),
 @Result(property = "courses", column = "course_id", javaType = List.class, many=@Many(select="seminar.mapper.CourseMapper.selectCourseById", fetchType = FetchType.LAZY))
 })
