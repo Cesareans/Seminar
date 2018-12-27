@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/roundSetting.js"></script>
-    <title>创建课程</title>
+    <title>轮次设置</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>

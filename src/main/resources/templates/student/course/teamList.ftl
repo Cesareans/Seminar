@@ -16,7 +16,7 @@
             $(".courseId").val(sessionStorage.getItem("courseId"));
         })
     </script>
-    <title>分组</title>
+    <title>组队</title>
 </head>
 <body class="card-page sidebar-collapse" data-parallax="true">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
