@@ -16,7 +16,7 @@
     <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/student/course/seminar/progressing.js"></script>
-    <title>讨论课报名</title>
+    <title>进行讨论课</title>
     <style>
         input::-ms-input-placeholder {
             text-align: center;
