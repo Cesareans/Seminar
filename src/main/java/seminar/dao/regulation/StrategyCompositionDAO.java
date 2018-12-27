@@ -61,11 +61,7 @@ public class StrategyCompositionDAO {
                 Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
                 strategy = makeStrategyByDAO(strategy,s.getStrategyId());
                 strategies.add(strategy);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

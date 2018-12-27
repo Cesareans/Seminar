@@ -1,6 +1,7 @@
 package seminar.service;
 
 import seminar.entity.*;
+import seminar.entity.regulation.Strategy;
 import seminar.entity.relation.KlassRound;
 
 import java.util.List;
@@ -10,6 +11,11 @@ import java.util.Map;
  * @author Cesare
  */
 public interface SeminarService {
+    /**
+     * Get all courses
+     * @return all course in the system
+     */
+    List<Course> getAllCourses();
     /**
      * Get a course via course ID
      *
@@ -54,6 +60,13 @@ public interface SeminarService {
      * - seminar:seminar share sub courses.
      */
     Map<String, List<Course>> getSubCoursesByCourseId(String courseId);
+
+    /**
+     * get strategies of a course by course id
+     * @param courseId the refer gist
+     * @return the strategies of the course
+     */
+    List<Strategy> getStrategiesByCourseId(String courseId);
 
 
     /**

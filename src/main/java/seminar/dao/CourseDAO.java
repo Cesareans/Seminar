@@ -25,9 +25,10 @@ public class CourseDAO {
     private final TeamMapper teamMapper;
     private final KlassStudentMapper klassStudentMapper;
     private final TeacherMapper teacherMapper;
+    private final KlassSeminarDAO klassSeminarDAO;
 
     @Autowired
-    public CourseDAO(TeamDAO teamDAO, RoundDAO roundDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper) {
+    public CourseDAO(TeamDAO teamDAO, RoundDAO roundDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper, KlassSeminarDAO klassSeminarDAO) {
         this.teamDAO = teamDAO;
         this.roundDAO = roundDAO;
         this.courseMapper = courseMapper;
@@ -37,6 +38,7 @@ public class CourseDAO {
         this.roundMapper = roundMapper;
         this.klassRoundMapper = klassRoundMapper;
         this.teamMapper = teamMapper;
+        this.klassSeminarDAO = klassSeminarDAO;
     }
 
     /**
@@ -46,6 +48,9 @@ public class CourseDAO {
         course.setTeacher(teacherMapper.selectTeacherById(course.getTeacherId()).get(0));
     }
 
+    public List<Course> getAll(){
+        return courseMapper.selectAllCourse();
+    }
     /**
      * @author cesare
      */
@@ -119,11 +124,15 @@ public class CourseDAO {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
         KlassRound klassRound = new KlassRound();
         klassRound.setEnrollLimit(1);
+        KlassSeminar klassSeminar = new KlassSeminar();
         rounds.forEach(round -> {
             klasses.forEach(klass -> {
                 klassRound.setRoundId(round.getId());
                 klassRound.setKlassId(klass.getId());
                 klassRoundMapper.insertKlassRound(klassRound);
+                round.getSeminars().forEach(seminar -> {
+                    klassSeminarDAO.createByKlassIdAndSeminarId(klass.getId(), seminar.getId());
+                });
             });
         });
         return true;

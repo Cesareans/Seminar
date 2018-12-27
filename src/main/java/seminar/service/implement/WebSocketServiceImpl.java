@@ -48,6 +48,14 @@ public class WebSocketServiceImpl implements WebSocketService {
         if (monitorMap.containsKey(ksId)) {
             return monitorMap.get(ksId);
         }
+        int end = 2;
+        KlassSeminar klassSeminar = klassSeminarDAO.getById(ksId).get(0);
+        if(klassSeminar.getState() == end){
+            return null;
+        }
+        klassSeminar.setState(1);
+        klassSeminarDAO.update(klassSeminar);
+
         List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
         List<Team> teams = teamDAO.getOwnStudentsTeamByCourseId(klassSeminarDAO.getById(ksId).get(0).getSeminar().getCourseId());
         SeminarMonitor seminarMonitor = new SeminarMonitor(enrollList, teams);
@@ -58,6 +66,10 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Override
     public void endMonitor(String ksId) {
         SeminarMonitor monitor = getMonitor(ksId);
+        KlassSeminar klassSeminar = klassSeminarDAO.getById(ksId).get(0);
+        klassSeminar.setState(2);
+        klassSeminarDAO.update(klassSeminar);
+        monitorMap.remove(ksId);
 
         Map<String, BigDecimal> scoreMap = monitor.getPreScoreMap();
         SeminarScore seminarScore = new SeminarScore();
@@ -91,10 +103,6 @@ public class WebSocketServiceImpl implements WebSocketService {
                 questionDAO.create(question);
             });
         }
-        KlassSeminar klassSeminar = klassSeminarDAO.getById(ksId).get(0);
-        klassSeminar.setState(2);
-        klassSeminarDAO.update(klassSeminar);
-        monitorMap.remove(ksId);
     }
 
     @Override

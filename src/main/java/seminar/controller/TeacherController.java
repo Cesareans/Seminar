@@ -1,5 +1,6 @@
 package seminar.controller;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,10 +22,8 @@ import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.relation.KlassRound;
 import seminar.logger.DebugLogger;
-import seminar.pojo.dto.ApplicationHandleDTO;
-import seminar.pojo.dto.KlassCreateDTO;
-import seminar.pojo.dto.RoundSettingDTO;
-import seminar.pojo.dto.ShareApplicationDTO;
+import seminar.pojo.dto.*;
+import seminar.pojo.websocket.response.Response;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -159,7 +158,6 @@ public class TeacherController {
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
-        DebugLogger.logJson(applicationHandleDTO);
         /*
          * 0 : ShareSeminar
          * 1 : ShareTeam
@@ -201,22 +199,27 @@ public class TeacherController {
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
+        model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
         return "teacher/course/info";
     }
 
-
     @GetMapping("/course/create")
-    public String courseCreate() {
+    public String courseCreate(Model model) {
+        model.addAttribute("courses", seminarService.getAllCourses());
         return "teacher/course/create";
     }
 
-    /**
-     * Todo[cesare]: Remain to be realized
-     */
-    @PutMapping("/course")
-    public @ResponseBody
-    ResponseEntity<Object> courseCreate(Course course) {
-        return null;
+    @PutMapping("/course/create")
+    public ResponseEntity<Object> courseCreate(CourseCreateDTO courseCreateDTO) {
+        Course course = courseCreateDTO.getCourse();
+        teacherService.createCourse(course);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @DeleteMapping("/course/{courseId}")
+    public ResponseEntity<Object> deleteCourse(@PathVariable String courseId){
+        teacherService.deleteCourseById(courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 

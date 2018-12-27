@@ -56,7 +56,7 @@
         </div>
     </div>
 </nav>
-<#if hasEnd>
+<#if state = 2>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">
@@ -64,6 +64,17 @@
                     <i class="material-icons color-grey">portable_wifi_off</i>
                 </div>
                 <h4 class="info-title">该讨论课已经结束</h4>
+            </div>
+        </div>
+    </div>
+<#elseif state = 0>
+    <div class="main main-raised no-footer">
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">portable_wifi_off</i>
+                </div>
+                <h4 class="info-title">该讨论课尚未开始</h4>
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@ public class SeminarMonitor {
     private void init() {
         studentNumTeamMap = new HashMap<>(teams.size() * 5);
         preScoreMap = new HashMap<>(teams.size());
-        questionPool = new QuestionPool(enrollList);
+        questionPool = new QuestionPool(enrollList, teams);
         onPreAttendanceIndex = 0;
         enrollList.forEach(enroll -> {
             if (enroll != null) {
