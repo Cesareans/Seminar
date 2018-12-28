@@ -62,45 +62,31 @@
                         <div class="col-8">
                             <div class="form-check form-check-radio form-check-inline" style="margin: 0 20px 0 0;">
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="radio"
+                                    <input id="shareTeam" class="form-check-input" type="radio"
                                            name="shareType" value="0" checked>共享分组
                                     <span class="circle"><span class="check"></span></span>
                                 </label>
                             </div>
                             <div class="form-check form-check-radio form-check-inline" style="margin: 0">
                                 <label class="form-check-label">
-                                    <input class="form-check-input" type="radio"
+                                    <input id="shareSeminar"  class="form-check-input" type="radio"
                                            name="shareType" value="1">共享讨论课
                                     <span class="circle"><span class="check"></span></span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="container">
+                    <div id="shareTeamTab" class="container">
                         <div class="card course-card">
                             <h4 style="text-align: center">可共享分组课程</h4>
                             <div class="card-body" style="padding: 0;overflow: scroll">
                                 <div class="container">
-                                    <#if teamCourses?size == 0>
-                                        <div class="empty-tag">
-                                            <div class="info">
-                                                <div class="icon icon-rose flex-center">
-                                                    <i class="material-icons color-grey">portable_wifi_off</i>
-                                                </div>
-                                                <h4 class="info-title">无可共享分组课程</h4>
-                                            </div>
-                                        </div>
-                                    <#else >
-                                        <table class="table course-table" style="margin-bottom: 0;border: 0;">
-                                            <thead style="border: 0;">
-                                            <tr style="border: 0;">
-                                                <th class="operation">-</th>
-                                                <th class="name">课程名</th>
-                                                <th class="teacher">教师名</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <#list teamCourses as teamCourse>
+                                    <table class="table course-table" style="margin-bottom: 0;border: 0;">
+                                        <tbody>
+                                        <#assign empty = true>
+                                        <#list teamCourses as teamCourse>
+                                            <#if teamCourse.id != course.id>
+                                                <#assign empty = false>
                                                 <tr>
                                                     <td class="operation">
                                                         <div class="form-check form-check-radio form-check-inline"
@@ -115,39 +101,35 @@
                                                     <td class="name">${teamCourse.courseName}</td>
                                                     <td class="teacher">${teamCourse.teacher.teacherName}</td>
                                                 </tr>
-                                            </#list>
-                                            </tbody>
-                                        </table>
+                                            </#if>
+                                        </#list>
+                                        </tbody>
+                                    </table>
+                                    <#if empty>
+                                        <div class="empty-tag" style="height: 69%">
+                                            <div class="info">
+                                                <div class="icon icon-rose flex-center">
+                                                    <i class="material-icons color-grey">portable_wifi_off</i>
+                                                </div>
+                                                <h4 class="info-title">无可共享分组课程</h4>
+                                            </div>
+                                        </div>
                                     </#if>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="container">
+                    <div id="shareSeminarTab" class="container" style="display: none">
                         <div class="card course-card">
                             <h4 style="text-align: center">可共享讨论课课程</h4>
                             <div class="card-body" style="padding: 0;overflow: scroll">
                                 <div class="container">
-                                    <#if seminarCourses?size == 0>
-                                        <div class="empty-tag">
-                                            <div class="info">
-                                                <div class="icon icon-rose flex-center">
-                                                    <i class="material-icons color-grey">portable_wifi_off</i>
-                                                </div>
-                                                <h4 class="info-title">无可共享课程</h4>
-                                            </div>
-                                        </div>
-                                    <#else >
-                                        <table class="table course-table" style="margin-bottom: 0;border: 0;">
-                                            <thead style="border: 0;">
-                                            <tr style="border: 0;">
-                                                <th class="operation">-</th>
-                                                <th class="name">课程名</th>
-                                                <th class="teacher">教师名</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <#list seminarCourses as seminarCourse>
+                                    <table class="table course-table" style="margin-bottom: 0;border: 0;">
+                                        <tbody>
+                                        <#assign empty = true>
+                                        <#list seminarCourses as seminarCourse>
+                                            <#if seminarCourse.id != course.id>
+                                                <#assign empty = false>
                                                 <tr>
                                                     <td class="operation">
                                                         <div class="form-check form-check-radio form-check-inline"
@@ -162,9 +144,19 @@
                                                     <td class="name">${seminarCourse.courseName}</td>
                                                     <td class="teacher">${seminarCourse.teacher.teacherName}</td>
                                                 </tr>
-                                            </#list>
-                                            </tbody>
-                                        </table>
+                                            </#if>
+                                        </#list>
+                                        </tbody>
+                                    </table>
+                                    <#if empty>
+                                        <div class="empty-tag" style="height: 69%">
+                                            <div class="info">
+                                                <div class="icon icon-rose flex-center">
+                                                    <i class="material-icons color-grey">portable_wifi_off</i>
+                                                </div>
+                                                <h4 class="info-title">无可共享课程</h4>
+                                            </div>
+                                        </div>
                                     </#if>
                                 </div>
                             </div>
