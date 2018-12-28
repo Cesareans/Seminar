@@ -61,6 +61,11 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Course> getAllCoursesWithTeacher() {
+        return courseDAO.getAllWithTeacher();
+    }
+
+    @Override
     public List<Course> getCourseByCourseId(String courseId) {
         return courseDAO.getByCourseId(courseId);
     }

@@ -5,12 +5,11 @@ import seminar.entity.regulation.MemberLimitStrategy;
 
 import java.util.List;
 
-
 /**
  * An automatic generated mapper for the entity MemberLimitStrategy.
  * This mapper is for a increment primary key table.
  *
- * @author Xinyu Shi
+ * @author Cesare
  */
 @Mapper
 public interface MemberLimitStrategyMapper {
@@ -19,7 +18,8 @@ public interface MemberLimitStrategyMapper {
      *
      * @param memberLimitStrategy the MemberLimitStrategy entity that will be inserted
      */
-    @Insert("insert into member_limit_strategy(min_member, max_member) values(#{min}, #{max})")
+    @Insert("insert into member_limit_strategy(min, max) values(#{min}, #{max})")
+    @Options(useGeneratedKeys = true)
     void insertMemberLimitStrategy(MemberLimitStrategy memberLimitStrategy);
 
     /**
@@ -27,7 +27,7 @@ public interface MemberLimitStrategyMapper {
      *
      * @param memberLimitStrategy the MemberLimitStrategy entity that will be updated via the id
      */
-    @Update("update member_limit_strategy set min_member=#{min}, max_member=#{max} where id=#{id}")
+    @Update("update member_limit_strategy set min=#{min}, max=#{max} where id=#{id}")
     void updateMemberLimitStrategy(MemberLimitStrategy memberLimitStrategy);
 
     /**
@@ -38,11 +38,10 @@ public interface MemberLimitStrategyMapper {
     @Select("select * from member_limit_strategy")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "min", column = "min_member"),
-            @Result(property = "max", column = "max_member")
+            @Result(property = "min", column = "min"),
+            @Result(property = "max", column = "max")
     })
     List<MemberLimitStrategy> selectAllMemberLimitStrategy();
-
 
     /**
      * Select a MemberLimitStrategy entity via id
@@ -53,11 +52,10 @@ public interface MemberLimitStrategyMapper {
     @Select("select * from member_limit_strategy where id=#{id}")
     @Results({
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "min", column = "min_member"),
-            @Result(property = "max", column = "max_member")
+            @Result(property = "min", column = "min"),
+            @Result(property = "max", column = "max")
     })
     List<MemberLimitStrategy> selectMemberLimitStrategyById(String id);
-
 
     /**
      * Delete a MemberLimitStrategy entity via id

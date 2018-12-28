@@ -53,6 +53,12 @@ public class CourseDAO {
     public List<Course> getAll(){
         return courseMapper.selectAllCourse();
     }
+
+    public List<Course> getAllWithTeacher(){
+        List<Course> courses = courseMapper.selectAllCourse();
+        courses.forEach(this::setTeacher);
+        return courses;
+    }
     /**
      * @author cesare
      */

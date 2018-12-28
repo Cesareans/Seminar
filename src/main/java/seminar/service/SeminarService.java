@@ -35,6 +35,13 @@ public interface SeminarService {
      * @return all course in the system
      */
     List<Course> getAllCourses();
+
+    /**
+     * Get all courses with teacher
+     * @return all course in the system
+     */
+    List<Course> getAllCoursesWithTeacher();
+
     /**
      * Get a course via course ID
      *

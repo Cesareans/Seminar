@@ -194,16 +194,16 @@ public class TeacherController {
 
     @GetMapping("/course/create")
     public String courseCreate(Model model) {
-        model.addAttribute("courses", seminarService.getAllCourses());
+        model.addAttribute("courses", seminarService.getAllCoursesWithTeacher());
         return "teacher/course/create";
     }
 
     @PutMapping("/course")
     public ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
         Course course = courseCreateDTO.getCourse();
-        course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
-        teacherService.createCourse(course);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        //course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
+        //teacherService.createCourse(course);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
     @DeleteMapping("/course/{courseId}")
