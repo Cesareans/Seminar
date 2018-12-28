@@ -12,6 +12,7 @@ import seminar.pojo.websocket.RawMessage;
 import seminar.pojo.websocket.request.Request;
 import seminar.pojo.websocket.response.EndSeminarResponse;
 import seminar.pojo.websocket.response.Response;
+import seminar.service.ScoreService;
 import seminar.service.WebSocketService;
 
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ import java.util.Map;
  */
 @Service
 public class WebSocketServiceImpl implements WebSocketService {
+    private final ScoreService scoreService;
     private final KlassSeminarDAO klassSeminarDAO;
     private final TeamDAO teamDAO;
     private final SeminarScoreDAO seminarScoreDAO;
@@ -33,7 +35,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     private Map<String, SeminarMonitor> monitorMap = new HashMap<>();
 
     @Autowired
-    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, SeminarScoreDAO seminarScoreDAO, QuestionDAO questionDAO, RawMessageConverter rawMessageConverter, AttendanceDAO attendanceDAO) {
+    public WebSocketServiceImpl(ScoreService scoreService, KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, SeminarScoreDAO seminarScoreDAO, QuestionDAO questionDAO, RawMessageConverter rawMessageConverter, AttendanceDAO attendanceDAO) {
+        this.scoreService = scoreService;
         this.klassSeminarDAO = klassSeminarDAO;
         this.teamDAO = teamDAO;
         this.seminarScoreDAO = seminarScoreDAO;
@@ -95,6 +98,7 @@ public class WebSocketServiceImpl implements WebSocketService {
                 question.setTeamId(askedQuestion.getTeam().getId());
                 questionDAO.create(question);
             });
+            scoreService.updateQuestionScore(ksId, attendance.getTeamId());
         }
     }
 

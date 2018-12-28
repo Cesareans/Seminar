@@ -1,9 +1,6 @@
 package seminar.entity.regulation;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
-import cesare.mybatis.annotations.TargetPackage;
+import cesare.mybatis.annotations.*;
 import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
@@ -18,7 +15,9 @@ public class CourseMemberLimitStrategy implements Strategy {
 
     @ID(isIncrement = true)
     private String id;
+    @SqlMap(value = "min_member")
     private int min;
+    @SqlMap(value = "max_member")
     private int max;
     @Gist
     private String courseId;

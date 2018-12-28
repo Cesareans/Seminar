@@ -100,7 +100,7 @@ public class WebSocketController {
     public String studentSeminarProgressing(String klassId, String seminarId, Model model, Principal principal){
         Klass klass = seminarService.getKlassById(klassId).get(0);
         Student student = seminarService.getStudentBySN(principal.getName()).get(0);
-        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getId(),student.getId());
+        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(),student.getId());
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         Integer state = klassSeminar.getState();
         if(team == null){

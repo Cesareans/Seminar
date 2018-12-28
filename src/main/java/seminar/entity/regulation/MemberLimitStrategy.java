@@ -1,6 +1,7 @@
 package seminar.entity.regulation;
 
 import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Team;
 
@@ -12,9 +13,9 @@ public class MemberLimitStrategy implements Strategy {
 
     @ID(isIncrement = true)
     private String id;
-
+    @SqlMap(value = "min_member")
     private int min;
-
+    @SqlMap(value = "max_member")
     private int max;
 
     public String getId() {

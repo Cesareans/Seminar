@@ -16,8 +16,8 @@ public interface StrategyService {
    boolean validate(String teamId, String courseId);
 
    /**
-    * @author Xinyu Shi
     * create strategy and store into DB.
+    * @author Xinyu Shi
     * @param courseCreateDTO the target dto
     * @param courseId the refer gist
     */

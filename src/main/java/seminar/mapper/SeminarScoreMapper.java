@@ -129,7 +129,8 @@ public interface SeminarScoreMapper {
     /**
      * Select a SeminarScore entity via teamId and klassSeminarId
      * @author Xinyu Shi
-     * @param id the select gist
+     * @param teamId the select gist
+     * @param klassSeminarId the select gist
      * @return List<seminarScore> the selected SeminarScore entity as list
      */
     @Select("select * from seminar_score where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")

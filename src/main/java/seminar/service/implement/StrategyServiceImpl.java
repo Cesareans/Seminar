@@ -9,6 +9,7 @@ import seminar.entity.regulation.ConflictCourseStrategy;
 import seminar.entity.regulation.CourseMemberLimitStrategy;
 import seminar.entity.regulation.MemberLimitStrategy;
 import seminar.entity.regulation.StrategyComposition;
+import seminar.logger.DebugLogger;
 import seminar.pojo.dto.CourseCreateDTO;
 import seminar.service.StrategyService;
 
@@ -51,6 +52,7 @@ public class StrategyServiceImpl implements StrategyService {
             strategyComposition = strategyCompositionDAO.getStrategiesByCourseId(courseId);
             compositionMap.put(courseId, strategyComposition);
         }
+        DebugLogger.logJson(strategyComposition);
         Team team = teamDAO.getById(teamId).get(0);
         return strategyComposition.validate(team);
     }
@@ -63,6 +65,7 @@ public class StrategyServiceImpl implements StrategyService {
         MemberLimitStrategy memberLimitStrategy = courseCreateDTO.getMemberLimitStrategy();
         List<CourseMemberLimitStrategy> courseMemberLimitStrategies = courseCreateDTO.getCourseMemberLimitStrategies();
         List<ConflictCourseStrategy> conflictCourseStrategies = courseCreateDTO.getConflictCourseStrategies();
+        DebugLogger.logJson(memberLimitStrategy);
         memberLimitStrategyDAO.createMemberLimitStrategy(memberLimitStrategy);
         teamAndStrategyDAO.createTeamAndStrategy(teamAndId,"MemberLimitStrategy",memberLimitStrategy.getId());
         for(CourseMemberLimitStrategy courseMemberLimitStrategy:courseMemberLimitStrategies)

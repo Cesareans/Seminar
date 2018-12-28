@@ -33,6 +33,7 @@
                     url:"/teacher/course/seminar/grade/modify",
                     data: $("#modifyScoreForm").serialize(),
                     success:function () {
+                        util.hideLoading();
                         window.location.reload();
                     },
                     error:function () {
@@ -55,6 +56,7 @@
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">

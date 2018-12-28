@@ -1,10 +1,7 @@
 package seminar.service;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import seminar.entity.Course;
-import seminar.entity.Klass;
-import seminar.entity.Round;
-import seminar.entity.Seminar;
+import seminar.entity.*;
 import seminar.entity.relation.KlassRound;
 
 import java.math.BigDecimal;
@@ -161,8 +158,9 @@ public interface TeacherService {
      * @param preScore the new score
      * @param queScore the new queScore
      * @param reportScore the new score
+     * @return the seminar score
      */
-    void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore);
+    SeminarScore updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore);
     /**
      * Cancel team share
      * @param subCourseId the subCourseId

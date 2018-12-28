@@ -173,6 +173,8 @@ public class StudentServiceImpl implements StudentService {
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
         if(new Date().compareTo(teamEndDate) > 0) {
             team.setStatus(TEAM_IS_INVALID);
+            teamDAO.update(team);
+            return false;
         }
         studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
         if(!strategyService.validate(teamId,team.getCourseId())){
@@ -195,6 +197,8 @@ public class StudentServiceImpl implements StudentService {
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
         if(new Date().compareTo(teamEndDate) > 0) {
             team.setStatus(TEAM_IS_INVALID);
+            teamDAO.update(team);
+            return false;
         }
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
         if(!strategyService.validate(teamId,team.getCourseId())){

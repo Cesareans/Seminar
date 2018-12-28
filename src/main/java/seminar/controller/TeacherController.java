@@ -329,7 +329,7 @@ public class TeacherController {
         List<Attendance> attendances = seminarService.getAttendanceByKsId(klassSeminarId);
         Map<String, SeminarScore> seminarScoreMap = new HashMap<>(attendances.size());
         attendances.forEach(attendance -> {
-            seminarScoreMap.put(attendance.getId(), scoreService.calculateScoreOfOneSeminar(attendance.getTeamId(), klassSeminarId));
+            seminarScoreMap.put(attendance.getId(), scoreService.getSeminarScore(attendance.getTeamId(), klassSeminarId));
         });
         model.addAttribute("seminarScore", seminarScoreMap);
         model.addAttribute("attendances", attendances);
@@ -339,7 +339,7 @@ public class TeacherController {
 
     @PostMapping("/course/seminar/grade/modify")
     public ResponseEntity<Object> modifyGrade(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore) {
-        teacherService.updateSeminarScore(attendanceId, preScore, queScore, reportScore);
+        scoreService.updateSeminarScore(teacherService.updateSeminarScore(attendanceId, preScore, queScore, reportScore));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 

@@ -219,7 +219,10 @@ public class ScoreServiceImpl implements ScoreService {
         for(Seminar seminar:seminars)
         {
             KlassSeminar klassSeminar = klassSeminarDAO.getByKlassIdAndSeminarId(klassId,seminar.getId()).get(0);
-            seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId()).get(0));
+            List<SeminarScore> seminarScore= seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId());
+            if(!seminarScore.isEmpty()) {
+                seminarScores.add(seminarScore.get(0));
+            }
         }
         roundScore.setPresentationScore(calculateSeparateScore(PRE_SCORE,round.getPreScoreType(),seminarScores));
         roundScore.setReportScore(calculateSeparateScore(REPORT_SCORE,round.getReportScoreType(),seminarScores));

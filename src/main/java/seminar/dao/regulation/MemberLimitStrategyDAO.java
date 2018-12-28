@@ -3,6 +3,7 @@ package seminar.dao.regulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.regulation.MemberLimitStrategy;
+import seminar.logger.DebugLogger;
 import seminar.mapper.MemberLimitStrategyMapper;
 
 /**
@@ -26,6 +27,7 @@ public class MemberLimitStrategyDAO {
 
     public void createMemberLimitStrategy(MemberLimitStrategy memberLimitStrategy)
     {
+        DebugLogger.logJson(memberLimitStrategy);
         memberLimitStrategyMapper.insertMemberLimitStrategy(memberLimitStrategy);
     }
 
