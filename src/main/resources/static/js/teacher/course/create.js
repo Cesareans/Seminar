@@ -113,16 +113,15 @@ $(function () {
     });
 
     $(".confirm").click(function () {
-        var verify = null;
-        //var verify = util.verifyWithAlert($(".form"));
+        var verify = util.verifyWithAlert($(".form"));
         if (verify == null) {
-            // var sum = parseInt(prePer.val()) + parseInt(quePer.val()) + parseInt(repPer.val());
-            // if (sum !== 100) {
-            //     util.showAlert("warning", "成绩权重和非一百", 3);
-            //     dropdown(prePer.parents(".dropdown-card"));
-            //     prePer.focus();
-            //     return;
-            // }
+            var sum = parseInt(prePer.val()) + parseInt(quePer.val()) + parseInt(repPer.val());
+            if (sum !== 100) {
+                util.showAlert("warning", "成绩权重和非一百", 3);
+                dropdown(prePer.parents(".dropdown-card"));
+                prePer.focus();
+                return;
+            }
             var data = createCourseForm.serializeObject();
             var courseMemberLimits = [];
 

@@ -56,7 +56,7 @@ public class StrategyServiceImpl implements StrategyService {
     }
 
     @Override
-    public void createStrategy(CourseCreateDTO courseCreateDTO, String mainCourseId)
+    public void createStrategy(CourseCreateDTO courseCreateDTO, String courseId)
     {
         String teamAndId = teamAndStrategyDAO.allocateId();
         String teamOrId = teamOrStrategyDAO.allocateId();
@@ -73,9 +73,9 @@ public class StrategyServiceImpl implements StrategyService {
         teamAndStrategyDAO.createTeamAndStrategy(teamAndId,"TeamOrStrategy",teamOrId);
         for(ConflictCourseStrategy conflictCourseStrategy:conflictCourseStrategies)
         {
-            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy,mainCourseId);
-            strategyCompositionDAO.createTeamStrategy(mainCourseId,strategyCompositionDAO.allocateSerial(mainCourseId),"ConflictCourseStrategy",mainCourseId);
+            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy,courseId);
+            strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"ConflictCourseStrategy",courseId);
         }
-        strategyCompositionDAO.createTeamStrategy(mainCourseId,strategyCompositionDAO.allocateSerial(mainCourseId),"TeamAndStrategy",teamAndId);
+        strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"TeamAndStrategy",teamAndId);
     }
 }

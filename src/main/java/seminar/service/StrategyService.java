@@ -18,9 +18,9 @@ public interface StrategyService {
    /**
     * @author Xinyu Shi
     * create strategy and store into DB.
-    * @param courseCreateDTO
-    * @param mainCourseId
+    * @param courseCreateDTO the target dto
+    * @param courseId the refer gist
     */
-   void createStrategy(CourseCreateDTO courseCreateDTO, String mainCourseId);
+   void createStrategy(CourseCreateDTO courseCreateDTO, String courseId);
 
 }

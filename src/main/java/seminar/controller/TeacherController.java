@@ -43,11 +43,12 @@ public class TeacherController {
     private final FileService fileService;
     private final ApplicationService applicationService;
     private final ScoreService scoreService;
+    private final StrategyService strategyService;
 
     private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
-    public TeacherController(TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService) {
+    public TeacherController(TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService, StrategyService strategyService) {
         this.teacherService = teacherService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -55,6 +56,7 @@ public class TeacherController {
         this.fileService = fileService;
         this.applicationService = applicationService;
         this.scoreService = scoreService;
+        this.strategyService = strategyService;
     }
 
     @GetMapping(value = {"", "/index"})
@@ -202,10 +204,11 @@ public class TeacherController {
     @PutMapping("/course")
     public ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
         DebugLogger.logJson(courseCreateDTO);
-        //Course course = courseCreateDTO.getCourse();
-        //course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
-        //teacherService.createCourse(course);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        Course course = courseCreateDTO.getCourse();
+        course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
+        teacherService.createCourse(course);
+        strategyService.createStrategy(courseCreateDTO, course.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @DeleteMapping("/course/{courseId}")
