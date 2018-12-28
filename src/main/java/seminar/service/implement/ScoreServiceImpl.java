@@ -207,7 +207,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public void updateQuestionScore(String klassSeminarId, String teamId)
     {
-        SeminarScore seminarScore = seminarScoreDAO.getByKlassSeminarId(klassSeminarId).get(0);
+        SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, klassSeminarId).get(0);
         seminarScore.setQuestionScore(calculateQuestionScoreOfSeminar(klassSeminarId,teamId));
         updateSeminarScore(seminarScore);
     }
