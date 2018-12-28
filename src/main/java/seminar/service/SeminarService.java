@@ -2,6 +2,7 @@ package seminar.service;
 
 import seminar.entity.*;
 import seminar.entity.regulation.Strategy;
+import seminar.entity.regulation.StrategyComposition;
 import seminar.entity.relation.KlassRound;
 
 import java.util.List;
@@ -82,9 +83,9 @@ public interface SeminarService {
     /**
      * get strategies of a course by course id
      * @param courseId the refer gist
-     * @return the strategies of the course
+     * @return StrategyComposition
      */
-    List<Strategy> getStrategiesByCourseId(String courseId);
+    StrategyComposition getStrategiesByCourseId(String courseId);
 
 
     /**

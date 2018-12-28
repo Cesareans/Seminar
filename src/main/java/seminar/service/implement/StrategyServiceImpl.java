@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import seminar.dao.TeamDAO;
 import seminar.dao.regulation.StrategyCompositionDAO;
 import seminar.entity.Team;
+import seminar.entity.regulation.Strategy;
+import seminar.entity.regulation.StrategyComposition;
 import seminar.service.StrategyService;
 
 /**
@@ -27,11 +29,15 @@ public class StrategyServiceImpl implements StrategyService {
     public boolean validate(String teamId, String courseId)
     {
         Team team = teamDAO.getById(teamId).get(0);
-        if(strategyCompositionDAO.validate(team,courseId)){
-            return true;
+        boolean validation = true;
+        StrategyComposition strategies = strategyCompositionDAO.getStrategiesByCourseId(courseId);
+        for(Strategy strategy:strategies.getStrategies())
+        {
+            if(!strategy.validate(team)){
+                validation = false;
+                break;
+            }
         }
-        else{
-            return false;
-        }
+        return validation;
     }
 }

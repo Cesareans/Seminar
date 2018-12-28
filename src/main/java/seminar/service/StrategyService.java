@@ -13,4 +13,6 @@ import java.util.List;
 public interface StrategyService {
 
    boolean validate(String teamId, String courseId);
+
+
 }

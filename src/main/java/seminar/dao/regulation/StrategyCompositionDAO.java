@@ -2,7 +2,6 @@ package seminar.dao.regulation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Team;
 import seminar.entity.regulation.*;
 import seminar.logger.DebugLogger;
 import seminar.mapper.TeamFinalStrategyMapper;
@@ -36,21 +35,7 @@ public class StrategyCompositionDAO {
         this.teamOrStrategyDAO = teamOrStrategyDAO;
     }
 
-    public boolean validate(Team team, String courseId)
-    {
-        boolean validation = true;
-        List<Strategy> strategies = getStrategiesByCourseId(courseId);
-        for(Strategy strategy:strategies)
-        {
-            if(!strategy.validate(team)){
-                validation = false;
-                break;
-            }
-        }
-        return validation;
-    }
-
-    public List<Strategy> getStrategiesByCourseId(String courseId)
+    public StrategyComposition getStrategiesByCourseId(String courseId)
     {
         List<Strategy> strategies = new ArrayList<>();
         List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStrategiesById(courseId);
@@ -65,7 +50,9 @@ public class StrategyCompositionDAO {
                 e.printStackTrace();
             }
         }
-        return strategies;
+        StrategyComposition strategyComposition = new StrategyComposition();
+        strategyComposition.setStrategies(strategies);
+        return strategyComposition;
     }
 
     private Strategy makeStrategyByDAO(Strategy strategy, String strategyId)
