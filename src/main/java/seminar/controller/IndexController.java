@@ -2,6 +2,7 @@ package seminar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
+import seminar.logger.DebugLogger;
 import seminar.pojo.exception.CannotAccessResetPwdException;
 import seminar.service.*;
 
@@ -23,15 +25,15 @@ import java.util.List;
 public class IndexController {
     private final CaptchaService captchaService;
     private final MailService mailService;
-    private final AccountManageService accountManageService;
+    private final SeminarService seminarService;
     private final TeacherService teacherService;
     private final StudentService studentService;
 
     @Autowired
-    public IndexController(CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, TeacherService teacherService, StudentService studentService) {
+    public IndexController(CaptchaService captchaService, MailService mailService, SeminarService seminarService, TeacherService teacherService, StudentService studentService) {
         this.captchaService = captchaService;
         this.mailService = mailService;
-        this.accountManageService = accountManageService;
+        this.seminarService = seminarService;
         this.teacherService = teacherService;
         this.studentService = studentService;
     }
@@ -50,24 +52,31 @@ public class IndexController {
     public @ResponseBody
     ResponseEntity<Object> getCaptcha(String account, HttpSession session) {
         String captcha = captchaService.generateCaptcha();
-        List<Teacher> teachers = accountManageService.getTeacherByTN(account);
+        List<Teacher> teachers = seminarService.getTeacherByTN(account);
         if (teachers.size() != 0) {
+            Teacher teacher = teachers.get(0);
+            if(!teacher.isActivated()){
+                return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该教师尚未激活");
+            }
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "teacher");
             session.setAttribute("forgetAccount", account);
-            mailService.sendCaptcha(captcha, teachers.get(0).getEmail());
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            mailService.sendCaptcha(captcha, teacher.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
         }
-        List<Student> students = accountManageService.getStudentBySN(account);
+        List<Student> students = seminarService.getStudentBySN(account);
         if (students.size() != 0) {
+            Student student = students.get(0);
+            if(!student.isActivated()){
+                return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该学生尚未激活");
+            }
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "student");
             session.setAttribute("forgetAccount", account);
-            mailService.sendCaptcha(captcha, students.get(0).getEmail());
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-
+            mailService.sendCaptcha(captcha, student.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("账户不存在");
     }
 
     @PostMapping("/forgetPassword")
@@ -110,10 +119,5 @@ public class IndexController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
-
-    @GetMapping("/upload")
-    public String upload() {
-        return "upload";
     }
 }

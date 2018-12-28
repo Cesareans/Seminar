@@ -25,12 +25,13 @@ public class SeminarServiceImpl implements SeminarService {
     private final SeminarDAO seminarDAO;
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
+    private final TeacherDAO teacherDAO;
     private final StudentDAO studentDAO;
     private final KlassRoundDAO klassRoundDAO;
     private final StrategyCompositionDAO strategyCompositionDAO;
 
     @Autowired
-    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, StrategyCompositionDAO strategyCompositionDAO) {
+    public SeminarServiceImpl(CourseDAO courseDAO, KlassDao klassDao, TeamDAO teamDAO, RoundDAO roundDAO, SeminarDAO seminarDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, TeacherDAO teacherDAO, StudentDAO studentDAO, KlassRoundDAO klassRoundDAO, StrategyCompositionDAO strategyCompositionDAO) {
         this.courseDAO = courseDAO;
         this.klassDao = klassDao;
         this.teamDAO = teamDAO;
@@ -38,9 +39,19 @@ public class SeminarServiceImpl implements SeminarService {
         this.seminarDAO = seminarDAO;
         this.klassSeminarDAO = klassSeminarDAO;
         this.attendanceDAO = attendanceDAO;
+        this.teacherDAO = teacherDAO;
         this.studentDAO = studentDAO;
         this.klassRoundDAO = klassRoundDAO;
         this.strategyCompositionDAO = strategyCompositionDAO;
+    }
+
+    @Override
+    public List<Student> getStudentBySN(String sn) {
+        return studentDAO.getBySN(sn);
+    }
+    @Override
+    public List<Teacher> getTeacherByTN(String tn) {
+        return teacherDAO.getByTN(tn);
     }
 
     @Override

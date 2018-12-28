@@ -50,16 +50,7 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if klasses?size == 0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else >
+    <#if klasses?size != 0>
         <div class="container">
             <div class="row">
                 <#list klasses as klass>

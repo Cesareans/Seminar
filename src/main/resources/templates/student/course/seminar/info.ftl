@@ -12,13 +12,10 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var ksIdForm;
         $(function () {
-            ksIdForm=$("#ksIdForm");
             $("#courseIdInput").val(sessionStorage.getItem("courseId"));
             $("#enterSeminar").click(function () {
-                ksIdForm.attr("action", "/student/course/seminar/progressing");
-                ksIdForm.submit();
+                $("#ksIdForm").submit();
             });
             $("#backBtn").click(function () {
                 $("#courseIdForm").submit();
@@ -90,16 +87,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer">
+                    <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enterSeminar">
+                            <i class="material-icons">arrow_forward_ios</i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<form hidden id="ksIdForm" method="post">
-    <input id="ksIdInput" name="klassSeminarId" value="${klassSeminar.id}">
+<form hidden id="ksIdForm" method="post" action="/student/course/seminar/progressing">
+    <input placeholder="" name="klassId" value="${klassSeminar.klassId}">
+    <input placeholder="" name="seminarId" value="${klassSeminar.seminar.id}">
 </form>
-<form hidden id="courseIdForm" action="/student/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId">
+<form hidden id="courseIdForm" method="post" action="/student/course/seminarList">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

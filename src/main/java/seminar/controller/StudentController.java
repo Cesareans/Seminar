@@ -33,7 +33,6 @@ public class StudentController {
     private final SeminarService seminarService;
     private final CaptchaService captchaService;
     private final MailService mailService;
-    private final AccountManageService accountManageService;
     private final ScoreService scoreService;
     private final FileService fileService;
     private final ApplicationService applicationService;
@@ -41,12 +40,11 @@ public class StudentController {
     private final static String STUDENT_ID_GIST = "studentId";
 
     @Autowired
-    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, ScoreService scoreService, FileService fileService, ApplicationService applicationService) {
+    public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, ScoreService scoreService, FileService fileService, ApplicationService applicationService) {
         this.studentService = studentService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
         this.mailService = mailService;
-        this.accountManageService = accountManageService;
         this.scoreService = scoreService;
         this.fileService = fileService;
         this.applicationService = applicationService;
@@ -55,7 +53,7 @@ public class StudentController {
     @GetMapping(value = {"", "/index"})
     public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Student student = accountManageService.getStudentBySN(user.getUsername()).get(0);
+        Student student = seminarService.getStudentBySN(user.getUsername()).get(0);
         session.setAttribute(STUDENT_ID_GIST, student.getId());
         if (student.isActivated()) {
             model.addAttribute("student", student);
@@ -91,7 +89,7 @@ public class StudentController {
     @GetMapping("/setting")
     public String option(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Student student = accountManageService.getStudentBySN(user.getUsername()).get(0);
+        Student student = seminarService.getStudentBySN(user.getUsername()).get(0);
         model.addAttribute("student", student);
 
         return "student/setting";
@@ -150,23 +148,14 @@ public class StudentController {
     public String seminarEnrollList(String klassId, String seminarId, Model model, HttpSession session) {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
+        long timeGap = System.currentTimeMillis() - klassSeminar.get(0).getSeminar().getEnrollEndDate().getTime();
+        DebugLogger.log(timeGap);
         Boolean canEnroll = new Date().compareTo(klassSeminar.get(0).getSeminar().getEnrollEndDate()) < 0;
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
         model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
-        DebugLogger.logJson(seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
         model.addAttribute("canEnroll", canEnroll);
         return "student/course/seminar/enrollList";
-    }
-
-    @PostMapping("/course/seminar/uploadPPT")
-    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
-        if (fileService.store(multipartFile) != null) {
-            studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
     }
 
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -182,6 +171,23 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
+    @PostMapping("/course/seminar/cancelEnroll")
+    public ResponseEntity<Object> cancelEnroll(String attendanceId) {
+        studentService.cancelEnroll(attendanceId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PostMapping("/course/seminar/uploadPPT")
+    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+        if (fileService.store(multipartFile) != null) {
+            studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 
     @PostMapping("/course/seminar/report")
     public String seminarReport(String klassId, String seminarId, Model model, HttpSession session) {
