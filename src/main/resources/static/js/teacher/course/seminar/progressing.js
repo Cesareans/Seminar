@@ -216,7 +216,7 @@ function handleEndQuestionResponse(content) {
 }
 
 function handleScoreResponse(content) {
-
+    util.showAlert("success", "打分成功", 3);
 }
 
 function handleEndSeminarResponse() {
