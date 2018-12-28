@@ -332,9 +332,9 @@ public class StudentController {
             Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
             Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
             rounds.forEach(round -> {
-                roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+                roundScoreMap.put(round.getId(), scoreService.getRoundScore(team.getId(), round.getId()));
                 round.getSeminars().forEach(seminar -> {
-                    seminarScoreMap.put(seminar.getId(), scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
+                    seminarScoreMap.put(seminar.getId(), scoreService.getSeminarScore(team.getId(), seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminar.getId()).get(0).getId()));
                 });
             });
             model.addAttribute("rounds", rounds);

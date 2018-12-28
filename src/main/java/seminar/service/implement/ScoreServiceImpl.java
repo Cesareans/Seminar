@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
+import seminar.logger.DebugLogger;
 import seminar.service.ScoreService;
 
 import java.math.BigDecimal;
@@ -194,6 +195,7 @@ public class ScoreServiceImpl implements ScoreService {
         BigDecimal totalScore =(seminarScore.getPresentationScore().multiply(new BigDecimal(course.getPrePercentage()))).add(seminarScore.getReportScore().multiply(new BigDecimal(course.getReportPercentage()))).add(seminarScore.getQuestionScore().multiply(new BigDecimal(course.getQuesPercentage())));
         totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
         seminarScore.setTotalScore(totalScore);
+        DebugLogger.logJson(seminarScore);
         seminarScoreDAO.update(seminarScore);
 
         KlassSeminar kSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);

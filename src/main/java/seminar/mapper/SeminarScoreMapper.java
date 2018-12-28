@@ -28,7 +28,7 @@ public interface SeminarScoreMapper {
      *
      * @param seminarScore the SeminarScore entity that will be updated via the id
      */
-    @Update("update seminar_score set total_score=#{totalScore}, presentation_score=#{presentationScore}, question_score=#{questionScore}, report_score=#{reportScore}, klass_seminar_id=#{klassSeminarId}, team_id=#{teamId} where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}")
+    @Update("update seminar_score set total_score=#{totalScore}, presentation_score=#{presentationScore}, question_score=#{questionScore}, report_score=#{reportScore} where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}")
     void updateSeminarScore(SeminarScore seminarScore);
 
     /**

@@ -116,7 +116,7 @@
             <div class="row">
                 <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
                     <h3 id="teamName"
-                        style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
+                        style="text-align: center;margin-bottom: 0"><#if monitor.onPreAttendance??>${monitor.onPreAttendance.team.teamName}<#else >无正在进行队伍</#if></h3>
                     <hr>
                     <div style="padding-bottom: 10px;display: flex;justify-content: center" >
                         <span id="on" class="badge badge-pill badge-success" style="display: none">进行中</span>
