@@ -23,13 +23,14 @@ public class ScoreServiceImpl implements ScoreService {
     private final AttendanceDAO attendanceDAO;
     private final QuestionDAO questionDAO;
     private final TeamDAO teamDAO;
+    private final RoundScoreDAO roundScoreDAO;
     private final int AVG_SCORE_CAL_METHOD = 0;
     private final int MAX_SCORE_CAL_METHOD = 1;
     private final int PRE_SCORE = 0;
     private final int REPORT_SCORE = 1;
 
     @Autowired
-    public ScoreServiceImpl(SeminarScoreDAO seminarScoreDAO, KlassSeminarDAO klassSeminarDAO, SeminarDAO seminarDAO, CourseDAO courseDAO, RoundDAO roundDAO, AttendanceDAO attendanceDAO, QuestionDAO questionDAO, TeamDAO teamDAO)
+    public ScoreServiceImpl(SeminarScoreDAO seminarScoreDAO, KlassSeminarDAO klassSeminarDAO, SeminarDAO seminarDAO, CourseDAO courseDAO, RoundDAO roundDAO, AttendanceDAO attendanceDAO, QuestionDAO questionDAO, TeamDAO teamDAO, RoundScoreDAO roundScoreDAO)
     {
         this.seminarScoreDAO = seminarScoreDAO;
         this.klassSeminarDAO = klassSeminarDAO;
@@ -39,7 +40,7 @@ public class ScoreServiceImpl implements ScoreService {
         this.attendanceDAO = attendanceDAO;
         this.questionDAO = questionDAO;
         this.teamDAO = teamDAO;
-
+        this.roundScoreDAO = roundScoreDAO;
     }
 
     @Override
@@ -138,6 +139,26 @@ public class ScoreServiceImpl implements ScoreService {
             scoreTable.add(map);
         }
         return scoreTable;
+    }
+
+    @Override
+    public SeminarScore getSeminarScore(String teamId, String klassSeminarId)
+    {
+        List<SeminarScore> seminarScores =  seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+        if(seminarScores.isEmpty()){
+            return null;
+        }
+        return seminarScores.get(0);
+    }
+
+    @Override
+    public RoundScore getRoundScore(String teamId, String roundId)
+    {
+        List<RoundScore> roundScores = roundScoreDAO.getByTeamIdAndKlassSeminarId(teamId,roundId);
+        if(roundScores.isEmpty()){
+            return null;
+        }
+        return roundScores.get(0);
     }
 
     private BigDecimal calculateSeparateScore(int kind, int method, List<SeminarScore> seminarScores)
