@@ -2,8 +2,12 @@ package seminar.pojo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import seminar.entity.Course;
+import seminar.entity.regulation.ConflictCourseStrategy;
+import seminar.entity.regulation.CourseMemberLimitStrategy;
+import seminar.entity.regulation.MemberLimitStrategy;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,6 +40,35 @@ public class CourseCreateDTO {
         course.setTeamStartDate(teamStartDate);
         course.setTeamEndDate(teamEndDate);
         return course;
+    }
+
+    public MemberLimitStrategy getMemberLimitStrategy(){
+        MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy();
+        memberLimitStrategy.setMax(teamMax);
+        memberLimitStrategy.setMin(teamMin);
+        return memberLimitStrategy;
+    }
+
+    public List<CourseMemberLimitStrategy> getCourseMemberLimitStrategies(){
+        List<CourseMemberLimitStrategy> courseMemberLimitStrategies = new LinkedList<>();
+        courseMemberLimits.forEach(courseMemberLimit -> {
+            CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy();
+            courseMemberLimitStrategy.setCourseId(courseMemberLimit.getCourseId());
+            courseMemberLimitStrategy.setMin(courseMemberLimit.getMin());
+            courseMemberLimitStrategy.setMax(courseMemberLimit.getMax());
+            courseMemberLimitStrategies.add(courseMemberLimitStrategy);
+        });
+        return courseMemberLimitStrategies;
+    }
+
+    public List<ConflictCourseStrategy> getConflictCourseStrategies(){
+        List<ConflictCourseStrategy> conflictCourseStrategies = new LinkedList<>();
+        conflictCourses.forEach(conflictCourse -> {
+            ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy();
+            conflictCourseStrategy.setConflictCourses(conflictCourse.getCourseId());
+            conflictCourseStrategies.add(conflictCourseStrategy);
+        });
+        return conflictCourseStrategies;
     }
 
 
@@ -114,6 +147,22 @@ public class CourseCreateDTO {
 
     public void setTeamMin(Integer teamMin) {
         this.teamMin = teamMin;
+    }
+
+    public List<CourseMemberLimit> getCourseMemberLimits() {
+        return courseMemberLimits;
+    }
+
+    public void setCourseMemberLimits(List<CourseMemberLimit> courseMemberLimits) {
+        this.courseMemberLimits = courseMemberLimits;
+    }
+
+    public List<ConflictCourse> getConflictCourses() {
+        return conflictCourses;
+    }
+
+    public void setConflictCourses(List<ConflictCourse> conflictCourses) {
+        this.conflictCourses = conflictCourses;
     }
 }
 
