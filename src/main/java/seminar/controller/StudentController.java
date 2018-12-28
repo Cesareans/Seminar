@@ -194,13 +194,11 @@ public class StudentController {
         Klass klass = seminarService.getKlassById(klassId).get(0);
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute(STUDENT_ID_GIST)));
-        Attendance attendance;
+        List<Attendance> attendances;
         if (team != null) {
-            attendance = seminarService.getAttendanceByTeamIdAndKlassSeminarId(team.getId(), klassSeminar.getId()).get(0);
-        } else {
-            attendance = null;
+            attendances = seminarService.getAttendanceByTeamIdAndKlassSeminarId(team.getId(), klassSeminar.getId());
+            model.addAttribute("attendances", attendances);
         }
-        model.addAttribute("attendance", attendance);
         return "student/course/seminar/report";
     }
 

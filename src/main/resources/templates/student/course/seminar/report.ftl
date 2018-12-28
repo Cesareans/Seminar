@@ -43,7 +43,7 @@
         </div>
     </div>
 </nav>
-<#if attendance??>
+<#if attendances?? && (attendances?size > 0)>
     <div class="main main-raised" style="height: auto;">
         <div class="container">
             <div class="row">
