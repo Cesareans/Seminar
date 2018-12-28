@@ -72,7 +72,7 @@
 <#else >
     <div id="data" data-ksId="${ksId}" data-studentNum="${studentNum}" data-teamId="${team.id}"></div>
     <div class="left-side side-raised">
-        <#list monitor.enrollList as enroll>
+        <#list monitor.attendanceList as enroll>
             <#if enroll??>
                 <button data-idx="${enroll?index}" data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}"
                         class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
@@ -88,7 +88,7 @@
     </div>
     <div class="right-downer-side side-raised">
         <div id="tabContent">
-            <#list monitor.enrollList as enroll>
+            <#list monitor.attendanceList as enroll>
                 <#if enroll??>
                     <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
                          <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>

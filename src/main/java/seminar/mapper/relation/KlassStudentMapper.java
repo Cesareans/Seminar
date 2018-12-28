@@ -131,7 +131,9 @@ public interface KlassStudentMapper {
     List<Student> selectStudentsFromTeam(String teamId);
 
     /**
-     * @author Xinyu Shi
+     * Get the klass by team id
+     * @param teamId the refer gist
+     * @return the list of klass id
      */
     @Select("select klass_id from klass_team where team_id=#{teamId}")
     List<String> selectKlassIdByTeamId(String teamId);

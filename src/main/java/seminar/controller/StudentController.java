@@ -341,9 +341,7 @@ public class StudentController {
             });
             model.addAttribute("rounds", rounds);
             model.addAttribute("seminarScoreMap", seminarScoreMap);
-            DebugLogger.logJson(seminarScoreMap);
             model.addAttribute("roundScoreMap", roundScoreMap);
-            DebugLogger.logJson(roundScoreMap);
         }
         return "student/course/grade";
     }

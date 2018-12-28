@@ -159,9 +159,10 @@ public interface TeacherService {
      *
      * @param attendanceId the attendanceId
      * @param preScore the new score
+     * @param queScore the new queScore
      * @param reportScore the new score
      */
-    void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal reportScore);
+    void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore);
     /**
      * Cancel team share
      * @param subCourseId the subCourseId

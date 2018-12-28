@@ -68,6 +68,10 @@ public class WebSocketController {
         model.addAttribute("ksId", klassSeminarId);
         if(state.equals(SeminarState.progressing.getState())) {
             SeminarMonitor monitor = webSocketService.getMonitor(klassSeminarId);
+            if(monitor == null){
+                webSocketService.initMonitor(klassSeminar);
+                monitor = webSocketService.getMonitor(klassSeminarId);
+            }
             model.addAttribute("monitor", monitor);
         }
         return "teacher/course/seminar/progressing";
@@ -97,6 +101,10 @@ public class WebSocketController {
         model.addAttribute("ksId", klassSeminar.getId());
         if(state.equals(SeminarState.progressing.getState())) {
             SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+            if(monitor == null){
+                webSocketService.initMonitor(klassSeminar);
+                monitor = webSocketService.getMonitor(klassSeminar.getId());
+            }
             model.addAttribute("monitor", monitor);
             model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
         }

@@ -94,7 +94,7 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public boolean enrollSeminar(String ksId, String teamId, int sn) {
-        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
+        List<Attendance> enrollList = attendanceDAO.getEnrollList(ksId);
         for (Attendance attendance : enrollList) {
             if(attendance == null){
                 continue;

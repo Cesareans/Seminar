@@ -91,7 +91,7 @@
 <#else >
     <div id="data" data-ksId="${ksId}"></div>
     <div class="left-side side-raised">
-        <#list monitor.enrollList as enroll>
+        <#list monitor.attendanceList as enroll>
             <#if enroll??>
                 <button data-score="${monitor.preScoreMap[enroll.id]}" data-idx="${enroll?index}"
                         data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}"
@@ -108,7 +108,7 @@
     </div>
     <div class="right-downer-side side-raised">
         <div id="tabContent">
-            <#list monitor.enrollList as enroll>
+            <#list monitor.attendanceList as enroll>
                 <#if enroll??>
                     <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
                          <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>

@@ -110,25 +110,4 @@ public class KlassSeminarDAO {
         return klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
     }
 
-    /**
-     * @author Cesare
-     */
-    public List<Attendance> getEnrollList(String ksId) {
-        KlassSeminar klassSeminar = getByKlassSeminarId(ksId).get(0);
-        List<Attendance> enrollList = new LinkedList<>();
-        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
-            boolean isEnrolled = false;
-            for (Attendance attendance : klassSeminar.getAttendances()) {
-                if (attendance.getSn() == i) {
-                    isEnrolled = true;
-                    enrollList.add(attendance);
-                    break;
-                }
-            }
-            if (!isEnrolled) {
-                enrollList.add(null);
-            }
-        });
-        return enrollList;
-    }
 }

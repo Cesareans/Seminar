@@ -174,7 +174,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Attendance> getEnrollListByKsId(String ksId) {
-        return klassSeminarDAO.getEnrollList(ksId);
+        return attendanceDAO.getEnrollList(ksId);
     }
 
     @Override

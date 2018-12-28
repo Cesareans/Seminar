@@ -3,6 +3,7 @@ package seminar.pojo.websocket.monitor;
 import seminar.entity.Attendance;
 import seminar.entity.Student;
 import seminar.entity.Team;
+import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.monitor.state.ProgressState;
 import seminar.pojo.websocket.monitor.state.SeminarState;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  * @author Cesare
  */
 public class SeminarMonitor {
-    private List<Attendance> enrollList;
+    private List<Attendance> attendanceList;
     private List<Team> teams;
     private Map<String, Team> studentNumTeamMap;
     private Map<String, BigDecimal> preScoreMap;
@@ -24,8 +25,8 @@ public class SeminarMonitor {
     private int onPreAttendanceIndex;
     private SeminarState state = new SeminarState();
 
-    public SeminarMonitor(List<Attendance> enrollList, List<Team> teams) {
-        this.enrollList = enrollList;
+    public SeminarMonitor(List<Attendance> attendanceList, List<Team> teams) {
+        this.attendanceList = attendanceList;
         this.teams = teams;
         init();
     }
@@ -33,9 +34,9 @@ public class SeminarMonitor {
     private void init() {
         studentNumTeamMap = new HashMap<>(teams.size() * 5);
         preScoreMap = new HashMap<>(teams.size());
-        questionPool = new QuestionPool(enrollList, teams);
+        questionPool = new QuestionPool(attendanceList, teams);
         onPreAttendanceIndex = 0;
-        enrollList.forEach(enroll -> {
+        attendanceList.forEach(enroll -> {
             if (enroll != null) {
                 preScoreMap.put(enroll.getId(), new BigDecimal(-1));
             }
@@ -69,7 +70,7 @@ public class SeminarMonitor {
 
     public void switchTeam() {
         onPreAttendanceIndex += 1;
-        if (onPreAttendanceIndex < enrollList.size()) {
+        if (onPreAttendanceIndex < attendanceList.size()) {
             pauseAt(0);
         } else {
             terminate();
@@ -78,7 +79,7 @@ public class SeminarMonitor {
     }
 
     public void pullQuestion() {
-        questionPool.pullQuestion(enrollList.get(onPreAttendanceIndex));
+        questionPool.pullQuestion(attendanceList.get(onPreAttendanceIndex));
     }
 
     public void putQuestion(String studentNum) {
@@ -98,14 +99,14 @@ public class SeminarMonitor {
         if (state.getProgressState() == ProgressState.TERMINATE) {
             return;
         }
-        preScoreMap.put(enrollList.get(attendanceIdx).getId(), score);
+        preScoreMap.put(attendanceList.get(attendanceIdx).getId(), score);
     }
 
     public void scoreQuestion(BigDecimal score, int attendanceIdx, int questionIdx) {
         if (state.getProgressState() == ProgressState.TERMINATE) {
             return;
         }
-        questionPool.scoreQuestion(score, enrollList.get(attendanceIdx), questionIdx);
+        questionPool.scoreQuestion(score, attendanceList.get(attendanceIdx), questionIdx);
     }
 
     //Method for response
@@ -133,14 +134,14 @@ public class SeminarMonitor {
     }
 
     public Attendance getOnPreAttendance() {
-        if (onPreAttendanceIndex >= enrollList.size()) {
+        if (onPreAttendanceIndex >= attendanceList.size()) {
             return null;
         }
-        return enrollList.get(onPreAttendanceIndex);
+        return attendanceList.get(onPreAttendanceIndex);
     }
 
-    public List<Attendance> getEnrollList() {
-        return enrollList;
+    public List<Attendance> getAttendanceList() {
+        return attendanceList;
     }
 
     public Team getTeamByStudentNum(String studentNum) {

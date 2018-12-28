@@ -3,10 +3,7 @@ package seminar.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.config.websocket.RawMessageConverter;
-import seminar.dao.KlassSeminarDAO;
-import seminar.dao.QuestionDAO;
-import seminar.dao.SeminarScoreDAO;
-import seminar.dao.TeamDAO;
+import seminar.dao.*;
 import seminar.entity.*;
 import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.AskedQuestion;
@@ -32,15 +29,17 @@ public class WebSocketServiceImpl implements WebSocketService {
     private final SeminarScoreDAO seminarScoreDAO;
     private final QuestionDAO questionDAO;
     private final RawMessageConverter rawMessageConverter;
+    private final AttendanceDAO attendanceDAO;
     private Map<String, SeminarMonitor> monitorMap = new HashMap<>();
 
     @Autowired
-    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, SeminarScoreDAO seminarScoreDAO, QuestionDAO questionDAO, RawMessageConverter rawMessageConverter) {
+    public WebSocketServiceImpl(KlassSeminarDAO klassSeminarDAO, TeamDAO teamDAO, SeminarScoreDAO seminarScoreDAO, QuestionDAO questionDAO, RawMessageConverter rawMessageConverter, AttendanceDAO attendanceDAO) {
         this.klassSeminarDAO = klassSeminarDAO;
         this.teamDAO = teamDAO;
         this.seminarScoreDAO = seminarScoreDAO;
         this.questionDAO = questionDAO;
         this.rawMessageConverter = rawMessageConverter;
+        this.attendanceDAO = attendanceDAO;
     }
 
     @Override
@@ -48,9 +47,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         klassSeminar.setState(1);
         klassSeminarDAO.update(klassSeminar);
 
-        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(klassSeminar.getId());
+        List<Attendance> attendanceList = attendanceDAO.getByKlassSeminarId(klassSeminar.getId());
         List<Team> teams = teamDAO.getOwnStudentsTeamByCourseId(klassSeminarDAO.getById(klassSeminar.getId()).get(0).getSeminar().getCourseId());
-        SeminarMonitor seminarMonitor = new SeminarMonitor(enrollList, teams);
+        SeminarMonitor seminarMonitor = new SeminarMonitor(attendanceList, teams);
         monitorMap.put(klassSeminar.getId(), seminarMonitor);
     }
 
@@ -69,7 +68,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         question.setKlassSeminarId(ksId);
         List<SeminarScore> seminarScores;
         List<AskedQuestion> askedQuestions;
-        for (Attendance attendance : monitor.getEnrollList()) {
+        for (Attendance attendance : monitor.getAttendanceList()) {
             if(attendance == null){
                 continue;
             }
