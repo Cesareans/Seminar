@@ -9,12 +9,15 @@ import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyComposition;
 import seminar.service.StrategyService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Xinyu Shi
  */
 @Service
 public class StrategyServiceImpl implements StrategyService {
-
+    private Map<String, StrategyComposition> compositionMap;
     private final StrategyCompositionDAO strategyCompositionDAO;
     private final TeamDAO teamDAO;
 
@@ -23,14 +26,15 @@ public class StrategyServiceImpl implements StrategyService {
     {
         this.strategyCompositionDAO = strategyCompositionDAO;
         this.teamDAO = teamDAO;
+        compositionMap = new HashMap<>();
     }
 
     @Override
     public boolean validate(String teamId, String courseId)
     {
-        Team team = teamDAO.getById(teamId).get(0);
+        StrategyComposition strategies = compositionMap.getOrDefault(courseId, strategyCompositionDAO.getStrategiesByCourseId(courseId));
         boolean validation = true;
-        StrategyComposition strategies = strategyCompositionDAO.getStrategiesByCourseId(courseId);
+        Team team = teamDAO.getById(teamId).get(0);
         for(Strategy strategy:strategies.getStrategies())
         {
             if(!strategy.validate(team)){

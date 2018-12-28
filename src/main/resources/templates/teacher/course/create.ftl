@@ -232,10 +232,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding: 10px;border-top: #EEEEEE 1px solid">
-                <button id="addBtn" class="btn bg-dark" style="margin-right: 20px">添加</button>
-                <button class="btn btn-danger" data-dismiss="modal">取消</button>
-            </div>
         </div>
     </div>
 </div>
