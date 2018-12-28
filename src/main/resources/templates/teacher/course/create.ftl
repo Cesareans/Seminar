@@ -179,33 +179,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="card form-card dropdown-card">
-                                    <div class="card-body">
-                                        <div class="body-header">
-                                            <div class="body-title">冲突课程</div>
-                                            <div class="flex-center">
-                                                <div class="triangle rightward"></div>
-                                            </div>
-                                        </div>
-                                        <div class="body-content" style="display: none;">
-                                            <hr style="margin-bottom: 20px">
-                                            <div id="courseNameList">
-                                                <label style="width: 100%;text-align: center;font-size: 16px">人数下限</label>
-                                            </div>
-                                            <hr>
-                                            <div id="btnAddArea" class="container flex-center">
-                                                <a class="btn bg-dark" id="conflictCourse"
-                                                   style="width: 80%;color: #FFFFFF;" data-toggle="modal"
-                                                   data-target="#courseModal">
-                                                    <i class="material-icons">add</i>
-                                                    新增课程
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>
