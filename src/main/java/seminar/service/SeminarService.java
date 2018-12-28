@@ -61,6 +61,18 @@ public interface SeminarService {
     List<Course> getOtherCoursesByCourseId(String courseId);
 
     /**
+     * Get all course can share team with
+     * @return the courses.
+     */
+    List<Course> getCanShareTeamCourse();
+
+    /**
+     * Get all course can share seminar with
+     * @return the courses.
+     */
+    List<Course> getCanShareSeminarCourse();
+
+    /**
      * Get the main courses of a course via its courseId
      *
      * @param courseId the refer gist

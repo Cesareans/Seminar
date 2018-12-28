@@ -209,12 +209,20 @@
                     <div class="container">
                         <#if (courses?size > 0)>
                             <form id="chosenStudentForm" style="margin-bottom: 0">
-                                <table class="table team-table" style="margin-top: 0;">
+                                <table class="table course-table">
                                     <tbody>
                                     <#list courses as course>
                                         <tr>
                                             <td class="name select">${course.courseName}</td>
                                         </tr>
+                                        <tr>
+                                            <td class="name select">${course.courseName}</td>
+                                        </tr>
+                                        <td class="operation">
+                                            <button class="btn bg-dark btn-fab-mini">
+                                                选中
+                                            </button>
+                                        </td>
                                     </#list>
                                     </tbody>
                                 </table>

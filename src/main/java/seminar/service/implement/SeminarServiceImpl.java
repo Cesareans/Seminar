@@ -77,6 +77,16 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
+    public List<Course> getCanShareTeamCourse() {
+        return courseDAO.getCanShareTeamCourse();
+    }
+
+    @Override
+    public List<Course> getCanShareSeminarCourse() {
+        return courseDAO.getCanShareSeminarCourse();
+    }
+
+    @Override
     public Map<String, List<Course>> getMainCoursesByCourseId(String courseId) {
         Course course = courseDAO.getByCourseId(courseId).get(0);
         Map<String, List<Course>> mainCourses = new HashMap<>(2);

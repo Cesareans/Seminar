@@ -226,4 +226,16 @@ public class CourseDAO {
         otherCourses.forEach(this::setTeacher);
         return otherCourses;
     }
+
+    public List<Course> getCanShareTeamCourse(){
+        List<Course> courses = courseMapper.selectCanShareTeamCourse();
+        courses.forEach(this::setTeacher);
+        return courses;
+    }
+
+    public List<Course> getCanShareSeminarCourse(){
+        List<Course> courses = courseMapper.selectCanShareSeminarCourse();
+        courses.forEach(this::setTeacher);
+        return courses;
+    }
 }

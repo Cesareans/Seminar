@@ -32,16 +32,12 @@ public class StrategyServiceImpl implements StrategyService {
     @Override
     public boolean validate(String teamId, String courseId)
     {
-        StrategyComposition strategies = compositionMap.getOrDefault(courseId, strategyCompositionDAO.getStrategiesByCourseId(courseId));
-        boolean validation = true;
-        Team team = teamDAO.getById(teamId).get(0);
-        for(Strategy strategy:strategies.getStrategies())
-        {
-            if(!strategy.validate(team)){
-                validation = false;
-                break;
-            }
+        StrategyComposition strategyComposition = compositionMap.get(courseId);
+        if(strategyComposition == null){
+            strategyComposition = strategyCompositionDAO.getStrategiesByCourseId(courseId);
+            compositionMap.put(courseId, strategyComposition);
         }
-        return validation;
+        Team team = teamDAO.getById(teamId).get(0);
+        return strategyComposition.validate(team);
     }
 }

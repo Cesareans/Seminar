@@ -444,7 +444,9 @@ public class TeacherController {
 
     @PostMapping("/course/share/create")
     public String courseShareCreate(String courseId, Model model) {
-        model.addAttribute("otherCourses", seminarService.getOtherCoursesByCourseId(courseId));
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
+        model.addAttribute("seminarCourses", seminarService.getCanShareSeminarCourse());
+        model.addAttribute("teamCourses", seminarService.getCanShareTeamCourse());
         return "teacher/course/share/create";
     }
 
