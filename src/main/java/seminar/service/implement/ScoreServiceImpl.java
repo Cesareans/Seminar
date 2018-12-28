@@ -28,6 +28,7 @@ public class ScoreServiceImpl implements ScoreService {
     private final int MAX_SCORE_CAL_METHOD = 1;
     private final int PRE_SCORE = 0;
     private final int REPORT_SCORE = 1;
+    private final int QUES_SCORE = 2;
 
     @Autowired
     public ScoreServiceImpl(SeminarScoreDAO seminarScoreDAO, KlassSeminarDAO klassSeminarDAO, SeminarDAO seminarDAO, CourseDAO courseDAO, RoundDAO roundDAO, AttendanceDAO attendanceDAO, QuestionDAO questionDAO, TeamDAO teamDAO, RoundScoreDAO roundScoreDAO)
@@ -43,6 +44,12 @@ public class ScoreServiceImpl implements ScoreService {
         this.roundScoreDAO = roundScoreDAO;
     }
 
+    /**
+     * TODO: to delete
+     * @param teamId the team refer gist
+     * @param klassSeminarId the klassSeminar refer gist
+     * @return
+     */
     @Override
     public SeminarScore calculateScoreOfOneSeminar(String teamId, String klassSeminarId)
     {
@@ -66,6 +73,12 @@ public class ScoreServiceImpl implements ScoreService {
         return seminarScore;
     }
 
+    /**
+     * TODO: To delete
+     * @param teamId the team refer gist
+     * @param roundId the round refer gist
+     * @return
+     */
     @Override
     public RoundScore calculateScoreOfOneRound(String teamId, String roundId)
     {
@@ -117,7 +130,7 @@ public class ScoreServiceImpl implements ScoreService {
             List<RoundScore> roundScores = new ArrayList<>();
             for(Team team:teams)
             {
-                roundScores.add(calculateScoreOfOneRound(team.getId(),round.getId()));
+                roundScores.add(getRoundScore(team.getId(),round.getId()));
             }
             totalScoreOfCourse.put(round.getId(),roundScores);
         }
@@ -133,7 +146,7 @@ public class ScoreServiceImpl implements ScoreService {
             Map<String,RoundScore> map = new HashMap<>(rounds.size());
             for(Team team:teams)
             {
-                RoundScore roundScore = calculateScoreOfOneRound(team.getId(),round.getId());
+                RoundScore roundScore = getRoundScore(team.getId(),round.getId());
                 map.put(team.getId(),roundScore);
             }
             scoreTable.add(map);
@@ -154,7 +167,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public RoundScore getRoundScore(String teamId, String roundId)
     {
-        List<RoundScore> roundScores = roundScoreDAO.getByTeamIdAndKlassSeminarId(teamId,roundId);
+        List<RoundScore> roundScores = roundScoreDAO.getByTeamIdAndRoundId(teamId,roundId);
         if(roundScores.isEmpty()){
             return null;
         }
@@ -169,6 +182,51 @@ public class ScoreServiceImpl implements ScoreService {
         BigDecimal totalScore = (roundScore.getPresentationScore().multiply(new BigDecimal(course.getPrePercentage()))).add(roundScore.getQuestionScore().multiply(new BigDecimal(course.getQuesPercentage()))).add(roundScore.getReportScore().multiply(new BigDecimal(course.getReportPercentage())));
         totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
         roundScore.setTotalScore(totalScore);
+        roundScoreDAO.update(roundScore);
+    }
+
+    @Override
+    public void updateSeminarScore(SeminarScore seminarScore)
+    {
+        KlassSeminar klassSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);
+        Seminar seminar = seminarDAO.getBySeminarId(klassSeminar.getSeminarId()).get(0);
+        Course course = courseDAO.getByCourseId(seminar.getCourseId()).get(0);
+        BigDecimal totalScore =(seminarScore.getPresentationScore().multiply(new BigDecimal(course.getPrePercentage()))).add(seminarScore.getReportScore().multiply(new BigDecimal(course.getReportPercentage()))).add(seminarScore.getQuestionScore().multiply(new BigDecimal(course.getQuesPercentage())));
+        totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+        seminarScore.setTotalScore(totalScore);
+        seminarScoreDAO.update(seminarScore);
+
+        KlassSeminar kSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);
+        Seminar seminar1 = seminarDAO.getBySeminarId(kSeminar.getSeminarId()).get(0);
+        RoundScore roundScore = roundScoreDAO.getByTeamIdAndRoundId(seminarScore.getTeamId(),seminar1.getRoundId()).get(0);
+        calculateRoundScore(roundScore,seminarScore.getTeamId(),klassSeminar.getKlassId());
+    }
+
+    @Override
+    public void updateQuestionScore(String klassSeminarId, String teamId)
+    {
+        SeminarScore seminarScore = seminarScoreDAO.getByKlassSeminarId(klassSeminarId).get(0);
+        seminarScore.setQuestionScore(calculateQuestionScoreOfSeminar(klassSeminarId,teamId));
+        updateSeminarScore(seminarScore);
+    }
+
+    private void calculateRoundScore(RoundScore roundScore, String teamId, String klassId)
+    {
+
+        Round round = roundDAO.getByRoundId(roundScore.getRoundId()).get(0);
+        List<Seminar> seminars = seminarDAO.getByRoundId(round.getId());
+        List<SeminarScore> seminarScores = new ArrayList<>();
+        for(Seminar seminar:seminars)
+        {
+            KlassSeminar klassSeminar = klassSeminarDAO.getByKlassIdAndSeminarId(klassId,seminar.getId()).get(0);
+            seminarScores.add(seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId,klassSeminar.getId()).get(0));
+        }
+        roundScore.setPresentationScore(calculateSeparateScore(PRE_SCORE,round.getPreScoreType(),seminarScores));
+        roundScore.setReportScore(calculateSeparateScore(REPORT_SCORE,round.getReportScoreType(),seminarScores));
+        roundScore.setQuestionScore(calculateSeparateScore(QUES_SCORE,round.getQuesScoreType(),seminarScores));
+
+        updateRoundScore(roundScore);
+
     }
 
     private BigDecimal calculateSeparateScore(int kind, int method, List<SeminarScore> seminarScores)
@@ -182,6 +240,9 @@ public class ScoreServiceImpl implements ScoreService {
             }
             else if(kind==REPORT_SCORE) {
                 score = seminarScores.stream().map(SeminarScore::getReportScore).filter(Objects::nonNull).reduce(new BigDecimal("0"), BigDecimal::add);
+            }
+            else if(kind==QUES_SCORE){
+                score = seminarScores.stream().map(SeminarScore::getQuestionScore).filter(Objects::nonNull).reduce(new BigDecimal("0"), BigDecimal::add);
             }
             long count = (long)seminarScores.size();
             if(!seminarScores.isEmpty()){
@@ -199,6 +260,10 @@ public class ScoreServiceImpl implements ScoreService {
             }
             else if(kind==REPORT_SCORE){
                 Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getReportScore).filter(Objects::nonNull).reduce(BigDecimal::max);
+                score = max.orElse(new BigDecimal(0));
+            }
+            else if(kind==QUES_SCORE){
+                Optional<BigDecimal> max = seminarScores.stream().map(SeminarScore::getQuestionScore).filter(Objects::nonNull).reduce(BigDecimal::max);
                 score = max.orElse(new BigDecimal(0));
             }
         }
@@ -223,6 +288,10 @@ public class ScoreServiceImpl implements ScoreService {
        return quesScore;
     }
 
+    /**
+     * @author Xinyu Shi
+     * TODO: to delete
+     */
     private BigDecimal calculateQuestionScoreOfRound(List<KlassSeminar> klassSeminars, String teamId, int method)
     {
         List<Question> questions = new ArrayList<>();

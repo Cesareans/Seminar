@@ -24,7 +24,7 @@ public class RoundScoreDAO {
     public void createRoundScore(RoundScore roundScore){
         roundScoreMapper.insertRoundScore(roundScore);
     }
-    public List<RoundScore> getByTeamIdAndKlassSeminarId(String teamId, String roundId)
+    public List<RoundScore> getByTeamIdAndRoundId(String teamId, String roundId)
     {
         return roundScoreMapper.selectRoundScoreByTeamIdAndRoundId(teamId,roundId);
     }

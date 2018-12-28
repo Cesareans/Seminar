@@ -73,4 +73,18 @@ public interface ScoreService {
      */
     void updateRoundScore(RoundScore roundScore);
 
+    /**
+     * calculate scores of one seminar
+     * @author Xinyu Shi
+     * @param seminarScore
+     */
+    void updateSeminarScore(SeminarScore seminarScore);
+
+    /**
+     * calculate question score of one seminar according to 'question' table in DB.
+     * @author Xinyu Shi
+     * @param klassSeminarId
+     */
+    void updateQuestionScore(String klassSeminarId, String teamId);
+
 }
