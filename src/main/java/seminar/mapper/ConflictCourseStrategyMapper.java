@@ -2,6 +2,7 @@ package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
 import seminar.entity.regulation.ConflictCourseStrategy;
+import seminar.entity.regulation.CourseMemberLimitStrategy;
 
 import java.util.List;
 
@@ -24,5 +25,13 @@ public interface ConflictCourseStrategyMapper {
     @Select("select course_id from conflict_course_strategy where id=#{id}")
     List<String> selectConflictCoursesById(String id);
 
+    /**
+     * insert single record into conflict course strategy table.
+     * @author Xinyu Shi
+     * @param mainCourseId
+     * @param courseId
+     */
+    @Insert("insert into conflict_course_strategy(id, course_id) values(#{mainCourseId}, #{courseId})")
+    void insertSingleCourseMemberLimitStrategy(@Param("mainCourseId") String mainCourseId, @Param("courseId") String courseId);
 
 }

@@ -24,5 +24,10 @@ public class MemberLimitStrategyDAO {
         return memberLimitStrategyMapper.selectMemberLimitStrategyById(strategyId).get(0);
     }
 
+    public void createMemberLimitStrategy(MemberLimitStrategy memberLimitStrategy)
+    {
+        memberLimitStrategyMapper.insertMemberLimitStrategy(memberLimitStrategy);
+    }
+
 
 }

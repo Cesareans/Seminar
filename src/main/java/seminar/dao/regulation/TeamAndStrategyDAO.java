@@ -65,4 +65,14 @@ public class TeamAndStrategyDAO {
         teamAndStrategy.setStrategies(getAndStrategyById(strategyId));
         return teamAndStrategy;
     }
+
+    public String allocateId()
+    {
+        return teamAndStrategyMapper.allocateId();
+    }
+
+    public void createTeamAndStrategy(String id,String strategyName, String strategyId)
+    {
+        teamAndStrategyMapper.insertSingleTeamAndStrategy(id,strategyName,strategyId);
+    }
 }

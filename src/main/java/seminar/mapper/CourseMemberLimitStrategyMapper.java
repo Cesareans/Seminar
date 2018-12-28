@@ -20,6 +20,7 @@ public interface CourseMemberLimitStrategyMapper {
 * @param courseMemberLimitStrategy the CourseMemberLimitStrategy entity that will be inserted
 */
 @Insert("insert into course_member_limit_strategy(min, max, course_id) values(#{min}, #{max}, #{courseId})")
+@Options(useGeneratedKeys = true)
 void insertCourseMemberLimitStrategy(CourseMemberLimitStrategy courseMemberLimitStrategy);
 
 /**

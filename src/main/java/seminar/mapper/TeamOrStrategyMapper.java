@@ -25,4 +25,22 @@ public interface TeamOrStrategyMapper {
             @Result(property = "strategyId", column = "strategy_id")
     })
     List<StrategyNameId> selectStrategiesById(String id);
+
+    /**
+     * allocate one id
+     * @author Xinyu Shi
+     * @return
+     */
+    @Select("select max(id)+1 from team_or_strategy")
+    String allocateId();
+
+    /**
+     * insert single record into team_and_strategy table.
+     * @author Xinyu Shi
+     * @param id
+     * @param strategyName
+     * @param strategyId
+     */
+    @Insert("insert into team_or_strategy(id, strategy_name,strategy_id) values(#{id}, #{strategyId},#{strategyId})")
+    void insertSingleTeamOrStrategy(@Param("id") String id, @Param("strategyName") String strategyName, @Param("strategyId") String strategyId);
 }

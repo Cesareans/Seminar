@@ -73,4 +73,20 @@ public class StrategyCompositionDAO {
             return teamOrStrategyDAO.getById(strategyId);
         }
     }
+
+    public void createTeamStrategy(String courseId, String strategySerial, String strategyName, String strategyId)
+    {
+        teamFinalStrategyMapper.insertSingleTeamAndStrategy(courseId,strategySerial,strategyName,strategyId);
+    }
+
+    public String allocateSerial(String courseId)
+    {
+        String serial = teamFinalStrategyMapper.allocateStrategySerial(courseId);
+        if(!serial.equals(null)){
+            return serial;
+        }
+        else{
+            return "1";
+        }
+    }
 }
