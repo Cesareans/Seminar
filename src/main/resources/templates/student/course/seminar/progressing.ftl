@@ -47,7 +47,18 @@
         </div>
     </div>
 </nav>
-<#if state = 0>
+<#if state = -1>
+<div class="main main-raised no-footer">
+    <div class="empty-tag">
+        <div class="info">
+            <div class="icon icon-rose flex-center">
+                <i class="material-icons color-grey">access_time</i>
+            </div>
+            <h4 class="info-title">您在该课程下还未组队</h4>
+        </div>
+    </div>
+</div>
+<#elseif state = 0>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">

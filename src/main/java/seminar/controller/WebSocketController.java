@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import seminar.entity.Klass;
 import seminar.entity.KlassSeminar;
+import seminar.entity.Student;
+import seminar.entity.Team;
 import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.RawMessage;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
@@ -94,8 +98,14 @@ public class WebSocketController {
 
     @PostMapping("/student/course/seminar/progressing")
     public String studentSeminarProgressing(String klassId, String seminarId, Model model, Principal principal){
+        Klass klass = seminarService.getKlassById(klassId).get(0);
+        Student student = seminarService.getStudentBySN(principal.getName()).get(0);
+        Team team = seminarService.getTeamByCourseIdAndStudentId(klass.getId(),student.getId());
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
         Integer state = klassSeminar.getState();
+        if(team == null){
+            state = -1;
+        }
         model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("ksId", klassSeminar.getId());
