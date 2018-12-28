@@ -24,4 +24,24 @@ public interface TeamFinalStrategyMapper {
             @Result(property = "strategyId", column = "strategy_id")
     })
     List<StrategyNameId> selectStrategiesById(String courseId);
+
+    /**
+     * allocate one id
+     * @author Xinyu Shi
+     * @param courseId
+     * @return String
+     */
+    @Select("select max(strategy_serial)+1 from team_strategy where course_id=#{courseId}")
+    String allocateStrategySerial(String courseId);
+
+    /**
+     * insert record into team_strategy table
+     * @author Xinyu Shi
+     * @param courseId
+     * @param strategySerial
+     * @param strategyName
+     * @param strategyId
+     */
+    @Insert("insert into team_and_strategy(id, strategy_serial, strategy_name,strategy_id) values(#{courseId}, #{strategySerial},#{strategyName},#{strategyId})")
+    void insertSingleTeamAndStrategy(@Param("courseId") String courseId, @Param("strategySerial") String strategySerial, @Param("strategyName") String strategyName,@Param("strategyId") String strategyId);
 }

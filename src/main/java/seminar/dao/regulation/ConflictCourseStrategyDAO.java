@@ -23,4 +23,12 @@ public class ConflictCourseStrategyDAO {
         conflictCourseStrategy.setConflictCourses(conflictCourseStrategyMapper.selectConflictCoursesById(strategyId));
         return conflictCourseStrategy;
     }
+
+    public void createConflictCourseStrategy(ConflictCourseStrategy conflictCourseStrategy, String mainCourseId)
+    {
+        for(String courseId:conflictCourseStrategy.getConflictCourses())
+        {
+            conflictCourseStrategyMapper.insertSingleCourseMemberLimitStrategy(mainCourseId,courseId);
+        }
+    }
 }

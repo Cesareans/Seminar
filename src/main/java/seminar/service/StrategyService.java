@@ -1,11 +1,7 @@
 package seminar.service;
 
-import seminar.entity.Student;
-import seminar.entity.Teacher;
-import seminar.pojo.dto.StudentFilter;
-import seminar.pojo.dto.TeacherFilter;
 
-import java.util.List;
+import seminar.pojo.dto.CourseCreateDTO;
 
 /**
  * @author Xinyu Shi
@@ -19,5 +15,12 @@ public interface StrategyService {
     */
    boolean validate(String teamId, String courseId);
 
+   /**
+    * @author Xinyu Shi
+    * create strategy and store into DB.
+    * @param courseCreateDTO
+    * @param mainCourseId
+    */
+   void createStrategy(CourseCreateDTO courseCreateDTO, String mainCourseId);
 
 }
