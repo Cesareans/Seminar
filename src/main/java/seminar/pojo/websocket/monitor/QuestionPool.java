@@ -42,13 +42,14 @@ public class QuestionPool {
         raisedQuestion.clear();
     }
 
-    void pullQuestion() {
+    void pullQuestion(Attendance attendance) {
         if (onAskQuestion == null && raisedQuestion.size() > 0) {
             int i = rd.nextInt(raisedQuestion.size());
             onAskQuestion = new AskedQuestion(raisedQuestion.get(i));
 
             teamTimes.put(onAskQuestion.getTeam(), teamTimes.get(onAskQuestion.getTeam()) + 1);
             raisedQuestion.remove(i);
+            askedQuestion.get(attendance.getId()).add(onAskQuestion);
         }
     }
 
@@ -56,8 +57,7 @@ public class QuestionPool {
         return onAskQuestion;
     }
 
-    void endQuestion(Attendance attendance) {
-        askedQuestion.get(attendance.getId()).add(onAskQuestion);
+    void endQuestion() {
         onAskQuestion = null;
     }
 

@@ -12,6 +12,24 @@ import java.util.Map;
  */
 public interface SeminarService {
     /**
+     * Get teacher via teacher num
+     *
+     * @param tn refer gist
+     * @return a list that contains the teacher with the teacher num
+     * @author cesare
+     */
+    List<Teacher> getTeacherByTN(String tn);
+
+    /**
+     * Get student via student num
+     *
+     * @param sn student num
+     * @return a list that contains the student with the student num
+     * @author cesare
+     */
+    List<Student> getStudentBySN(String sn);
+
+    /**
      * Get all courses
      * @return all course in the system
      */

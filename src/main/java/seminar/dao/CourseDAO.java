@@ -18,6 +18,7 @@ import java.util.List;
 public class CourseDAO {
     private final TeamDAO teamDAO;
     private final RoundDAO roundDAO;
+    private final KlassDao klassDao;
     private final CourseMapper courseMapper;
     private final KlassMapper klassMapper;
     private final RoundMapper roundMapper;
@@ -28,9 +29,10 @@ public class CourseDAO {
     private final KlassSeminarDAO klassSeminarDAO;
 
     @Autowired
-    public CourseDAO(TeamDAO teamDAO, RoundDAO roundDAO, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper, KlassSeminarDAO klassSeminarDAO) {
+    public CourseDAO(TeamDAO teamDAO, RoundDAO roundDAO, KlassDao klassDao, CourseMapper courseMapper, KlassMapper klassMapper, TeacherMapper teacherMapper, KlassStudentMapper klassStudentMapper, RoundMapper roundMapper, KlassRoundMapper klassRoundMapper, TeamMapper teamMapper, KlassSeminarDAO klassSeminarDAO) {
         this.teamDAO = teamDAO;
         this.roundDAO = roundDAO;
+        this.klassDao = klassDao;
         this.courseMapper = courseMapper;
         this.klassMapper = klassMapper;
         this.teacherMapper = teacherMapper;
@@ -84,6 +86,7 @@ public class CourseDAO {
      */
     public void deleteByCourseId(String courseId) {
         courseMapper.deleteCourseById(courseId);
+        klassDao.deleteByCourseId(courseId);
     }
 
     /**
@@ -124,7 +127,6 @@ public class CourseDAO {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
         KlassRound klassRound = new KlassRound();
         klassRound.setEnrollLimit(1);
-        KlassSeminar klassSeminar = new KlassSeminar();
         rounds.forEach(round -> {
             klasses.forEach(klass -> {
                 klassRound.setRoundId(round.getId());

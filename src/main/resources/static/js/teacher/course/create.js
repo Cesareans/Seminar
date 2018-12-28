@@ -40,7 +40,7 @@ $(function () {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(createCourseForm.serializeObject()),
                 success: function () {
-                    back();
+                    window.location='/teacher/courseList';
                 },
                 error: function () {
                     util.showAlert("danger", "创建失败，未知错误", 3);

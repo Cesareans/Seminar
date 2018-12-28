@@ -44,23 +44,14 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public SeminarMonitor getMonitor(String ksId) {
-        if (monitorMap.containsKey(ksId)) {
-            return monitorMap.get(ksId);
-        }
-        int end = 2;
-        KlassSeminar klassSeminar = klassSeminarDAO.getById(ksId).get(0);
-        if(klassSeminar.getState() == end){
-            return null;
-        }
+    public void initMonitor(KlassSeminar klassSeminar) {
         klassSeminar.setState(1);
         klassSeminarDAO.update(klassSeminar);
 
-        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
-        List<Team> teams = teamDAO.getOwnStudentsTeamByCourseId(klassSeminarDAO.getById(ksId).get(0).getSeminar().getCourseId());
+        List<Attendance> enrollList = klassSeminarDAO.getEnrollList(klassSeminar.getId());
+        List<Team> teams = teamDAO.getOwnStudentsTeamByCourseId(klassSeminarDAO.getById(klassSeminar.getId()).get(0).getSeminar().getCourseId());
         SeminarMonitor seminarMonitor = new SeminarMonitor(enrollList, teams);
-        monitorMap.put(ksId, seminarMonitor);
-        return seminarMonitor;
+        monitorMap.put(klassSeminar.getId(), seminarMonitor);
     }
 
     @Override
@@ -79,6 +70,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         List<SeminarScore> seminarScores;
         List<AskedQuestion> askedQuestions;
         for (Attendance attendance : monitor.getEnrollList()) {
+            if(attendance == null){
+                continue;
+            }
             score = scoreMap.get(attendance.getId());
             if (score.intValue() < 0) {score = new BigDecimal(0);}
             seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(), attendance.getKlassSeminarId());
@@ -104,6 +98,12 @@ public class WebSocketServiceImpl implements WebSocketService {
             });
         }
     }
+
+    @Override
+    public SeminarMonitor getMonitor(String ksId) {
+        return monitorMap.getOrDefault(ksId, null);
+    }
+
 
     @Override
     public RawMessage handleMessage(String ksId, RawMessage message) {

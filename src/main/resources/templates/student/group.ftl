@@ -15,7 +15,7 @@
     <title>组队</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>

@@ -1,6 +1,6 @@
-var client = null, ksId, timer, studentNum;
+var client = null, timer, ksId, studentNum, teamId;
 
-var questionCount, teams, questions, teamName, teamOperation, onAsk;
+var questionCount, teams, questions, teamName, onState, hangState, onAsk, raiseQuestionBtn;
 
 var preTimeStamp, progressState = 'PAUSE';
 
@@ -13,17 +13,20 @@ $(function () {
     questions = $(".btn-team.question");
 
     teamName = $("#teamName");
-    teamOperation = $("#teamOperation");
+    onState = $("#on");
+    hangState = $("#hang");
     onAsk = $("#onAsk");
+    raiseQuestionBtn = $("#raiseQuestion");
 
     tabContent = $("#tabContent");
     curActive = curOnfocus = $(".active-team");
     curAttendanceIdx = curActive.attr("data-idx");
     timer.create();
 
-    var body = $("body");
-    ksId = body.attr("data-ksId");
-    studentNum = body.attr("data-studentNum")
+    var data = $("#data");
+    ksId = data.attr("data-ksId");
+    studentNum = data.attr("data-studentNum");
+    teamId = data.attr("data-teamId");
 });
 function changeFocus(target) {
     var tab = target.attr("data-tab");
@@ -47,12 +50,15 @@ var clientAddr = '/topic/client/';
 var serverAddr = "/app/student/klassSeminar/";
 var socket;
 $(function () {
-    serverAddr += ksId;
-    clientAddr += ksId;
-    $("#raiseQuestion").click(function () {
-        sendRequest("RaiseQuestionRequest", {});
-    });
-    connect();
+    var seminarState = $("body").attr("data-state");
+    if(seminarState === '1') {
+        serverAddr += ksId;
+        clientAddr += ksId;
+        raiseQuestionBtn.click(function () {
+            sendRequest("RaiseQuestionRequest", {});
+        });
+        connect();
+    }
 });
 
 function connect() {
@@ -97,7 +103,7 @@ function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
-var SwitchTeamResponse = {attendanceIndex: null, state: null};
+var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId:null};
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
     if (content.attendanceIndex < teams.length) {
@@ -106,6 +112,11 @@ function handleSwitchTeamResponse(content) {
         onTeam.removeClass("preparatory-team");
         teamName.text(onTeam.attr("data-teamName"));
         changeActive(onTeam);
+    }
+    if(content.teamId === teamId){
+        raiseQuestionBtn.hide();
+    }else{
+        raiseQuestionBtn.show();
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
@@ -123,13 +134,15 @@ function handlePullQuestionResponse(content) {
     console.log(content.studentNum);
     console.log(studentNum);
     if(content.studentNum === studentNum){
-        onAsk.addClass("holder-visible");
+        onAsk.show();
+        raiseQuestionBtn.hide();
     }
 }
 
 function handleEndQuestionResponse(content) {
     pauseAt(preTimeStamp);
-    onAsk.removeClass("holder-visible");
+    onAsk.hide();
+    raiseQuestionBtn.show();
     changeActive(teams.eq(curAttendanceIdx));
 }
 function handleScoreResponse(content) {
@@ -149,14 +162,16 @@ function pauseAt(timeStamp) {
     timer.setTime(timeStamp);
     timer.pause();
     progressState = 'PAUSE';
-    teamOperation.text("暂停中...");
+    hangState.show();
+    onState.hide();
 }
 
 function startAt(timeStamp) {
     timer.setTime(timeStamp);
     timer.start();
     progressState = 'PROCESSING';
-    teamOperation.text("进行中...");
+    onState.show();
+    hangState.hide();
 }
 
 function addQuestion(teamSerial) {

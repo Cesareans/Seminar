@@ -32,9 +32,9 @@
         }
     </style>
 </head>
-<body class="card-page sidebar-collapse" data-ksId="${ksId}">
+<body class="card-page sidebar-collapse" data-state="${state}">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" id="backBtn">
@@ -66,18 +66,30 @@
         </div>
     </div>
 </nav>
-<#if hasEnd>
+<#if state = 0>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">
                 <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
+                    <i class="material-icons color-grey">access_time</i>
+                </div>
+                <h4 class="info-title">该讨论课尚未开始</h4>
+            </div>
+        </div>
+    </div>
+<#elseif state = 2>
+    <div class="main main-raised no-footer">
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">timer_off</i>
                 </div>
                 <h4 class="info-title">该讨论课已经结束</h4>
             </div>
         </div>
     </div>
 <#else >
+    <div id="data" data-ksId="${ksId}"></div>
     <div class="left-side side-raised">
         <#list monitor.enrollList as enroll>
             <#if enroll??>
@@ -116,9 +128,10 @@
                     <h3 id="teamName"
                         style="text-align: center;margin-bottom: 0"><#if monitor.onPreAttendance??> ${monitor.onPreAttendance.team.teamName}</#if></h3>
                     <hr>
-                    <h4 id="teamOperation" style="text-align: center">
-                        暂停中...
-                    </h4>
+                    <div style="padding-bottom: 10px;display: flex;justify-content:center" >
+                        <span id="on" class="badge badge-pill badge-success" style="display: none">进行中</span>
+                        <span id="hang" class="badge badge-pill badge-warning">暂停中</span>
+                    </div>
                 </div>
             </div>
             <div class="row">

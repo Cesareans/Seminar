@@ -32,6 +32,11 @@ public class DebugLogger {
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + object.toString());
     }
 
+    public static void log(long i){
+        StackTraceElement ste = new Throwable().getStackTrace()[1];
+        System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + i);
+    }
+
     public static void log(int i) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + i);

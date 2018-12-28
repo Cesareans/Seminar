@@ -16,7 +16,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -50,16 +50,7 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if klasses?size == 0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else >
+    <#if klasses?size != 0>
         <div class="container">
             <div class="row">
                 <#list klasses as klass>
@@ -86,15 +77,15 @@
                     </div>
                 </div>
                 </#list>
-                <div class="col-lg-4 col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
-                       style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
-                        <i class="material-icons add-icon">add_circle</i>
-                    </a>
-                </div>
             </div>
         </div>
     </#if>
+    <div class="col-lg-4 col-md-6">
+        <a class="btn bg-transparent add-card-btn" onclick="window.location='/teacher/course/klass/create'"
+           style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
+            <i class="material-icons add-icon">add_circle</i>
+        </a>
+    </div>
 </div>
 
 <div class="modal fade" id="klassModal">

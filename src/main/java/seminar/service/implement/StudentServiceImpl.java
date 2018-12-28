@@ -95,8 +95,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean enrollSeminar(String ksId, String teamId, int sn) {
         List<Attendance> enrollList = klassSeminarDAO.getEnrollList(ksId);
-        DebugLogger.log(teamId);
-        DebugLogger.log(sn);
         for (Attendance attendance : enrollList) {
             if(attendance == null){
                 continue;
@@ -112,6 +110,11 @@ public class StudentServiceImpl implements StudentService {
         attendance.setTeamId(teamId);
         attendanceDAO.create(attendance);
         return true;
+    }
+
+    @Override
+    public void cancelEnroll(String attendanceId) {
+        attendanceDAO.deleteById(attendanceId);
     }
 
     /**

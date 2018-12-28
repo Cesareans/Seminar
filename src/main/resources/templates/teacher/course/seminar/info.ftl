@@ -36,7 +36,7 @@
     <title>讨论课信息</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
@@ -60,7 +60,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -98,11 +98,11 @@
                                 <div class="sep"></div>
                                 <div class="content">
                                     <#if klassSeminar.state == 0>
-                                        尚未开始
+                                        <span class="badge badge-pill badge-success">尚未开始</span>
                                     <#elseif klassSeminar.state == 1>
-                                        正在进行
+                                        <span class="badge badge-pill badge-warning">正在进行</span>
                                     <#else>
-                                        已经结束
+                                        <span class="badge badge-pill badge-secondary">已经结束</span>
                                     </#if>
                                 </div>
                             </div>

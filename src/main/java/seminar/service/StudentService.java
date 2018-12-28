@@ -56,6 +56,12 @@ public interface StudentService {
     boolean enrollSeminar(String ksId, String teamId, int sn);
 
     /**
+     * Cancel seminar enroll
+     * @param attendanceId refer gist of the target attendance to delete
+     */
+    void cancelEnroll(String attendanceId);
+
+    /**
      * Upload preFile for attendance
      * @param attendanceId the refer gist
      * @param preFileName the file name

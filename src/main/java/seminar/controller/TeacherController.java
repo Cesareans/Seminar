@@ -41,7 +41,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
-    private final AccountManageService accountManageService;
     private final TeacherService teacherService;
     private final SeminarService seminarService;
     private final CaptchaService captchaService;
@@ -53,8 +52,7 @@ public class TeacherController {
     private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
-    public TeacherController(AccountManageService accountManageService, TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService) {
-        this.accountManageService = accountManageService;
+    public TeacherController(TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService) {
         this.teacherService = teacherService;
         this.seminarService = seminarService;
         this.captchaService = captchaService;
@@ -67,7 +65,7 @@ public class TeacherController {
     @GetMapping(value = {"", "/index"})
     public String index(Model model, HttpSession session) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = seminarService.getTeacherByTN(user.getUsername()).get(0);
         session.setAttribute(TEACHER_ID_GIST, teacher.getId());
         if (teacher.isActivated()) {
             model.addAttribute("teacher", teacher);
@@ -89,7 +87,7 @@ public class TeacherController {
     @GetMapping("/activation")
     public String activation(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = seminarService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
         return "teacher/activation";
     }
@@ -108,7 +106,7 @@ public class TeacherController {
     @GetMapping("/setting")
     public String setting(Model model) {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Teacher teacher = accountManageService.getTeacherByTN(user.getUsername()).get(0);
+        Teacher teacher = seminarService.getTeacherByTN(user.getUsername()).get(0);
         model.addAttribute("teacher", teacher);
 
         return "teacher/setting";

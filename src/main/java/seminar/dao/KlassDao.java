@@ -1,11 +1,10 @@
 package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
-import seminar.entity.Course;
 import seminar.entity.Klass;
 import seminar.entity.relation.KlassStudent;
-import seminar.mapper.CourseMapper;
 import seminar.mapper.KlassMapper;
 import seminar.mapper.relation.KlassStudentMapper;
 
@@ -72,33 +71,25 @@ public class KlassDao {
     /**
      * @author cesare
      */
-    public List<Klass> getByStudentId(String studentId){
+    public List<Klass> getByStudentId(String studentId) {
         return klassStudentMapper.selectKlassByStudentId(studentId);
     }
 
     /**
      * @author lyf
      */
-    public boolean deleteById(String klassId) {
-        List<Klass> klasses = klassMapper.selectKlassById(klassId);
-        if (klasses.isEmpty()) {
-            return false;
-        } else {
-            //先删除班级成员
-            klassStudentMapper.deleteKlassStudents(klassId);
-            //再删除班级对象
-            klassMapper.deleteKlassById(klassId);
-            return true;
-        }
+    public void deleteById(String klassId) {
+        //先删除班级成员
+        klassStudentMapper.deleteKlassStudents(klassId);
+        //再删除班级对象
+        klassMapper.deleteKlassById(klassId);
     }
 
-    /**
-     * FIXME:May be used in delete cascade
-     * @author lyf
-     */
-    public boolean deleteByCourseId(String courseId) {
-        klassMapper.deleteKlassByCourseId(courseId);
-        return true;
+    public void deleteByCourseId(String courseId) {
+        List<Klass> klasses = klassMapper.selectKlassByCourseId(courseId);
+        klasses.forEach(klass -> {
+            deleteById(klass.getId());
+        });
     }
 
     /**
