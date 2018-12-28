@@ -30,46 +30,46 @@ public class CourseCreateDTO {
     private List<CourseMemberLimit> courseMemberLimits;
     private List<ConflictCourse> conflictCourses;
 
-//    public Course getCourse() {
-//        Course course = new Course();
-//        course.setCourseName(courseName);
-//        course.setIntroduction(intro);
-//        course.setPrePercentage(prePer);
-//        course.setQuesPercentage(quePer);
-//        course.setReportPercentage(repPer);
-//        course.setTeamStartDate(teamStartDate);
-//        course.setTeamEndDate(teamEndDate);
-//        return course;
+////    public Course getCourse() {
+////        Course course = new Course();
+////        course.setCourseName(courseName);
+////        course.setIntroduction(intro);
+////        course.setPrePercentage(prePer);
+////        course.setQuesPercentage(quePer);
+////        course.setReportPercentage(repPer);
+////        course.setTeamStartDate(teamStartDate);
+////        course.setTeamEndDate(teamEndDate);
+////        return course;
+////    }
+//
+//    public MemberLimitStrategy getMemberLimitStrategy(){
+//        MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy();
+//        memberLimitStrategy.setMax(teamMax);
+//        memberLimitStrategy.setMin(teamMin);
+//        return memberLimitStrategy;
 //    }
-
-    public MemberLimitStrategy getMemberLimitStrategy(){
-        MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy();
-        memberLimitStrategy.setMax(teamMax);
-        memberLimitStrategy.setMin(teamMin);
-        return memberLimitStrategy;
-    }
-
-    public List<CourseMemberLimitStrategy> getCourseMemberLimitStrategies(){
-        List<CourseMemberLimitStrategy> courseMemberLimitStrategies = new LinkedList<>();
-        courseMemberLimits.forEach(courseMemberLimit -> {
-            CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy();
-            courseMemberLimitStrategy.setCourseId(courseMemberLimit.getCourseId());
-            courseMemberLimitStrategy.setMin(courseMemberLimit.getMin());
-            courseMemberLimitStrategy.setMax(courseMemberLimit.getMax());
-            courseMemberLimitStrategies.add(courseMemberLimitStrategy);
-        });
-        return courseMemberLimitStrategies;
-    }
-
-    public List<ConflictCourseStrategy> getConflictCourseStrategies(){
-        List<ConflictCourseStrategy> conflictCourseStrategies = new LinkedList<>();
-        conflictCourses.forEach(conflictCourse -> {
-            ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy();
-            conflictCourseStrategy.setConflictCourses(conflictCourse.getCourseId());
-            conflictCourseStrategies.add(conflictCourseStrategy);
-        });
-        return conflictCourseStrategies;
-    }
+//
+//    public List<CourseMemberLimitStrategy> getCourseMemberLimitStrategies(){
+//        List<CourseMemberLimitStrategy> courseMemberLimitStrategies = new LinkedList<>();
+//        courseMemberLimits.forEach(courseMemberLimit -> {
+//            CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy();
+//            courseMemberLimitStrategy.setCourseId(courseMemberLimit.getCourseId());
+//            courseMemberLimitStrategy.setMin(courseMemberLimit.getMin());
+//            courseMemberLimitStrategy.setMax(courseMemberLimit.getMax());
+//            courseMemberLimitStrategies.add(courseMemberLimitStrategy);
+//        });
+//        return courseMemberLimitStrategies;
+//    }
+//
+//    public List<ConflictCourseStrategy> getConflictCourseStrategies(){
+//        List<ConflictCourseStrategy> conflictCourseStrategies = new LinkedList<>();
+//        conflictCourses.forEach(conflictCourse -> {
+//            ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy();
+//            conflictCourseStrategy.setConflictCourses(conflictCourse.getCourseId());
+//            conflictCourseStrategies.add(conflictCourseStrategy);
+//        });
+//        return conflictCourseStrategies;
+//    }
 
 
     @Override

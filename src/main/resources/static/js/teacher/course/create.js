@@ -255,6 +255,7 @@ function clickDrop(ev) {
 function addCourseLimitDom(courseItem) {
     var row = $(courseLimitDom);
     row.attr("id", courseItem.attr("data-courseId"));
+    row.find('.courseLimitId').val(courseItem.attr("data-courseId"));
     row.find(".dropdown-card").click(clickDrop);
     row.find(".course-name").html(courseItem.find(".name").text());
     formContainer.append(row);
