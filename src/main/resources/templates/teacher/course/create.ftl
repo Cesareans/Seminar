@@ -93,8 +93,8 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="prePer" name="prePer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify reg-verity"
-                                                               data-reg="[0-9]*"
+                                                               class="form-control empty-verify reg-verify"
+                                                               data-reg="^\d*$"
                                                                data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入课堂展示权重">
                                                     </div>
@@ -107,8 +107,8 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="quePer" name="quePer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify reg-verity"
-                                                               data-reg="[0-9]*"
+                                                               class="form-control empty-verify reg-verify"
+                                                               data-reg="^\d*$"
                                                                data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入课堂提问权重">
                                                     </div>
@@ -121,8 +121,8 @@
                                                 <div class="content">
                                                     <div class="form-group bmd-form-group">
                                                         <input id="repPer" name="repPer" type="text" autocomplete="off"
-                                                               class="form-control empty-verify reg-verity"
-                                                               data-reg="[0-9]*"
+                                                               class="form-control empty-verify reg-verify"
+                                                               data-reg="^\d*$"
                                                                data-regMessage="非合法数字"
                                                                data-emptyMessage="请输入书面报告权重">
                                                     </div>
@@ -152,9 +152,9 @@
                                                         <input id="teamMax" name="teamMax" type="text"
                                                                autocomplete="off"
                                                                class="form-control empty-verify reg-verify"
-                                                               data-emptyMessage="请输入课堂展示权重"
+                                                               data-emptyMessage="请输入人数上限"
                                                                data-reg="[1-6]"
-                                                                data-regMessage="队伍上限不合法">
+                                                               data-regMessage="队伍上限不合法，应为1-6">
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,7 +166,7 @@
                                                         <input id="teamMin" name="teamMin" type="text"
                                                                autocomplete="off"
                                                                class="form-control empty-verify"
-                                                               data-emptyMessage="请输入课堂展示权重">
+                                                               data-emptyMessage="请输入人数下限">
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,13 +176,15 @@
                             </div>
                         </div>
                         <div class="container flex-center">
-                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal" data-target="#courseModal">
+                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal"
+                                    data-target="#courseModal">
                                 <i class="material-icons">add</i>
                                 新增选修课程要求
                             </button>
                         </div>
                         <div class="container flex-center">
-                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal" data-target="#courseModal">
+                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal"
+                                    data-target="#courseModal">
                                 <i class="material-icons">add</i>
                                 新增冲突课程要求
                             </button>
@@ -223,7 +225,7 @@
                                     <div class="icon icon-rose flex-center">
                                         <i class="material-icons color-grey">portable_wifi_off</i>
                                     </div>
-                                    <h4 class="info-title">没有现有班级</h4>
+                                    <h4 class="info-title">没有现有课程</h4>
                                 </div>
                             </div>
                         </#if>

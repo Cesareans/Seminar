@@ -16,6 +16,11 @@
             util.showLoading();
         }
     </script>
+    <style>
+        .nav-link{
+            padding: 0 !important;
+        }
+    </style>
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">

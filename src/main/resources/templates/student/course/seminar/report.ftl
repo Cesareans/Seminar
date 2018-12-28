@@ -44,7 +44,7 @@
     </div>
 </nav>
 <#if attendances?? && (attendances?size > 0)>
-    <div class="main main-raised" style="height: auto;">
+    <div class="main main-raised" style="height: auto;width: auto">
         <div class="container">
             <div class="row">
                 <div id="formBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
@@ -53,7 +53,7 @@
                             <form hidden id="teamReport" enctype="multipart/form-data">
                                 <input id="fileInput" name="file" type="file" placeholder=""
                                        class="form-control empty-verify" data-emptyMessage="请选择文件">
-                                <input id="attendanceId" name="attendanceId" type="text" placeholder="" value="${attendance.id}">
+                                <input id="attendanceId" name="attendanceId" type="text" placeholder="" value="${attendances[0].id}">
                             </form>
                             <div class="file-frame">
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">

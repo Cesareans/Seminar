@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import seminar.entity.Course;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Cesare
@@ -21,6 +22,12 @@ public class CourseCreateDTO {
 
     private Integer teamMax;
     private Integer teamMin;
+
+    private List<String> courseMemberLimitCourseId;
+    private List<Integer> courseMemberLimitMax;
+    private List<Integer> courseMemberLimitMin;
+    private List<String> conflictCourses;
+
 
     public Course getCourse() {
         Course course = new Course();
