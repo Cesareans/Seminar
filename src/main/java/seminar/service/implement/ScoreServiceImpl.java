@@ -161,6 +161,16 @@ public class ScoreServiceImpl implements ScoreService {
         return roundScores.get(0);
     }
 
+    @Override
+    public void updateRoundScore(RoundScore roundScore)
+    {
+        Round round = roundDAO.getByRoundId(roundScore.getRoundId()).get(0);
+        Course course = courseDAO.getByCourseId(round.getCourseId()).get(0);
+        BigDecimal totalScore = (roundScore.getPresentationScore().multiply(new BigDecimal(course.getPrePercentage()))).add(roundScore.getQuestionScore().multiply(new BigDecimal(course.getQuesPercentage()))).add(roundScore.getReportScore().multiply(new BigDecimal(course.getReportPercentage())));
+        totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+        roundScore.setTotalScore(totalScore);
+    }
+
     private BigDecimal calculateSeparateScore(int kind, int method, List<SeminarScore> seminarScores)
     {
         BigDecimal score = new BigDecimal(0);

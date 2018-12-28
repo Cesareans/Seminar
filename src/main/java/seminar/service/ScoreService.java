@@ -66,4 +66,11 @@ public interface ScoreService {
      */
     RoundScore getRoundScore(String teamId, String roundId);
 
+    /**
+     * calculate scores of one round
+     * @author Xinyu Shi
+     * @param roundScore
+     */
+    void updateRoundScore(RoundScore roundScore);
+
 }
