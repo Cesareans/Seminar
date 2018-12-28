@@ -19,7 +19,7 @@
     <title>组队</title>
 </head>
 <body class="card-page sidebar-collapse" data-parallax="true">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/courseList'">

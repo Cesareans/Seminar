@@ -31,6 +31,23 @@ public class WebSocketController {
     private final WebSocketService webSocketService;
     private final SeminarService seminarService;
     private final ObjectMapper objectMapper;
+    private enum SeminarState{
+        /**
+         * Introduce the state of seminar
+         */
+        preparatory(0),progressing(1),terminate(2);
+
+        SeminarState(Integer state) {
+            this.state = state;
+        }
+        Integer state;
+        public Integer getState() {
+            return state;
+        }
+        public void setState(Integer state) {
+            this.state = state;
+        }
+    }
 
     @Autowired
     public WebSocketController(WebSocketService webSocketService, SeminarService seminarService, ObjectMapper objectMapper) {
@@ -41,14 +58,17 @@ public class WebSocketController {
 
 
     @PostMapping("/teacher/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
+    public String teacherSeminarProgressing(String klassSeminarId, Model model) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
-        Boolean hasEnd = klassSeminar.getState() == 2;
+        if(klassSeminar.getState() == SeminarState.preparatory.getState()){
+            webSocketService.initMonitor(klassSeminar);
+        }
+        Integer state = klassSeminar.getState();
+        model.addAttribute("state", state);
         model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("hasEnd", hasEnd);
-        DebugLogger.log(klassSeminar.getState());
-        if(!hasEnd) {
-            model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        if(state.equals(SeminarState.progressing.getState())) {
+            SeminarMonitor monitor = webSocketService.getMonitor(klassSeminarId);
+            model.addAttribute("monitor", monitor);
         }
         return "teacher/course/seminar/progressing";
     }
@@ -68,18 +88,17 @@ public class WebSocketController {
     }
 
 
-    @PostMapping("/student/course/seminar/processing")
-    public String seminarProcessing(String klassId, String seminarId, Model model, Principal principal){
+    @PostMapping("/student/course/seminar/progressing")
+    public String studentSeminarProgressing(String klassId, String seminarId, Model model, Principal principal){
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId).get(0);
-        SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        int on = 1;
         Integer state = klassSeminar.getState();
         model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
-        model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
-        if(state == on) {
+        if(state.equals(SeminarState.progressing.getState())) {
+            SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
             model.addAttribute("monitor", monitor);
+            model.addAttribute("team", monitor.getTeamByStudentNum(principal.getName()));
         }
         return "student/course/seminar/progressing";
     }
@@ -91,6 +110,5 @@ public class WebSocketController {
             ((ObjectNode) jsonContent).put("studentNum", principal.getName());
             message.setContent(jsonContent.toString());
             return webSocketService.handleMessage(ksId, message);
-
     }
 }

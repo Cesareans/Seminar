@@ -26,16 +26,14 @@ public class IndexController {
     private final AccountManageService accountManageService;
     private final TeacherService teacherService;
     private final StudentService studentService;
-    private final FileService fileService;
 
     @Autowired
-    public IndexController(CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, TeacherService teacherService, StudentService studentService, FileService fileService) {
+    public IndexController(CaptchaService captchaService, MailService mailService, AccountManageService accountManageService, TeacherService teacherService, StudentService studentService) {
         this.captchaService = captchaService;
         this.mailService = mailService;
         this.accountManageService = accountManageService;
         this.teacherService = teacherService;
         this.studentService = studentService;
-        this.fileService = fileService;
     }
 
     @RequestMapping(value = {"/", "/login"})

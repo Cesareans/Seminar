@@ -28,7 +28,7 @@
     <title>讨论课信息</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        <div class="col-md-6 ml-auto mr-auto">
+                        <div class="col-md-10 ml-auto mr-auto">
                             <div class="line content-line">
                                 <label>课程要求</label>
                                 <div class="sep"></div>
@@ -79,22 +79,15 @@
                                 <div class="sep"></div>
                                 <div class="content">
                                     <#if klassSeminar.state == 0>
-                                        尚未开始
+                                        <span class="badge badge-pill badge-success">尚未开始</span>
                                     <#elseif klassSeminar.state == 1>
-                                        正在进行
+                                        <span class="badge badge-pill badge-warning">正在进行</span>
                                     <#else>
-                                        已经结束
+                                        <span class="badge badge-pill badge-secondary">已经结束</span>
                                     </#if>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enterSeminar">
-                            <i class="material-icons">arrow_forward_ios</i>
-                        </button>
                     </div>
                 </div>
             </div>

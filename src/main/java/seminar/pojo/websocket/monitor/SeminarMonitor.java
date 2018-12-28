@@ -78,7 +78,7 @@ public class SeminarMonitor {
     }
 
     public void pullQuestion() {
-        questionPool.pullQuestion();
+        questionPool.pullQuestion(enrollList.get(onPreAttendanceIndex));
     }
 
     public void putQuestion(String studentNum) {
@@ -91,7 +91,7 @@ public class SeminarMonitor {
     }
 
     public void endQuestion() {
-        questionPool.endQuestion(enrollList.get(onPreAttendanceIndex));
+        questionPool.endQuestion();
     }
 
     public void scoreAttendance(BigDecimal score, int attendanceIdx) {

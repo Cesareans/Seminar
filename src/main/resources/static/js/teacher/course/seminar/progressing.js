@@ -1,7 +1,7 @@
 var client = null, ksId, timer, startBtn, pauseBtn, stopBtn, scoreInput,
     giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn, pullQuestionBtn;
 
-var questionCount, teams, questions, teamName, teamOperation;
+var questionCount, teams, questions, teamName,  onState, hangState;
 
 var preTimeStamp;
 
@@ -21,7 +21,8 @@ $(function () {
     teams = $(".btn-team:not(.question)");
     questions = $(".btn-team.question");
     teamName = $("#teamName");
-    teamOperation = $("#teamOperation");
+    onState = $("#on");
+    hangState = $("#hang");
     tabContent = $("#tabContent");
     curActive = curOnfocus = $(".active-team");
     curAttendanceIdx = curActive.attr("data-idx");
@@ -37,7 +38,7 @@ $(function () {
     questions.click(function () {
         changeFocus($(this));
     });
-    ksId = $("body").attr("data-ksId");
+    ksId = $("#data").attr("data-ksId");
     changeScore(parseInt(curActive.attr("data-score")));
 });
 
@@ -72,67 +73,72 @@ var clientAddr = '/topic/client/';
 var serverAddr = "/app/teacher/klassSeminar/";
 var socket;
 $(function () {
-    serverAddr += ksId;
-    clientAddr += ksId;
-    connect();
-    startBtn.click(function () {
-        timer.start();
-        startBtn.hide();
-        pauseBtn.show();
-        teamOperation.text("进行中...");
-        sendRequest("SeminarStateRequest", {request: "START", timeStamp: timer.getTime()});
-    });
-    pauseBtn.click(function () {
-        timer.pause();
-        pauseBtn.hide();
-        startBtn.show();
-        teamOperation.text("暂停中...");
-        sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
-    });
-    switchTeamBtn.click(function () {
-        sendRequest("SwitchTeamRequest", {});
-    });
-    pullQuestionBtn.click(function () {
-        if (parseInt(questionCount.text()) <= 0) {
-            util.showAlert("warning", "当前提问数为零", 3);
-            return;
-        }
-        pullQuestionBtn.hide();
-        switchTeamBtn.hide();
-        sendRequest("PullQuestionRequest", {});
-    });
-    $([giveScoreBtn, patchScoreBtn]).each(function () {
-        this.click(function () {
-            var score = parseFloat(scoreInput.val());
-            if (isNaN(score)) {
-                util.showAlert("warning", "请输入分数", 3);
+    var seminarState = $("body").attr("data-state");
+    if(seminarState === '1') {
+        serverAddr += ksId;
+        clientAddr += ksId;
+        connect();
+        startBtn.click(function () {
+            timer.start();
+            startBtn.hide();
+            pauseBtn.show();
+            onState.show();
+            hangState.hide();
+            sendRequest("SeminarStateRequest", {request: "START", timeStamp: timer.getTime()});
+        });
+        pauseBtn.click(function () {
+            timer.pause();
+            pauseBtn.hide();
+            startBtn.show();
+            hangState.show();
+            onState.hide();
+            sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
+        });
+        switchTeamBtn.click(function () {
+            sendRequest("SwitchTeamRequest", {});
+        });
+        pullQuestionBtn.click(function () {
+            if (parseInt(questionCount.text()) <= 0) {
+                util.showAlert("warning", "当前提问数为零", 3);
                 return;
             }
-            curOnfocus.attr("data-score", score);
-            if (curOnfocus.hasClass("question")) {
-                sendRequest("ScoreRequest", {
-                    score: score,
-                    type: "Question",
-                    attendanceIdx: curAttendanceIdx,
-                    questionIdx: curOnfocus.attr("data-idx")
-                });
-            } else {
-                sendRequest("ScoreRequest", {
-                    score: score,
-                    type: "Attendance",
-                    attendanceIdx: curAttendanceIdx
-                });
-            }
+            pullQuestionBtn.hide();
+            switchTeamBtn.hide();
+            sendRequest("PullQuestionRequest", {});
         });
-    });
-    stopBtn.click(function () {
-        pullQuestionBtn.show();
-        switchTeamBtn.show();
-        sendRequest("EndQuestionRequest", {});
-    });
-    endPreBtn.click(function () {
-        sendRequest("EndSeminarRequest", {});
-    })
+        $([giveScoreBtn, patchScoreBtn]).each(function () {
+            this.click(function () {
+                var score = parseFloat(scoreInput.val());
+                if (isNaN(score)) {
+                    util.showAlert("warning", "请输入分数", 3);
+                    return;
+                }
+                curOnfocus.attr("data-score", score);
+                if (curOnfocus.hasClass("question")) {
+                    sendRequest("ScoreRequest", {
+                        score: score,
+                        type: "Question",
+                        attendanceIdx: curAttendanceIdx,
+                        questionIdx: curOnfocus.attr("data-idx")
+                    });
+                } else {
+                    sendRequest("ScoreRequest", {
+                        score: score,
+                        type: "Attendance",
+                        attendanceIdx: curAttendanceIdx
+                    });
+                }
+            });
+        });
+        stopBtn.click(function () {
+            pullQuestionBtn.show();
+            switchTeamBtn.show();
+            sendRequest("EndQuestionRequest", {});
+        });
+        endPreBtn.click(function () {
+            sendRequest("EndSeminarRequest", {});
+        })
+    }
 });
 
 function connect() {
@@ -170,8 +176,7 @@ function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
-var SwitchTeamResponse = {attendanceIndex: null, state: null};
-
+var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId:null};
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
     if (content.attendanceIndex < teams.length) {
@@ -230,7 +235,8 @@ function pauseAt(timeStamp) {
     timer.pause();
     pauseBtn.hide();
     startBtn.show();
-    teamOperation.text("暂停中...");
+    hangState.show();
+    onState.hide();
 }
 
 function startAt(timeStamp) {
@@ -238,7 +244,8 @@ function startAt(timeStamp) {
     timer.start();
     startBtn.hide();
     pauseBtn.show();
-    teamOperation.text("进行中...");
+    onState.show();
+    hangState.hide();
 }
 
 function addQuestion(teamSerial) {

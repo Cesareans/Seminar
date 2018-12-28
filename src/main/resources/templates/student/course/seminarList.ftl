@@ -15,7 +15,7 @@
     <title>讨论课</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/courseList'">
@@ -162,7 +162,7 @@
                                                     提交报告
                                                 </a>
                                             </li>
-                                            <li class="nav-item processing">
+                                            <li class="nav-item progressing">
                                                 <a class="nav-link">
                                                     <i class="material-icons">arrow_forward</i>
                                                     进入讨论
