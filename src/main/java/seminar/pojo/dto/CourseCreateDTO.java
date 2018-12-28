@@ -23,11 +23,8 @@ public class CourseCreateDTO {
     private Integer teamMax;
     private Integer teamMin;
 
-    private List<String> courseMemberLimitCourseId;
-    private List<Integer> courseMemberLimitMax;
-    private List<Integer> courseMemberLimitMin;
-    private List<String> conflictCourses;
-
+    private List<CourseMemberLimit> courseMemberLimits;
+    private List<ConflictCourse> conflictCourses;
 
     public Course getCourse() {
         Course course = new Course();
@@ -117,5 +114,56 @@ public class CourseCreateDTO {
 
     public void setTeamMin(Integer teamMin) {
         this.teamMin = teamMin;
+    }
+}
+
+class CourseMemberLimit{
+    private String courseId;
+    private Integer max;
+    private Integer min;
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+}
+
+class ConflictCourse{
+    private Integer serial;
+    private List<String> courseId;
+
+    public Integer getSerial() {
+        return serial;
+    }
+
+    public void setSerial(Integer serial) {
+        this.serial = serial;
+    }
+
+    public List<String> getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(List<String> courseId) {
+        this.courseId = courseId;
     }
 }

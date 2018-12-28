@@ -14,7 +14,7 @@
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/create.js"></script>
     <style>
-        .hidden{
+        .hidden {
             display: none;
         }
     </style>
@@ -58,7 +58,7 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row flex-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <form class="form" id="createCourseForm">
                     <div class="container">
                         <div class="form-group bmd-form-group">
@@ -80,9 +80,9 @@
                                    placeholder="组队结束时间"
                                    class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队结束时间">
                         </div>
-                        <div class="row">
+                        <div class="row" id="formContainer">
                             <div class="col-lg-6 col-md-12">
-                                <div id="gradeCard" class="card form-card dropdown-card">
+                                <div class="card form-card dropdown-card">
                                     <div class="card-body">
                                         <div class="body-header">
                                             <div class="body-title">成绩权重</div>
@@ -139,7 +139,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
-                                <div id="groupCard" class="card form-card dropdown-card">
+                                <div class="card form-card dropdown-card">
                                     <div class="card-body">
                                         <div class="body-header">
                                             <div class="body-title">队伍人数限制</div>
@@ -179,23 +179,52 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="container flex-center">
-                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal"
-                                    data-target="#courseModal">
-                                <i class="material-icons">add</i>
-                                新增选修课程要求
-                            </button>
-                        </div>
-                        <div class="container flex-center">
-                            <button type="button" class="btn bg-dark" style="width: 80%" data-toggle="modal"
-                                    data-target="#courseModal">
-                                <i class="material-icons">add</i>
-                                新增冲突课程要求
-                            </button>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="card form-card dropdown-card">
+                                    <div class="card-body">
+                                        <div class="body-header">
+                                            <div class="body-title">冲突课程</div>
+                                            <div class="flex-center">
+                                                <div class="triangle rightward"></div>
+                                            </div>
+                                        </div>
+                                        <div class="body-content" style="display: none;">
+                                            <hr style="margin-bottom: 20px">
+                                            <div id="courseNameList">
+                                                <label style="width: 100%;text-align: center;font-size: 16px">人数下限</label>
+                                            </div>
+                                            <hr>
+                                            <div id="btnAddArea" class="container flex-center">
+                                                <a class="btn bg-dark" id="conflictCourse"
+                                                   style="width: 80%;color: #FFFFFF;" data-toggle="modal"
+                                                   data-target="#courseModal">
+                                                    <i class="material-icons">add</i>
+                                                    新增课程
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="col-md-8">
+                <div class="container flex-center">
+                    <a class="btn bg-dark" id="courseLimit" style="width: 80%;color: #FFFFFF;" data-toggle="modal"
+                       data-target="#courseModal">
+                        <i class="material-icons">add</i>
+                        新增选修课程要求
+                    </a>
+                </div>
+                <div class="container flex-center">
+                    <a class="btn bg-dark" id="courseConflict" style="width: 80%;color: #FFFFFF" data-toggle="modal"
+                       data-target="#courseModal">
+                        <i class="material-icons">add</i>
+                        新增冲突课程要求
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -217,13 +246,14 @@
                                 <table class="table course-table">
                                     <tbody>
                                     <#list courses as course>
-                                        <tr class="courseItem">
+                                        <tr class="courseItem" data-courseId="${course.id}">
                                             <td class="name">${course.courseName}</td>
                                             <td class="teacher">${course.teacher.teacherName}</td>
                                             <td class="operation">
-                                                <button class="btn bg-dark btn-fab-mini" style="padding: 5px 10px;">
+                                                <a class="btn bg-dark btn-fab-mini choose" data-dismiss="modal"
+                                                   style="padding: 5px 10px;color: #FFFFFF">
                                                     选中
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </#list>

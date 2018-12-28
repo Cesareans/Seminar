@@ -238,6 +238,8 @@ public class TeacherServiceImpl implements TeacherService {
         seminarScore.setPresentationScore(preScore);
         seminarScore.setReportScore(reportScore);
         seminarScore.setQuestionScore(queScore);
+        seminarScore.setKlassSeminarId(attendance.getKlassSeminarId());
+        seminarScore.setTeamId(attendance.getTeamId());
         seminarScoreDAO.update(seminarScore);
     }
 
