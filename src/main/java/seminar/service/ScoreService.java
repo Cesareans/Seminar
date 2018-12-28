@@ -16,6 +16,7 @@ import java.util.Map;
 public interface ScoreService {
     /**
      * Calculate score of a team in one seminar
+     * @author Xinyu Shi
      * @param teamId the team refer gist
      * @param klassSeminarId the klassSeminar refer gist
      * @return the calculated seminar score
@@ -24,6 +25,7 @@ public interface ScoreService {
 
     /**
      * Calculate score of a team in one round
+     * @author Xinyu Shi
      * @param teamId the team refer gist
      * @param roundId the round refer gist
      * @return the calculated seminar score
@@ -32,6 +34,7 @@ public interface ScoreService {
 
     /**
      * Calculate score of course score
+     * @author Xinyu Shi
      * @param rounds the rounds
      * @param teams the teams
      * @return the calculated course score
@@ -40,11 +43,48 @@ public interface ScoreService {
 
     /**
      * Calculate score of course score
-     *
+     * @author Xinyu Shi
      * @param rounds the rounds
      * @param teams the teams
      * @return the calculated course score
      */
     List<Map<String,RoundScore>> calculateCourseScore(List<Round> rounds, List<Team> teams);
+
+    /**
+     * @author Xinyu Shi
+     * @param teamId
+     * @param klassSeminarId
+     * @return
+     */
+    SeminarScore getSeminarScore(String teamId, String klassSeminarId);
+
+    /**
+     * @author Xinyu Shi
+     * @param teamId
+     * @param roundId
+     * @return
+     */
+    RoundScore getRoundScore(String teamId, String roundId);
+
+    /**
+     * calculate scores of one round
+     * @author Xinyu Shi
+     * @param roundScore
+     */
+    void updateRoundScore(RoundScore roundScore);
+
+    /**
+     * calculate scores of one seminar
+     * @author Xinyu Shi
+     * @param seminarScore
+     */
+    void updateSeminarScore(SeminarScore seminarScore);
+
+    /**
+     * calculate question score of one seminar according to 'question' table in DB.
+     * @author Xinyu Shi
+     * @param klassSeminarId
+     */
+    void updateQuestionScore(String klassSeminarId, String teamId);
 
 }

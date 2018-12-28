@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.TeamDAO;
 import seminar.dao.regulation.StrategyCompositionDAO;
+import seminar.entity.SeminarScore;
 import seminar.entity.Team;
-import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyComposition;
 import seminar.service.StrategyService;
 

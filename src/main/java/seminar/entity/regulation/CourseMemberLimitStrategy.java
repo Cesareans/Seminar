@@ -23,9 +23,6 @@ public class CourseMemberLimitStrategy implements Strategy {
     @Gist
     private String courseId;
 
-    @Link(gist = "courseId", select = "seminar.mapper.CourseMapper.selectCourseById")
-    private List<Course> courses;
-
     public String getId() {
         return id;
     }
@@ -58,14 +55,6 @@ public class CourseMemberLimitStrategy implements Strategy {
         this.courseId = courseId;
     }
 
-    public List<Course> getCourses()
-    {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
 
     @Override
     public boolean validate(Team team)
@@ -88,7 +77,7 @@ public class CourseMemberLimitStrategy implements Strategy {
     @Override
     public String getErrorMsg()
     {
-        return "选修" + courses.get(0).getCourseName() + "课程的小组成员数应在" + min + "到" + max + "之间";
+        return "选修某课程的小组成员数应在" + min + "到" + max + "之间";
     }
 
 }

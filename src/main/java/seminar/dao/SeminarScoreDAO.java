@@ -33,4 +33,9 @@ public class SeminarScoreDAO {
     {
         seminarScoreMapper.updateSeminarScore(seminarScore);
     }
+
+    public List<SeminarScore> getByKlassSeminarId(String klassSeminarId)
+    {
+        return  seminarScoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
+    }
 }
