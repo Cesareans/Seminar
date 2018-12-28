@@ -19,6 +19,7 @@ import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.relation.KlassRound;
+import seminar.logger.DebugLogger;
 import seminar.pojo.dto.*;
 import seminar.service.*;
 
@@ -200,7 +201,8 @@ public class TeacherController {
 
     @PutMapping("/course")
     public ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
-        Course course = courseCreateDTO.getCourse();
+        DebugLogger.logJson(courseCreateDTO);
+        //Course course = courseCreateDTO.getCourse();
         //course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
         //teacherService.createCourse(course);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

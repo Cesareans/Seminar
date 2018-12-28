@@ -11,8 +11,42 @@ var courseConflictBtn;
 var courseModal;
 var formContainer;
 var state = 0;
+var curSerial = 0;
 var courseLimitDom;
+var addConflictCourseBtnDom;
+var courseNameDom;
+var conflictCourseDom;
 {
+    conflictCourseDom = "\n" +
+        "                            <div class=\"col-lg-6 col-md-12 conflict-course\">\n" +
+        "                                <div class=\"card form-card dropdown-card\">\n" +
+        "                                    <div class=\"card-body\">\n" +
+        "                                        <div class=\"body-header\">\n" +
+        "                                            <div class=\"body-title\">冲突课程</div>\n" +
+        "                                            <div class=\"flex-center\">\n" +
+        "                                                <div class=\"triangle rightward\"></div>\n" +
+        "                                            </div>\n" +
+        "                                        </div>\n" +
+        "                                        <div class=\"body-content\" style=\"display: none;\">\n" +
+        "                                            <hr style=\"margin-bottom: 20px\">\n" +
+        "                                            <div class=\"courseNameList\">\n" +
+        "                                                \n" +
+        "                                            </div>\n" +
+        "                                            <hr>\n" +
+        "                                            <div class=\"container flex-center btnAddArea\">\n" +
+        "                                                \n" +
+        "                                            </div>\n" +
+        "                                        </div>\n" +
+        "                                    </div>\n" +
+        "                                </div>\n" +
+        "                            </div>";
+    courseNameDom = "<label style=\"width: 100%;text-align: center;font-size: 16px\"></label>";
+    addConflictCourseBtnDom = "<a class=\"btn bg-dark conflictCourse\"\n" +
+        "                                                   style=\"width: 80%;color: #FFFFFF;\" data-toggle=\"modal\"\n" +
+        "                                                   data-target=\"#courseModal\">\n" +
+        "                                                    <i class=\"material-icons\">add</i>\n" +
+        "                                                    新增课程\n" +
+        "                                                </a>";
     courseLimitDom ="\n" +
         "                        <div class=\"col-lg-6 col-md-12\">\n" +
         "                            <div class=\"card form-card dropdown-card\">\n" +
@@ -91,6 +125,7 @@ $(function () {
             // }
             var data = createCourseForm.serializeObject();
             var courseMemberLimits = [];
+
             $(courseLimitList).each(function () {
                 var form = $("#"+this);
                 var courseMemberLimit = {};
@@ -100,6 +135,19 @@ $(function () {
                 courseMemberLimits.push(courseMemberLimit);
             });
             data.courseMemberLimits = courseMemberLimits;
+            var conflictCourses = [];
+            var conflictCoursesDom = $(".conflict-course");
+            for(var i in courseConflictList){
+                if(!courseConflictList.hasOwnProperty(i)) continue;
+                var conflictCourse = {};
+                conflictCourse.serial = conflictCoursesDom.find(".conflictCourse").attr("data-serial");
+                conflictCourse.courseId = [];
+                $(conflictCoursesDom.find(".courseNameList").children("label")).each(function () {
+                    conflictCourse.courseId.push($(this).attr("data-id"));
+                });
+                conflictCourses.push(conflictCourse);
+            }
+            data.conflictCourses = conflictCourses;
             $.ajax({
                 type: "put",
                 url: "/teacher/course",
@@ -117,12 +165,7 @@ $(function () {
             verify.focus();
         }
     });
-    $(".dropdown-card").click(function (ev) {
-        var offsetY = ev.pageY - $(this).offset().top;
-        if (offsetY > 0 && offsetY < 50) {
-            toggleDrop($(this));
-        }
-    });
+    $(".dropdown-card").click(clickDrop);
     datetimepicker.bind("focus", function () {
         $(this).parent().addClass("on-date")
     });
@@ -162,17 +205,23 @@ $(function () {
     });
     $(".choose").click(function () {
         var courseItem = $(this).parents(".courseItem");
+        var courseId = courseItem.attr("data-courseId");
         switch (state) {
             case -1:
+                curSerial += 1;
+                addConflictCourseDom(courseItem);
                 break;
             case 0:
-                var courseId = courseItem.attr("data-courseId");
                 if (courseLimitList.indexOf(courseItem.attr("data-courseId")) < 0) {
                     courseLimitList.push(courseId);
                 }
                 addCourseLimitDom(courseItem);
                 break;
-            case 2:
+            default:
+                if (courseConflictList[state].indexOf(courseItem.attr("data-courseId")) < 0) {
+                    courseConflictList[state].push(courseId);
+                }
+                addCourseNameDom(courseItem, state);
                 break;
         }
     });
@@ -196,20 +245,42 @@ function dropdown(card) {
     }
 }
 
+function clickDrop(ev) {
+    var offsetY = ev.pageY - $(this).offset().top;
+    if (offsetY > 0 && offsetY < 50) {
+        toggleDrop($(this));
+    }
+}
+
 function addCourseLimitDom(courseItem) {
-    console.log(courseItem);
     var row = $(courseLimitDom);
     row.attr("id", courseItem.attr("data-courseId"));
-    row.find(".dropdown-card").click(function (ev) {
-        var offsetY = ev.pageY - $(this).offset().top;
-        if (offsetY > 0 && offsetY < 50) {
-            toggleDrop($(this));
-        }
-    });
+    row.find(".dropdown-card").click(clickDrop);
     row.find(".course-name").html(courseItem.find(".name").text());
     formContainer.append(row);
 }
 
-function addConflictCourseDom() {
+function addConflictCourseDom(courseItem) {
+    var row = $(conflictCourseDom);
+    var rowCourseNameDom = $(courseNameDom);
+    rowCourseNameDom.html(courseItem.find(".name").text());
+    rowCourseNameDom.attr("data-id", courseItem.attr("data-courseId"));
+    row.find(".courseNameList").append(rowCourseNameDom);
+    var rowAddConflictCourseDom = $(addConflictCourseBtnDom);
+    rowAddConflictCourseDom.attr("data-serial", curSerial);
+    rowAddConflictCourseDom.click(function () {
+        state = parseInt($(this).attr("data-serial"));
+    });
+    row.find(".dropdown-card").click(clickDrop);
+    row.find(".btnAddArea").append(rowAddConflictCourseDom);
+    courseConflictList[curSerial] = [courseItem.attr("data-courseId")];
+    formContainer.append(row);
+}
 
+function addCourseNameDom(courseItem, serial) {
+    var row = $(courseNameDom);
+    row.attr("data-id", courseItem.attr("data-courseId"));
+    row.html(courseItem.find(".name").text());
+    var conflictCourses = $(".conflict-course");
+    conflictCourses.eq(serial - 1).find(".courseNameList").append(row);
 }
