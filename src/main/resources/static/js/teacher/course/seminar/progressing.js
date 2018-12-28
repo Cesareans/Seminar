@@ -137,6 +137,7 @@ $(function () {
         });
         endPreBtn.click(function () {
             sendRequest("EndSeminarRequest", {});
+            util.showLoading();
         })
     }
 });
@@ -219,6 +220,7 @@ function handleScoreResponse(content) {
 }
 
 function handleEndSeminarResponse() {
+    util.hideLoading();
     window.location.reload();
 }
 

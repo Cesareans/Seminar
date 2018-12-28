@@ -282,7 +282,9 @@
 .seminar-card .card-body .line.content-line label {
     padding-top: 5px;
     align-items: flex-start;
+    width: 20%;
 }
+
 
 .seminar-card .card-body .line.status-line {
     margin-top: 50px;
@@ -404,6 +406,24 @@
 }
 
 /*Table*/
+.table tr td{
+    border-top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.course-table td,.course-table th{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 21px;
+}
+.course-table .name{
+}
+.course-table .teacher{
+    width: 32%;
+}
+.course-table .operation{
+     width: 20%;
+}
+
 .team-table {
     margin-top: 20px;
     margin-bottom: 0;
@@ -421,7 +441,6 @@
     width: 48%;
     line-height: 21px;
 }
-
 
 .team-table .name.select {
     text-align: left;

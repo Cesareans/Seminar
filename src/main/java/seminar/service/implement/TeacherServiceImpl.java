@@ -232,11 +232,12 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal reportScore) {
+    public void updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore ,BigDecimal reportScore) {
         Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
         SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(),attendance.getKlassSeminarId()).get(0);
         seminarScore.setPresentationScore(preScore);
         seminarScore.setReportScore(reportScore);
+        seminarScore.setQuestionScore(queScore);
         seminarScoreDAO.update(seminarScore);
     }
 

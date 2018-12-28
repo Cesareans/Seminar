@@ -1,6 +1,5 @@
 package seminar.controller;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,22 +15,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import seminar.config.SeminarConfig;
-import seminar.dao.CourseDAO;
 import seminar.entity.*;
 import seminar.entity.application.ShareSeminarApplication;
 import seminar.entity.application.ShareTeamApplication;
-import seminar.entity.regulation.Strategy;
 import seminar.entity.relation.KlassRound;
-import seminar.logger.DebugLogger;
 import seminar.pojo.dto.*;
-import seminar.pojo.websocket.response.Response;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -138,7 +132,7 @@ public class TeacherController {
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        if(!teacherService.modifyPasswordViaId(((String) session.getAttribute(TEACHER_ID_GIST)), password)){
+        if (!teacherService.modifyPasswordViaId(((String) session.getAttribute(TEACHER_ID_GIST)), password)) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -213,7 +207,7 @@ public class TeacherController {
     }
 
     @DeleteMapping("/course/{courseId}")
-    public ResponseEntity<Object> deleteCourse(@PathVariable String courseId){
+    public ResponseEntity<Object> deleteCourse(@PathVariable String courseId) {
         teacherService.deleteCourseById(courseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -250,7 +244,7 @@ public class TeacherController {
         Round round = roundSettingDTO.getRound();
         List<KlassRound> klassRounds = roundSettingDTO.getKlassRounds();
 
-        if(!teacherService.updateRoundScoreType(round)){
+        if (!teacherService.updateRoundScoreType(round)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
         }
         for (KlassRound klassRound : klassRounds) {
@@ -295,7 +289,7 @@ public class TeacherController {
             teacherService.addRound(round);
             seminar.setRoundId(round.getId());
         }
-        if(!teacherService.updateSeminar(seminar)){
+        if (!teacherService.updateSeminar(seminar)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -313,9 +307,9 @@ public class TeacherController {
     @PostMapping("/course/seminar/info")
     public String seminarInfo(String klassId, String seminarId, String ksId, Model model) {
         List<KlassSeminar> klassSeminar;
-        if(ksId != null){
+        if (ksId != null) {
             klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(ksId);
-        }else{
+        } else {
             klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
         }
         if (klassSeminar.size() == 0) {
@@ -339,15 +333,15 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/grade/modify")
-    public String modifyGrade(String attendanceId, BigDecimal preScore, BigDecimal reportScore, Model model) {
-        teacherService.updateSeminarScore(attendanceId,preScore,reportScore);
-        return "teacher/course/seminar/grade";
+    public ResponseEntity<Object> modifyGrade(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore) {
+        teacherService.updateSeminarScore(attendanceId, preScore, queScore, reportScore);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/seminar/enrollList")
     public String seminarEnrollList(String klassSeminarId, Model model) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId).get(0);
-        Boolean hasEnd = (klassSeminar.getState()==2);
+        Boolean hasEnd = (klassSeminar.getState() == 2);
         model.addAttribute("hasEnd", hasEnd);
         model.addAttribute("ksId", klassSeminar.getId());
         model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
@@ -356,7 +350,7 @@ public class TeacherController {
 
     @PostMapping("/course/seminar/enrollList/giveScore")
     public ResponseEntity<Object> giveScore(BigDecimal score, String ksId, String teamId) {
-        teacherService.updateReportScore(score,ksId,teamId);
+        teacherService.updateReportScore(score, ksId, teamId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -450,7 +444,9 @@ public class TeacherController {
 
     @PostMapping("/course/share/create")
     public String courseShareCreate(String courseId, Model model) {
-        model.addAttribute("otherCourses", seminarService.getOtherCoursesByCourseId(courseId));
+        model.addAttribute("course", seminarService.getCourseByCourseId(courseId).get(0));
+        model.addAttribute("seminarCourses", seminarService.getCanShareSeminarCourse());
+        model.addAttribute("teamCourses", seminarService.getCanShareTeamCourse());
         return "teacher/course/share/create";
     }
 
@@ -459,6 +455,7 @@ public class TeacherController {
         teacherService.cancelTeamShare(subCourseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
     @PostMapping("/course/share/cancelSeminarShare")
     public ResponseEntity<Object> cancelSeminarShare(String subCourseId) {
         teacherService.cancelSeminarShare(subCourseId);
@@ -476,7 +473,7 @@ public class TeacherController {
             shareTeamApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareTeamApplication.setTeacherId(teacherId);
             Course course = seminarService.getCourseByCourseId(shareApplicationDTO.getSubCourseId()).get(0);
-            if(course.getTeamMainCourseId() != null){
+            if (course.getTeamMainCourseId() != null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
             if (applicationService.createShareTeamApplication(shareTeamApplication)) {
@@ -487,7 +484,7 @@ public class TeacherController {
         } else if (shareApplicationDTO.getShareType() == 1) {
             ShareSeminarApplication shareSeminarApplication = new ShareSeminarApplication();
             Course course = seminarService.getCourseByCourseId(shareApplicationDTO.getSubCourseId()).get(0);
-            if(course.getSeminarMainCourseId() != null){
+            if (course.getSeminarMainCourseId() != null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
             shareSeminarApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());

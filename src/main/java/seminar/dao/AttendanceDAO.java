@@ -3,9 +3,13 @@ package seminar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.Attendance;
+import seminar.entity.KlassSeminar;
 import seminar.mapper.AttendanceMapper;
+import seminar.mapper.KlassSeminarMapper;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Cesare
@@ -13,10 +17,12 @@ import java.util.List;
 @Component
 public class AttendanceDAO {
     private final AttendanceMapper attendanceMapper;
+    private final KlassSeminarMapper klassSeminarMapper;
 
     @Autowired
-    public AttendanceDAO(AttendanceMapper attendanceMapper) {
+    public AttendanceDAO(AttendanceMapper attendanceMapper, KlassSeminarMapper klassSeminarMapper) {
         this.attendanceMapper = attendanceMapper;
+        this.klassSeminarMapper = klassSeminarMapper;
     }
 
 
@@ -32,6 +38,28 @@ public class AttendanceDAO {
      */
     public List<Attendance> getByKlassSeminarId(String klassSeminarId) {
         return attendanceMapper.selectAttendanceByKlassSeminarId(klassSeminarId);
+    }
+
+    /**
+     * @author Cesare
+     */
+    public List<Attendance> getEnrollList(String ksId) {
+        KlassSeminar klassSeminar = klassSeminarMapper.selectKlassSeminarById(ksId).get(0);
+        List<Attendance> enrollList = new LinkedList<>();
+        IntStream.range(1, klassSeminar.getSeminar().getMaxTeam() + 1).forEach(i -> {
+            boolean isEnrolled = false;
+            for (Attendance attendance : klassSeminar.getAttendances()) {
+                if (attendance.getSn() == i) {
+                    isEnrolled = true;
+                    enrollList.add(attendance);
+                    break;
+                }
+            }
+            if (!isEnrolled) {
+                enrollList.add(null);
+            }
+        });
+        return enrollList;
     }
 
     /**

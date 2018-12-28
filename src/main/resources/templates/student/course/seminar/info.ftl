@@ -67,14 +67,14 @@
                     <div class="container">
                         <div class="col-md-10 ml-auto mr-auto">
                             <div class="line content-line">
-                                <label>课程要求</label>
-                                <div class="sep"></div>
-                                <div class="content">${klassSeminar.seminar.content}</div>
+                                <label style="width: 20%">课程要求</label>
+                                <div style="width: 5%" class="sep"></div>
+                                <div style="width: 75%" class="content">${klassSeminar.seminar.content}</div>
                             </div>
-                            <div class="line status-line">
+                            <div class="line" style="margin-top: 50px">
                                 <label>状态</label>
                                 <div class="sep"></div>
-                                <div class="content">
+                                <div class="content" style="justify-content: center">
                                     <#if klassSeminar.state == 0>
                                         <span class="badge badge-pill badge-success">尚未开始</span>
                                     <#elseif klassSeminar.state == 1>

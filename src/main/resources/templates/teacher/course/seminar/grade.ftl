@@ -24,6 +24,7 @@
                 $("#atdId").val(btn.attr("data-atdId"));
                 $("#preScore").val(btn.attr("data-preScore"));
                 $("#reportScore").val(btn.attr("data-reportScore"));
+                $("#queScore").val(btn.attr("data-queScore"));
             });
             $("#confirmBtn").click(function () {
                 util.showLoading();
@@ -46,6 +47,9 @@
     <style>
         .form-control{
             text-align: center;
+        }
+        .nav-link{
+            padding: 0 !important;
         }
     </style>
     <title>成绩</title>
@@ -94,6 +98,7 @@
                             <div class="body-header">
                                 <div class="body-title">${attendance.team.teamName}</div>
                                 <button data-atdId="${attendance.id}"
+                                        data-queScore="<#if seminarScore[attendance.id].questionScore??>${seminarScore[attendance.id].questionScore}<#else >无数据</#if>"
                                         data-preScore="<#if seminarScore[attendance.id].presentationScore??>${seminarScore[attendance.id].presentationScore}<#else >无数据</#if>"
                                         data-reportScore="<#if seminarScore[attendance.id].reportScore??>${seminarScore[attendance.id].reportScore}<#else >无数据</#if>"
                                         class="btn btn-danger modify" style="padding: 5px 10px" data-toggle="modal"
@@ -157,11 +162,11 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <div class="modal-body" style="overflow: scroll;height: 20%;padding: 0 24px">
+            <div class="modal-body flex-center" style="height: 20%;padding: 0 24px">
                 <form class="form" id="modifyScoreForm">
                     <input hidden id="atdId" name="attendanceId" placeholder="">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                 <li class="nav-item">
                                     <a class="nav-link">
@@ -172,7 +177,18 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
+                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                <li class="nav-item">
+                                    <a class="nav-link">
+                                        <i class="material-icons">comment</i>
+                                        提问分
+                                        <input autocomplete="off" class="form-control" id="queScore" name="queScore" placeholder="">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-4">
                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                 <li class="nav-item">
                                     <a class="nav-link">
