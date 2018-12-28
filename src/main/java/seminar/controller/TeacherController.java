@@ -194,7 +194,7 @@ public class TeacherController {
 
     @GetMapping("/course/create")
     public String courseCreate(Model model) {
-        model.addAttribute("courses", seminarService.getAllCourses());
+        model.addAttribute("courses", seminarService.getAllCoursesWithTeacher());
         return "teacher/course/create";
     }
 

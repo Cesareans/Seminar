@@ -13,6 +13,11 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/create.js"></script>
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
     <title>创建课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -212,17 +217,15 @@
                                 <table class="table course-table">
                                     <tbody>
                                     <#list courses as course>
-                                        <tr>
-                                            <td class="name select">${course.courseName}</td>
+                                        <tr class="courseItem">
+                                            <td class="name">${course.courseName}</td>
+                                            <td class="teacher">${course.teacher.teacherName}</td>
+                                            <td class="operation">
+                                                <button class="btn bg-dark btn-fab-mini" style="padding: 5px 10px;">
+                                                    选中
+                                                </button>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td class="name select">${course.courseName}</td>
-                                        </tr>
-                                        <td class="operation">
-                                            <button class="btn bg-dark btn-fab-mini">
-                                                选中
-                                            </button>
-                                        </td>
                                     </#list>
                                     </tbody>
                                 </table>
