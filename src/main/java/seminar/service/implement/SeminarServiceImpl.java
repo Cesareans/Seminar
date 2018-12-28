@@ -6,6 +6,7 @@ import seminar.dao.*;
 import seminar.dao.regulation.StrategyCompositionDAO;
 import seminar.entity.*;
 import seminar.entity.regulation.Strategy;
+import seminar.entity.regulation.StrategyComposition;
 import seminar.entity.relation.KlassRound;
 import seminar.service.SeminarService;
 
@@ -93,7 +94,7 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Strategy> getStrategiesByCourseId(String courseId) {
+    public StrategyComposition getStrategiesByCourseId(String courseId) {
         return strategyCompositionDAO.getStrategiesByCourseId(courseId);
     }
 
