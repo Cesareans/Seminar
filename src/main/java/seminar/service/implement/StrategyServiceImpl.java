@@ -29,15 +29,7 @@ public class StrategyServiceImpl implements StrategyService {
     public boolean validate(String teamId, String courseId)
     {
         Team team = teamDAO.getById(teamId).get(0);
-        boolean validation = true;
         StrategyComposition strategies = strategyCompositionDAO.getStrategiesByCourseId(courseId);
-        for(Strategy strategy:strategies.getStrategies())
-        {
-            if(!strategy.validate(team)){
-                validation = false;
-                break;
-            }
-        }
-        return validation;
+        return strategies.validate(team);
     }
 }

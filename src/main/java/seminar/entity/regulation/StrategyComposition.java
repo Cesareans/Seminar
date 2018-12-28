@@ -1,8 +1,13 @@
 package seminar.entity.regulation;
 
+import seminar.entity.Team;
+
 import java.util.List;
 
-public class StrategyComposition {
+/**
+ * @author Xinyu Shi
+ */
+public class StrategyComposition implements Strategy{
 
     private List<Strategy> strategies;
 
@@ -12,5 +17,24 @@ public class StrategyComposition {
 
     public List<Strategy> getStrategies() {
         return strategies;
+    }
+
+    @Override
+    public boolean validate(Team team){
+        boolean validation = true;
+        for(Strategy strategy:strategies)
+        {
+            if(!strategy.validate(team)){
+                validation = false;
+                break;
+            }
+        }
+        return validation;
+    }
+
+    @Override
+    public String getErrorMsg()
+    {
+        return "";
     }
 }
