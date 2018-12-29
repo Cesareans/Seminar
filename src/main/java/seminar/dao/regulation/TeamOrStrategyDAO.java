@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyNameId;
 import seminar.entity.regulation.TeamAndStrategy;
+import seminar.entity.regulation.TeamOrStrategy;
 import seminar.logger.DebugLogger;
 import seminar.mapper.TeamOrStrategyMapper;
 
@@ -54,9 +55,9 @@ public class TeamOrStrategyDAO {
         return strategies;
     }
 
-    public TeamAndStrategy getById(String strategyId)
+    public TeamOrStrategy getById(String strategyId)
     {
-        TeamAndStrategy teamOrStrategy = new TeamAndStrategy();
+        TeamOrStrategy teamOrStrategy = new TeamOrStrategy();
         teamOrStrategy.setId(strategyId);
         teamOrStrategy.setStrategies(getOrStrategyById(strategyId));
         return teamOrStrategy;
