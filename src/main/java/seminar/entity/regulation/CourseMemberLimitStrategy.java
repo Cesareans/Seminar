@@ -71,12 +71,7 @@ public class CourseMemberLimitStrategy implements Strategy {
                 memberInSpecificCourse++;
             }
         }
-        if(memberInSpecificCourse >= min && memberInSpecificCourse <= max){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return memberInSpecificCourse >= min && memberInSpecificCourse <= max;
     }
 
     @Override

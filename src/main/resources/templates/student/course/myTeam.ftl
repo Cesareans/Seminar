@@ -244,6 +244,10 @@
 <form id="courseIdForm" method="post" action="/student/course/teamList" hidden>
     <input id="courseIdInput" name="courseId" placeholder="">
 </form>
+<form id="myTeamForm" method="post" action="/student/course/myTeam" hidden>
+    <input name="courseId" placeholder="" value="${course.id}">
+    <input name="teamId" placeholder="" value="${team.id}">
+</form>
 
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

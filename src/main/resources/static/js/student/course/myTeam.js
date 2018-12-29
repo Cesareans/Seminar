@@ -10,7 +10,7 @@ $(function () {
             url:"/student/course/myTeam/addMembers",
             data: $("#chosenStudentForm").serialize(),
             success:function () {
-                window.location.reload();
+                reload();
             },
             error:function () {
                 util.hideLoading();
@@ -25,7 +25,7 @@ $(function () {
             url:"/student/course/myTeam/validApplication",
             data: $("#validApplicationForm").serialize(),
             success:function () {
-                window.location.reload();
+                reload();
             },
             error:function () {
                 util.hideLoading();
@@ -70,7 +70,7 @@ $(function () {
             url:"/student/course/myTeam/deleteMember",
             data: {studentId:$(this).attr("data-sid"),teamId:$("body").attr("data-teamId")},
             success:function () {
-                window.location.reload();
+                reload();
             },
             error:function () {
                 util.hideLoading();
@@ -79,3 +79,7 @@ $(function () {
         });
     });
 });
+
+function reload() {
+    $("#myTeamForm").submit();
+}
