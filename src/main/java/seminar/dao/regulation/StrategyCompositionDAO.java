@@ -42,7 +42,6 @@ public class StrategyCompositionDAO {
         for (StrategyNameId s : strategySet)
         {
             try {
-                DebugLogger.logJson(s.getStrategyName());
                 Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
                 strategy = makeStrategyByDAO(strategy,s.getStrategyId());
                 strategies.add(strategy);

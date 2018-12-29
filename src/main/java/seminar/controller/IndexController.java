@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.logger.DebugLogger;
 import seminar.pojo.exception.CannotAccessResetPwdException;
 import seminar.service.*;
 

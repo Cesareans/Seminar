@@ -1,6 +1,7 @@
 package seminar.entity.regulation;
 
 import seminar.entity.Team;
+import seminar.logger.DebugLogger;
 
 import java.util.List;
 

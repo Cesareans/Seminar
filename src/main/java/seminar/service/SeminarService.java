@@ -191,6 +191,12 @@ public interface SeminarService {
      */
     Team getTeamByTeamId(String teamId);
 
+    /**
+     * Get team by course id and team id
+     * @param courseId the refer id
+     * @param teamId the refer id
+     * @return the team
+     */
     Team getTeamByCourseIdAndTeamId(String courseId, String teamId);
 
 

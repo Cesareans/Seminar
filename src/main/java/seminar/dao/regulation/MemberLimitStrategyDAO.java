@@ -27,7 +27,6 @@ public class MemberLimitStrategyDAO {
 
     public void createMemberLimitStrategy(MemberLimitStrategy memberLimitStrategy)
     {
-        DebugLogger.logJson(memberLimitStrategy);
         memberLimitStrategyMapper.insertMemberLimitStrategy(memberLimitStrategy);
     }
 

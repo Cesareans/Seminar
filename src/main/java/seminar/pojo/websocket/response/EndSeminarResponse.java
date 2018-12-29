@@ -2,6 +2,9 @@ package seminar.pojo.websocket.response;
 
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 
+/**
+ * @author Cesare
+ */
 public class EndSeminarResponse implements Response {
     private String placeHolder;
     @Override

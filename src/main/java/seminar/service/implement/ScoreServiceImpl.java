@@ -195,7 +195,6 @@ public class ScoreServiceImpl implements ScoreService {
         BigDecimal totalScore =(seminarScore.getPresentationScore().multiply(new BigDecimal(course.getPrePercentage()))).add(seminarScore.getReportScore().multiply(new BigDecimal(course.getReportPercentage()))).add(seminarScore.getQuestionScore().multiply(new BigDecimal(course.getQuesPercentage())));
         totalScore = totalScore.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
         seminarScore.setTotalScore(totalScore);
-        DebugLogger.logJson(seminarScore);
         seminarScoreDAO.update(seminarScore);
 
         KlassSeminar kSeminar = klassSeminarDAO.getByKlassSeminarId(seminarScore.getKlassSeminarId()).get(0);

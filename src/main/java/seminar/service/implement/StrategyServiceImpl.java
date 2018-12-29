@@ -52,7 +52,6 @@ public class StrategyServiceImpl implements StrategyService {
             strategyComposition = strategyCompositionDAO.getStrategiesByCourseId(courseId);
             compositionMap.put(courseId, strategyComposition);
         }
-        DebugLogger.logJson(strategyComposition);
         Team team = teamDAO.getById(teamId).get(0);
         return strategyComposition.validate(team);
     }

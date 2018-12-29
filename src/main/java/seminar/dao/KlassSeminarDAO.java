@@ -2,14 +2,10 @@ package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.Attendance;
 import seminar.entity.KlassSeminar;
-import seminar.logger.DebugLogger;
 import seminar.mapper.KlassSeminarMapper;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * @author Cesare

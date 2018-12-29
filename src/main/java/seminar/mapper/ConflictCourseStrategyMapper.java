@@ -28,8 +28,8 @@ public interface ConflictCourseStrategyMapper {
     /**
      * insert single record into conflict course strategy table.
      * @author Xinyu Shi
-     * @param
-     * @param courseId
+     * @param id the refer gist
+     * @param courseId the refer gist
      */
     @Insert("insert into conflict_course_strategy(id, course_id) values(#{id}, #{courseId})")
     void insertSingleCourseMemberLimitStrategy(@Param("id") String id, @Param("courseId") String courseId);
