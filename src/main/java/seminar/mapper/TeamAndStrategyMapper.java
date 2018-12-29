@@ -33,7 +33,7 @@ public interface TeamAndStrategyMapper {
      * @param strategyName
      * @param strategyId
      */
-    @Insert("insert into team_and_strategy(id, strategy_name,strategy_id) values(#{id}, #{strategyId},#{strategyId})")
+    @Insert("insert into team_and_strategy(id, strategy_name,strategy_id) values(#{id}, #{strategyName},#{strategyId})")
     void insertSingleTeamAndStrategy(@Param("id") String id, @Param("strategyName") String strategyName, @Param("strategyId") String strategyId);
 
     /**

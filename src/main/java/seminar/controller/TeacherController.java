@@ -203,10 +203,10 @@ public class TeacherController {
 
     @PutMapping("/course")
     public ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
-        DebugLogger.logJson(courseCreateDTO);
         Course course = courseCreateDTO.getCourse();
         course.setTeacherId(((String) session.getAttribute(TEACHER_ID_GIST)));
         teacherService.createCourse(course);
+        DebugLogger.logJson(course);
         strategyService.createStrategy(courseCreateDTO, course.getId());
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }

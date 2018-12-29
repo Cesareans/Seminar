@@ -76,8 +76,10 @@ public class StrategyServiceImpl implements StrategyService {
         teamAndStrategyDAO.createTeamAndStrategy(teamAndId,"TeamOrStrategy",teamOrId);
         for(ConflictCourseStrategy conflictCourseStrategy:conflictCourseStrategies)
         {
-            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy,courseId);
-            strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"ConflictCourseStrategy",courseId);
+            String conflictId = conflictCourseStrategyDAO.allocateId();
+            DebugLogger.logJson(conflictId);
+            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy,conflictId);
+            strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"ConflictCourseStrategy",conflictId);
         }
         strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"TeamAndStrategy",teamAndId);
     }

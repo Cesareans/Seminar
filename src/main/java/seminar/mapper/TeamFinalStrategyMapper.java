@@ -31,7 +31,7 @@ public interface TeamFinalStrategyMapper {
      * @param courseId
      * @return String
      */
-    @Select("select max(strategy_serial)+1 from team_strategy where course_id=#{courseId}")
+    @Select("select ifnull(max(strategy_serial)+1,1) from team_strategy where course_id=#{courseId}")
     String allocateStrategySerial(String courseId);
 
     /**
@@ -42,6 +42,6 @@ public interface TeamFinalStrategyMapper {
      * @param strategyName
      * @param strategyId
      */
-    @Insert("insert into team_and_strategy(id, strategy_serial, strategy_name,strategy_id) values(#{courseId}, #{strategySerial},#{strategyName},#{strategyId})")
+    @Insert("insert into team_strategy(course_id, strategy_serial, strategy_name,strategy_id) values(#{courseId}, #{strategySerial},#{strategyName},#{strategyId})")
     void insertSingleTeamAndStrategy(@Param("courseId") String courseId, @Param("strategySerial") String strategySerial, @Param("strategyName") String strategyName,@Param("strategyId") String strategyId);
 }

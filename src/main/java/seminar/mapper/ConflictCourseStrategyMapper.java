@@ -28,10 +28,17 @@ public interface ConflictCourseStrategyMapper {
     /**
      * insert single record into conflict course strategy table.
      * @author Xinyu Shi
-     * @param mainCourseId
+     * @param
      * @param courseId
      */
-    @Insert("insert into conflict_course_strategy(id, course_id) values(#{mainCourseId}, #{courseId})")
-    void insertSingleCourseMemberLimitStrategy(@Param("mainCourseId") String mainCourseId, @Param("courseId") String courseId);
+    @Insert("insert into conflict_course_strategy(id, course_id) values(#{id}, #{courseId})")
+    void insertSingleCourseMemberLimitStrategy(@Param("id") String id, @Param("courseId") String courseId);
 
+    /**
+     * allocate one id
+     * @author Xinyu Shi
+     * @return
+     */
+    @Select("select ifnull(max(id)+1,1) from conflict_course_strategy")
+    String allocateId();
 }
