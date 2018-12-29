@@ -229,6 +229,7 @@ public class StudentController {
     public String createTeam(String courseId, Model model, HttpSession session) {
         model.addAttribute("leaderId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("klasses", seminarService.getKlassByCourseId(courseId));
+        model.addAttribute("courseId", courseId);
         return "student/course/team/create";
     }
 
@@ -237,7 +238,7 @@ public class StudentController {
         if (!studentService.createTeam(team)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(team.getId());
     }
 
     @PostMapping("/course/myTeam")

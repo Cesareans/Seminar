@@ -59,7 +59,6 @@
             <div class="col-md-8">
                 <form class="form" id="createTeamForm">
                     <input hidden id="courseId" name="courseId" placeholder="">
-                    <input hidden id="klassId" name="klassId" placeholder="">
                     <input hidden id="leaderId" name="leaderId" placeholder="" value="${leaderId}">
                     <div class="container">
                         <div class="form-group bmd-form-group">
@@ -105,6 +104,10 @@
 <form id="returnForm" action="/student/course/teamList" method="post">
     <input id="returnCourseId" name="courseId" placeholder="">
     <input id="returnKlassId" name="klassId" placeholder="">
+</form>
+<form id="myTeamForm" action="/student/course/myTeam" method="post">
+    <input name="courseId" value="${courseId}" placeholder="">
+    <input name="teamId" id="teamId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

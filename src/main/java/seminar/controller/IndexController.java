@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import seminar.entity.Student;
 import seminar.entity.Teacher;
-import seminar.pojo.exception.CannotAccessResetPwdException;
 import seminar.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -95,8 +94,8 @@ public class IndexController {
         String enableModify = "enableModify";
         if (session.getAttribute(enableModify) != null) {
             return "modifyPassword";
-        } else {
-            throw new CannotAccessResetPwdException();
+        }else{
+            return "error/page";
         }
     }
 

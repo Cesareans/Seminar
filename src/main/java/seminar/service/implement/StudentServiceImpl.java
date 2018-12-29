@@ -147,6 +147,7 @@ public class StudentServiceImpl implements StudentService {
         }
         team.setStatus(TeamStatus.Valid.getStatus());
         teamDAO.create(team);
+        team = teamDAO.getById(team.getId()).get(0);
         strategyService.handleVariation(team);
         teamDAO.update(team);
         return true;

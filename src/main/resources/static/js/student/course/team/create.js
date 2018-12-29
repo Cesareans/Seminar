@@ -21,9 +21,10 @@ $(function () {
                 url: "/student/course/team",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(createTeamForm.serializeObject()),
-                success: function () {
+                success: function (result, status, xhr) {
                     util.hideLoading();
-                    back();
+                    $("#teamId").val(xhr.responseText);
+                    $("#myTeamForm").submit();
                 },
                 error: function () {//xhr, textStatus, errorThrown
                     util.hideLoading();
