@@ -5,6 +5,7 @@ import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +62,12 @@ public class CourseMemberLimitStrategy implements Strategy {
         int memberInSpecificCourse = 0;
         for(Student student:team.getStudents())
         {
-            if(student.getCourses().contains(courseId)){
+            List<String> courseIds = new ArrayList<>();
+            for(Course course:student.getCourses())
+            {
+                courseIds.add(course.getId());
+            }
+            if(courseIds.contains(courseId)){
                 memberInSpecificCourse++;
             }
         }
