@@ -44,6 +44,8 @@ public class StrategyCompositionDAO {
             try {
                 Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
                 strategy = makeStrategyByDAO(strategy,s.getStrategyId());
+                DebugLogger.logJson(strategy);
+                DebugLogger.logJson(strategy.getClass());
                 strategies.add(strategy);
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -80,12 +82,6 @@ public class StrategyCompositionDAO {
 
     public String allocateSerial(String courseId)
     {
-        String serial = teamFinalStrategyMapper.allocateStrategySerial(courseId);
-        if(!serial.equals(null)){
-            return serial;
-        }
-        else{
-            return "1";
-        }
+        return teamFinalStrategyMapper.allocateStrategySerial(courseId);
     }
 }

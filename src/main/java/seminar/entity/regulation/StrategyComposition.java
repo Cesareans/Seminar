@@ -26,6 +26,7 @@ public class StrategyComposition implements Strategy{
         for(Strategy strategy:strategies)
         {
             if(!strategy.validate(team)){
+                DebugLogger.logJson(strategy);
                 validation = false;
                 break;
             }

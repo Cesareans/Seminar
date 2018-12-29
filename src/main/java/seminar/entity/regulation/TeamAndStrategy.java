@@ -38,8 +38,6 @@ public class TeamAndStrategy implements Strategy {
         for(Strategy strategy:strategies)
         {
             if(!strategy.validate(team)){
-                DebugLogger.logJson(strategy);
-                DebugLogger.log(strategy.getClass());
                 validation = false;
                 break;
             }

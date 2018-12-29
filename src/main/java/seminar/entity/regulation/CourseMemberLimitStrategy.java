@@ -4,6 +4,7 @@ import cesare.mybatis.annotations.*;
 import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
+import seminar.logger.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class CourseMemberLimitStrategy implements Strategy {
                 memberInSpecificCourse++;
             }
         }
+        DebugLogger.log(memberInSpecificCourse);
         return memberInSpecificCourse >= min && memberInSpecificCourse <= max;
     }
 
