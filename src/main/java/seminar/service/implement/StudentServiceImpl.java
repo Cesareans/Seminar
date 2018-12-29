@@ -170,15 +170,11 @@ public class StudentServiceImpl implements StudentService {
         if(studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())) {
             return false;
         }
-        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
-        if(new Date().compareTo(teamEndDate) > 0) {
-            team.setStatus(TEAM_IS_INVALID);
-            teamDAO.update(team);
-            return false;
-        }
         studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
         if(!strategyService.validate(teamId,team.getCourseId())){
             team.setStatus(TEAM_IS_INVALID);
+        }else{
+            team.setStatus(TEAM_IS_VALID);
         }
         teamDAO.update(team);
         return true;
@@ -194,15 +190,11 @@ public class StudentServiceImpl implements StudentService {
         if(team.getStatus()==TEAM_IS_CHECKING) {
             return false;
         }
-        Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
-        if(new Date().compareTo(teamEndDate) > 0) {
-            team.setStatus(TEAM_IS_INVALID);
-            teamDAO.update(team);
-            return false;
-        }
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
         if(!strategyService.validate(teamId,team.getCourseId())){
             team.setStatus(TEAM_IS_INVALID);
+        }else{
+            team.setStatus(TEAM_IS_VALID);
         }
         teamDAO.update(team);
 
