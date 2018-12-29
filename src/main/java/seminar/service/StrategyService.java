@@ -1,12 +1,19 @@
 package seminar.service;
 
 
+import seminar.entity.Team;
 import seminar.pojo.dto.CourseCreateDTO;
 
 /**
  * @author Xinyu Shi
  */
 public interface StrategyService {
+   /**
+    * Validate a team
+    * @param team the validate target
+    */
+   void handleVariation(Team team);
+
    /**
     * Validate a team via course's strategy
     * @param teamId the team refer gist

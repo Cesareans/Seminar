@@ -76,7 +76,7 @@
                                 <h6 style="margin: 0">组长</h6>
                             </td>
                             <td class="num">${team.leader.studentNum}</td>
-                            <#if (team.leader.id = studentId && !course.teamMainCourseId?? && canChange)>
+                            <#if (team.leader.id = studentId && !course.teamMainCourseId??)>
                                 <td class="operation">
                                     <button id="dissolveBtn" class="btn btn-danger btn-fab-mini"
                                             <#if (team.status = 2)>disabled</#if>>解散
@@ -95,7 +95,7 @@
                                             <h6 style="margin: 0">组员</h6>
                                         </td>
                                         <td class="num">${student.studentNum}</td>
-                                        <#if (team.leader.id = studentId && !course.teamMainCourseId?? && canChange)>
+                                        <#if (team.leader.id = studentId && !course.teamMainCourseId??)>
                                             <td class="operation">
                                                 <button data-sid="${student.id}"
                                                         class="btn btn-danger btn-fab-mini delete"
@@ -131,7 +131,7 @@
         </div>
     </div>
 </div>
-<#if !course.teamMainCourseId?? && canChange>
+<#if !course.teamMainCourseId??>
     <div class="container foot-container flex-center"
          style="bottom: 0;position: fixed;padding-bottom: 0;max-width: 100%;">
         <#if team.leader.id = studentId>

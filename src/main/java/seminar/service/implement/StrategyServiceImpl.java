@@ -2,6 +2,7 @@ package seminar.service.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import seminar.dao.CourseDAO;
 import seminar.dao.TeamDAO;
 import seminar.dao.regulation.*;
 import seminar.entity.Team;
@@ -11,8 +12,10 @@ import seminar.entity.regulation.MemberLimitStrategy;
 import seminar.entity.regulation.StrategyComposition;
 import seminar.logger.DebugLogger;
 import seminar.pojo.dto.CourseCreateDTO;
+import seminar.pojo.enumration.TeamStatus;
 import seminar.service.StrategyService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import java.util.Map;
 public class StrategyServiceImpl implements StrategyService {
     private Map<String, StrategyComposition> compositionMap;
     private final StrategyCompositionDAO strategyCompositionDAO;
+    private final CourseDAO courseDAO;
     private final TeamDAO teamDAO;
     private final MemberLimitStrategyDAO memberLimitStrategyDAO;
     private final CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO;
@@ -31,10 +35,12 @@ public class StrategyServiceImpl implements StrategyService {
     private final TeamAndStrategyDAO teamAndStrategyDAO;
     private final TeamOrStrategyDAO teamOrStrategyDAO;
 
+
     @Autowired
-    public StrategyServiceImpl(StrategyCompositionDAO strategyCompositionDAO, TeamDAO teamDAO, MemberLimitStrategyDAO memberLimitStrategyDAO,CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO,ConflictCourseStrategyDAO conflictCourseStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, TeamAndStrategyDAO teamAndStrategyDAO)
+    public StrategyServiceImpl(StrategyCompositionDAO strategyCompositionDAO, CourseDAO courseDAO, TeamDAO teamDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, TeamAndStrategyDAO teamAndStrategyDAO)
     {
         this.strategyCompositionDAO = strategyCompositionDAO;
+        this.courseDAO = courseDAO;
         this.teamDAO = teamDAO;
         compositionMap = new HashMap<>();
         this.memberLimitStrategyDAO = memberLimitStrategyDAO;
@@ -45,8 +51,21 @@ public class StrategyServiceImpl implements StrategyService {
     }
 
     @Override
+    public void handleVariation(Team team) {
+        if(validate(team.getId(),team.getCourseId())){
+            team.setStatus(TeamStatus.Valid.getStatus());
+        }else{
+            team.setStatus(TeamStatus.Invalid.getStatus());
+        }
+    }
+
+    @Override
     public boolean validate(String teamId, String courseId)
     {
+        Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
+        if(new Date().compareTo(teamEndDate) > 0) {
+            return false;
+        }
         StrategyComposition strategyComposition = compositionMap.get(courseId);
         if(strategyComposition == null){
             strategyComposition = strategyCompositionDAO.getStrategiesByCourseId(courseId);

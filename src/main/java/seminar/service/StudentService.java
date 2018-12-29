@@ -108,13 +108,6 @@ public interface StudentService {
     boolean deleteTeamMember(String studentId, String teamId);
 
     /**
-     * Student exit team
-     * @param teamId the team refer gist
-     * @param studentId the student refer gist
-     */
-    void exitTeam(String teamId, String studentId);
-
-    /**
      * Dissolve a team
      * @param teamId the team refer gist
      */

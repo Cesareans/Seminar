@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.entity.*;
 import seminar.logger.DebugLogger;
+import seminar.pojo.enumration.TeamStatus;
 import seminar.service.StrategyService;
 import seminar.service.StudentService;
 
@@ -22,9 +23,6 @@ public class StudentServiceImpl implements StudentService {
     private final KlassSeminarDAO klassSeminarDAO;
     private final AttendanceDAO attendanceDAO;
     private final StrategyService strategyService;
-    private final int TEAM_IS_INVALID = 0;
-    private final int TEAM_IS_VALID = 1;
-    private final int TEAM_IS_CHECKING = 2;
 
     @Autowired
     public StudentServiceImpl(StudentDAO studentDAO, TeamDAO teamDAO, CourseDAO courseDAO, KlassSeminarDAO klassSeminarDAO, AttendanceDAO attendanceDAO, StrategyService strategyService) {
@@ -147,8 +145,10 @@ public class StudentServiceImpl implements StudentService {
         if(new Date().compareTo(teamEndDate) > 0) {
             return false;
         }
-        team.setStatus(TEAM_IS_VALID);
+        team.setStatus(TeamStatus.Valid.getStatus());
         teamDAO.create(team);
+        strategyService.handleVariation(team);
+        teamDAO.update(team);
         return true;
     }
 
@@ -164,18 +164,14 @@ public class StudentServiceImpl implements StudentService {
     public boolean addTeamMember(String studentId, String teamId)
     {
         Team team = teamDAO.getById(teamId).get(0);
-        if(team.getStatus()==TEAM_IS_CHECKING) {
+        if(team.getStatus()== TeamStatus.Checking.getStatus()) {
             return false;
         }
-        if(studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())) {
+        if (studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())){
             return false;
         }
         studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
-        if(!strategyService.validate(teamId,team.getCourseId())){
-            team.setStatus(TEAM_IS_INVALID);
-        }else{
-            team.setStatus(TEAM_IS_VALID);
-        }
+        strategyService.handleVariation(team);
         teamDAO.update(team);
         return true;
     }
@@ -187,17 +183,12 @@ public class StudentServiceImpl implements StudentService {
     public boolean deleteTeamMember(String studentId, String teamId)
     {
         Team team = teamDAO.getById(teamId).get(0);
-        if(team.getStatus()==TEAM_IS_CHECKING) {
+        if(team.getStatus()==TeamStatus.Checking.getStatus()) {
             return false;
         }
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
-        if(!strategyService.validate(teamId,team.getCourseId())){
-            team.setStatus(TEAM_IS_INVALID);
-        }else{
-            team.setStatus(TEAM_IS_VALID);
-        }
+        strategyService.handleVariation(team);
         teamDAO.update(team);
-
         return true;
     }
 
@@ -208,26 +199,10 @@ public class StudentServiceImpl implements StudentService {
     public void dissolveTeam(String teamId)
     {
         List<Student> students = teamDAO.getStudentsByTeamId(teamId);
-        for(Student student : students)
-        {
+        for(Student student : students) {
             studentDAO.deleteStudentFromTeamStudent(teamId, student.getId());
         }
         teamDAO.deleteById(teamId);
-    }
-
-    /**
-     * @author Xinyu Shi
-     */
-    @Override
-    public void exitTeam(String teamId, String studentId)
-    {
-        studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
-        Team team = teamDAO.getById(teamId).get(0);
-        if(!strategyService.validate(teamId,team.getCourseId())){
-            team.setStatus(TEAM_IS_INVALID);
-            teamDAO.update(team);
-        }
-
     }
 }
 

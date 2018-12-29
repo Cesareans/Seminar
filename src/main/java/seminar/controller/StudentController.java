@@ -243,8 +243,6 @@ public class StudentController {
     @PostMapping("/course/myTeam")
     public String myTeam(String courseId, String teamId, Model model, HttpSession session) {
         Course course = seminarService.getCourseByCourseId(courseId).get(0);
-        Boolean canChange = new Date().compareTo(course.getTeamEndDate()) < 0;
-        model.addAttribute("canChange", canChange);
         model.addAttribute("course", course);
         model.addAttribute("maxMember", SeminarConfig.MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
@@ -290,7 +288,7 @@ public class StudentController {
 
     @PostMapping("/course/myTeam/quitTeam")
     public ResponseEntity<Object> quitTeam(String teamId, HttpSession session) {
-        studentService.exitTeam(teamId, ((String) session.getAttribute(STUDENT_ID_GIST)));
+        studentService.deleteTeamMember(((String) session.getAttribute(STUDENT_ID_GIST)), teamId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -301,7 +299,9 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         team.setStatus(2);
-        studentService.updateTeam(team);
+        if(!studentService.updateTeam(team)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("队伍不存在");
+        }
         TeamValidApplication teamValidApplication = new TeamValidApplication();
         teamValidApplication.setTeamId(teamId);
         teamValidApplication.setContent(content);
