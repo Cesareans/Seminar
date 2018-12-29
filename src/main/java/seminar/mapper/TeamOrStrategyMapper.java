@@ -31,7 +31,7 @@ public interface TeamOrStrategyMapper {
      * @author Xinyu Shi
      * @return
      */
-    @Select("select max(id)+1 from team_or_strategy")
+    @Select("select ifnull(max(id)+1,1) from team_or_strategy")
     String allocateId();
 
     /**

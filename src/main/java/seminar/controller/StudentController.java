@@ -155,6 +155,8 @@ public class StudentController {
         model.addAttribute("team", seminarService.getTeamByCourseIdAndStudentId(klass.getCourseId(), ((String) session.getAttribute("studentId"))));
         model.addAttribute("ksId", klassSeminar.get(0).getId());
         model.addAttribute("canEnroll", canEnroll);
+        model.addAttribute("klassId", klassId);
+        model.addAttribute("seminarId",seminarId);
         return "student/course/seminar/enrollList";
     }
 

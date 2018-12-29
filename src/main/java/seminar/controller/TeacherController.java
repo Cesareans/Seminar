@@ -261,6 +261,7 @@ public class TeacherController {
     @PostMapping("/course/seminar/create")
     public String seminarCreate(String courseId, Model model) {
         Integer maxSerial = seminarService.getMaxSeminarSerialByCourseId(courseId);
+        model.addAttribute("courseId", courseId);
         model.addAttribute("maxSerial", maxSerial);
         model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
         return "teacher/course/seminar/create";
@@ -268,8 +269,10 @@ public class TeacherController {
 
     @PutMapping("/course/seminar")
     public ResponseEntity<Object> createSeminar(@RequestBody Seminar seminar) {
+        DebugLogger.logJson(seminar);
         Round round = new Round();
         round.setCourseId(seminar.getCourseId());
+        DebugLogger.logJson(round);
         if (seminar.getRoundId().length() == 0) {
             teacherService.addRound(round);
             seminar.setRoundId(round.getId());

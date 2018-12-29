@@ -109,7 +109,7 @@ public interface RoundMapper {
      *
      * @param round the wanted round
      */
-    @Insert("insert into round(round_serial, course_id, presentation_score_method, report_score_method, question_score_method) select max(round_serial) + 1,course_id, 0, 0, 0 from round where course_id = #{courseId}")
+    @Insert("insert into round(round_serial, course_id, presentation_score_method, report_score_method, question_score_method) select ifnull(max(round_serial) + 1, 1),#{courseId}, 0, 0, 0 from round where course_id = #{courseId}")
     @Options(useGeneratedKeys = true)
     void addRound(Round round);
 }

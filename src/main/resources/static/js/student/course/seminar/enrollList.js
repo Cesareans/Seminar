@@ -21,7 +21,7 @@ $(function () {
             url: "/student/course/seminar/cancelEnroll",
             data: $("#cancelEnrollForm").serialize(),
             success: function () {
-                window.location.reload();
+                $("#reloadForm").submit();
             },
             error: function () {
                 util.showAlert("danger", "取消失败，未知原因", 3)
@@ -40,7 +40,7 @@ $(function () {
             url: "/student/course/seminar/enroll",
             data: $("#enrollForm").serialize(),
             success: function () {
-                window.location.reload();
+                $("#reloadForm").submit();
             },
             error: function () {
                 util.showAlert("danger", "报名失败，已报名或该位置已被报名", 3)

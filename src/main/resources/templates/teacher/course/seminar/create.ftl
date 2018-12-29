@@ -55,7 +55,7 @@
         <div class="row flex-center">
             <div class="col-md-8">
                 <form class="form" id="createSeminarForm">
-                    <input hidden id="courseId" name="courseId" placeholder="">
+                    <input hidden id="courseId" name="courseId" placeholder="" value="${courseId}">
                     <div class="container" style="margin-top: 20px">
                         <div class="form-row" style="margin-top: 20px;">
                             <div class="form-group col-2" style="padding-left: 0;">

@@ -174,6 +174,10 @@
 <form hidden id="downloadFileForm" action="/student/course/seminar/downloadPPT" method="get">
     <input id="fileNameInput" name="fileName" placeholder="">
 </form>
+<form hidden id="reloadForm" action="/student/course/seminar/enrollList" method="post">
+    <input name="klassId" value="${klassId}" placeholder="">
+    <input name="seminarId" value="${seminarId}" placeholder="">
+</form>
 
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

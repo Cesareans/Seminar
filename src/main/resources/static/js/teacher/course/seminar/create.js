@@ -23,7 +23,6 @@ $(function () {
     });
 
     var courseId = sessionStorage.getItem("courseId");
-    $("#courseId").val(courseId);
     $("#returnCourseId").val(courseId);
 
     $(".cancel").click(back);
