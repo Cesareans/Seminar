@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/teacher/notification'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
