@@ -9,7 +9,6 @@ import java.util.List;
  * @author Xinyu Shi
  */
 public class StrategyComposition implements Strategy {
-
     private List<Strategy> strategies;
 
     public List<Strategy> getStrategies() {

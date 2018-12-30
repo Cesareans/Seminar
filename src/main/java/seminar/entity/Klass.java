@@ -1,26 +1,16 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
-
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Klass {
-    @ID(isIncrement = true)
     private String id;
     private int grade;
-    @SqlMap("klass_serial")
     private int serial;
-    @SqlMap("klass_time")
     private String time;
-    @SqlMap("klass_location")
     private String location;
-
-    @Gist
     private String courseId;
 
-    @Link(gist = "courseId", select = "seminar.mapper.CourseMapper.selectCourseById")
     private Course course;
 
     @Override

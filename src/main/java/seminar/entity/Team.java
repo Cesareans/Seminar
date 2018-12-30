@@ -1,34 +1,23 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
-
 import java.util.List;
 
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Team {
-    @Block
     private static String[] teamStatus = new String[]{"不合法", "合法", "审核中"};
 
-    @ID(isIncrement = true)
     private String id;
-    @SqlMap("team_serial")
     private String serial;
     private String teamName;
     private int status;
     private String leaderId;
-    @Gist
     private String courseId;
-    @Gist
     private String klassId;
 
-    @Link(gist = "leaderId", select = "seminar.mapper.StudentMapper.selectStudentById")
     private Student leader;
-    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectStudentsFromTeam")
     private List<Student> students;
-    @Link(gist = "klassId", select = "seminar.mapper.KlassMapper.selectKlassById")
     private Klass klass;
 
     @Override

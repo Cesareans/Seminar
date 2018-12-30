@@ -1,6 +1,5 @@
 package seminar.entity.regulation;
 
-import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Team;
 
 import java.util.List;
@@ -8,9 +7,7 @@ import java.util.List;
 /**
  * @author Xinyu Shi
  */
-@TargetPackage(value = "seminar.mapper")
 public class TeamAndStrategy implements Strategy {
-
     private String id;
     private List<Strategy> strategies;
 

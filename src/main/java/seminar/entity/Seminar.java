@@ -1,9 +1,5 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.SqlMap;
-import cesare.mybatis.annotations.TargetPackage;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -11,27 +7,18 @@ import java.util.Date;
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Seminar {
-    @ID(isIncrement = true)
     private String id;
-    @SqlMap("seminar_name")
     private String theme;
-    @SqlMap("introduction")
     private String content;
-    @SqlMap("seminar_serial")
     private String serial;
     private int maxTeam;
     private boolean visible;
-    @SqlMap("enroll_start_time")
     @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollStartDate;
-    @SqlMap("enroll_end_time")
     @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollEndDate;
-    @Gist
     private String roundId;
-    @Gist
     private String courseId;
 
     public String getId() {

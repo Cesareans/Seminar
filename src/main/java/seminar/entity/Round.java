@@ -1,6 +1,5 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
 import seminar.entity.relation.KlassRound;
 
 import java.util.List;
@@ -10,24 +9,15 @@ import java.util.List;
  *
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Round {
-    @ID(isIncrement = true)
     private String id;
-    @SqlMap("round_serial")
     private String roundNum;
-    @SqlMap("presentation_score_method")
     private int preScoreType;
-    @SqlMap("report_score_method")
     private int reportScoreType;
-    @SqlMap("question_score_method")
     private int quesScoreType;
-    @Gist
     private String courseId;
 
-    @Link(gist = "id", select = "seminar.mapper.SeminarMapper.selectSeminarByRoundId")
     private List<Seminar> seminars;
-    @Link(gist = "id", select = "seminar.mapper.relation.KlassRoundMapper.selectKlassRoundByRoundId")
     private List<KlassRound> klassRounds;
 
     public String getId() {

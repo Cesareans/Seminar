@@ -1,32 +1,17 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
-
 import java.util.List;
 
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class KlassSeminar {
-    @ID(isIncrement = true)
     private String id;
-    /**
-     * 0: 尚未开始
-     * 1: 正在进行
-     * 2: 已经结束
-     */
-    @SqlMap("status")
     private int state;
-    @Gist(unions = {"seminarId"})
     private String klassId;
-    @Gist
     private String seminarId;
 
-    @Link(gist = "id", select = "seminar.mapper.AttendanceMapper.selectAttendanceByKlassSeminarId")
     private List<Attendance> attendances;
-
-    @Link(gist = "seminarId", select = "seminar.mapper.SeminarMapper.selectSeminarById")
     private Seminar seminar;
 
     public String getId() {

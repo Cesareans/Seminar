@@ -1,28 +1,18 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.Gist;
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.TargetPackage;
-
 import java.math.BigDecimal;
 
 /**
  * @author Cesare
  * modify by Xinyu Shi
  */
-@TargetPackage(value = "seminar.mapper")
 public class Question {
-    @ID(isIncrement = true)
     private String id;
     private int isSelected = 0;
     private BigDecimal score;
-    @Gist(unions = "klassSeminarId")
     private String teamId;
-    @Gist
     private String studentId;
-    @Gist
     private String attendanceId;
-    @Gist
     private String klassSeminarId;
 
     public String getId() {

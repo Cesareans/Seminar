@@ -1,27 +1,18 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
-
 import java.util.List;
 
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Student {
-    @ID(isIncrement = true)
     private String id;
-    @Gist
     private String studentName;
-    @Gist
-    @SqlMap("account")
     private String studentNum;
     private String password;
     private String email;
-    @SqlMap("is_active")
     private boolean activated;
 
-    @Link(gist = "id", select = "seminar.mapper.relation.KlassStudentMapper.selectCourseByStudentId")
     private List<Course> courses;
 
     public String getId() {

@@ -1,29 +1,17 @@
 package seminar.entity;
 
-import cesare.mybatis.annotations.*;
-
 /**
  * @author Cesare
  */
-@TargetPackage(value = "seminar.mapper")
 public class Attendance {
-    @ID(isIncrement = true)
     private String id;
-    @SqlMap("team_order")
     private int sn;
-    @SqlMap("is_present")
     private boolean presenting;
-    @SqlMap("ppt_name")
     private String preFile;
-    @SqlMap("report_name")
     private String reportFile;
-
-    @Gist
     private String teamId;
-    @Gist
     private String klassSeminarId;
 
-    @Link(gist = "teamId", select = "seminar.mapper.TeamMapper.selectTeamById", lazy = false)
     private Team team;
 
     @Override

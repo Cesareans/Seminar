@@ -3,7 +3,6 @@ package seminar.entity.relation;
 /**
  * @author Cesare
  */
-
 public class KlassStudent {
     private String courseId;
     private String klassId;

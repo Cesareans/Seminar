@@ -1,7 +1,5 @@
 package seminar.entity.regulation;
 
-import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
@@ -12,12 +10,7 @@ import java.util.List;
 /**
  * @author Xinyu Shi
  */
-@TargetPackage(value = "seminar.mapper")
 public class ConflictCourseStrategy implements Strategy {
-
-    private final int CONFLICT_BOUNDARY = 1;
-
-    @ID(isIncrement = true)
     private String id;
 
     private List<String> conflictCourses;
@@ -53,11 +46,8 @@ public class ConflictCourseStrategy implements Strategy {
                 }
             }
         }
-        if (conflict > CONFLICT_BOUNDARY) {
-            return false;
-        } else {
-            return true;
-        }
+        final int conflictBoundary = 1;
+        return conflict <= conflictBoundary;
     }
 
     @Override
