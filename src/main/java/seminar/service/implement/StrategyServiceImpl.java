@@ -25,7 +25,6 @@ import java.util.Map;
  */
 @Service
 public class StrategyServiceImpl implements StrategyService {
-    private Map<String, StrategyComposition> compositionMap;
     private final StrategyCompositionDAO strategyCompositionDAO;
     private final CourseDAO courseDAO;
     private final TeamDAO teamDAO;
@@ -34,11 +33,11 @@ public class StrategyServiceImpl implements StrategyService {
     private final ConflictCourseStrategyDAO conflictCourseStrategyDAO;
     private final TeamAndStrategyDAO teamAndStrategyDAO;
     private final TeamOrStrategyDAO teamOrStrategyDAO;
+    private Map<String, StrategyComposition> compositionMap;
 
 
     @Autowired
-    public StrategyServiceImpl(StrategyCompositionDAO strategyCompositionDAO, CourseDAO courseDAO, TeamDAO teamDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, TeamAndStrategyDAO teamAndStrategyDAO)
-    {
+    public StrategyServiceImpl(StrategyCompositionDAO strategyCompositionDAO, CourseDAO courseDAO, TeamDAO teamDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, TeamAndStrategyDAO teamAndStrategyDAO) {
         this.strategyCompositionDAO = strategyCompositionDAO;
         this.courseDAO = courseDAO;
         this.teamDAO = teamDAO;
@@ -52,22 +51,21 @@ public class StrategyServiceImpl implements StrategyService {
 
     @Override
     public void handleVariation(Team team) {
-        if(validate(team.getId(),team.getCourseId())){
+        if (validate(team.getId(), team.getCourseId())) {
             team.setStatus(TeamStatus.Valid.getStatus());
-        }else{
+        } else {
             team.setStatus(TeamStatus.Invalid.getStatus());
         }
     }
 
     @Override
-    public boolean validate(String teamId, String courseId)
-    {
+    public boolean validate(String teamId, String courseId) {
         Date teamEndDate = courseDAO.getByCourseId(courseId).get(0).getTeamEndDate();
-        if(new Date().compareTo(teamEndDate) > 0) {
+        if (new Date().compareTo(teamEndDate) > 0) {
             return false;
         }
         StrategyComposition strategyComposition = compositionMap.get(courseId);
-        if(strategyComposition == null){
+        if (strategyComposition == null) {
             strategyComposition = strategyCompositionDAO.getStrategiesByCourseId(courseId);
             compositionMap.put(courseId, strategyComposition);
         }
@@ -76,8 +74,7 @@ public class StrategyServiceImpl implements StrategyService {
     }
 
     @Override
-    public void createStrategy(CourseCreateDTO courseCreateDTO, String courseId)
-    {
+    public void createStrategy(CourseCreateDTO courseCreateDTO, String courseId) {
         String teamAndId = teamAndStrategyDAO.allocateId();
         String teamOrId = teamOrStrategyDAO.allocateId();
         MemberLimitStrategy memberLimitStrategy = courseCreateDTO.getMemberLimitStrategy();
@@ -85,20 +82,18 @@ public class StrategyServiceImpl implements StrategyService {
         List<ConflictCourseStrategy> conflictCourseStrategies = courseCreateDTO.getConflictCourseStrategies();
         DebugLogger.logJson(memberLimitStrategy);
         memberLimitStrategyDAO.createMemberLimitStrategy(memberLimitStrategy);
-        teamAndStrategyDAO.createTeamAndStrategy(teamAndId,"MemberLimitStrategy",memberLimitStrategy.getId());
-        for(CourseMemberLimitStrategy courseMemberLimitStrategy:courseMemberLimitStrategies)
-        {
+        teamAndStrategyDAO.createTeamAndStrategy(teamAndId, "MemberLimitStrategy", memberLimitStrategy.getId());
+        for (CourseMemberLimitStrategy courseMemberLimitStrategy : courseMemberLimitStrategies) {
             courseMemberLimitStrategyDAO.createCourseMemberLimitStrategy(courseMemberLimitStrategy);
-            teamOrStrategyDAO.createTeamOrStrategy(teamOrId,"CourseMemberLimitStrategy",courseMemberLimitStrategy.getId());
+            teamOrStrategyDAO.createTeamOrStrategy(teamOrId, "CourseMemberLimitStrategy", courseMemberLimitStrategy.getId());
         }
-        teamAndStrategyDAO.createTeamAndStrategy(teamAndId,"TeamOrStrategy",teamOrId);
-        for(ConflictCourseStrategy conflictCourseStrategy:conflictCourseStrategies)
-        {
+        teamAndStrategyDAO.createTeamAndStrategy(teamAndId, "TeamOrStrategy", teamOrId);
+        for (ConflictCourseStrategy conflictCourseStrategy : conflictCourseStrategies) {
             String conflictId = conflictCourseStrategyDAO.allocateId();
             DebugLogger.logJson(conflictId);
-            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy,conflictId);
-            strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"ConflictCourseStrategy",conflictId);
+            conflictCourseStrategyDAO.createConflictCourseStrategy(conflictCourseStrategy, conflictId);
+            strategyCompositionDAO.createTeamStrategy(courseId, strategyCompositionDAO.allocateSerial(courseId), "ConflictCourseStrategy", conflictId);
         }
-        strategyCompositionDAO.createTeamStrategy(courseId,strategyCompositionDAO.allocateSerial(courseId),"TeamAndStrategy",teamAndId);
+        strategyCompositionDAO.createTeamStrategy(courseId, strategyCompositionDAO.allocateSerial(courseId), "TeamAndStrategy", teamAndId);
     }
 }

@@ -1,4 +1,5 @@
 package seminar.dao.regulation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import seminar.entity.regulation.ConflictCourseStrategy;
@@ -24,16 +25,13 @@ public class ConflictCourseStrategyDAO {
         return conflictCourseStrategy;
     }
 
-    public void createConflictCourseStrategy(ConflictCourseStrategy conflictCourseStrategy, String id)
-    {
-        for(String courseId:conflictCourseStrategy.getConflictCourses())
-        {
-            conflictCourseStrategyMapper.insertSingleCourseMemberLimitStrategy(id,courseId);
+    public void createConflictCourseStrategy(ConflictCourseStrategy conflictCourseStrategy, String id) {
+        for (String courseId : conflictCourseStrategy.getConflictCourses()) {
+            conflictCourseStrategyMapper.insertSingleCourseMemberLimitStrategy(id, courseId);
         }
     }
 
-    public String allocateId()
-    {
+    public String allocateId() {
         return conflictCourseStrategyMapper.allocateId();
     }
 }

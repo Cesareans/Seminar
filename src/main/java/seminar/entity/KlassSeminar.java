@@ -2,7 +2,6 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.*;
 
-import java.util.Date;
 import java.util.List;
 
 /**

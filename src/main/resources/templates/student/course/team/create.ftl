@@ -13,11 +13,12 @@
     <script src="/static/js/util.js"></script>
     <script src="/static/js/student/course/team/create.js"></script>
     <style>
-        .circle, .check{
+        .circle, .check {
             height: 20px !important;
             width: 20px !important;
         }
-        .klass{
+
+        .klass {
             font-size: 20px;
             padding-left: 35px !important;
         }

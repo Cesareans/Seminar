@@ -89,35 +89,30 @@ public class StudentDAO {
     /**
      * Judge a student is teamed or not. If the student has already in a team, return true, otherwise return false
      */
-    public boolean studentHasAlreadyTeamed(String studentId, String courseId)
-    {
+    public boolean studentHasAlreadyTeamed(String studentId, String courseId) {
         return klassStudentMapper.hasTeamed(courseId, studentId);
     }
 
     /**
      * Get all not teamed students
      */
-    public List<Student> getNotTeamedStudentsByCourseId(String courseId)
-    {
+    public List<Student> getNotTeamedStudentsByCourseId(String courseId) {
         return klassStudentMapper.selectNotTeamedStudentsByCourseId(courseId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void insertStudentIntoTeamStudent(String studentId, String teamId)
-    {
-        klassStudentMapper.insertStudentIntoTeam(teamId,studentId);
+    public void insertStudentIntoTeamStudent(String studentId, String teamId) {
+        klassStudentMapper.insertStudentIntoTeam(teamId, studentId);
     }
 
     /**
      * @author Xinyu Shi
      */
-    public void deleteStudentFromTeamStudent(String teamId, String studentId)
-    {
+    public void deleteStudentFromTeamStudent(String teamId, String studentId) {
         klassStudentMapper.deleteStudentFromTeam(teamId, studentId);
     }
-
 
 
 }

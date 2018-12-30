@@ -24,6 +24,7 @@ public interface ApplicationService {
 
     /**
      * Get the shareTeamApplications of teacher via teacherId
+     *
      * @param teacherId the refer gist
      * @return the shareTeamApplications of teacher
      * @author Cesare
@@ -32,6 +33,7 @@ public interface ApplicationService {
 
     /**
      * Handle share seminar application
+     *
      * @param applicationHandleDTO the dto
      * @return whether the operation is successful
      */
@@ -48,6 +50,7 @@ public interface ApplicationService {
 
     /**
      * Get the shareSeminarApplication of teacher via teacherId
+     *
      * @param teacherId the refer gist
      * @return the shareSeminarApplication of teacher
      * @author Cesare
@@ -56,6 +59,7 @@ public interface ApplicationService {
 
     /**
      * Handle share team application
+     *
      * @param applicationHandleDTO the dto
      * @return whether the operation is successful
      */
@@ -63,6 +67,7 @@ public interface ApplicationService {
 
     /**
      * Create a new TeamValidApplication
+     *
      * @param teamValidApplication the new TeamValidApplication
      * @return whether the operation is successful
      */
@@ -70,6 +75,7 @@ public interface ApplicationService {
 
     /**
      * Get teamValidApplications of a teacher
+     *
      * @param teacherId the teacher refer gist
      * @return the teamValidApplications
      */
@@ -77,6 +83,7 @@ public interface ApplicationService {
 
     /**
      * Handle team valid application
+     *
      * @param applicationHandleDTO the dto
      * @return whether the operation is successful
      */

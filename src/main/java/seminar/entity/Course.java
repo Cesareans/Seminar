@@ -21,10 +21,10 @@ public class Course {
     @SqlMap("question_percentage")
     private int quesPercentage;
     @SqlMap("team_start_time")
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
     @SqlMap("team_end_time")
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
     @Gist
     private String teacherId;

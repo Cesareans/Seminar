@@ -108,7 +108,8 @@
                                             </a>
                                             <div class="dropdown-menu">
                                                 <#list rounds as round>
-                                                    <a class="dropdown-item round-num" data-roundId="${round.id}">${round.roundNum}</a>
+                                                    <a class="dropdown-item round-num"
+                                                       data-roundId="${round.id}">${round.roundNum}</a>
                                                 </#list>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item round-num">新建</a>

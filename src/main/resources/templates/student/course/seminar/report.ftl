@@ -53,7 +53,8 @@
                             <form hidden id="teamReport" enctype="multipart/form-data">
                                 <input id="fileInput" name="file" type="file" placeholder=""
                                        class="form-control empty-verify" data-emptyMessage="请选择文件">
-                                <input id="attendanceId" name="attendanceId" type="text" placeholder="" value="${attendances[0].id}">
+                                <input id="attendanceId" name="attendanceId" type="text" placeholder=""
+                                       value="${attendances[0].id}">
                             </form>
                             <div class="file-frame">
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">

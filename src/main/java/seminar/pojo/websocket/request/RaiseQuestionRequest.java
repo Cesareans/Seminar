@@ -10,10 +10,12 @@ import seminar.pojo.websocket.response.RaiseQuestionResponse;
 @BindResponse(response = RaiseQuestionResponse.class)
 public class RaiseQuestionRequest implements Request {
     private String studentNum;
+
     @Override
     public void execute(SeminarMonitor monitor) {
         monitor.putQuestion(studentNum);
     }
+
     public String getStudentNum() {
         return studentNum;
     }

@@ -6,13 +6,13 @@ $(function () {
     $("#addBtn").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/student/course/myTeam/addMembers",
+            type: "post",
+            url: "/student/course/myTeam/addMembers",
             data: $("#chosenStudentForm").serialize(),
-            success:function () {
+            success: function () {
                 reload();
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 util.showAlert("danger", "新增失败，未知原因", 3);
             }
@@ -21,13 +21,13 @@ $(function () {
     $("#sendBtn").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/student/course/myTeam/validApplication",
+            type: "post",
+            url: "/student/course/myTeam/validApplication",
             data: $("#validApplicationForm").serialize(),
-            success:function () {
+            success: function () {
                 reload();
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 util.showAlert("danger", "发送失败，未知原因", 3);
             }
@@ -36,13 +36,13 @@ $(function () {
     $("#dissolveBtn").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/student/course/myTeam/dissolveTeam",
-            data: {teamId:$("body").attr("data-teamId")},
-            success:function () {
+            type: "post",
+            url: "/student/course/myTeam/dissolveTeam",
+            data: {teamId: $("body").attr("data-teamId")},
+            success: function () {
                 $("#courseIdForm").submit();
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 util.showAlert("danger", "解散失败，未知原因", 3);
             }
@@ -51,13 +51,13 @@ $(function () {
     $("#quitBtn").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/student/course/myTeam/quitTeam",
-            data: {teamId:$("body").attr("data-teamId")},
-            success:function () {
+            type: "post",
+            url: "/student/course/myTeam/quitTeam",
+            data: {teamId: $("body").attr("data-teamId")},
+            success: function () {
                 $("#courseIdForm").submit();
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 util.showAlert("danger", "退出失败，未知原因", 3);
             }
@@ -66,13 +66,13 @@ $(function () {
     $(".delete").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/student/course/myTeam/deleteMember",
-            data: {studentId:$(this).attr("data-sid"),teamId:$("body").attr("data-teamId")},
-            success:function () {
+            type: "post",
+            url: "/student/course/myTeam/deleteMember",
+            data: {studentId: $(this).attr("data-sid"), teamId: $("body").attr("data-teamId")},
+            success: function () {
                 reload();
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 util.showAlert("danger", "移除失败，未知原因", 3);
             }

@@ -8,5 +8,5 @@ public enum HandleType {
     /**
      * The handle result of application
      */
-    Reject,Accept
+    Reject, Accept
 }

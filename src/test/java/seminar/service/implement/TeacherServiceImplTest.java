@@ -3,8 +3,6 @@ package seminar.service.implement;
 import org.junit.Test;
 import seminar.entity.Course;
 
-import static org.junit.Assert.*;
-
 /**
  * @author lyf
  */
@@ -32,7 +30,7 @@ public class TeacherServiceImplTest {
 
     @Test
     public void createCourse() {
-            Course course = new Course();
+        Course course = new Course();
     }
 
     @Test

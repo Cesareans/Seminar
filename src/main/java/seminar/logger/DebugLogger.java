@@ -13,10 +13,10 @@ public class DebugLogger {
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
 
-    public static String toJsonString(Object object){
+    public static String toJsonString(Object object) {
         try {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return "";
@@ -32,7 +32,7 @@ public class DebugLogger {
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + object.toString());
     }
 
-    public static void log(long i){
+    public static void log(long i) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
         System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]:" + i);
     }
@@ -49,7 +49,7 @@ public class DebugLogger {
 
     public static void logJson(Object object) {
         StackTraceElement ste = new Throwable().getStackTrace()[1];
-        if(object == null){
+        if (object == null) {
             System.out.println(ste.getMethodName() + "() at [" + ste.getClassName() + ":" + ste.getLineNumber() + "]: null");
             return;
         }

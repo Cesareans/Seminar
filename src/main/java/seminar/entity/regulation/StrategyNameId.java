@@ -11,12 +11,12 @@ public class StrategyNameId {
         return strategyId;
     }
 
-    public String getStrategyName() {
-        return strategyName;
-    }
-
     public void setStrategyId(String strategyId) {
         this.strategyId = strategyId;
+    }
+
+    public String getStrategyName() {
+        return strategyName;
     }
 
     public void setStrategyName(String strategyName) {

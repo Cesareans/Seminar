@@ -15,7 +15,7 @@ $(function () {
     });
     $("#confirmBtn").click(function () {
         var verify = util.verifyWithAlert(modifyEmailForm);
-        if(verify == null){
+        if (verify == null) {
             $.ajax({
                 type: "post",
                 url: "/student/modifyEmail",
@@ -26,12 +26,12 @@ $(function () {
                 error: function (xhr) {
                     if (xhr.status === 409) {
                         util.showAlert("danger", "验证码错误", 3);
-                    }else{
+                    } else {
                         util.showAlert("danger", "修改失败，未知错误", 3);
                     }
                 }
             });
-        }else{
+        } else {
             verify.registerDanger();
         }
     })
@@ -42,18 +42,18 @@ function getCaptcha() {
         type: "post",
         url: "/student/captcha/modifyEmail",
         data: {
-            email:emailInput.val()
+            email: emailInput.val()
         },
         success: function () {
             count = 60;
             getCaptchaBtn.attr("disabled", true);
-            countInterval=setInterval("countDown()", 1000);
+            countInterval = setInterval("countDown()", 1000);
         }
     })
 }
 
 function countDown() {
-    getCaptchaBtn.html(count+"s");
+    getCaptchaBtn.html(count + "s");
     count--;
     if (count <= 0) {
         getCaptchaBtn.html("发送验证码");

@@ -14,7 +14,7 @@ public class RawMessageConverter {
     private final String MESSAGE_PACKAGE_PREFIX = "seminar.pojo.websocket.request.";
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public Request convertToRequest(RawMessage rawMessage){
+    public Request convertToRequest(RawMessage rawMessage) {
         try {
             Class<? extends Request> messageClass = Class.forName(MESSAGE_PACKAGE_PREFIX + rawMessage.getType()).asSubclass(Request.class);
             return objectMapper.readValue(rawMessage.getContent(), messageClass);
@@ -24,13 +24,13 @@ public class RawMessageConverter {
         }
     }
 
-    public RawMessage convertFromResponse(Response response){
+    public RawMessage convertFromResponse(Response response) {
         try {
             RawMessage message = new RawMessage();
             message.setType(response.getClass().getSimpleName());
             message.setContent(objectMapper.writeValueAsString(response));
             return message;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

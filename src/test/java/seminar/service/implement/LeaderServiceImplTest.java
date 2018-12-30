@@ -19,23 +19,20 @@ public class LeaderServiceImplTest {
     TeamDAO teamDAO;
 
     @Test
-    public void addGroupMemberTest()
-    {
+    public void addGroupMemberTest() {
         //DebugLogger.logJson(teamDAO.getById("6").get(0));
-        DebugLogger.logJson(studentService.addTeamMember("106","26"));
+        DebugLogger.logJson(studentService.addTeamMember("106", "26"));
         DebugLogger.logJson(teamDAO.getById("26").get(0));
     }
 
     @Test
-    public void deleteGroupMemberTest()
-    {
-        studentService.deleteTeamMember("106","6");
+    public void deleteGroupMemberTest() {
+        studentService.deleteTeamMember("106", "6");
         DebugLogger.logJson(teamDAO.getById("6").get(0));
     }
 
     @Test
-    public void dissolveTest()
-    {
+    public void dissolveTest() {
         studentService.dissolveTeam("6");
     }
 

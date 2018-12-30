@@ -73,11 +73,13 @@
         <hr>
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'"
+                        style="width: 100%;text-transform: none">
                     <span>电子邮箱：${teacher.email}</span>
                     <i class="material-icons">chevron_right</i>
                 </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'"
+                        style="width: 100%;">
                     <span>修改密码</span>
                     <i class="material-icons">chevron_right</i>
                 </button>

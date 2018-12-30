@@ -11,6 +11,7 @@ public class PullQuestionResponse implements Response {
     private String teamSerial;
     private String teamName;
     private int questionCount;
+
     @Override
     public Response execute(SeminarMonitor monitor) {
         RequestQuestion question = monitor.getChosenQuestion();

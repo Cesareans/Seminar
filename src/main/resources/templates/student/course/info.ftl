@@ -13,7 +13,8 @@
     <script src="/static/js/util.js"></script>
     <title>课程信息</title>
 </head>
-<body class="card-page sidebar-collapse"">
+<body class="card-page sidebar-collapse"
+">
 <div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">

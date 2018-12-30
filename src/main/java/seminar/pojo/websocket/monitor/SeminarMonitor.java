@@ -3,7 +3,6 @@ package seminar.pojo.websocket.monitor;
 import seminar.entity.Attendance;
 import seminar.entity.Student;
 import seminar.entity.Team;
-import seminar.logger.DebugLogger;
 import seminar.pojo.websocket.monitor.state.ProgressState;
 import seminar.pojo.websocket.monitor.state.SeminarState;
 

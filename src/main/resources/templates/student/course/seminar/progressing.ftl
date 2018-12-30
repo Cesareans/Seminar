@@ -48,16 +48,16 @@
     </div>
 </nav>
 <#if state = -1>
-<div class="main main-raised no-footer">
-    <div class="empty-tag">
-        <div class="info">
-            <div class="icon icon-rose flex-center">
-                <i class="material-icons color-grey">access_time</i>
+    <div class="main main-raised no-footer">
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">access_time</i>
+                </div>
+                <h4 class="info-title">您在该课程下还未组队</h4>
             </div>
-            <h4 class="info-title">您在该课程下还未组队</h4>
         </div>
     </div>
-</div>
 <#elseif state = 0>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
@@ -118,7 +118,7 @@
                     <h3 id="teamName"
                         style="text-align: center;margin-bottom: 0"><#if monitor.onPreAttendance??>${monitor.onPreAttendance.team.teamName}<#else >无正在进行队伍</#if></h3>
                     <hr>
-                    <div style="padding-bottom: 10px;display: flex;justify-content: center" >
+                    <div style="padding-bottom: 10px;display: flex;justify-content: center">
                         <span id="on" class="badge badge-pill badge-success" style="display: none">进行中</span>
                         <span id="hang" class="badge badge-pill badge-warning">暂停中</span>
                     </div>
@@ -142,7 +142,8 @@
     <div class="container foot-operation" style="max-width: 100%">
         <div class="row  flex-center" style="flex-direction: column;">
             <div id="operation" class="flex-space-around" style="width: 100%;">
-                <button id="raiseQuestion" class="btn bg-dark btn-round btn-lg" style="width: 40%;<#if team.id=monitor.onPreAttendance.teamId> display: none; </#if>">
+                <button id="raiseQuestion" class="btn bg-dark btn-round btn-lg"
+                        style="width: 40%;<#if team.id=monitor.onPreAttendance.teamId> display: none; </#if>">
                     <i class="material-icons">send</i>
                     请求提问
                 </button>

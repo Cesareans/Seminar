@@ -5,7 +5,17 @@ import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.response.ScoreResponse;
 
 import java.math.BigDecimal;
-import java.nio.channels.NonReadableChannelException;
+
+enum ScoreType {
+    /**
+     * Score attendance
+     */
+    Attendance,
+    /**
+     * Score question
+     */
+    Question
+}
 
 /**
  * @author Cesare
@@ -16,9 +26,10 @@ public class ScoreRequest implements Request {
     private ScoreType type;
     private int attendanceIdx;
     private int questionIdx;
+
     @Override
     public void execute(SeminarMonitor monitor) {
-        switch (type){
+        switch (type) {
             case Attendance:
                 monitor.scoreAttendance(score, attendanceIdx);
                 break;
@@ -61,14 +72,4 @@ public class ScoreRequest implements Request {
     public void setQuestionIdx(int questionIdx) {
         this.questionIdx = questionIdx;
     }
-}
-enum ScoreType{
-    /**
-     * Score attendance
-     */
-    Attendance,
-    /**
-     * Score question
-     */
-    Question
 }

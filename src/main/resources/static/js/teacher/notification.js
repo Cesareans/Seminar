@@ -15,10 +15,10 @@ $(function () {
         appHandleForm.appId.val(operationDiv.attr("data-appId"));
         appHandleForm.appType.val(operationDiv.attr("data-appType"));
         appHandleForm.operationType.val(1);
-        if(operationDiv.attr("data-appType") !== "2") {
+        if (operationDiv.attr("data-appType") !== "2") {
             appHandleForm.mainCourseId.val(operationDiv.attr("data-mainCourseId"));
             appHandleForm.subCourseId.val(operationDiv.attr("data-subCourseId"));
-        }else{
+        } else {
             appHandleForm.teamId.val(operationDiv.attr("data-teamId"))
         }
         ajaxSubmitForm();
@@ -29,10 +29,10 @@ $(function () {
         appHandleForm.appId.val(operationDiv.attr("data-appId"));
         appHandleForm.appType.val(operationDiv.attr("data-appType"));
         appHandleForm.operationType.val(0);
-        if(operationDiv.attr("data-appType") !== "2") {
+        if (operationDiv.attr("data-appType") !== "2") {
             appHandleForm.mainCourseId.val(operationDiv.attr("data-mainCourseId"));
             appHandleForm.subCourseId.val(operationDiv.attr("data-subCourseId"));
-        }else{
+        } else {
             appHandleForm.teamId.val(operationDiv.attr("data-teamId"));
         }
         ajaxSubmitForm();
@@ -41,14 +41,14 @@ $(function () {
 
     dropdownCard.click(function (ev) {
         var offsetY = ev.pageY - $(this).offset().top;
-        if(offsetY>0&&offsetY<165){
+        if (offsetY > 0 && offsetY < 165) {
             $(this).find(".operation-div").slideToggle();
             dropdownCard.not($(this)).find(".operation-div").slideUp();
         }
     });
 });
 
-function ajaxSubmitForm(){
+function ajaxSubmitForm() {
     util.showLoading();
     $.ajax({
         type: "post",

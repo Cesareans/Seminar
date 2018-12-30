@@ -83,14 +83,16 @@
                                     <#else >
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                             <li <#if attendance.reportFile??>class="nav-item download-file"
-                                                data-fileName="${attendance.reportFile}" data-teamId="${attendance.teamId}"
+                                                data-fileName="${attendance.reportFile}"
+                                                data-teamId="${attendance.teamId}"
                                                 <#else >class="nav-item disabled" </#if>>
                                                 <a class="nav-link" style="padding: 0;">
                                                     <i class="material-icons">cloud_download</i>
                                                     下载报告
                                                 </a>
                                             </li>
-                                            <li <#if attendance.reportFile??>data-toggle="modal" data-target="#reportScoreModal"
+                                            <li <#if attendance.reportFile??>data-toggle="modal"
+                                                data-target="#reportScoreModal"
                                                 class="nav-item score" data-teamId="${attendance.teamId}"
                                                 <#else >class="nav-item disabled"</#if>>
                                                 <a class="nav-link" style="padding: 0;">

@@ -11,7 +11,7 @@ $(function () {
 
     $(".dropdown-card").click(function (ev) {
         var offsetY = ev.pageY - $(this).offset().top;
-        if(offsetY>0&&offsetY<50){
+        if (offsetY > 0 && offsetY < 50) {
             toggleDrop($(this));
         }
     });
@@ -44,15 +44,15 @@ function toggleDrop(card) {
     var content = $(card.find(".body-content"));
     var triangle = $(card.find(".triangle"));
     content.slideToggle();
-    if(triangle.hasClass("rightward")){
+    if (triangle.hasClass("rightward")) {
         triangle.attr("class", "triangle downward");
-    }else{
+    } else {
         triangle.attr("class", "triangle rightward");
     }
 }
 
 function dropdown(card) {
-    if(card !== undefined) {
+    if (card !== undefined) {
         $(card.find(".body-content")).slideDown();
         $(card.find(".triangle")).attr("class", "triangle downward");
     }

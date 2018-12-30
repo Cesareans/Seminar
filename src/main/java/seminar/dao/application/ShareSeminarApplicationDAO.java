@@ -15,6 +15,7 @@ import java.util.List;
 public class ShareSeminarApplicationDAO {
     private final ShareSeminarApplicationMapper shareSeminarApplicationMapper;
     private final TeacherMapper teacherMapper;
+
     @Autowired
     public ShareSeminarApplicationDAO(ShareSeminarApplicationMapper shareSeminarApplicationMapper, TeacherMapper teacherMapper) {
         this.shareSeminarApplicationMapper = shareSeminarApplicationMapper;
@@ -23,10 +24,11 @@ public class ShareSeminarApplicationDAO {
 
     /**
      * The course which is a subordinateCourse can't send a seminar share handler
+     *
      * @author Cesare
      */
     public boolean create(ShareSeminarApplication shareSeminarApplication) {
-        if(!shareSeminarApplicationMapper.selectShareSeminarApplicationByMainCourseIdAndSubCourseId(shareSeminarApplication.getMainCourseId(), shareSeminarApplication.getSubCourseId()).isEmpty()){
+        if (!shareSeminarApplicationMapper.selectShareSeminarApplicationByMainCourseIdAndSubCourseId(shareSeminarApplication.getMainCourseId(), shareSeminarApplication.getSubCourseId()).isEmpty()) {
             return false;
         }
         shareSeminarApplicationMapper.insertShareSeminarApplication(shareSeminarApplication);
@@ -47,7 +49,7 @@ public class ShareSeminarApplicationDAO {
     /**
      * @author Cesare
      */
-    public void deleteById(String id){
+    public void deleteById(String id) {
         shareSeminarApplicationMapper.deleteShareSeminarApplicationById(id);
     }
 }

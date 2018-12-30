@@ -14,7 +14,7 @@
     <script>
         var ksIdForm;
         $(function () {
-            ksIdForm=$("#ksIdForm");
+            ksIdForm = $("#ksIdForm");
             $("#courseIdInput").val(sessionStorage.getItem("courseId"));
             $("#enrollBtn").click(function () {
                 ksIdForm.attr("action", "/teacher/course/seminar/enrollList");

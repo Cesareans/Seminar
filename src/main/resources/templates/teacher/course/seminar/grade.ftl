@@ -29,14 +29,14 @@
             $("#confirmBtn").click(function () {
                 util.showLoading();
                 $.ajax({
-                    type:"post",
-                    url:"/teacher/course/seminar/grade/modify",
+                    type: "post",
+                    url: "/teacher/course/seminar/grade/modify",
                     data: $("#modifyScoreForm").serialize(),
-                    success:function () {
+                    success: function () {
                         util.hideLoading();
                         window.location.reload();
                     },
-                    error:function () {
+                    error: function () {
                         util.hideLoading();
                         reportScoreModal.modal("hide");
                         util.showAlert("danger", "修改失败，未知原因", 3);
@@ -46,10 +46,11 @@
         })
     </script>
     <style>
-        .form-control{
+        .form-control {
             text-align: center;
         }
-        .nav-link{
+
+        .nav-link {
             padding: 0 !important;
         }
     </style>
@@ -174,7 +175,8 @@
                                     <a class="nav-link">
                                         <i class="material-icons">mic</i>
                                         展示分
-                                        <input autocomplete="off" class="form-control" id="preScore" name="preScore" placeholder="">
+                                        <input autocomplete="off" class="form-control" id="preScore" name="preScore"
+                                               placeholder="">
                                     </a>
                                 </li>
                             </ul>
@@ -185,7 +187,8 @@
                                     <a class="nav-link">
                                         <i class="material-icons">comment</i>
                                         提问分
-                                        <input autocomplete="off" class="form-control" id="queScore" name="queScore" placeholder="">
+                                        <input autocomplete="off" class="form-control" id="queScore" name="queScore"
+                                               placeholder="">
                                     </a>
                                 </li>
                             </ul>
@@ -196,7 +199,8 @@
                                     <a class="nav-link">
                                         <i class="material-icons">description</i>
                                         报告分
-                                        <input autocomplete="off" class="form-control" id="reportScore" name="reportScore" placeholder="">
+                                        <input autocomplete="off" class="form-control" id="reportScore"
+                                               name="reportScore" placeholder="">
                                     </a>
                                 </li>
                             </ul>

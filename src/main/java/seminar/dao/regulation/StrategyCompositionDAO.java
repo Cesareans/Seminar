@@ -25,8 +25,7 @@ public class StrategyCompositionDAO {
     private final String LOCATION = "seminar.entity.regulation.";
 
     @Autowired
-    public StrategyCompositionDAO(TeamFinalStrategyMapper teamFinalStrategyMapper, TeamAndStrategyDAO teamAndStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO)
-    {
+    public StrategyCompositionDAO(TeamFinalStrategyMapper teamFinalStrategyMapper, TeamAndStrategyDAO teamAndStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO) {
         this.teamFinalStrategyMapper = teamFinalStrategyMapper;
         this.conflictCourseStrategyDAO = conflictCourseStrategyDAO;
         this.courseMemberLimitStrategyDAO = courseMemberLimitStrategyDAO;
@@ -35,15 +34,13 @@ public class StrategyCompositionDAO {
         this.teamOrStrategyDAO = teamOrStrategyDAO;
     }
 
-    public StrategyComposition getStrategiesByCourseId(String courseId)
-    {
+    public StrategyComposition getStrategiesByCourseId(String courseId) {
         List<Strategy> strategies = new ArrayList<>();
         List<StrategyNameId> strategySet = teamFinalStrategyMapper.selectStrategiesById(courseId);
-        for (StrategyNameId s : strategySet)
-        {
+        for (StrategyNameId s : strategySet) {
             try {
                 Strategy strategy = (Strategy) Class.forName(LOCATION + s.getStrategyName()).newInstance();
-                strategy = makeStrategyByDAO(strategy,s.getStrategyId());
+                strategy = makeStrategyByDAO(strategy, s.getStrategyId());
                 DebugLogger.logJson(strategy);
                 DebugLogger.logJson(strategy.getClass());
                 strategies.add(strategy);
@@ -56,32 +53,25 @@ public class StrategyCompositionDAO {
         return strategyComposition;
     }
 
-    private Strategy makeStrategyByDAO(Strategy strategy, String strategyId)
-    {
-        if(strategy instanceof ConflictCourseStrategy){
+    private Strategy makeStrategyByDAO(Strategy strategy, String strategyId) {
+        if (strategy instanceof ConflictCourseStrategy) {
             return conflictCourseStrategyDAO.getById(strategyId);
-        }
-        else if(strategy instanceof CourseMemberLimitStrategy){
+        } else if (strategy instanceof CourseMemberLimitStrategy) {
             return courseMemberLimitStrategyDAO.getById(strategyId);
-        }
-        else if(strategy instanceof MemberLimitStrategy){
+        } else if (strategy instanceof MemberLimitStrategy) {
             return memberLimitStrategyDAO.getById(strategyId);
-        }
-        else if(strategy instanceof TeamAndStrategy){
+        } else if (strategy instanceof TeamAndStrategy) {
             return teamAndStrategyDAO.getById(strategyId);
-        }
-        else {
+        } else {
             return teamOrStrategyDAO.getById(strategyId);
         }
     }
 
-    public void createTeamStrategy(String courseId, String strategySerial, String strategyName, String strategyId)
-    {
-        teamFinalStrategyMapper.insertSingleTeamAndStrategy(courseId,strategySerial,strategyName,strategyId);
+    public void createTeamStrategy(String courseId, String strategySerial, String strategyName, String strategyId) {
+        teamFinalStrategyMapper.insertSingleTeamAndStrategy(courseId, strategySerial, strategyName, strategyId);
     }
 
-    public String allocateSerial(String courseId)
-    {
+    public String allocateSerial(String courseId) {
         return teamFinalStrategyMapper.allocateStrategySerial(courseId);
     }
 }

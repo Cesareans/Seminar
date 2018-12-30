@@ -1,10 +1,10 @@
 package seminar.entity.regulation;
+
 import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
-import seminar.logger.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,35 +39,29 @@ public class ConflictCourseStrategy implements Strategy {
     }
 
     @Override
-    public boolean validate(Team team)
-    {
+    public boolean validate(Team team) {
         int conflict = 0;
-        for(String courseId: conflictCourses)
-        {
-            for(Student student:team.getStudents())
-            {
+        for (String courseId : conflictCourses) {
+            for (Student student : team.getStudents()) {
                 List<String> coursesOfStudent = new ArrayList<>();
-                for(Course course:student.getCourses())
-                {
+                for (Course course : student.getCourses()) {
                     coursesOfStudent.add(course.getId());
                 }
-                if(coursesOfStudent.contains(courseId)){
+                if (coursesOfStudent.contains(courseId)) {
                     conflict++;
                     break;
                 }
             }
         }
-        if(conflict > CONFLICT_BOUNDARY){
+        if (conflict > CONFLICT_BOUNDARY) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "小组成员选修的课程存在冲突";
     }
 }

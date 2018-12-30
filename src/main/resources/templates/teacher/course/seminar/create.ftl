@@ -60,7 +60,8 @@
                         <div class="form-row" style="margin-top: 20px;">
                             <div class="form-group col-2" style="padding-left: 0;">
                                 <label for="serial">序号</label>
-                                <input id="serial" name="serial" type="text" autocomplete="off" value="<#if maxSerial??>${maxSerial + 1}<#else>1</#if>"
+                                <input id="serial" name="serial" type="text" autocomplete="off"
+                                       value="<#if maxSerial??>${maxSerial + 1}<#else>1</#if>"
                                        class="form-control empty-verify reg-verify" data-reg="^\d*$"
                                        data-regMessage="非合法数字" data-emptyMessage="请输入讨论课序号">
                             </div>
@@ -91,10 +92,12 @@
                                     <input hidden id="roundId" name="roundId">
                                     <ul class="nav nav-pills">
                                         <li class="nav-item dropdown" style="width: 100%">
-                                            <a id="roundNum" class="nav-link dropdown-toggle" data-toggle="dropdown" style="padding-top: 5px">新建</a>
+                                            <a id="roundNum" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                               style="padding-top: 5px">新建</a>
                                             <div class="dropdown-menu">
                                                 <#list rounds as round>
-                                                    <a class="dropdown-item round-num" data-roundId="${round.id}">${round.roundNum}</a>
+                                                    <a class="dropdown-item round-num"
+                                                       data-roundId="${round.id}">${round.roundNum}</a>
                                                 </#list>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item round-num">新建</a>

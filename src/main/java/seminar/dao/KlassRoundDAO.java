@@ -42,35 +42,35 @@ public class KlassRoundDAO {
     /**
      * @author cesare
      */
-    public List<KlassRound> getByKlassId(String klassId){
+    public List<KlassRound> getByKlassId(String klassId) {
         return klassRoundMapper.selectKlassRoundByKlassId(klassId);
     }
 
     /**
      * @author cesare
      */
-    public List<KlassRound> getByKlassIdAndRoundId(String klassId, String roundId){
-        return klassRoundMapper.selectKlassRoundByKlassIdAndRoundId(klassId,roundId);
+    public List<KlassRound> getByKlassIdAndRoundId(String klassId, String roundId) {
+        return klassRoundMapper.selectKlassRoundByKlassIdAndRoundId(klassId, roundId);
     }
 
     /**
      * @author cesare
      */
-    public void deleteByKlassId(String klassId){
+    public void deleteByKlassId(String klassId) {
         klassRoundMapper.deleteKlassRoundByKlassId(klassId);
     }
 
     /**
      * @author cesare
      */
-    public void deleteByRoundId(String roundId){
+    public void deleteByRoundId(String roundId) {
         klassRoundMapper.deleteKlassRoundByRoundId(roundId);
     }
 
     /**
      * @author cesare
      */
-    public void deleteByCourseId(String courseId){
+    public void deleteByCourseId(String courseId) {
         klassRoundMapper.deleteKlassRoundByCourseId(courseId);
     }
 }

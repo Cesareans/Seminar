@@ -15,8 +15,7 @@ public class StrategyCompositionDAOTest {
     StrategyCompositionDAO strategyCompositionDAO;
 
     @Test
-    public void getStrategiesTest()
-    {
+    public void getStrategiesTest() {
         DebugLogger.logJson(strategyCompositionDAO.getStrategiesByCourseId("16"));
     }
 

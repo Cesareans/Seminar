@@ -82,7 +82,8 @@
 
                     <div class="row">
                         <div class="col-md-12 ml-auto mr-auto">
-                            <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请选择名单">
+                            <input hidden id="file" name="file" type="file" autocomplete="off"
+                                   class="form-control empty-verify" data-emptyMessage="请选择名单">
                             <div class="file-frame">
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                     <li class="nav-item" id="upload" style="width: 100%;">

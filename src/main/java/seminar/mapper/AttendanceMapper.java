@@ -132,10 +132,11 @@ public interface AttendanceMapper {
 
     /**
      * Select a Attendance entity via teamId
-     * @author Xinyu Shi
-     * @param teamId the select gist
+     *
+     * @param teamId         the select gist
      * @param klassSeminarId the refer gist
      * @return List<attendance> the selected Attendance entity as list
+     * @author Xinyu Shi
      */
     @Select("select * from attendance where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
     @Results({

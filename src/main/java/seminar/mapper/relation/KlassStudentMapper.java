@@ -20,10 +20,11 @@ import java.util.List;
 @Mapper
 public interface KlassStudentMapper {
     //#############    Klass Student
+
     /**
      * Insert a student into klass without team
      *
-     * @param klassStudent  the relation entity for transfer parameters
+     * @param klassStudent the relation entity for transfer parameters
      */
     @Insert("insert into klass_student(course_id, klass_id, student_id) values(#{courseId}, #{klassId}, #{studentId})")
     void insertStudentIntoKlass(KlassStudent klassStudent);
@@ -78,7 +79,8 @@ public interface KlassStudentMapper {
 
     /**
      * Judge if the student is in the klass
-     * @param klassId the klass refer gist
+     *
+     * @param klassId   the klass refer gist
      * @param studentId the student refer gist
      * @return whether is in
      */
@@ -86,26 +88,30 @@ public interface KlassStudentMapper {
     Boolean isStudentInKlass(@Param("klassId") String klassId, @Param("studentId") String studentId);
 
     //#############    Team Student
+
     /**
      * Insert a student into klass without team
-     * @author Xinyu Shi
-     * @param teamId  the redundant courseId information
+     *
+     * @param teamId    the redundant courseId information
      * @param studentId the student's id
+     * @author Xinyu Shi
      */
     @Insert("insert into team_student(team_id, student_id) values(#{teamId}, #{studentId})")
     void insertStudentIntoTeam(@Param("teamId") String teamId, @Param("studentId") String studentId);
 
     /**
      * Delete a student in a team
-     * @author Xinyu Shi
-     * @param teamId the refer gist
+     *
+     * @param teamId    the refer gist
      * @param studentId the refer gist
+     * @author Xinyu Shi
      */
     @Delete("delete from team_student where student_id=#{studentId} and team_id=#{teamId}")
-    void deleteStudentFromTeam(@Param("teamId")String teamId, @Param("studentId") String studentId);
+    void deleteStudentFromTeam(@Param("teamId") String teamId, @Param("studentId") String studentId);
 
     /**
      * Delete students of team in the course
+     *
      * @param courseId the refer gist
      */
     @Delete("delete from team_student where team_id in (select id from team where course_id = #{courseId})")
@@ -132,6 +138,7 @@ public interface KlassStudentMapper {
 
     /**
      * Get the klass by team id
+     *
      * @param teamId the refer gist
      * @return the list of klass id
      */
@@ -139,8 +146,10 @@ public interface KlassStudentMapper {
     List<String> selectKlassIdByTeamId(String teamId);
 
     //#############    Klass Team
+
     /**
      * Delete team occurrence from klass team
+     *
      * @param teamId the refer gist
      */
     @Delete("delete from klass_team where team_id=#{teamId}")
@@ -149,6 +158,7 @@ public interface KlassStudentMapper {
 
     /**
      * Delete team in a course that stored in the klass team table
+     *
      * @param courseId the refer gist
      */
     @Delete("delete from klass_team where klass_id in (select id from klass where course_id = #{courseId})")
@@ -156,7 +166,8 @@ public interface KlassStudentMapper {
 
     /**
      * Insert team record into klass team
-     * @param teamId the team id
+     *
+     * @param teamId  the team id
      * @param klassId the klass id
      */
     @Insert("insert into klass_team (klass_id, team_id) values(#{klassId}, #{teamId})")
@@ -164,11 +175,12 @@ public interface KlassStudentMapper {
 
 
     //#############    Union multi table
+
     /**
      * Select a Team's students under a course
      *
      * @param courseId the refer gist
-     * @param teamId the select gist
+     * @param teamId   the select gist
      * @return List<Student> the selected Team's all students as list
      * @author Cesare
      */
@@ -185,7 +197,8 @@ public interface KlassStudentMapper {
 
     /**
      * Get the team via courseId and studentId
-     * @param courseId the refer gist
+     *
+     * @param courseId  the refer gist
      * @param studentId the refer gist
      * @return the team id
      */
@@ -205,6 +218,7 @@ public interface KlassStudentMapper {
 
     /**
      * Select Team by course id
+     *
      * @param courseId refer gist
      * @return the teams
      */
@@ -244,7 +258,8 @@ public interface KlassStudentMapper {
 
     /**
      * Judge if the student has enter a team in the course
-     * @param courseId the course refer gist
+     *
+     * @param courseId  the course refer gist
      * @param studentId the student refer gist
      * @return whether has teamed.
      */

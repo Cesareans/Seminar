@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import seminar.config.websocket.RawMessageConverter;
 import seminar.dao.*;
 import seminar.entity.*;
+import seminar.pojo.websocket.RawMessage;
 import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.AskedQuestion;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
-import seminar.pojo.websocket.RawMessage;
 import seminar.pojo.websocket.request.Request;
 import seminar.pojo.websocket.response.EndSeminarResponse;
 import seminar.pojo.websocket.response.Response;
@@ -72,18 +72,20 @@ public class WebSocketServiceImpl implements WebSocketService {
         List<SeminarScore> seminarScores;
         List<AskedQuestion> askedQuestions;
         for (Attendance attendance : monitor.getAttendanceList()) {
-            if(attendance == null){
+            if (attendance == null) {
                 continue;
             }
             score = scoreMap.get(attendance.getId());
-            if (score.intValue() < 0) {score = new BigDecimal(0);}
+            if (score.intValue() < 0) {
+                score = new BigDecimal(0);
+            }
             seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(), attendance.getKlassSeminarId());
-            if(seminarScores.isEmpty()){
+            if (seminarScores.isEmpty()) {
                 seminarScore.setPresentationScore(score);
                 seminarScore.setTeamId(attendance.getTeamId());
                 seminarScore.setKlassSeminarId(attendance.getKlassSeminarId());
                 seminarScoreDAO.createSeminarScore(seminarScore);
-            }else{
+            } else {
                 seminarScore = seminarScores.get(0);
                 seminarScore.setPresentationScore(score);
                 seminarScoreDAO.update(seminarScore);
@@ -91,7 +93,9 @@ public class WebSocketServiceImpl implements WebSocketService {
             askedQuestions = monitor.getAskedQuestion().get(attendance.getId());
             askedQuestions.forEach(askedQuestion -> {
                 BigDecimal queScore = askedQuestion.getScore();
-                if(queScore.intValue()<0){queScore = new BigDecimal(0);}
+                if (queScore.intValue() < 0) {
+                    queScore = new BigDecimal(0);
+                }
                 question.setAttendanceId(attendance.getId());
                 question.setScore(queScore);
                 question.setStudentId(askedQuestion.getStudent().getId());
@@ -115,7 +119,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         request.execute(monitor);
         try {
             Class<?> responseClass = request.getClass().getAnnotation(BindResponse.class).response();
-            if(responseClass == EndSeminarResponse.class){
+            if (responseClass == EndSeminarResponse.class) {
                 endMonitor(ksId);
             }
             Response response = responseClass.asSubclass(Response.class).newInstance();

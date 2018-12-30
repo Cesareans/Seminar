@@ -28,12 +28,14 @@
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
                                 <label for="account" class="bmd-label-floating">请输入你的管理员名</label>
-                                <input id="account" name="account" type="text" autocomplete="off" class="form-control empty-verify"
+                                <input id="account" name="account" type="text" autocomplete="off"
+                                       class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入管理员名">
                             </div>
                             <div class="form-group bmd-form-group">
                                 <label for="password" class="bmd-label-floating">请输入你的密码</label>
-                                <input id="password" name="password" type="password" autocomplete="off" class="form-control empty-verify"
+                                <input id="password" name="password" type="password" autocomplete="off"
+                                       class="form-control empty-verify"
                                        data-toggle="popover" data-trigger="manual" data-emptyMessage="请输入密码">
                             </div>
                         </div>

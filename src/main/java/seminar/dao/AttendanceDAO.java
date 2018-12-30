@@ -119,12 +119,9 @@ public class AttendanceDAO {
 
     /**
      * @author Xinyu Shi
-     *
-     *
      */
-    public List<Attendance> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
-    {
-        return attendanceMapper.selectAttendanceByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+    public List<Attendance> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId) {
+        return attendanceMapper.selectAttendanceByTeamIdAndKlassSeminarId(teamId, klassSeminarId);
     }
 
 

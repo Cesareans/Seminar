@@ -2,7 +2,6 @@ package seminar.dao.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import seminar.entity.application.ShareTeamApplication;
 import seminar.entity.application.TeamValidApplication;
 import seminar.mapper.application.TeamValidApplicationMapper;
 
@@ -20,19 +19,19 @@ public class TeamValidApplicationDAO {
         this.teamValidApplicationMapper = teamValidApplicationMapper;
     }
 
-    public boolean create(TeamValidApplication teamValidApplication){
-        if(!teamValidApplicationMapper.selectTeamValidApplicationByTeamId(teamValidApplication.getTeamId()).isEmpty()){
+    public boolean create(TeamValidApplication teamValidApplication) {
+        if (!teamValidApplicationMapper.selectTeamValidApplicationByTeamId(teamValidApplication.getTeamId()).isEmpty()) {
             return false;
         }
         teamValidApplicationMapper.insertTeamValidApplication(teamValidApplication);
         return true;
     }
 
-    public List<TeamValidApplication> getByTeacherId(String teacherId){
+    public List<TeamValidApplication> getByTeacherId(String teacherId) {
         return teamValidApplicationMapper.selectTeamValidApplicationByTeacherId(teacherId);
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         teamValidApplicationMapper.deleteTeamValidApplicationById(id);
     }
 }

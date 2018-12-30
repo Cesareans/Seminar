@@ -1,7 +1,6 @@
 package seminar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import seminar.entity.Klass;
 import seminar.entity.relation.KlassStudent;

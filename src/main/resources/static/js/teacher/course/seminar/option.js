@@ -28,7 +28,7 @@ $(function () {
     $("#backBtn").click(back);
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
-        if(verify == null){
+        if (verify == null) {
             $.ajax({
                 type: "patch",
                 url: "/teacher/course/seminar",
@@ -43,7 +43,7 @@ $(function () {
                     util.showAlert("danger", "创建失败，未知错误", 3);
                 }
             })
-        }else{
+        } else {
             verify.registerDanger();
         }
     });
@@ -66,10 +66,10 @@ $(function () {
             }
         })
     });
-    datetimepicker.bind("focus",function () {
+    datetimepicker.bind("focus", function () {
         $(this).parent().addClass("on-date")
     });
-    datetimepicker.bind("blur",function () {
+    datetimepicker.bind("blur", function () {
         $(this).parent().removeClass("on-date")
     });
 });

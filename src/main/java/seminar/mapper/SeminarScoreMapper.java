@@ -1,7 +1,6 @@
 package seminar.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.springframework.security.core.parameters.P;
 import seminar.entity.SeminarScore;
 
 import java.util.List;
@@ -128,10 +127,11 @@ public interface SeminarScoreMapper {
 
     /**
      * Select a SeminarScore entity via teamId and klassSeminarId
-     * @author Xinyu Shi
-     * @param teamId the select gist
+     *
+     * @param teamId         the select gist
      * @param klassSeminarId the select gist
      * @return List<seminarScore> the selected SeminarScore entity as list
+     * @author Xinyu Shi
      */
     @Select("select * from seminar_score where team_id=#{teamId} and klass_seminar_id=#{klassSeminarId}")
     @Results({

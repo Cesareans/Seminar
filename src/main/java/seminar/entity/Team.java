@@ -38,7 +38,7 @@ public class Team {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Team)){
+        if (!(obj instanceof Team)) {
             return false;
         }
         return ((Team) obj).getId().equals(id);

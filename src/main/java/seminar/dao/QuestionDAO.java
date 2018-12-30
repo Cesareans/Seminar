@@ -103,9 +103,8 @@ public class QuestionDAO {
     /**
      * @author Xinyu Shi
      */
-    public List<Question> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
-    {
-        return questionMapper.selectQuestionByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+    public List<Question> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId) {
+        return questionMapper.selectQuestionByTeamIdAndKlassSeminarId(teamId, klassSeminarId);
     }
 
 

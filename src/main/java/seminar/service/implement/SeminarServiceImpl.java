@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import seminar.dao.*;
 import seminar.dao.regulation.StrategyCompositionDAO;
 import seminar.entity.*;
-import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyComposition;
 import seminar.entity.relation.KlassRound;
 import seminar.service.SeminarService;
@@ -50,6 +49,7 @@ public class SeminarServiceImpl implements SeminarService {
     public List<Student> getStudentBySN(String sn) {
         return studentDAO.getBySN(sn);
     }
+
     @Override
     public List<Teacher> getTeacherByTN(String tn) {
         return teacherDAO.getByTN(tn);
@@ -210,8 +210,8 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<KlassRound> getKlassRoundsByKlassIdAndRoundId(String klassId, String roundId) {
-        List<KlassRound> klassRounds = klassRoundDAO.getByKlassIdAndRoundId(klassId,roundId);
-        if(klassRounds.size() == 0){
+        List<KlassRound> klassRounds = klassRoundDAO.getByKlassIdAndRoundId(klassId, roundId);
+        if (klassRounds.size() == 0) {
             KlassRound klassRound = new KlassRound();
             klassRound.setEnrollLimit(1);
             klassRound.setKlassId(klassId);

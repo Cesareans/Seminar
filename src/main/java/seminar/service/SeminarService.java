@@ -1,7 +1,6 @@
 package seminar.service;
 
 import seminar.entity.*;
-import seminar.entity.regulation.Strategy;
 import seminar.entity.regulation.StrategyComposition;
 import seminar.entity.relation.KlassRound;
 
@@ -32,12 +31,14 @@ public interface SeminarService {
 
     /**
      * Get all courses
+     *
      * @return all course in the system
      */
     List<Course> getAllCourses();
 
     /**
      * Get all courses with teacher
+     *
      * @return all course in the system
      */
     List<Course> getAllCoursesWithTeacher();
@@ -69,12 +70,14 @@ public interface SeminarService {
 
     /**
      * Get all course can share team with
+     *
      * @return the courses.
      */
     List<Course> getCanShareTeamCourse();
 
     /**
      * Get all course can share seminar with
+     *
      * @return the courses.
      */
     List<Course> getCanShareSeminarCourse();
@@ -101,6 +104,7 @@ public interface SeminarService {
 
     /**
      * get strategies of a course by course id
+     *
      * @param courseId the refer gist
      * @return StrategyComposition
      */
@@ -127,7 +131,6 @@ public interface SeminarService {
     List<Round> getRoundByRoundId(String roundId);
 
 
-
     /**
      * Get the max seminar serial of a course
      *
@@ -138,20 +141,24 @@ public interface SeminarService {
 
     /**
      * Get attendance by id
+     *
      * @param id the refer gist
      * @return the attendance
      */
     List<Attendance> getAttendanceById(String id);
+
     /**
      * Get the attendance via id
+     *
      * @param teamId the refer gist
-     * @param ksId the refer gist
+     * @param ksId   the refer gist
      * @return the attendance
      */
     List<Attendance> getAttendanceByTeamIdAndKlassSeminarId(String teamId, String ksId);
 
     /**
      * Get the attendance in the klassSeminar
+     *
      * @param ksId the klassSeminar refer gist
      * @return the list of attendance
      */
@@ -178,7 +185,8 @@ public interface SeminarService {
 
     /**
      * Get the team via studentId and courseId
-     * @param klassId the refer gist
+     *
+     * @param klassId   the refer gist
      * @param studentId the refer gist
      * @return the team
      */
@@ -186,6 +194,7 @@ public interface SeminarService {
 
     /**
      * Get the team via team id
+     *
      * @param teamId the refer gist
      * @return the team
      */
@@ -193,8 +202,9 @@ public interface SeminarService {
 
     /**
      * Get team by course id and team id
+     *
      * @param courseId the refer id
-     * @param teamId the refer id
+     * @param teamId   the refer id
      * @return the team
      */
     Team getTeamByCourseIdAndTeamId(String courseId, String teamId);
@@ -202,6 +212,7 @@ public interface SeminarService {
 
     /**
      * Get not teamed students by course id
+     *
      * @param courseId the refer gist
      * @return the not teamed students.
      */
@@ -267,6 +278,7 @@ public interface SeminarService {
 
     /**
      * get klass rounds by klass id and round id
+     *
      * @param klassId the refer gist
      * @param roundId the refer gist
      * @return the klass round

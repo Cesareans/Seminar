@@ -27,15 +27,15 @@ $(function () {
     $("#confirmBtn").click(function () {
         util.showLoading();
         $.ajax({
-            type:"post",
-            url:"/teacher/course/seminar/enrollList/giveScore",
+            type: "post",
+            url: "/teacher/course/seminar/enrollList/giveScore",
             data: $("#giveScoreForm").serialize(),
-            success:function () {
+            success: function () {
                 util.hideLoading();
                 reportScoreModal.modal("hide");
                 util.showAlert("success", "给分成功", 3);
             },
-            error:function () {
+            error: function () {
                 util.hideLoading();
                 reportScoreModal.modal("hide");
                 util.showAlert("danger", "给分失败，未知原因", 3);

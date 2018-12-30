@@ -1,11 +1,7 @@
 package seminar;
 
 import cesare.mybatis.EntityGenerator;
-import seminar.entity.*;
-import seminar.entity.application.TeamValidApplication;
-import seminar.entity.regulation.ConflictCourseStrategy;
 import seminar.entity.regulation.CourseMemberLimitStrategy;
-import seminar.entity.regulation.MemberLimitStrategy;
 
 /**
  * @author Cesare

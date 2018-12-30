@@ -17,7 +17,7 @@
         }
     </script>
     <style>
-        .nav-link{
+        .nav-link {
             padding: 0 !important;
         }
     </style>

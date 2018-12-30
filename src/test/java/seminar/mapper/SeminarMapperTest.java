@@ -12,13 +12,14 @@ import seminar.logger.DebugLogger;
 public class SeminarMapperTest {
     @Autowired
     SeminarMapper seminarMapper;
+
     @Test
     public void selectSeminarByRoundId() {
         DebugLogger.logJson(seminarMapper.selectSeminarByRoundId("111"));
     }
-    
+
     @Test
-    public void selectMaxSerialOfCourse(){
+    public void selectMaxSerialOfCourse() {
         DebugLogger.log(seminarMapper.selectMaxSeminarSerial("112"));
     }
 

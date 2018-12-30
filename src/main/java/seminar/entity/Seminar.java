@@ -5,7 +5,6 @@ import cesare.mybatis.annotations.ID;
 import cesare.mybatis.annotations.SqlMap;
 import cesare.mybatis.annotations.TargetPackage;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -25,10 +24,10 @@ public class Seminar {
     private int maxTeam;
     private boolean visible;
     @SqlMap("enroll_start_time")
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollStartDate;
     @SqlMap("enroll_end_time")
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollEndDate;
     @Gist
     private String roundId;

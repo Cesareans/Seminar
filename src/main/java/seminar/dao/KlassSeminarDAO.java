@@ -41,7 +41,7 @@ public class KlassSeminarDAO {
         klassSeminarMapper.insertKlassSeminar(klassSeminar);
     }
 
-    public void createByKlassIdAndSeminarId(String klassId, String seminarId){
+    public void createByKlassIdAndSeminarId(String klassId, String seminarId) {
         KlassSeminar klassSeminar = new KlassSeminar();
         klassSeminar.setSeminarId(seminarId);
         klassSeminar.setKlassId(klassId);
@@ -89,7 +89,7 @@ public class KlassSeminarDAO {
      */
     public List<KlassSeminar> getByKlassIdAndSeminarId(String klassId, String seminarId) {
         List<KlassSeminar> klassSeminars = klassSeminarMapper.selectKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-        if(klassSeminars.size() == 0){
+        if (klassSeminars.size() == 0) {
             KlassSeminar klassSeminar = new KlassSeminar();
             klassSeminar.setKlassId(klassId);
             klassSeminar.setSeminarId(seminarId);

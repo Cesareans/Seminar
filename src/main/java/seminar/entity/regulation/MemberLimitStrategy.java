@@ -43,20 +43,17 @@ public class MemberLimitStrategy implements Strategy {
     }
 
     @Override
-    public boolean validate(Team team)
-    {
+    public boolean validate(Team team) {
         int studentNumber = team.getStudents().size();
-        if(studentNumber >= min && studentNumber <= max){
+        if (studentNumber >= min && studentNumber <= max) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "小组人数应在" + min + "到" + max + "之间";
     }
 

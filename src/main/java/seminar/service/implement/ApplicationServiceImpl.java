@@ -21,13 +21,13 @@ import java.util.List;
  */
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
+    private final static int REJECT = 0;
+    private final static int ACCEPT = 1;
     private final ShareTeamApplicationDAO shareTeamApplicationDAO;
     private final ShareSeminarApplicationDAO shareSeminarApplicationDAO;
     private final TeamValidApplicationDAO teamValidApplicationDAO;
     private final CourseDAO courseDAO;
     private final TeamDAO teamDAO;
-    private final static int REJECT = 0;
-    private final static int ACCEPT = 1;
 
     @Autowired
     public ApplicationServiceImpl(ShareTeamApplicationDAO shareTeamApplicationDAO, ShareSeminarApplicationDAO shareSeminarApplicationDAO, TeamValidApplicationDAO teamValidApplicationDAO, CourseDAO courseDAO, TeamDAO teamDAO) {
@@ -61,7 +61,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public boolean handleShareTeamApplication(ApplicationHandleDTO applicationHandleDTO) {
         shareTeamApplicationDAO.deleteById(applicationHandleDTO.getAppId());
         if (applicationHandleDTO.getOperationType() == ACCEPT) {
-            return courseDAO.buildTeamShare(applicationHandleDTO.getMainCourseId(),applicationHandleDTO.getSubCourseId());
+            return courseDAO.buildTeamShare(applicationHandleDTO.getMainCourseId(), applicationHandleDTO.getSubCourseId());
         }
         return applicationHandleDTO.getOperationType() == REJECT;
     }
@@ -85,8 +85,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public boolean handleShareSeminarApplication(ApplicationHandleDTO applicationHandleDTO) {
         shareSeminarApplicationDAO.deleteById(applicationHandleDTO.getAppId());
-        if(applicationHandleDTO.getOperationType() == ACCEPT){
-            return courseDAO.buildSeminarShare(applicationHandleDTO.getMainCourseId(),applicationHandleDTO.getSubCourseId());
+        if (applicationHandleDTO.getOperationType() == ACCEPT) {
+            return courseDAO.buildSeminarShare(applicationHandleDTO.getMainCourseId(), applicationHandleDTO.getSubCourseId());
         }
         return applicationHandleDTO.getOperationType() == REJECT;
     }
@@ -105,11 +105,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     public boolean handleTeamValidApplication(ApplicationHandleDTO applicationHandleDTO) {
         teamValidApplicationDAO.deleteById(applicationHandleDTO.getAppId());
         Team team = teamDAO.getById(applicationHandleDTO.getTeamId()).get(0);
-        if(applicationHandleDTO.getOperationType() == ACCEPT){
+        if (applicationHandleDTO.getOperationType() == ACCEPT) {
             team.setStatus(1);
             teamDAO.update(team);
             return true;
-        }else if(applicationHandleDTO.getOperationType() == REJECT){
+        } else if (applicationHandleDTO.getOperationType() == REJECT) {
             team.setStatus(0);
             teamDAO.update(team);
             return true;

@@ -36,6 +36,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
+    private final static String TEACHER_ID_GIST = "teacherId";
     private final TeacherService teacherService;
     private final SeminarService seminarService;
     private final CaptchaService captchaService;
@@ -44,8 +45,6 @@ public class TeacherController {
     private final ApplicationService applicationService;
     private final ScoreService scoreService;
     private final StrategyService strategyService;
-
-    private final static String TEACHER_ID_GIST = "teacherId";
 
     @Autowired
     public TeacherController(TeacherService teacherService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, FileService fileService, ApplicationService applicationService, ScoreService scoreService, StrategyService strategyService) {

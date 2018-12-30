@@ -5,10 +5,10 @@
     $.fn.create = function () {
         init(this);
     };
-    $.fn.start = function(){
-        if(tickFunc !== undefined) {
+    $.fn.start = function () {
+        if (tickFunc !== undefined) {
             isPause = false;
-        }else{
+        } else {
             tickFunc = setTimeout(tick, 1000);
         }
     };
@@ -43,8 +43,9 @@
         });
         digitCards = elem.find('.digit-card');
     }
+
     function tick() {
-        if(!isPause) {
+        if (!isPause) {
             if ((++s) >= 60) {
                 if (++m >= 60)
                     m %= 60;
@@ -56,10 +57,12 @@
 
         setTimeout(tick, 1000);
     }
+
     function updateCard(pre, post, value) {
         switchDigit(digitCards.eq(pre), Math.floor(value / 10) % 10);
         switchDigit(digitCards.eq(post), value % 10);
     }
+
     function switchDigit(digitCard, number) {
         var digit = digitCard.find('.digit');
         if (digit.is(':animated')) {
@@ -88,6 +91,7 @@
                 replacement.addClass('static');
             });
     }
+
     function refreshDigit() {
         digitCards.eq(0)
             .find('.digit')

@@ -19,9 +19,8 @@ public class StrategyServiceImplTest {
     StrategyService strategyService;
 
     @Test
-    public void validateTest()
-    {
-        DebugLogger.logJson(strategyService.validate("26","16"));
+    public void validateTest() {
+        DebugLogger.logJson(strategyService.validate("26", "16"));
     }
 
 }

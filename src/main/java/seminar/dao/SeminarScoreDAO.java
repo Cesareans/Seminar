@@ -16,26 +16,23 @@ public class SeminarScoreDAO {
     private final SeminarScoreMapper seminarScoreMapper;
 
     @Autowired
-    public SeminarScoreDAO(SeminarScoreMapper seminarScoreMapper)
-    {
+    public SeminarScoreDAO(SeminarScoreMapper seminarScoreMapper) {
         this.seminarScoreMapper = seminarScoreMapper;
     }
 
-    public void createSeminarScore(SeminarScore seminarScore){
+    public void createSeminarScore(SeminarScore seminarScore) {
         seminarScoreMapper.insertSeminarScore(seminarScore);
     }
-    public List<SeminarScore> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId)
-    {
-        return seminarScoreMapper.selectSeminarScoreByTeamIdAndKlassSeminarId(teamId,klassSeminarId);
+
+    public List<SeminarScore> getByTeamIdAndKlassSeminarId(String teamId, String klassSeminarId) {
+        return seminarScoreMapper.selectSeminarScoreByTeamIdAndKlassSeminarId(teamId, klassSeminarId);
     }
 
-    public void update(SeminarScore seminarScore)
-    {
+    public void update(SeminarScore seminarScore) {
         seminarScoreMapper.updateSeminarScore(seminarScore);
     }
 
-    public List<SeminarScore> getByKlassSeminarId(String klassSeminarId)
-    {
-        return  seminarScoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
+    public List<SeminarScore> getByKlassSeminarId(String klassSeminarId) {
+        return seminarScoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
     }
 }

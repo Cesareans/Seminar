@@ -3,11 +3,11 @@ package seminar.pojo.enumration;
 /**
  * @author Cesare
  */
-public enum  ApplicationType {
+public enum ApplicationType {
     /**
      * The type of the application
      */
-    ShareSeminar(0),ShareTeam(1),TeamValid(2);
+    ShareSeminar(0), ShareTeam(1), TeamValid(2);
     int type;
 
     ApplicationType(int type) {

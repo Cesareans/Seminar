@@ -7,6 +7,7 @@ import seminar.pojo.websocket.monitor.SeminarMonitor;
  */
 public class EndSeminarResponse implements Response {
     private String placeHolder;
+
     @Override
     public Response execute(SeminarMonitor monitor) {
         placeHolder = "";

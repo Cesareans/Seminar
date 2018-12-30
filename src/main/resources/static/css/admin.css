@@ -2,6 +2,7 @@ html {
     font-size: 15px;
     font-weight: 400;
 }
+
 iframe {
     border: 0;
     height: 100%;
@@ -55,7 +56,7 @@ iframe {
     display: flex;
 }
 
-.page-body .card{
+.page-body .card {
     margin-top: 15px;
 }
 
@@ -126,9 +127,11 @@ iframe {
 .iframe-page .navbar-transparent {
     padding: 0;
 }
+
 .iframe-page .dropdown .dropdown-toggle {
     font-size: 15px !important;
 }
+
 .iframe-page .dropdown .dropdown-item:hover {
     color: #FFFFFF;
 }
@@ -175,19 +178,22 @@ iframe {
     padding-bottom: 10px;
 }
 
-.iframe-page .pagination{
+.iframe-page .pagination {
     margin-bottom: 0;
 }
-.iframe-page .navbar-nav.count-limit{
+
+.iframe-page .navbar-nav.count-limit {
     position: absolute;
     left: 30px;
 }
-.iframe-page .navbar-nav.count-limit .navbar-brand{
+
+.iframe-page .navbar-nav.count-limit .navbar-brand {
     font-size: 14px;
     font-weight: 400;
     color: #767676;
     margin-right: 0;
 }
+
 .iframe-page .navbar-nav.count-limit .dropdown .dropdown-toggle {
     display: inline;
     font-size: 14px !important;
@@ -259,7 +265,7 @@ iframe {
 
 .alert-area {
     z-index: 3;
-    pointer-events: none;/*不阻止点击事件*/
+    pointer-events: none; /*不阻止点击事件*/
     width: 100%;
     height: 50px;
     display: flex;
@@ -267,14 +273,16 @@ iframe {
     position: absolute;
     top: 0;
 }
-.alert-area .alert{
+
+.alert-area .alert {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
     margin-bottom: 0;
 }
-.alert-area .alert b{
+
+.alert-area .alert b {
     font-size: 16px;
 }
 

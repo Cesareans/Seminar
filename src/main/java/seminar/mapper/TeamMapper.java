@@ -140,8 +140,9 @@ public interface TeamMapper {
 
     /**
      * Add a new team into table team
-     * @author Xinyu Shi
+     *
      * @param team new team
+     * @author Xinyu Shi
      */
     @Insert("insert into team(team_serial, klass_id, course_id, leader_id, team_name, status) select ifnull(max(team_serial)+1, 1), #{klassId}, #{courseId}, #{leaderId}, #{teamName}, #{status}  from team where klass_id = #{klassId}")
     @Options(useGeneratedKeys = true)

@@ -23,8 +23,7 @@ public class TeamAndStrategyDAO {
     private final TeamOrStrategyDAO teamOrStrategyDAO;
 
     @Autowired
-    public TeamAndStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO)
-    {
+    public TeamAndStrategyDAO(TeamAndStrategyMapper teamAndStrategyMapper, CourseMemberLimitStrategyDAO courseMemberLimitStrategyDAO, ConflictCourseStrategyDAO conflictCourseStrategyDAO, MemberLimitStrategyDAO memberLimitStrategyDAO, TeamOrStrategyDAO teamOrStrategyDAO) {
         this.teamAndStrategyMapper = teamAndStrategyMapper;
         this.conflictCourseStrategyDAO = conflictCourseStrategyDAO;
         this.courseMemberLimitStrategyDAO = courseMemberLimitStrategyDAO;
@@ -32,47 +31,43 @@ public class TeamAndStrategyDAO {
         this.teamOrStrategyDAO = teamOrStrategyDAO;
     }
 
-    private List<Strategy> getAndStrategyById(String id)
-    {
+    private List<Strategy> getAndStrategyById(String id) {
         List<Strategy> strategies = new ArrayList<>();
         List<StrategyNameId> strategySet = teamAndStrategyMapper.selectStrategiesById(id);
-        for (StrategyNameId s : strategySet)
-        {
-            switch(s.getStrategyName()){
-                case("CourseMemberLimitStrategy"):
+        for (StrategyNameId s : strategySet) {
+            switch (s.getStrategyName()) {
+                case ("CourseMemberLimitStrategy"):
                     strategies.add(courseMemberLimitStrategyDAO.getById(s.getStrategyId()));
                     break;
-                case("ConflictCourseStrategy"):
+                case ("ConflictCourseStrategy"):
                     strategies.add(conflictCourseStrategyDAO.getById(s.getStrategyId()));
                     break;
-                case("MemberLimitStrategy"):
+                case ("MemberLimitStrategy"):
                     strategies.add(memberLimitStrategyDAO.getById(s.getStrategyId()));
                     break;
-                case("TeamOrStrategy"):
+                case ("TeamOrStrategy"):
                     strategies.add(teamOrStrategyDAO.getById(s.getStrategyId()));
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
 
         return strategies;
     }
 
-    public TeamAndStrategy getById(String strategyId)
-    {
+    public TeamAndStrategy getById(String strategyId) {
         TeamAndStrategy teamAndStrategy = new TeamAndStrategy();
         teamAndStrategy.setId(strategyId);
         teamAndStrategy.setStrategies(getAndStrategyById(strategyId));
         return teamAndStrategy;
     }
 
-    public String allocateId()
-    {
+    public String allocateId() {
         return teamAndStrategyMapper.allocateId();
     }
 
-    public void createTeamAndStrategy(String id,String strategyName, String strategyId)
-    {
-        teamAndStrategyMapper.insertSingleTeamAndStrategy(id,strategyName,strategyId);
+    public void createTeamAndStrategy(String id, String strategyName, String strategyId) {
+        teamAndStrategyMapper.insertSingleTeamAndStrategy(id, strategyName, strategyId);
     }
 }

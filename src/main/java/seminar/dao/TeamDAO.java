@@ -40,8 +40,7 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public List<Student> getStudentsByTeamId(String teamId)
-    {
+    public List<Student> getStudentsByTeamId(String teamId) {
         return klassStudentMapper.selectStudentsFromTeam(teamId);
     }
 
@@ -55,7 +54,7 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public List<Team> getOwnStudentsTeamByCourseId(String courseId){
+    public List<Team> getOwnStudentsTeamByCourseId(String courseId) {
         List<Team> teams = klassStudentMapper.selectTeamsByCourseId(courseId);
         teams.forEach(team -> {
             team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
@@ -66,9 +65,9 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public Team getOwnStudentTeamByCourseIdAndTeamId(String courseId, String teamId){
+    public Team getOwnStudentTeamByCourseIdAndTeamId(String courseId, String teamId) {
         Team team = teamMapper.selectTeamById(teamId).get(0);
-        if(team != null) {
+        if (team != null) {
             team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, teamId));
         }
         return team;
@@ -77,9 +76,9 @@ public class TeamDAO {
     /**
      * @author cesare
      */
-    public Team getByCourseIdAndStudentId(String courseId, String studentId){
+    public Team getByCourseIdAndStudentId(String courseId, String studentId) {
         Team team = klassStudentMapper.selectTeamByCourseIdAndStudentId(courseId, studentId);
-        if(team != null) {
+        if (team != null) {
             team.setStudents(klassStudentMapper.selectStudentsFromTeamByCourseIdAndTeamId(courseId, team.getId()));
         }
         return team;
@@ -90,8 +89,8 @@ public class TeamDAO {
      */
     public boolean create(Team team) {
         teamMapper.addTeam(team);
-        klassStudentMapper.insertTeamIntoKlassTeam(team.getId(),team.getKlassId());
-        klassStudentMapper.insertStudentIntoTeam(team.getId(),team.getLeaderId());
+        klassStudentMapper.insertTeamIntoKlassTeam(team.getId(), team.getKlassId());
+        klassStudentMapper.insertStudentIntoTeam(team.getId(), team.getLeaderId());
         return true;
     }
 
@@ -118,11 +117,10 @@ public class TeamDAO {
     }
 
 
-
     /**
      * @author cesare
      */
-    void deleteTeamsByCourseId(String courseId){
+    void deleteTeamsByCourseId(String courseId) {
         //Team student table
         klassStudentMapper.deleteTeamStudentByCourseId(courseId);
         //klass team table
@@ -134,16 +132,13 @@ public class TeamDAO {
     /**
      * @author Xinyu Shi
      */
-    public String getKlassIdByTeamIdAndCourseId(String teamId, String courseId)
-    {
+    public String getKlassIdByTeamIdAndCourseId(String teamId, String courseId) {
         List<Klass> klasses = klassMapper.selectKlassByCourseId(courseId);
         List<String> klassIds = klassStudentMapper.selectKlassIdByTeamId(teamId);
-        String klassId ="";
-        for(String id:klassIds)
-        {
-            for(Klass klass:klasses)
-            {
-                if(klass.getId().equals(id)){
+        String klassId = "";
+        for (String id : klassIds) {
+            for (Klass klass : klasses) {
+                if (klass.getId().equals(id)) {
                     klassId = id;
                 }
             }

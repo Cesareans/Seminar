@@ -51,7 +51,6 @@ public interface TeacherService {
     boolean modifyPasswordViaId(String teacherId, String password);
 
 
-
     /**
      * Create a course
      *
@@ -63,6 +62,7 @@ public interface TeacherService {
 
     /**
      * Delete a course by courseId
+     *
      * @param courseId the refer gist
      * @author lyf
      */
@@ -70,6 +70,7 @@ public interface TeacherService {
 
     /**
      * Create a klass with given klass info.
+     *
      * @param klass the klass entity
      * @return whether creating klass successfully
      * @author lyf
@@ -88,6 +89,7 @@ public interface TeacherService {
 
     /**
      * Delete a klass by its id
+     *
      * @param klassId the refer gist
      * @author lyf
      */
@@ -121,6 +123,7 @@ public interface TeacherService {
 
     /**
      * Update score types of a round
+     *
      * @param typeRound the new round. Round id and three score type is required.
      * @return whether the operation is successful.
      * @author cesare
@@ -129,6 +132,7 @@ public interface TeacherService {
 
     /**
      * Update enroll limit of a round
+     *
      * @param klassRound the new klassRound. Klass id and round id is referred. And new enroll limit is required.
      * @author cesare
      */
@@ -136,7 +140,7 @@ public interface TeacherService {
 
     /**
      * Delete a seminar via seminarId
-
+     *
      * @param seminarId the refer gist
      * @author lyf
      */
@@ -147,7 +151,7 @@ public interface TeacherService {
      *
      * @param reportScore    refer gist.
      * @param klassSeminarId refer gist
-     * @param teamId refer gist
+     * @param teamId         refer gist
      */
     void updateReportScore(BigDecimal reportScore, String klassSeminarId, String teamId);
 
@@ -155,20 +159,23 @@ public interface TeacherService {
      * Update the report score and pre score
      *
      * @param attendanceId the attendanceId
-     * @param preScore the new score
-     * @param queScore the new queScore
-     * @param reportScore the new score
+     * @param preScore     the new score
+     * @param queScore     the new queScore
+     * @param reportScore  the new score
      * @return the seminar score
      */
     SeminarScore updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore);
+
     /**
      * Cancel team share
+     *
      * @param subCourseId the subCourseId
      */
     void cancelTeamShare(String subCourseId);
 
     /**
      * cancel seminar share
+     *
      * @param subCourseId the subCourseId
      */
     void cancelSeminarShare(String subCourseId);

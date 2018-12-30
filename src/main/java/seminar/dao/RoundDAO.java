@@ -35,7 +35,7 @@ public class RoundDAO {
     /**
      * @author cesare
      */
-    public List<Round> getByRoundId(String roundId){
+    public List<Round> getByRoundId(String roundId) {
         return roundMapper.selectRoundById(roundId);
     }
 
@@ -86,7 +86,7 @@ public class RoundDAO {
     /**
      * @author cesare
      */
-    void deleteKlassRoundByCourseId(String courseId){
+    void deleteKlassRoundByCourseId(String courseId) {
         klassRoundMapper.deleteKlassRoundByCourseId(courseId);
     }
 

@@ -10,6 +10,7 @@ public class SwitchTeamResponse implements Response {
     private int attendanceIndex;
     private String teamId;
     private SeminarState state;
+
     @Override
     public Response execute(SeminarMonitor monitor) {
         attendanceIndex = monitor.getOnPreAttendanceIndex();

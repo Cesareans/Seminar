@@ -50,15 +50,16 @@ public class CourseDAO {
         course.setTeacher(teacherMapper.selectTeacherById(course.getTeacherId()).get(0));
     }
 
-    public List<Course> getAll(){
+    public List<Course> getAll() {
         return courseMapper.selectAllCourse();
     }
 
-    public List<Course> getAllWithTeacher(){
+    public List<Course> getAllWithTeacher() {
         List<Course> courses = courseMapper.selectAllCourse();
         courses.forEach(this::setTeacher);
         return courses;
     }
+
     /**
      * @author cesare
      */
@@ -149,7 +150,7 @@ public class CourseDAO {
     /**
      * @author cesare
      */
-    public void cancelSeminarShare(String subCourseId){
+    public void cancelSeminarShare(String subCourseId) {
         Course subCourse = getByCourseId(subCourseId).get(0);
         if (subCourse.getSeminarMainCourseId() == null) {
             return;
@@ -184,7 +185,7 @@ public class CourseDAO {
 
         List<Team> teams = teamMapper.selectTeamByMainCourseId(mainCourseId);
         List<Klass> klasses = klassMapper.selectKlassByCourseId(subCourseId);
-        if(klasses.size() == 0){
+        if (klasses.size() == 0) {
             return true;
         }
         Integer[] klassStudentCount = new Integer[klasses.size()];
@@ -212,7 +213,7 @@ public class CourseDAO {
         return true;
     }
 
-    public void cancelTeamShare(String subCourseId){
+    public void cancelTeamShare(String subCourseId) {
         Course subCourse = getByCourseId(subCourseId).get(0);
         if (subCourse.getTeamMainCourseId() == null) {
             return;
@@ -233,13 +234,13 @@ public class CourseDAO {
         return otherCourses;
     }
 
-    public List<Course> getCanShareTeamCourse(){
+    public List<Course> getCanShareTeamCourse() {
         List<Course> courses = courseMapper.selectCanShareTeamCourse();
         courses.forEach(this::setTeacher);
         return courses;
     }
 
-    public List<Course> getCanShareSeminarCourse(){
+    public List<Course> getCanShareSeminarCourse() {
         List<Course> courses = courseMapper.selectCanShareSeminarCourse();
         courses.forEach(this::setTeacher);
         return courses;

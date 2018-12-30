@@ -18,6 +18,7 @@ public class CourseDAOTest {
     CourseDAO courseDAO;
     @Autowired
     KlassStudentMapper klassStudentMapper;
+
     @Test
     public void getOtherCoursesByCourseId() {
         DebugLogger.logJson(courseDAO.getCanShareCoursesByCourseId("112"));
@@ -27,7 +28,7 @@ public class CourseDAOTest {
     }
 
     @Test
-    public void buildTeamShare(){
+    public void buildTeamShare() {
         courseDAO.buildTeamShare("16", "17");
         List<Team> teams = klassStudentMapper.selectTeamsByCourseId("16");
         DebugLogger.logJson(teams);

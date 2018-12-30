@@ -103,7 +103,7 @@ public interface RoundScoreMapper {
     /**
      * select roundScore via teamId and roundId
      *
-     * @param teamId the refer gist
+     * @param teamId  the refer gist
      * @param roundId the refer gist
      * @return the round score
      * @author Xinyu Shi

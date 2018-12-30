@@ -29,23 +29,24 @@ public class KlassStudentMapperTest {
     }
 
     @Test
-    public void selectTeamByCourseIdAndStudentId(){
+    public void selectTeamByCourseIdAndStudentId() {
         DebugLogger.logJson(klassStudentMapper.selectTeamByCourseIdAndStudentId("16", "103"));
     }
 
     @Test
-    public void selectTeamByCourseId(){
+    public void selectTeamByCourseId() {
         List<Team> teams = klassStudentMapper.selectTeamsByCourseId("17");
         DebugLogger.logJson(teams);
         DebugLogger.log(teams.size());
-        List<Team> teams1 = teamMapper.selectTeamByMainCourseId("17");;
+        List<Team> teams1 = teamMapper.selectTeamByMainCourseId("17");
+        ;
         DebugLogger.logJson(teams1);
         DebugLogger.log(teams1.size());
     }
 
 
     @Test
-    public void selectKlassByStudentId(){
+    public void selectKlassByStudentId() {
         DebugLogger.logJson(klassStudentMapper.selectKlassByStudentId("1"));
     }
 }

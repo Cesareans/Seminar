@@ -139,9 +139,10 @@ public interface SeminarMapper {
 
     /**
      * Get the max seminar serial of a course
+     *
      * @param courseId the refer gist
      * @return the max seminar serial
      */
-    @Select("select ifnull(max(seminar_serial),1) from seminar where course_id = #{courseId}")
+    @Select("select ifnull(max(seminar_serial),0) from seminar where course_id = #{courseId}")
     Integer selectMaxSeminarSerial(String courseId);
 }

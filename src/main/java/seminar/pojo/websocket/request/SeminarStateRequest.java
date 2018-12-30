@@ -4,16 +4,28 @@ import seminar.pojo.websocket.annotation.BindResponse;
 import seminar.pojo.websocket.monitor.SeminarMonitor;
 import seminar.pojo.websocket.response.SeminarStateResponse;
 
+enum StateRequest {
+    /**
+     * Promote for pause seminar
+     */
+    PAUSE,
+    /**
+     * Promote for start seminar
+     */
+    START
+}
+
 /**
  * @author Cesare
  */
 @BindResponse(response = SeminarStateResponse.class)
-public class SeminarStateRequest implements Request{
+public class SeminarStateRequest implements Request {
     private StateRequest request;
     private Integer timeStamp;
+
     @Override
     public void execute(SeminarMonitor monitor) {
-        switch (request){
+        switch (request) {
             case PAUSE:
                 monitor.pauseAt(timeStamp);
                 break;
@@ -40,17 +52,6 @@ public class SeminarStateRequest implements Request{
     public void setTimeStamp(Integer timeStamp) {
         this.timeStamp = timeStamp;
     }
-}
-
-enum StateRequest{
-    /**
-     * Promote for pause seminar
-     */
-    PAUSE,
-    /**
-     * Promote for start seminar
-     */
-    START
 }
 
 

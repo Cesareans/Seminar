@@ -15,7 +15,7 @@ $(function () {
     courseIdForm = $("#courseIdForm");
 
     $(".courseId").val(sessionStorage.getItem("courseId"));
-    
+
     $(".klass-btn").click(function () {
         seminarForm.klassIdInput.val($(this).attr("data-klassId"));
         sessionStorage.setItem("klassId", seminarForm.klassIdInput.val());

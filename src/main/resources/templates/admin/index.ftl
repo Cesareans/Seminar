@@ -45,7 +45,7 @@
             </li>
         </ul>
     </nav>
-    <div class="page-content" id = "page-content">
+    <div class="page-content" id="page-content">
     </div>
 
 </div>

@@ -12,7 +12,7 @@ $(function () {
     $("#shareSeminar").click(function () {
         shareTeamTab.hide();
         shareSeminarTab.show();
-        shareSeminarTab.find(".form-check-input:first").prop("checked",true);
+        shareSeminarTab.find(".form-check-input:first").prop("checked", true);
     });
     var courseId = sessionStorage.getItem("courseId");
     $("#mainCourseId").val(courseId);

@@ -47,7 +47,7 @@ var conflictCourseDom;
         "                                                    <i class=\"material-icons\">add</i>\n" +
         "                                                    新增课程\n" +
         "                                                </a>";
-    courseLimitDom ="\n" +
+    courseLimitDom = "\n" +
         "                        <div class=\"col-lg-6 col-md-12\">\n" +
         "                            <div class=\"card form-card dropdown-card\">\n" +
         "                                <div class=\"card-body\">\n" +
@@ -126,7 +126,7 @@ $(function () {
             var courseMemberLimits = [];
 
             $(courseLimitList).each(function () {
-                var form = $("#"+this);
+                var form = $("#" + this);
                 var courseMemberLimit = {};
                 courseMemberLimit.courseId = form.find(".courseLimitId").val();
                 courseMemberLimit.max = form.find(".courseLimitMax").val();
@@ -136,8 +136,8 @@ $(function () {
             data.courseMemberLimits = courseMemberLimits;
             var conflictCourses = [];
             var conflictCoursesDom = $(".conflict-course");
-            for(var i in courseConflictList){
-                if(!courseConflictList.hasOwnProperty(i)) continue;
+            for (var i in courseConflictList) {
+                if (!courseConflictList.hasOwnProperty(i)) continue;
                 var conflictCourse = {};
                 conflictCourse.serial = conflictCoursesDom.find(".conflictCourse").attr("data-serial");
                 conflictCourse.courseId = [];

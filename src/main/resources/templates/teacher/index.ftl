@@ -46,7 +46,8 @@
         </div>
     </div>
 </nav>
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('/static/imgs/profile.jpg');"></div>
+<div class="page-header header-filter" data-parallax="true"
+     style="background-image: url('/static/imgs/profile.jpg');"></div>
 <div class="main main-raised">
     <div class="profile-content">
         <div class="container">

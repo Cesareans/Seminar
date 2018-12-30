@@ -2,7 +2,6 @@ package seminar.entity.regulation;
 
 import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Team;
-import seminar.logger.DebugLogger;
 
 import java.util.List;
 
@@ -32,12 +31,10 @@ public class TeamAndStrategy implements Strategy {
     }
 
     @Override
-    public boolean validate(Team team)
-    {
+    public boolean validate(Team team) {
         boolean validation = true;
-        for(Strategy strategy:strategies)
-        {
-            if(!strategy.validate(team)){
+        for (Strategy strategy : strategies) {
+            if (!strategy.validate(team)) {
                 validation = false;
                 break;
             }
@@ -46,8 +43,7 @@ public class TeamAndStrategy implements Strategy {
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "";
     }
 }

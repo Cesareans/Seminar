@@ -12,7 +12,7 @@ $(function () {
     uploadName = $("#uploadName");
     studentFilesForm = $("#studentFiles");
 
-    klassModal.on("show.bs.modal",function (event) {
+    klassModal.on("show.bs.modal", function (event) {
         var item = $(event.relatedTarget);
         klassModal.attr("data-klassID", item.attr("data-klassID"));
         $(klassModal.find("#klassIdInput")).val(item.attr("data-klassID"));
@@ -24,7 +24,7 @@ $(function () {
         operationBody.show();
         formBody.hide();
     });
-    $("#import").click(function(){
+    $("#import").click(function () {
         operationBody.hide();
         formBody.slideDown();
     });
@@ -37,40 +37,40 @@ $(function () {
     });
     file.on("input propertychange", function () {
         var files = file.get(0).files;
-        if(files.length > 0) {
+        if (files.length > 0) {
             uploadName.html(files[0].name);
         }
     });
 
     $("#deleteKlass").click(function () {
         $.ajax({
-            type:"delete",
-            url:"/teacher/course/klass/" + klassModal.attr("data-klassID"),
-            success:function () {
+            type: "delete",
+            url: "/teacher/course/klass/" + klassModal.attr("data-klassID"),
+            success: function () {
                 location.reload();
             },
-            error:function () {
+            error: function () {
                 util.showAlert("danger", "删除失败，请重试", 3);
             }
         })
     });
     $("#confirmUpload").click(function () {
         var verify = util.verifyWithAlert(studentFilesForm);
-        if(verify == null){
+        if (verify == null) {
             util.showLoading();
             $.ajax({
-                type:"post",
-                url:"/teacher/course/klass/insertStudents",
+                type: "post",
+                url: "/teacher/course/klass/insertStudents",
                 contentType: false,
                 processData: false,
                 data: new FormData(studentFilesForm.get(0)),
-                success:function(){
+                success: function () {
                     util.hideLoading();
                     console.log("success");
                     klassModal.modal("hide");
                     util.showAlert("success", "导入成功", 3);
                 },
-                error:function () {
+                error: function () {
                     util.hideLoading();
                     console.log("fail");
                     util.showAlert("danger", "插入失败，请重试", 3);

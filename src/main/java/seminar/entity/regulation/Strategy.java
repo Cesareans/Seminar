@@ -8,16 +8,18 @@ import seminar.entity.Team;
 public interface Strategy {
     /**
      * validate the team according to the atomic strategy.
-     * @author Xinyu Shi
+     *
      * @param team
      * @return
+     * @author Xinyu Shi
      */
     boolean validate(Team team);
 
     /**
      * get error message of which strategy is conflicted.
-     * @author Xinyu Shi
+     *
      * @return
+     * @author Xinyu Shi
      */
     String getErrorMsg();
 }

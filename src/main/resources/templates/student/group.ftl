@@ -49,38 +49,38 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-        <div class="container">
-            <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card content-card">
-                            <div class="card-body" data-courseID="${1}" data-toggle="modal" data-target="#teamModal${1}">
-                                <div class="body-header">
-                                    <div class="body-title">2</div>
-                                </div>
-                                <div class="body-content">
-                                    <hr>
-                                    <div class="line">
-                                        <label>序号</label>
-                                        <div class="sep"></div>
-                                    <#--TODO:???There are no klass info here.-->
-                                        <div class="content">3</div>
-                                    </div>
-                                    <div class="line">
-                                        <label>队长</label>
-                                        <div class="sep"></div>
-                                        <div class="content">4</div>
-                                    </div>
-                                    <div class="line">
-                                        <label>合法性</label>
-                                        <div class="sep"></div>
-                                        <div class="content">5</div>
-                                    </div>
-                                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="card content-card">
+                    <div class="card-body" data-courseID="${1}" data-toggle="modal" data-target="#teamModal${1}">
+                        <div class="body-header">
+                            <div class="body-title">2</div>
+                        </div>
+                        <div class="body-content">
+                            <hr>
+                            <div class="line">
+                                <label>序号</label>
+                                <div class="sep"></div>
+                                <#--TODO:???There are no klass info here.-->
+                                <div class="content">3</div>
+                            </div>
+                            <div class="line">
+                                <label>队长</label>
+                                <div class="sep"></div>
+                                <div class="content">4</div>
+                            </div>
+                            <div class="line">
+                                <label>合法性</label>
+                                <div class="sep"></div>
+                                <div class="content">5</div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
+    </div>
 </div>
 <div class="modal fade" id="teamModal${1}">
     <div class="modal-dialog">

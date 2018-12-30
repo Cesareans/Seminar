@@ -9,8 +9,6 @@ import seminar.entity.SeminarScore;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SeminarScoreMapperTest {
@@ -18,7 +16,7 @@ public class SeminarScoreMapperTest {
     SeminarScoreMapper seminarScoreMapper;
 
     @Test
-    public void updateSeminarScore(){
+    public void updateSeminarScore() {
         SeminarScore seminarScore = new SeminarScore();
         seminarScore.setTeamId("22");
         seminarScore.setKlassSeminarId("11");

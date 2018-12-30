@@ -29,6 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+    private final static String STUDENT_ID_GIST = "studentId";
     private final StudentService studentService;
     private final SeminarService seminarService;
     private final CaptchaService captchaService;
@@ -36,8 +37,6 @@ public class StudentController {
     private final ScoreService scoreService;
     private final FileService fileService;
     private final ApplicationService applicationService;
-
-    private final static String STUDENT_ID_GIST = "studentId";
 
     @Autowired
     public StudentController(StudentService studentService, SeminarService seminarService, CaptchaService captchaService, MailService mailService, ScoreService scoreService, FileService fileService, ApplicationService applicationService) {
@@ -156,7 +155,7 @@ public class StudentController {
         model.addAttribute("ksId", klassSeminar.get(0).getId());
         model.addAttribute("canEnroll", canEnroll);
         model.addAttribute("klassId", klassId);
-        model.addAttribute("seminarId",seminarId);
+        model.addAttribute("seminarId", seminarId);
         return "student/course/seminar/enrollList";
     }
 
@@ -298,18 +297,18 @@ public class StudentController {
     @PostMapping("/course/myTeam/validApplication")
     public ResponseEntity<Object> validApplication(String teamId, String content) {
         Team team = seminarService.getTeamByTeamId(teamId);
-        if(team.getStatus()!=0){
+        if (team.getStatus() != 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         team.setStatus(2);
-        if(!studentService.updateTeam(team)){
+        if (!studentService.updateTeam(team)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("队伍不存在");
         }
         TeamValidApplication teamValidApplication = new TeamValidApplication();
         teamValidApplication.setTeamId(teamId);
         teamValidApplication.setContent(content);
         teamValidApplication.setTeacherId(seminarService.getCourseByCourseId(team.getCourseId()).get(0).getTeacherId());
-        if(!applicationService.createTeamValidApplication(teamValidApplication)){
+        if (!applicationService.createTeamValidApplication(teamValidApplication)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("该申请已存在");
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -330,7 +329,7 @@ public class StudentController {
         Team team = seminarService.getTeamByCourseIdAndStudentId(courseId, ((String) session.getAttribute(STUDENT_ID_GIST)));
         Boolean hasGrade = (team != null);
         model.addAttribute("hasGrade", hasGrade);
-        if(hasGrade) {
+        if (hasGrade) {
             List<Round> rounds = seminarService.getRoundsByCourseId(courseId);
             Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
             Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());

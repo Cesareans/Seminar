@@ -6,8 +6,9 @@ import seminar.pojo.websocket.monitor.state.SeminarState;
 /**
  * @author Cesare
  */
-public class SeminarStateResponse implements Response{
+public class SeminarStateResponse implements Response {
     private SeminarState state;
+
     @Override
     public Response execute(SeminarMonitor monitor) {
         state = monitor.getState();

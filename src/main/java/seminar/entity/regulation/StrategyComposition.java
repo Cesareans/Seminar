@@ -8,24 +8,23 @@ import java.util.List;
 /**
  * @author Xinyu Shi
  */
-public class StrategyComposition implements Strategy{
+public class StrategyComposition implements Strategy {
 
     private List<Strategy> strategies;
-
-    public void setStrategies(List<Strategy> strategies) {
-        this.strategies = strategies;
-    }
 
     public List<Strategy> getStrategies() {
         return strategies;
     }
 
+    public void setStrategies(List<Strategy> strategies) {
+        this.strategies = strategies;
+    }
+
     @Override
-    public boolean validate(Team team){
+    public boolean validate(Team team) {
         boolean validation = true;
-        for(Strategy strategy:strategies)
-        {
-            if(!strategy.validate(team)){
+        for (Strategy strategy : strategies) {
+            if (!strategy.validate(team)) {
                 DebugLogger.logJson(strategy);
                 validation = false;
                 break;
@@ -35,8 +34,7 @@ public class StrategyComposition implements Strategy{
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "";
     }
 }

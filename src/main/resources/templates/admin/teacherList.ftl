@@ -28,46 +28,47 @@
     </colgroup>
     <tbody>
     <#if teachers?size == 0>
-    <tr class="empty">
-        <td colspan="7">空荡荡的...</td>
-    </tr>
+        <tr class="empty">
+            <td colspan="7">空荡荡的...</td>
+        </tr>
     <#else >
         <#list teachers as teacher>
-        <tr class="item" data-ID="${teacher.id}">
-            <td class="checkbox">
-                <div class="form-check single">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-sign"><span class="check"></span></span>
-                    </label>
-                </div>
-            </td>
-            <td class="counter">${teacher?counter + fromIndex}</td>
-            <td class="teacherNum">${teacher.teacherNum}</td>
-            <td class="name">${teacher.teacherName}</td>
-            <td class="email">${teacher.email}</td>
-            <td>
-                <#if teacher.activated>
-                    <i class="material-icons" style="color: #4caf50">record_voice_over</i>
-                <#else >
-                    <i class="material-icons" style="color: #999999">voice_over_off</i>
-                </#if>
-            </td>
-            <td class="btnColumn">
-                <button class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#modifyModal">
-                    <i class="material-icons">create</i>
-                </button>
-                <button class="btn btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#resetPwdModal" data-gist="${teacher.teacherNum}" style="background-color: #f39c12">
-                    <i class="material-icons">settings_backup_restore</i>
-                </button>
-                <button class="btn btn-danger btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                        data-target="#deleteItemModal" data-gist="${teacher.teacherNum}">
-                    <i class="material-icons">delete</i>
-                </button>
-            </td>
-        </tr>
+            <tr class="item" data-ID="${teacher.id}">
+                <td class="checkbox">
+                    <div class="form-check single">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="">
+                            <span class="form-check-sign"><span class="check"></span></span>
+                        </label>
+                    </div>
+                </td>
+                <td class="counter">${teacher?counter + fromIndex}</td>
+                <td class="teacherNum">${teacher.teacherNum}</td>
+                <td class="name">${teacher.teacherName}</td>
+                <td class="email">${teacher.email}</td>
+                <td>
+                    <#if teacher.activated>
+                        <i class="material-icons" style="color: #4caf50">record_voice_over</i>
+                    <#else >
+                        <i class="material-icons" style="color: #999999">voice_over_off</i>
+                    </#if>
+                </td>
+                <td class="btnColumn">
+                    <button class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
+                            data-target="#modifyModal">
+                        <i class="material-icons">create</i>
+                    </button>
+                    <button class="btn btn-fab btn-fab-mini btn-round" data-toggle="modal"
+                            data-target="#resetPwdModal" data-gist="${teacher.teacherNum}"
+                            style="background-color: #f39c12">
+                        <i class="material-icons">settings_backup_restore</i>
+                    </button>
+                    <button class="btn btn-danger btn-fab btn-fab-mini btn-round" data-toggle="modal"
+                            data-target="#deleteItemModal" data-gist="${teacher.teacherNum}">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </td>
+            </tr>
         </#list>
     </#if>
     </tbody>

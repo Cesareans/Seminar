@@ -3,8 +3,9 @@ package seminar.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seminar.dao.*;
-import seminar.entity.*;
-import seminar.logger.DebugLogger;
+import seminar.entity.Attendance;
+import seminar.entity.Student;
+import seminar.entity.Team;
 import seminar.pojo.enumration.TeamStatus;
 import seminar.service.StrategyService;
 import seminar.service.StudentService;
@@ -47,7 +48,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean modifyEmail(String studentId, String email) {
         List<Student> students = studentDAO.getById(studentId);
-        if(students.isEmpty()){
+        if (students.isEmpty()) {
             return false;
         }
         Student student = students.get(0);
@@ -94,10 +95,10 @@ public class StudentServiceImpl implements StudentService {
     public boolean enrollSeminar(String ksId, String teamId, int sn) {
         List<Attendance> enrollList = attendanceDAO.getEnrollList(ksId);
         for (Attendance attendance : enrollList) {
-            if(attendance == null){
+            if (attendance == null) {
                 continue;
             }
-            if(attendance.getTeam().getId().equals(teamId) || attendance.getSn() == sn){
+            if (attendance.getTeam().getId().equals(teamId) || attendance.getSn() == sn) {
                 return false;
             }
         }
@@ -139,10 +140,9 @@ public class StudentServiceImpl implements StudentService {
      * @author Xinyu Shi
      */
     @Override
-    public boolean createTeam(Team team)
-    {
+    public boolean createTeam(Team team) {
         Date teamEndDate = courseDAO.getByCourseId(team.getCourseId()).get(0).getTeamEndDate();
-        if(new Date().compareTo(teamEndDate) > 0) {
+        if (new Date().compareTo(teamEndDate) > 0) {
             return false;
         }
         team.setStatus(TeamStatus.Valid.getStatus());
@@ -162,16 +162,15 @@ public class StudentServiceImpl implements StudentService {
      * @author Xinyu Shi
      */
     @Override
-    public boolean addTeamMember(String studentId, String teamId)
-    {
+    public boolean addTeamMember(String studentId, String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
-        if(team.getStatus()== TeamStatus.Checking.getStatus()) {
+        if (team.getStatus() == TeamStatus.Checking.getStatus()) {
             return false;
         }
-        if (studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())){
+        if (studentDAO.studentHasAlreadyTeamed(studentId, team.getCourseId())) {
             return false;
         }
-        studentDAO.insertStudentIntoTeamStudent(studentId,teamId);
+        studentDAO.insertStudentIntoTeamStudent(studentId, teamId);
         strategyService.handleVariation(team);
         teamDAO.update(team);
         return true;
@@ -181,10 +180,9 @@ public class StudentServiceImpl implements StudentService {
      * @author Xinyu Shi
      */
     @Override
-    public boolean deleteTeamMember(String studentId, String teamId)
-    {
+    public boolean deleteTeamMember(String studentId, String teamId) {
         Team team = teamDAO.getById(teamId).get(0);
-        if(team.getStatus()==TeamStatus.Checking.getStatus()) {
+        if (team.getStatus() == TeamStatus.Checking.getStatus()) {
             return false;
         }
         studentDAO.deleteStudentFromTeamStudent(teamId, studentId);
@@ -197,10 +195,9 @@ public class StudentServiceImpl implements StudentService {
      * @author Xinyu Shi
      */
     @Override
-    public void dissolveTeam(String teamId)
-    {
+    public void dissolveTeam(String teamId) {
         List<Student> students = teamDAO.getStudentsByTeamId(teamId);
-        for(Student student : students) {
+        for (Student student : students) {
             studentDAO.deleteStudentFromTeamStudent(teamId, student.getId());
         }
         teamDAO.deleteById(teamId);

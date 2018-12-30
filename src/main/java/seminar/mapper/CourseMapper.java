@@ -174,8 +174,8 @@ public interface CourseMapper {
     /**
      * Get a course's other course via course id
      *
-     * @param id the select gist
-     * @param teamMainCourseId the select gist
+     * @param id                  the select gist
+     * @param teamMainCourseId    the select gist
      * @param seminarMainCourseId the  select gist
      * @return List<course> the selected Course's other courses as list
      */
@@ -193,10 +193,11 @@ public interface CourseMapper {
             @Result(property = "teamMainCourseId", column = "team_main_course_id"),
             @Result(property = "seminarMainCourseId", column = "seminar_main_course_id")
     })
-    List<Course> selectCanShareCoursesById(@Param("id")String id, @Param("tmId")String teamMainCourseId, @Param("smId")String seminarMainCourseId);
+    List<Course> selectCanShareCoursesById(@Param("id") String id, @Param("tmId") String teamMainCourseId, @Param("smId") String seminarMainCourseId);
 
     /**
      * Get all course can share team with
+     *
      * @return the courses.
      */
     @Select("select * from course where team_main_course_id is null")
@@ -217,6 +218,7 @@ public interface CourseMapper {
 
     /**
      * Get all course can share seminar with
+     *
      * @return the courses.
      */
     @Select("select * from course where seminar_main_course_id is null")

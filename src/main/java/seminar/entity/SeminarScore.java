@@ -2,7 +2,6 @@ package seminar.entity;
 
 import cesare.mybatis.annotations.Gist;
 import cesare.mybatis.annotations.ID;
-import cesare.mybatis.annotations.Link;
 import cesare.mybatis.annotations.TargetPackage;
 
 import java.math.BigDecimal;

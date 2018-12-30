@@ -19,9 +19,9 @@ public class CourseCreateDTO {
     private Integer prePer;
     private Integer quePer;
     private Integer repPer;
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
-    @JsonFormat(pattern="yyyy-MM-dd H:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
 
     private Integer teamMax;
@@ -42,14 +42,14 @@ public class CourseCreateDTO {
         return course;
     }
 
-    public MemberLimitStrategy getMemberLimitStrategy(){
+    public MemberLimitStrategy getMemberLimitStrategy() {
         MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy();
         memberLimitStrategy.setMax(teamMax);
         memberLimitStrategy.setMin(teamMin);
         return memberLimitStrategy;
     }
 
-    public List<CourseMemberLimitStrategy> getCourseMemberLimitStrategies(){
+    public List<CourseMemberLimitStrategy> getCourseMemberLimitStrategies() {
         List<CourseMemberLimitStrategy> courseMemberLimitStrategies = new LinkedList<>();
         courseMemberLimits.forEach(courseMemberLimit -> {
             CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy();
@@ -61,7 +61,7 @@ public class CourseCreateDTO {
         return courseMemberLimitStrategies;
     }
 
-    public List<ConflictCourseStrategy> getConflictCourseStrategies(){
+    public List<ConflictCourseStrategy> getConflictCourseStrategies() {
         List<ConflictCourseStrategy> conflictCourseStrategies = new LinkedList<>();
         conflictCourses.forEach(conflictCourse -> {
             ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy();
@@ -166,7 +166,7 @@ public class CourseCreateDTO {
     }
 }
 
-class CourseMemberLimit{
+class CourseMemberLimit {
     private String courseId;
     private Integer max;
     private Integer min;
@@ -196,7 +196,7 @@ class CourseMemberLimit{
     }
 }
 
-class ConflictCourse{
+class ConflictCourse {
     private Integer serial;
     private List<String> courseId;
 

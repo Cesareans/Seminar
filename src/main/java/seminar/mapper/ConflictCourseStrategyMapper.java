@@ -1,8 +1,9 @@
 package seminar.mapper;
 
-import org.apache.ibatis.annotations.*;
-import seminar.entity.regulation.ConflictCourseStrategy;
-import seminar.entity.regulation.CourseMemberLimitStrategy;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -27,17 +28,19 @@ public interface ConflictCourseStrategyMapper {
 
     /**
      * insert single record into conflict course strategy table.
-     * @author Xinyu Shi
-     * @param id the refer gist
+     *
+     * @param id       the refer gist
      * @param courseId the refer gist
+     * @author Xinyu Shi
      */
     @Insert("insert into conflict_course_strategy(id, course_id) values(#{id}, #{courseId})")
     void insertSingleCourseMemberLimitStrategy(@Param("id") String id, @Param("courseId") String courseId);
 
     /**
      * allocate one id
-     * @author Xinyu Shi
+     *
      * @return
+     * @author Xinyu Shi
      */
     @Select("select ifnull(max(id)+1,1) from conflict_course_strategy")
     String allocateId();

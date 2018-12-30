@@ -28,19 +28,21 @@ $(function () {
     studentNum = data.attr("data-studentNum");
     teamId = data.attr("data-teamId");
 });
+
 function changeFocus(target) {
     var tab = target.attr("data-tab");
     tabContent.children(".tab-pane").hide();
     console.log($(tab));
     $(tab).show();
 }
+
 function changeActive(target) {
     if (curActive !== undefined) {
         curActive.removeClass("active-team");
     }
     curActive = target;
     curActive.addClass("active-team");
-    if(!curActive.hasClass("question")) {
+    if (!curActive.hasClass("question")) {
         changeFocus(curActive);
     }
 }
@@ -51,7 +53,7 @@ var serverAddr = "/app/student/klassSeminar/";
 var socket;
 $(function () {
     var seminarState = $("body").attr("data-state");
-    if(seminarState === '1') {
+    if (seminarState === '1') {
         serverAddr += ksId;
         clientAddr += ksId;
         raiseQuestionBtn.click(function () {
@@ -85,6 +87,7 @@ function handleResponse(response) {
 }
 
 var SeminarStateResponse = {state: {progressState: null, timeStamp: null}};
+
 function handleSeminarStateResponse(content) {
     if (content.state.progressState === progressState)
         return;
@@ -99,11 +102,13 @@ function handleSeminarStateResponse(content) {
 }
 
 var RaiseQuestionResponse = {questionNum: null};
+
 function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
-var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId:null};
+var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId: null};
+
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
     if (content.attendanceIndex < teams.length) {
@@ -113,16 +118,17 @@ function handleSwitchTeamResponse(content) {
         teamName.text(onTeam.attr("data-teamName"));
         changeActive(onTeam);
     }
-    if(content.teamId === teamId){
+    if (content.teamId === teamId) {
         raiseQuestionBtn.hide();
-    }else{
+    } else {
         raiseQuestionBtn.show();
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
 }
 
-var PullQuestionResponse = {studentNum: null, teamSerial:null, teamName: null, questionCount: null};
+var PullQuestionResponse = {studentNum: null, teamSerial: null, teamName: null, questionCount: null};
+
 function handlePullQuestionResponse(content) {
     preTimeStamp = timer.getTime();
 
@@ -133,7 +139,7 @@ function handlePullQuestionResponse(content) {
 
     console.log(content.studentNum);
     console.log(studentNum);
-    if(content.studentNum === studentNum){
+    if (content.studentNum === studentNum) {
         onAsk.show();
         raiseQuestionBtn.hide();
     }
@@ -145,11 +151,14 @@ function handleEndQuestionResponse(content) {
     raiseQuestionBtn.show();
     changeActive(teams.eq(curAttendanceIdx));
 }
+
 function handleScoreResponse(content) {
 }
+
 function handleEndSeminarResponse() {
     window.location.reload();
 }
+
 function setQuestionCount(count) {
     questionCount.removeClass("static-question").addClass("active-question");
     setTimeout(function () {

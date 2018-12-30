@@ -53,156 +53,161 @@
         <div class="row">
             <#list subCourse.team as teamCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header">
-                <div class="body-title">${teamCourse.courseName}</div>
-                <div class="flex-center">
-                    <i class="material-icons">more_vert</i>
-                </div>
-                </div>
-                <div class="body-content">
-                    <hr>
-                    <div class="line">
-                        <label>共享类型</label>
-                        <div class="sep"></div>
-                        <div class="content">共享分组</div>
-                    </div>
-                    <div class="line">
-                        <label>共享情况</label>
-                        <div class="sep"></div>
-                        <div class="content">主课程</div>
-                    </div>
-                    <div class="line">
-                        <label>子课程教师</label>
-                        <div class="sep"></div>
-                        <div class="content">${teamCourse.teacher.teacherName}</div>
-                    </div>
-                    <div class="operation-div" style="display: none">
-                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-team-share" data-subCourseId="${teamCourse.id}" style="margin: 0;width: 100%;">
-                                <i class="material-icons">close</i>
-                                取消共享
-                            </button>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">${teamCourse.courseName}</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>共享类型</label>
+                                    <div class="sep"></div>
+                                    <div class="content">共享分组</div>
+                                </div>
+                                <div class="line">
+                                    <label>共享情况</label>
+                                    <div class="sep"></div>
+                                    <div class="content">主课程</div>
+                                </div>
+                                <div class="line">
+                                    <label>子课程教师</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${teamCourse.teacher.teacherName}</div>
+                                </div>
+                                <div class="operation-div" style="display: none">
+                                    <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                                        <button class="btn bg-red cancel-team-share" data-subCourseId="${teamCourse.id}"
+                                                style="margin: 0;width: 100%;">
+                                            <i class="material-icons">close</i>
+                                            取消共享
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
                 </div>
             </#list>
             <#list subCourse.seminar as seminarCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header">
-                <div class="body-title">${seminarCourse.courseName}</div>
-                <div class="flex-center">
-                    <i class="material-icons">more_vert</i>
-                </div>
-                </div>
-                <div class="body-content">
-                    <hr>
-                    <div class="line">
-                        <label>共享类型</label>
-                        <div class="sep"></div>
-                        <div class="content">共享讨论课</div>
-                    </div>
-                    <div class="line">
-                        <label>共享情况</label>
-                        <div class="sep"></div>
-                        <div class="content">主课程</div>
-                    </div>
-                    <div class="line">
-                        <label>子课程教师</label>
-                        <div class="sep"></div>
-                        <div class="content">${seminarCourse.teacher.teacherName}</div>
-                    </div>
-                    <div class="operation-div" style="display: none">
-                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${seminarCourse.id}" style="margin: 0;width: 100%;">
-                                <i class="material-icons">close</i>
-                                取消共享
-                            </button>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">${seminarCourse.courseName}</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>共享类型</label>
+                                    <div class="sep"></div>
+                                    <div class="content">共享讨论课</div>
+                                </div>
+                                <div class="line">
+                                    <label>共享情况</label>
+                                    <div class="sep"></div>
+                                    <div class="content">主课程</div>
+                                </div>
+                                <div class="line">
+                                    <label>子课程教师</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${seminarCourse.teacher.teacherName}</div>
+                                </div>
+                                <div class="operation-div" style="display: none">
+                                    <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                                        <button class="btn bg-red cancel-seminar-share"
+                                                data-subCourseId="${seminarCourse.id}" style="margin: 0;width: 100%;">
+                                            <i class="material-icons">close</i>
+                                            取消共享
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
                 </div>
             </#list>
             <#list mainCourse.team as teamCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header">
-                <div class="body-title">${teamCourse.courseName}</div>
-                <div class="flex-center">
-                    <i class="material-icons">more_vert</i>
-                </div>
-                </div>
-                <div class="body-content">
-                    <hr>
-                    <div class="line">
-                        <label>共享类型</label>
-                        <div class="sep"></div>
-                        <div class="content">共享分组</div>
-                    </div>
-                    <div class="line">
-                        <label>共享情况</label>
-                        <div class="sep"></div>
-                        <div class="content">从课程</div>
-                    </div>
-                    <div class="operation-div" style="display: none">
-                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-team-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
-                                <i class="material-icons">close</i>
-                                取消共享
-                            </button>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">${teamCourse.courseName}</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>共享类型</label>
+                                    <div class="sep"></div>
+                                    <div class="content">共享分组</div>
+                                </div>
+                                <div class="line">
+                                    <label>共享情况</label>
+                                    <div class="sep"></div>
+                                    <div class="content">从课程</div>
+                                </div>
+                                <div class="operation-div" style="display: none">
+                                    <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                                        <button class="btn bg-red cancel-team-share" data-subCourseId="${course.id}"
+                                                style="margin: 0;width: 100%;">
+                                            <i class="material-icons">close</i>
+                                            取消共享
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
                 </div>
             </#list>
             <#list mainCourse.seminar as seminarCourse>
                 <div class="col-lg-4 col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header">
-                <div class="body-title">${seminarCourse.courseName}</div>
-                <div class="flex-center">
-                    <i class="material-icons">more_vert</i>
-                </div>
-                </div>
-                <div class="body-content">
-                    <hr>
-                    <div class="line">
-                        <label>共享类型</label>
-                        <div class="sep"></div>
-                        <div class="content">共享讨论课</div>
-                    </div>
-                    <div class="line">
-                        <label>共享情况</label>
-                        <div class="sep"></div>
-                        <div class="content">从课程</div>
-                    </div>
-                    <div class="operation-div" style="display: none">
-                        <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
-                                <i class="material-icons">close</i>
-                                取消共享
-                            </button>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">${seminarCourse.courseName}</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>共享类型</label>
+                                    <div class="sep"></div>
+                                    <div class="content">共享讨论课</div>
+                                </div>
+                                <div class="line">
+                                    <label>共享情况</label>
+                                    <div class="sep"></div>
+                                    <div class="content">从课程</div>
+                                </div>
+                                <div class="operation-div" style="display: none">
+                                    <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
+                                        <button class="btn bg-red cancel-seminar-share" data-subCourseId="${course.id}"
+                                                style="margin: 0;width: 100%;">
+                                            <i class="material-icons">close</i>
+                                            取消共享
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
-                </div>
-                </div>
             </#list>
             <div class="col-lg-4 col-md-6">
-                <a class="btn bg-transparent add-card-btn" id="addShare" style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
+                <a class="btn bg-transparent add-card-btn" id="addShare"
+                   style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
                     <i class="material-icons add-icon">add_circle</i>
                 </a>
             </div>

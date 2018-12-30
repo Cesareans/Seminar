@@ -63,7 +63,8 @@
                                     <hr>
                                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                         <#if (team??) && (attendance.team.id = team.id)>
-                                            <li class="nav-item" id="uploadPPTBtn" data-atdId="${attendance.id}" data-toggle="modal" data-target="#pptModal">
+                                            <li class="nav-item" id="uploadPPTBtn" data-atdId="${attendance.id}"
+                                                data-toggle="modal" data-target="#pptModal">
                                                 <a class="nav-link" style="padding: 0;">
                                                     <i class="material-icons">cloud_upload</i>
                                                     上传PPT
@@ -79,7 +80,9 @@
                                                 </a>
                                             </li>
                                         <#else >
-                                            <li <#if attendance.preFile??>class="nav-item download-ppt" data-fileName="${attendance.preFile}" <#else >class="nav-item disabled"</#if>>
+                                            <li <#if attendance.preFile??>class="nav-item download-ppt"
+                                                data-fileName="${attendance.preFile}"
+                                                <#else >class="nav-item disabled"</#if>>
                                                 <a class="nav-link" style="padding: 0;">
                                                     <i class="material-icons">cloud_download</i>
                                                     下载PPT
@@ -133,7 +136,8 @@
                     <div class="row" style="height: 208px;">
                         <div class="col-md-12 ml-auto mr-auto">
                             <form hidden id="teamPPT" enctype="multipart/form-data">
-                                <input id="fileInput" name="file" type="file" placeholder="" class="form-control empty-verify" data-emptyMessage="请选择文件">
+                                <input id="fileInput" name="file" type="file" placeholder=""
+                                       class="form-control empty-verify" data-emptyMessage="请选择文件">
                                 <input id="attendanceId" name="attendanceId" type="text" placeholder="">
                             </form>
                             <div class="file-frame">
@@ -151,7 +155,8 @@
                                 </ul>
                             </div>
                             <div class="flex-space-around" style="margin-top: 20px">
-                                <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm" style="width: 40%">
+                                <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm"
+                                        style="width: 40%">
                                     <i class="material-icons">arrow_upward</i>
                                     上传
                                 </button>

@@ -135,11 +135,11 @@
     <div class="container foot-container flex-center"
          style="bottom: 0;position: fixed;padding-bottom: 0;max-width: 100%;">
         <#if team.leader.id = studentId>
-                <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal"
-                        <#if (curMember = maxMember || team.status = 2)>disabled</#if>>
-                    <i class="material-icons">add</i>
-                    添加成员
-                </button>
+            <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal"
+                    <#if (curMember = maxMember || team.status = 2)>disabled</#if>>
+                <i class="material-icons">add</i>
+                添加成员
+            </button>
             <#if team.status = 0>
                 <button class="btn btn-danger" data-toggle="modal" data-target="#applicationModal">
                     <i class="material-icons">call_merge</i>

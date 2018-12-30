@@ -66,21 +66,23 @@
     height: 40%;
 }
 
-.team-state{
+.team-state {
     position: absolute;
     right: 10px;
     top: 10px;
 }
 
-.close{
+.close {
     cursor: pointer;
 }
+
 /****** Component Style ******/
-.vertical-separator{
+.vertical-separator {
     background-color: #EEEEEE;
     height: 100%;
     width: 1px;
 }
+
 /*Button*/
 .captcha-btn {
     height: 31px;
@@ -340,12 +342,14 @@
     cursor: pointer;
 }
 
-.nav-item.disabled{
+.nav-item.disabled {
     pointer-events: none;
 }
-.nav-item.disabled .nav-link{
+
+.nav-item.disabled .nav-link {
     color: #AAAAAA;
 }
+
 /*Modal*/
 .modal .modal-dialog {
     margin-top: 10vh;
@@ -406,22 +410,26 @@
 }
 
 /*Table*/
-.table tr td{
+.table tr td {
     border-top: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
-.course-table td,.course-table th{
+
+.course-table td, .course-table th {
     text-align: center;
     vertical-align: middle;
     line-height: 21px;
 }
-.course-table .name{
+
+.course-table .name {
 }
-.course-table .teacher{
+
+.course-table .teacher {
     width: 32%;
 }
-.course-table .operation{
-     width: 20%;
+
+.course-table .operation {
+    width: 20%;
 }
 
 .team-table {
@@ -452,10 +460,11 @@
     line-height: 21px;
 }
 
-.team-table .operation{
+.team-table .operation {
     width: 20%;
 }
-.team-table .operation button{
+
+.team-table .operation button {
     padding: 5px 10px;
 }
 
@@ -591,7 +600,7 @@
     }
 }
 
-.grade-area{
+.grade-area {
     height: 100px;
     width: 100%;
     display: flex;
@@ -712,15 +721,16 @@
     height: calc(100% - 50px);
 }
 
-.team-brand{
+.team-brand {
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
 }
 
-.score-form{
+.score-form {
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
 }
+
 .side-raised {
     margin-top: 20px;
     padding-top: 10px;
@@ -750,11 +760,12 @@
     border-radius: 6px 0 0 6px;
 }
 
-.static-question{
+.static-question {
     background-color: #888888 !important;
     transition: 1s !important;
 }
-.active-question{
+
+.active-question {
     background-color: #9c27b0 !important;
     transition: 1s !important;
 }
@@ -767,7 +778,7 @@
     border-radius: 6px 0 0 6px;
 }
 
-.control-btn{
+.control-btn {
     transition: 1s;
 }
 
@@ -776,10 +787,12 @@
     height: 64px;
     border-radius: 32px;
 }
+
 .btn.btn-fab.btn-team.cur-focus {
     border: 5px solid #9c27b0;
     transition-duration: 1.6s;
 }
+
 .btn.btn-fab.btn-team.active-team {
     background-color: #9c27b0;
     transition-duration: 1.6s;

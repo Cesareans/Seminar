@@ -1,6 +1,9 @@
 package seminar.entity.regulation;
 
-import cesare.mybatis.annotations.*;
+import cesare.mybatis.annotations.Gist;
+import cesare.mybatis.annotations.ID;
+import cesare.mybatis.annotations.SqlMap;
+import cesare.mybatis.annotations.TargetPackage;
 import seminar.entity.Course;
 import seminar.entity.Student;
 import seminar.entity.Team;
@@ -58,17 +61,14 @@ public class CourseMemberLimitStrategy implements Strategy {
 
 
     @Override
-    public boolean validate(Team team)
-    {
+    public boolean validate(Team team) {
         int memberInSpecificCourse = 0;
-        for(Student student:team.getStudents())
-        {
+        for (Student student : team.getStudents()) {
             List<String> courseIds = new ArrayList<>();
-            for(Course course:student.getCourses())
-            {
+            for (Course course : student.getCourses()) {
                 courseIds.add(course.getId());
             }
-            if(courseIds.contains(courseId)){
+            if (courseIds.contains(courseId)) {
                 memberInSpecificCourse++;
             }
         }
@@ -77,8 +77,7 @@ public class CourseMemberLimitStrategy implements Strategy {
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "选修某课程的小组成员数应在" + min + "到" + max + "之间";
     }
 

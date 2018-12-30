@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-check form-check-radio form-check-inline" style="margin: 0">
                                 <label class="form-check-label">
-                                    <input id="shareSeminar"  class="form-check-input" type="radio"
+                                    <input id="shareSeminar" class="form-check-input" type="radio"
                                            name="shareType" value="1">共享讨论课
                                     <span class="circle"><span class="check"></span></span>
                                 </label>

@@ -9,12 +9,16 @@ public class KlassStudent {
     private String klassId;
     private String teamId;
     private String studentId;
-    public KlassStudent(){}
+
+    public KlassStudent() {
+    }
+
     public KlassStudent(String courseId, String klassId, String studentId) {
         this.courseId = courseId;
         this.klassId = klassId;
         this.studentId = studentId;
     }
+
     public String getCourseId() {
         return courseId;
     }

@@ -53,7 +53,7 @@ public class IndexController {
         List<Teacher> teachers = seminarService.getTeacherByTN(account);
         if (teachers.size() != 0) {
             Teacher teacher = teachers.get(0);
-            if(!teacher.isActivated()){
+            if (!teacher.isActivated()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该教师尚未激活");
             }
             session.setAttribute("forgetPasswordCaptcha", captcha);
@@ -65,7 +65,7 @@ public class IndexController {
         List<Student> students = seminarService.getStudentBySN(account);
         if (students.size() != 0) {
             Student student = students.get(0);
-            if(!student.isActivated()){
+            if (!student.isActivated()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该学生尚未激活");
             }
             session.setAttribute("forgetPasswordCaptcha", captcha);
@@ -94,7 +94,7 @@ public class IndexController {
         String enableModify = "enableModify";
         if (session.getAttribute(enableModify) != null) {
             return "modifyPassword";
-        }else{
+        } else {
             return "error/page";
         }
     }
@@ -106,11 +106,11 @@ public class IndexController {
         String studentType = "student", teacherType = "teacher";
         String forgetAccount = (String) session.getAttribute("forgetAccount");
         if (studentType.equals(session.getAttribute(forgetType))) {
-            if(!studentService.modifyPasswordViaSn(forgetAccount, password)){
+            if (!studentService.modifyPasswordViaSn(forgetAccount, password)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else if (teacherType.equals(session.getAttribute(forgetType))) {
-            if(!teacherService.modifyPasswordViaTn(forgetAccount, password)){
+            if (!teacherService.modifyPasswordViaTn(forgetAccount, password)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else {

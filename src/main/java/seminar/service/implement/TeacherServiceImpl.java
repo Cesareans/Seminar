@@ -115,7 +115,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public boolean createKlass(Klass klass) {
-        if(!klassDAO.create(klass)){
+        if (!klassDAO.create(klass)) {
             return false;
         }
         List<Round> rounds = roundDAO.getByCourseId(klass.getCourseId());
@@ -142,8 +142,8 @@ public class TeacherServiceImpl implements TeacherService {
                 if (row.getCell(0).getStringCellValue().length() == 0) {
                     continue;
                 }
-                student.setStudentNum(row.getCell(0).getStringCellValue().replace((char)160, (char)32).trim());
-                student.setStudentName(row.getCell(1).getStringCellValue().replace((char)160, (char)32).trim());
+                student.setStudentNum(row.getCell(0).getStringCellValue().replace((char) 160, (char) 32).trim());
+                student.setStudentName(row.getCell(1).getStringCellValue().replace((char) 160, (char) 32).trim());
                 if (!studentDAO.existStudent(student)) {
                     studentDAO.insertNewStudent(student);
                 }
@@ -218,13 +218,13 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void updateReportScore(BigDecimal reportScore, String klassSeminarId, String teamId) {
         List<SeminarScore> seminarScores = seminarScoreDAO.getByTeamIdAndKlassSeminarId(teamId, klassSeminarId);
-        if(seminarScores.isEmpty()){
+        if (seminarScores.isEmpty()) {
             SeminarScore seminarScore = new SeminarScore();
             seminarScore.setKlassSeminarId(klassSeminarId);
             seminarScore.setTeamId(teamId);
             seminarScore.setReportScore(reportScore);
             seminarScoreDAO.createSeminarScore(seminarScore);
-        }else{
+        } else {
             SeminarScore seminarScore = seminarScores.get(0);
             seminarScore.setReportScore(reportScore);
             seminarScoreDAO.update(seminarScore);
@@ -232,9 +232,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public SeminarScore updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore ,BigDecimal reportScore) {
+    public SeminarScore updateSeminarScore(String attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore) {
         Attendance attendance = attendanceDAO.getById(attendanceId).get(0);
-        SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(),attendance.getKlassSeminarId()).get(0);
+        SeminarScore seminarScore = seminarScoreDAO.getByTeamIdAndKlassSeminarId(attendance.getTeamId(), attendance.getKlassSeminarId()).get(0);
         seminarScore.setPresentationScore(preScore);
         seminarScore.setReportScore(reportScore);
         seminarScore.setQuestionScore(queScore);

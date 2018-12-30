@@ -4,7 +4,6 @@ import seminar.entity.Round;
 import seminar.entity.relation.KlassRound;
 import seminar.logger.DebugLogger;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class RoundSettingDTO {
     private String[] klassId;
     private Integer[] enrollLimit;
 
-    public Round getRound(){
+    public Round getRound() {
         Round round = new Round();
         round.setId(roundId);
         round.setPreScoreType(preScoreType);
@@ -28,8 +27,8 @@ public class RoundSettingDTO {
         return round;
     }
 
-    public List<KlassRound> getKlassRounds(){
-        if(klassId.length != enrollLimit.length) {
+    public List<KlassRound> getKlassRounds() {
+        if (klassId.length != enrollLimit.length) {
             return null;
         }
         List<KlassRound> klassRounds = new LinkedList<>();

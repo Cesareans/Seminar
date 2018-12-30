@@ -1,7 +1,7 @@
 var client = null, ksId, timer, startBtn, pauseBtn, stopBtn, scoreInput,
     giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn, pullQuestionBtn;
 
-var questionCount, teams, questions, teamName,  onState, hangState;
+var questionCount, teams, questions, teamName, onState, hangState;
 
 var preTimeStamp;
 
@@ -74,7 +74,7 @@ var serverAddr = "/app/teacher/klassSeminar/";
 var socket;
 $(function () {
     var seminarState = $("body").attr("data-state");
-    if(seminarState === '1') {
+    if (seminarState === '1') {
         serverAddr += ksId;
         clientAddr += ksId;
         connect();
@@ -177,7 +177,8 @@ function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
-var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId:null};
+var SwitchTeamResponse = {attendanceIndex: null, state: null, teamId: null};
+
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
     if (content.attendanceIndex < teams.length) {

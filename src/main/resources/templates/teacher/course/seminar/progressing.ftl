@@ -128,7 +128,7 @@
                     <h3 id="teamName"
                         style="text-align: center;margin-bottom: 0"><#if monitor.onPreAttendance??> ${monitor.onPreAttendance.team.teamName}<#else >无正在进行队伍</#if></h3>
                     <hr>
-                    <div style="padding-bottom: 10px;display: flex;justify-content:center" >
+                    <div style="padding-bottom: 10px;display: flex;justify-content:center">
                         <span id="on" class="badge badge-pill badge-success" style="display: none">进行中</span>
                         <span id="hang" class="badge badge-pill badge-warning">暂停中</span>
                     </div>

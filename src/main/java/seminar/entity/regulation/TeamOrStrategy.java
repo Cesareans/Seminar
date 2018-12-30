@@ -31,12 +31,10 @@ public class TeamOrStrategy implements Strategy {
     }
 
     @Override
-    public boolean validate(Team team)
-    {
+    public boolean validate(Team team) {
         boolean validation = false;
-        for(Strategy strategy:strategies)
-        {
-            if(strategy.validate(team)){
+        for (Strategy strategy : strategies) {
+            if (strategy.validate(team)) {
                 validation = true;
                 break;
             }
@@ -45,8 +43,7 @@ public class TeamOrStrategy implements Strategy {
     }
 
     @Override
-    public String getErrorMsg()
-    {
+    public String getErrorMsg() {
         return "";
     }
 }

@@ -34,12 +34,14 @@
                             <form id="modifyPwdForm">
                                 <div class="form-group">
                                     <label for="password">密码</label>
-                                    <input name="password" id="password" type="password" class="form-control empty-verify" autocomplete="off"
+                                    <input name="password" id="password" type="password"
+                                           class="form-control empty-verify" autocomplete="off"
                                            data-emptyMessage="请输入密码">
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPwd">确认密码</label>
-                                    <input id="confirmPwd" type="password" class="form-control empty-verify" autocomplete="off"
+                                    <input id="confirmPwd" type="password" class="form-control empty-verify"
+                                           autocomplete="off"
                                            data-emptyMessage="请输入确认密码">
                                 </div>
                             </form>
@@ -48,7 +50,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/student/setting'">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn"
+                                onclick="window.location = '/student/setting'">
                             <i class="material-icons">chevron_left</i>
                         </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">
